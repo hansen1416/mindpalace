@@ -19,3 +19,8 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::group(['prefix' => 'yang', 'namespace' => 'Yang'], function()  
+{
+  Route::get('/', 'UniverseController@index');
+});
