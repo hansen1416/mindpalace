@@ -3,7 +3,7 @@
 @section('content')
 
 @foreach ($ctgs as $value)
-    <p> {{$value->title}} </p>
+    <p> {{$value}} </p>
 @endforeach
 
 @endsection

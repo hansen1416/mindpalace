@@ -9,14 +9,14 @@ class Ctg extends Model {
 	 *
 	 * @var string
 	 */
-	protected $table = 'mp_ctg';
+	protected $table = 'ctg';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['pid', 'title', 'tags'];
+	protected $fillable = ['pid', 'sort', 'title', 'tags'];
 
 	/**
      * Scope a query to only top categories to be retrived.

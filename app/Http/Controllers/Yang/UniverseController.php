@@ -5,7 +5,12 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use DB;
+use App\Ctg;
+use App\Helpers\Helper;
+
+class stdClass {
+
+}
 
 class UniverseController extends Controller {
 
@@ -16,7 +21,9 @@ class UniverseController extends Controller {
 	 */
 	public function index()
 	{
-		$ctgs = DB::table('ctg')->get();
+		$ctgs = Ctg::get();
+	
+		$ctgs = Helper::MultiDimen($ctgs);
 
 		return view('yang.universe.index', ['ctgs' => $ctgs]);
 	}
