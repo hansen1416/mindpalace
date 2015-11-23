@@ -2,26 +2,19 @@
 
 class Helper {
 
-    public static function MultiDimen($model, $arr)
+    public static function MultiDimen($model, &$arr)
     {
-        
-        // foreach($arr as $key => $value){
 
-        //     // $desc = $model::where("pid", $value['id'])->get();
+        foreach($arr as $key => &$value){
 
-        //     // if($desc){
-        //     //     foreach ($desc as $k => $v) {
-        //     //         // $value['desc'][$k] = array('id'=>$v->id);
+            foreach ($model::where("pid", $value['id'])->get() as $k => $v) {
+                $value['desc'][] = array('id'=>$v->id, 'pid'=>$v->pid, 'tier'=>$v->tier, 'sort'=>$v->sort, 'title'=>$v->title);
+            }
 
-        //     //         // $des = $model::where("pid", $v->id)->get();
-
-        //     //         // if($des){
-
-        //     //         // }
-        //     //     }
-                
-        //     // }
-        // }
+            if(isset($value['desc'])){
+                Helper::MultiDimen($model, $value['desc']);
+            }
+        }
 
         return $arr;
 
