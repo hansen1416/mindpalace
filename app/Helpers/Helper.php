@@ -2,23 +2,29 @@
 
 class Helper {
 
-    public static function MultiDimen($singleDimen)
+    public static function MultiDimen($model, $arr)
     {
-    	$result = array();
+        
+        // foreach($arr as $key => $value){
 
-    	foreach ($singleDimen as $key => $value) {
+        //     // $desc = $model::where("pid", $value['id'])->get();
 
-    		if($value->pid == 0){
-    			$result[$value->id] = $value;
-    		}else{
-    			if(isset($result[$value->pid]) && $result[$value->pid]){
-    				$result[$value->pid]['desc'] = $value;
-    			}
-    		}
+        //     // if($desc){
+        //     //     foreach ($desc as $k => $v) {
+        //     //         // $value['desc'][$k] = array('id'=>$v->id);
 
-    	}
+        //     //         // $des = $model::where("pid", $v->id)->get();
 
-        return $result;
+        //     //         // if($des){
+
+        //     //         // }
+        //     //     }
+                
+        //     // }
+        // }
+
+        return $arr;
+
     }
 
 }

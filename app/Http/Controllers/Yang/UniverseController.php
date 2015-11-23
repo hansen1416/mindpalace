@@ -21,9 +21,14 @@ class UniverseController extends Controller {
 	 */
 	public function index()
 	{
-		$ctgs = Ctg::get();
-	
-		$ctgs = Helper::MultiDimen($ctgs);
+
+		$top = Ctg::top()->get();
+
+		foreach ($top as $key => $value) {
+			$res[] = array('id'=>$value->id, 'pid'=>$value->pid, 'tier'=>$value->tier, 'sort'=>$value->sort, 'title'=>$value->title);
+		}
+
+		$ctgs = Helper::MultiDimen(new Ctg(), $res);
 
 		return view('yang.universe.index', ['ctgs' => $ctgs]);
 	}

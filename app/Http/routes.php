@@ -22,5 +22,5 @@ Route::controllers([
 
 Route::group(['prefix' => 'yang', 'namespace' => 'Yang'], function()  
 {
-  Route::get('/', 'UniverseController@index');
+  Route::get('universe', 'UniverseController@index');
 });
