@@ -57,7 +57,7 @@ return [
 			'host'      => env('DB_HOST', 'localhost'),
 			'database'  => env('DB_DATABASE', 'mindpalace'),
 			'username'  => env('DB_USERNAME', 'root'),
-			'password'  => env('DB_PASSWORD', '123456'),
+			'password'  => env('DB_PASSWORD', 'hs198546'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => 'mp_',

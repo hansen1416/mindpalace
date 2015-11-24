@@ -9,6 +9,8 @@
 	<link href="{{ asset('/css/yang.css') }}" rel="stylesheet">
 </head>
 <body>
+	<div class="stage">
 	@yield('content')
+	</div>
 </body>
 </html>

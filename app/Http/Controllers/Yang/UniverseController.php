@@ -30,9 +30,6 @@ class UniverseController extends Controller {
 
 		$ctgs = Helper::MultiDimen(new Ctg(), $res);
 
-		echo "<pre>";
-		print_r($ctgs);die;
-
 		return view('yang.universe.index', ['ctgs' => $ctgs]);
 	}
 
