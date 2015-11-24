@@ -1,0 +1,59 @@
+@charset "utf-8";
+html, body, div, p, hr, pre, h1, h2, h3, h4, h5, h6, table, tr, td, th, tfoot, tbody, thead, form, fieldset, input, textarea, label, ul, ol, dl, li, dt, dd{border: 0; outline: 0; list-style: none;}
+header,nav,article,section,aside,footer{display:block;}
+img,input,textarea,button{border: 0;}
+a{text-decoration: none;}
+* {margin: 0;padding: 0;}
+
+@universe: #002240;
+
+body{background-color: @universe; overflow: hidden;}
+
+.perspective{
+    -webkit-perspective: 700px;
+    -moz-perspective: 700px;
+    perspective:700px;
+}
+.pers_origin{
+    -webkit-perspective-origin: 50% 50%;
+    -moz-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
+}
+.trsf_origin{
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+.trsf_style_3d{
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+.trsf_style_flat{
+    -webkit-transform-style: flat;
+    -moz-transform-style: flat;
+    -o-transform-style: flat;
+    transform-style: flat;
+}
+.back_face{
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+}
+
+#stage{
+	.perspective; .pers_origin; .trsf_origin;
+	width: 100vw; height: 100vh; position: relative; overflow: hidden;
+    perspective:700px;
+	#galaxy{
+		.trsf_style_3d; .back_face;
+		position: absolute; width: 100vw; height: 100vh; color: #fff; font-size: 1em;
+		.star{
+			top: 50%; left: 50%; margin-top: -0.7em; display: inline-block; position: absolute; padding: 0.2em 0.4em; border: 1px solid #fff; border-radius: 0.3em;
+		}
+	}
+	.galaxy:hover{cursor: move;}
+}

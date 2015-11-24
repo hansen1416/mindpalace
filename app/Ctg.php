@@ -54,4 +54,14 @@ class Ctg extends Model {
         return $query->where('tier', '=', $tier);
     }
 
+    /**
+     * Scope a query to retrive all categories order by tier ASC.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTierOrder($query)
+    {
+        return $query->orderBy('tier', 'asc')->select('id', 'pid', 'tier', 'sort', 'title');
+    }
+
 }

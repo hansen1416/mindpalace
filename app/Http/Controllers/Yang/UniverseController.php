@@ -22,15 +22,19 @@ class UniverseController extends Controller {
 	public function index()
 	{
 
-		$top = Ctg::top()->get();
+		// $top = Ctg::top()->get();
 
-		foreach ($top as $key => $value) {
-            $res[] = array('id'=>$value->id, 'pid'=>$value->pid, 'tier'=>$value->tier, 'sort'=>$value->sort, 'title'=>$value->title);
-        }
+		// foreach ($top as $key => $value) {
+  //           $res[] = array('id'=>$value->id, 'pid'=>$value->pid, 'tier'=>$value->tier, 'sort'=>$value->sort, 'title'=>$value->title);
+  //       }
 
-		$ctgs = Helper::MultiDimen(new Ctg(), $res);
+		// $ctgs = Helper::multiDimen(new Ctg(), $res, 2);
+		// 
+		$ctgs = Ctg::tierOrder()->get();
 
-		return view('yang.universe.index', ['ctgs' => $ctgs]);
+		$html = Helper::tagWrap($ctgs);
+
+		return view('yang.universe.index', ['html' => $html]);
 	}
 
 	/**

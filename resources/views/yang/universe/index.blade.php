@@ -1,9 +1,11 @@
 @extends('yang.universe.layouts')
 
 @section('content')
+<div id="galaxy">
 
-@foreach ($ctgs as $value)
-    <p>  </p>
-@endforeach
+{!!$html!!}
+
+</div>
+<script src="{{ asset('/js/universe.js') }}"></script>
 
 @endsection
