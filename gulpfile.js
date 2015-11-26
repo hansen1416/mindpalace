@@ -20,3 +20,7 @@ elixir.config.sourcemaps = false;
 elixir(function(mix) {
     mix.less('yang.less');
 });
+
+elixir(function(mix) {
+    mix.scripts(['universe.js'], 'public/js/universe.js');
+});
