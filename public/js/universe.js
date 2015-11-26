@@ -1,4 +1,5 @@
-window.onload = function(){
+(function(){
+
 	var userAgent = navigator.userAgent.toLowerCase(),
 		prefix = cssPref = '';
 
@@ -7,8 +8,12 @@ window.onload = function(){
         cssPref = "Webkit";
     }
 
-	var trsfm = (cssPref+"Transform" in document.documentElement.style) ? cssPref+"Transform" : "transform",
-		stage = document.getElementById("stage"),
+    var trsfm = (cssPref+"Transform" in document.documentElement.style) ? cssPref+"Transform" : "transform",
+
+})();
+window.onload = function(){
+	
+	var stage = document.getElementById("stage"),
 		stars = stage.querySelectorAll('.star');
 
 	for (var i = 0; i < stars.length; i++) {

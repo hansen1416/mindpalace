@@ -22,5 +22,5 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
-    mix.scripts(['universe.js'], 'public/js/universe.js');
+    mix.scripts(['common.js', 'universe.js'], 'public/js/universe.js');
 });
