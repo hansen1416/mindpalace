@@ -1,4 +1,4 @@
-(function(){
+(function(H5){
 
 	var userAgent = navigator.userAgent.toLowerCase(),
 		prefix = cssPref = '';
@@ -10,4 +10,4 @@
 
     var trsfm = (cssPref+"Transform" in document.documentElement.style) ? cssPref+"Transform" : "transform",
 
-})();
+})(H5);
