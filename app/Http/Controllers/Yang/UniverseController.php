@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 use App\Ctg;
 use App\Helpers\Helper;
 
-class stdClass {
-
-}
-
 class UniverseController extends Controller {
 
 	/**

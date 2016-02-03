@@ -1,7 +1,15 @@
 <?php namespace App\Helpers;
 
 class Helper {
-
+    /**
+     * [multiDimen description]
+     * @AuthorName lzhan<lzhan@3ti.us>
+     * @DateTime   2016-02-03T12:16:16+0800
+     * @param      [type] $model [description]
+     * @param      [type] &$arr [description]
+     * @param      integer $endtier [description]
+     * @return     [type] [description]
+     */
     public static function multiDimen($model, &$arr, $endtier=0)
     {
 
@@ -25,6 +33,14 @@ class Helper {
 
     }
 
+    /**
+     * [infinite description]
+     * @AuthorName lzhan<lzhan@3ti.us>
+     * @DateTime   2016-02-03T12:16:21+0800
+     * @param      [type] $model [description]
+     * @param      [type] &$arr [description]
+     * @return     [type] [description]
+     */
     public static function infinite($model, &$arr)
     {
 
@@ -43,6 +59,13 @@ class Helper {
 
     }
 
+    /**
+     * [tagWrap description]
+     * @AuthorName lzhan<lzhan@3ti.us>
+     * @DateTime   2016-02-03T12:16:26+0800
+     * @param      [type] $array [description]
+     * @return     [type] [description]
+     */
     public static function tagWrap($array)
     {
         $html = '';

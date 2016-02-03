@@ -6,7 +6,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Mind Palace</title>
 
-	<link href="{{ asset('/css/yang.css') }}" rel="stylesheet">
+    <!-- develop -->
+    <link rel="stylesheet/less" type="text/css" href="{{ asset('../resources/assets/less/yang.less') }}" />
+    <script type="text/javascript" src="{{ asset('../node_modules/less/dist/less.js') }}"></script>
+    <!-- develop -->
+
+    <!-- deploy -->
+	<!-- <link href="{{ asset('/css/yang.min.css') }}" rel="stylesheet"> -->
+    <!-- <script src="{{ asset('/js/require.js') }}"></script> -->
+    <!-- deploy -->
+
 </head>
 <body>
 	<div id="stage">
