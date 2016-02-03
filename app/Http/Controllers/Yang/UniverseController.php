@@ -18,17 +18,9 @@ class UniverseController extends Controller {
 	public function index()
 	{
 
-		// $top = Ctg::top()->get();
+		$ctgs = Ctg::untilTier(10)->get();
 
-		// foreach ($top as $key => $value) {
-  //           $res[] = array('id'=>$value->id, 'pid'=>$value->pid, 'tier'=>$value->tier, 'sort'=>$value->sort, 'title'=>$value->title);
-  //       }
-
-		// $ctgs = Helper::multiDimen(new Ctg(), $res, 2);
-		// 
-		$ctgs = Ctg::tierOrder()->get();
-
-		$html = Helper::tagWrap($ctgs);
+		$html = Ctg::tagWrap($ctgs);
 
 		return view('yang.universe.index', ['html' => $html]);
 	}

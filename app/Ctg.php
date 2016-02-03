@@ -64,4 +64,31 @@ class Ctg extends Model {
         return $query->orderBy('tier', 'asc')->select('id', 'pid', 'tier', 'sort', 'title');
     }
 
+    /**
+     * Scope a query to retrive all categories with tier num less than $tier.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUntilTier($query, $tier)
+    {
+        return $query->where('tier', '<=', $tier)->orderBy('tier', 'asc')->select('id', 'pid', 'tier', 'sort', 'title');
+    }
+
+
+    public static function tagWrap($array)
+    {
+        $html = '';
+
+        foreach ($array as $key => $value) {
+
+            $html .= "<div class='star' data-id=" . $value->id
+                    . " data-pid=" . $value->pid
+                    . " data-tier=" . $value->tier
+                    . " data-sort=" . $value->sort
+                    . ">" . substr($value->title, 0, 9) . "</div>";
+        }
+
+        return $html;
+    }
+
 }

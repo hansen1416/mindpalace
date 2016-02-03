@@ -59,23 +59,5 @@ class Helper {
 
     }
 
-    /**
-     * [tagWrap description]
-     * @AuthorName lzhan<lzhan@3ti.us>
-     * @DateTime   2016-02-03T12:16:26+0800
-     * @param      [type] $array [description]
-     * @return     [type] [description]
-     */
-    public static function tagWrap($array)
-    {
-        $html = '';
-
-        foreach ($array as $key => $value) {
-            $html .= "<div class='star' data-id=".$value->id." data-pid=".$value->pid." data-tier=".$value->tier." data-sort=".$value->sort.">".$value->title."</div>";
-        }
-
-        return $html;
-
-    }
 
 }
