@@ -43,20 +43,42 @@ body{background-color: @universe; overflow: hidden;}
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
 }
+
+.fl {float: left;}
+.fr {float: right;}
+.abs {position: absolute;}
+.rel {position: relative;}
+.over-hidden {overflow: hidden;}
 //舞台，等于窗口大小的元素
 #stage{
-	.perspective; .pers_origin; .trsf_origin;
-	width: 100vw; height: 100vh; position: relative; overflow: hidden;
-    perspective:700px;
+	.perspective; .pers_origin; .trsf_origin; .rel;
+	width: 100vw; height: 100vh; perspective:700px;
     //银河，包含所有的分类，大小待定
 	#galaxy{
-		.trsf_style_3d; .back_face;
-		position: absolute; width: 100vw; height: 100vh; color: #fff; font-size: 1em;
+		.trsf_style_3d;
+		position: absolute; width: 100vw; height: 100vh; color: #fff;
         &:hover{cursor: move;}
+
+        //坐标系
+        .axis {
+            .abs; width: 50vh; height: 1px; top: 50%; left: 50vw; margin-left: -25vh; background-color: #fff;
+        }
+        .axis.y {transform: rotateZ(-90deg);}
+        .axis.z {transform: rotateY(-90deg);}
+
+        .axis .d {
+            .fr; width: 0; height: 0; margin-top: -10px;
+            border: 10px solid #fff;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            border-right-width: 0;
+        }
+
         //分类
 		.star{
-			top: 50%; left: 50%; margin-top: -0.7em; display: inline-block; position: absolute; padding: 0.2em 0.4em; border: 1px solid #fff; border-radius: 0.3em;
+			top: 50%; left: 50%; display: inline-block; position: absolute;
 		}
+
 	}
-	
+
 }
