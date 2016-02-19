@@ -8,7 +8,8 @@ define([
 		"./var/unbindEvents",
 		"./var/xmlns",
         "./build/build_tier",
-	], function (bindEvent, cancelAnim, document, documentElement, pos, requestAnim, unbindEvents, xmlns, build_tier) {
+        "./build/trackball",
+	], function (bindEvent, cancelAnim, document, documentElement, pos, requestAnim, unbindEvents, xmlns, build_tier, trackball) {
 
     var stage           = document.getElementById('stage'),         //舞台，等于窗口大小的元素
         galaxy          = document.getElementById('galaxy'),        //银河，包含所有的分类，大小待定
@@ -20,8 +21,8 @@ define([
         
 
         build_tier(fst_tier_star);
-
-
+console.log(123123123123);
+        trackball();
         
 
 
