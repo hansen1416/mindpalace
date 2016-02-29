@@ -21,7 +21,7 @@ define([
         
 
         build_tier(fst_tier_star);
-console.log(123123123123);
+
         trackball();
         
 

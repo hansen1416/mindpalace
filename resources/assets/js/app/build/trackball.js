@@ -1,5 +1,5 @@
 define([
-        "./var/prefixJs",
+        "../var/prefixJs",
     ], function (prefixJs) {
 
         return function trackball() {

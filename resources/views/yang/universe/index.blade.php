@@ -13,10 +13,15 @@
 
 <!-- develop -->
 <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>
+<script type="text/javascript">
+	require.config({
+        urlArgs: "v=" + (new Date()).getTime()
+    });
+</script>
 <!-- develop -->
 
-<!-- deploy -->
+<!-- product -->
 <!-- <script src="{{ asset('/js/universe.js') }}"></script> -->
-<!-- deploy -->
+<!-- product -->
 
 @endsection
