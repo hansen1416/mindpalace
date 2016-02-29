@@ -34,6 +34,8 @@ SML
 
 取消订单	普通商品和套餐需要把 replenish & product 中的库存加回去，
 		明日达商品中的 complexity = hard 的商品，把大库 goods->actual_inventory 中的库存加回去，
+            除了代购类型的商品，普通和明日达商品把 replenish_detail 的已售出数量减掉，剩余数量加上去，
+            如果有优惠券，优惠券变成可用，
 		其他类型的订单，只需要改订单状态即可，
 
 订单退款    普通类型的需要把 product 中的库存加回去，
