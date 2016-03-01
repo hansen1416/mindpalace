@@ -1,19 +1,19 @@
 define(function(){
 
     var userAgent   = navigator.userAgent.toLowerCase(),
-        prefixJs    = "";
+        prefixCss    = "";
 
     if(/webkit/gi.test(userAgent)){
-        prefixJs = "Webkit";
+        prefixCss = "-webkit-";
     }else if(/msie | trident/gi.test(userAgent)){
-        prefixJs = "ms";
+        prefixCss = "-ms-";
     }else if(/mozilla/gi.test(userAgent)){
-        prefixJs = "Moz";
+        prefixCss = "-moz-";
     }else if(/opera/gi.test(userAgent)){
-        prefixJs = "O";
+        prefixCss = "-o-";
     }else{
-        prefixJs = "";
+        prefixCss = "";
     }
 
-    return prefixJs;
+    return prefixCss;
 });
