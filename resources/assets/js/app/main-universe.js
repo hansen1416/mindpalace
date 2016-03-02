@@ -25,7 +25,7 @@ define([
         window.Rubik = trackball;
 
 
-        
+        window.addEventListener("load", callback, false);
 
 
         function callback(){
@@ -41,7 +41,7 @@ define([
 
         }
 
-        callback();
+        // callback();
 
 
 });
