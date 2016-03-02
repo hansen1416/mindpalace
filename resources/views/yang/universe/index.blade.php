@@ -17,6 +17,22 @@
 	require.config({
         urlArgs: "v=" + (new Date()).getTime()
     });
+
+    // window.addEventListener("load", callback, false);
+        
+    // function callback(){
+    //     var R = new Rubik({
+    //         stage: "stage",
+    //         obj: ["galaxy"],
+    //         tamano: 0.6,
+    //         impulse: true,
+    //         resetMotion: true,
+    //         omegaGap: 0.8,          //default 0.2, possible value 0 - infinite
+    //         lambda:0.008            //default 0.01, possible value 0 - infinite
+    //     });
+
+    // }
+    
 </script>
 <!-- develop -->
 

@@ -22,8 +22,26 @@ define([
 
         build_tier(fst_tier_star);
 
-        console.log(trackball);
+        window.Rubik = trackball;
+
+
         
-    
+
+
+        function callback(){
+            var R = new Rubik({
+                stage: "stage",
+                obj: ["galaxy"],
+                tamano: 0.6,
+                impulse: true,
+                resetMotion: true,
+                omegaGap: 0.8,          //default 0.2, possible value 0 - infinite
+                lambda:0.008            //default 0.01, possible value 0 - infinite
+            });
+
+        }
+
+        callback();
+
 
 });

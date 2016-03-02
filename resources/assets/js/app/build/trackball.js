@@ -5,6 +5,7 @@ define([
         "../var/getStyle",
         "../var/touchPos",
         "../var/findPos",
+        "../var/bindEvent",
         "./func/multiplyMatrix3d",
         "./func/calcAngle",
         "./func/normalize",
@@ -12,7 +13,7 @@ define([
         "./func/rotateMatrix",
         "./func/matrixToArr",
         
-    ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
+    ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
 
         var Rubik = function(confObj){
             this.config = {};
@@ -47,6 +48,19 @@ define([
                     THIS.config[property] = confObj[property];
                 }
 
+                THIS.stage = document.getElementById(THIS.config.stage) || document.getElementsByTagName('body')[0];
+
+                if(THIS.config.obj != undefined){
+                    THIS.obj = document.getElementById(THIS.config.obj[0]);
+                    if(THIS.obj === null){
+                        // 没有找到相应ID的元素
+                        return false;
+                    }
+                }else{
+                    // 未定义3D变换的元素
+                    return false;
+                }
+
                 if(THIS.config.impulse !== undefined){
                     impulse = THIS.config.impulse;
                 }
@@ -67,7 +81,7 @@ define([
                 // 取空间的宽高中小的一个作为trackball半径
                 radius = stagew>stageh ? stageh : stagew;
                 // 元素最初设置的transform值
-                originTransform = getStyle(THIS.obj, prefix + "transform");
+                originTransform = getStyle(THIS.obj, prefixCss + "transform");
                 
                 if(originTransform == "none"){
                     startMatrix = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
@@ -239,6 +253,8 @@ define([
             //Rubik.setup end
         }
 
+        window.Rubik = Rubik;
+
         return Rubik;
-        
+                
 });
