@@ -53,19 +53,20 @@ body{background-color: @universe; overflow: hidden;}
 #stage{
 	.perspective; .pers_origin; .trsf_origin; .rel;
 	width: 100vw; height: 100vh; perspective:700px;
+    &:hover{cursor: move;}
     //银河，包含所有的分类，大小待定
 	#galaxy{
 		.trsf_style_3d;
-		position: absolute; width: 100vw; height: 100vh; color: #fff;
-        &:hover{cursor: move;}
+		position: absolute; width: 100px; height: 100px; top: 50%; left: 50%;
+        margin: -50px 0 0 -50px; color: #fff; background-color: rgba(255,255,255,0.5);
 
-        //坐标系
+        //坐标系开始
         .axis {
-            .abs; width: 50vh; height: 1px; top: 50%; left: 50vw; margin-left: -25vh; background-color: #fff;
+            .abs; width: 50vh; height: 1px; top: 50%; left: 50%; margin: 0 0 0 -25vh; background-color: #fff;
         }
         .axis.y {transform: rotateZ(-90deg);}
         .axis.z {transform: rotateY(-90deg);}
-
+        //坐标末端的小三角
         .axis .d {
             .fr; width: 0; height: 0; margin-top: -10px;
             border: 10px solid #fff;
@@ -73,7 +74,8 @@ body{background-color: @universe; overflow: hidden;}
             border-bottom-color: transparent;
             border-right-width: 0;
         }
-
+        //坐标系结束
+        
         //分类
 		.star{
 			top: 50%; left: 50%; display: inline-block; position: absolute;

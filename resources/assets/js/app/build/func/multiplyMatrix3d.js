@@ -2,7 +2,7 @@ define(function() {
 
 	return function (m1, m2){ // 计算两个matrix3d的乘积，其实是长度16的数组相乘，转化成两个4x4的矩阵相成
         var matrix = [];
-    
+        
         matrix[0]   = m1[0]*m2[0]+m1[1]*m2[4]+m1[2]*m2[8]+m1[3]*m2[12];
         matrix[1]   = m1[0]*m2[1]+m1[1]*m2[5]+m1[2]*m2[9]+m1[3]*m2[13];
         matrix[2]   = m1[0]*m2[2]+m1[1]*m2[6]+m1[2]*m2[10]+m1[3]*m2[14];

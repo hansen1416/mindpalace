@@ -6,6 +6,9 @@ define([
         "../var/touchPos",
         "../var/findPos",
         "../var/bindEvent",
+        "../var/unbindEvents",
+        "../var/requestAnim",
+        "../var/cancelAnim",
         "./func/multiplyMatrix3d",
         "./func/calcAngle",
         "./func/normalize",
@@ -13,33 +16,41 @@ define([
         "./func/rotateMatrix",
         "./func/matrixToArr",
         
-    ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
+    ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
 
-        var Rubik = function(confObj){
+        var Trackball = function(confObj){
             this.config = {};
             this.setup(confObj);
         };
 
-        Rubik.prototype.setup = function(confObj){
+        /**
+         * [Trackball.setup 整体思路
+         * step1 页面加载后，先获取stage的top、left，去stage的宽、高中小的一个作为trackball的半径，获取目标元素的transform属性，并将其转换为matrix3d的数组，赋值给startmatrix。并给stage元素绑定mousedown事件。
+         * step2 旋转运动开始时，判断元素是否还在运动，若还在运动则停止。更新元素的旋转角度。获取鼠标点击的坐标。解除目标元素的mousedown事件，给document绑定mousemove & mouseup。
+         * step3 旋转过程中，根据鼠标移动轨迹计算出每一次的坐标，计算出旋转轴axis和旋转角度angle，通过axis和angle计算出matrix3d，做出动画。
+         * step4 旋转结束后，将document上的两个绑定事件mousemove & mouseup解除，重新给目标元素绑定mousedown。判断是否设置了冲量，以及冲量是否大于0，若有冲量计算出角速度omega，角度参数使用1000/60，之后设置减速度。若没有冲量或者冲量耗尽，则去除动画，计算出当前的startmatrix，将angle和omega归0；]
+         * @param {[object]} confObj [stage, obj, impulse]
+         */
+        Trackball.prototype.setup = function(confObj){
 
             var THIS            = this,
-                impulse         = true,     //if true there will be inertia else if false there will be none
-                stagew          = 0,         //half of stagewidth
-                stageh          = 0,         //half of stageheight
-                radius          = 0,         //visual trackball radius
-                pos             = 0,            //top & left of the stage
-                mouseDownVector = [],    //the vector of the cursor position when the mouse down
-                mouseMoveVector = [],    //the vector of the cursor position during the mouse is moving
-                axis            = [1,1,1],           //rotating axis, calculated by mouseDownVector & mouseMoveVector
-                oldAngle        = 0,       //旋转实施之前的角度
-                angle           = 0,          //rotate3d angle旋转的角度
+                impulse         = true,     //true有惯性，false没有惯性
+                stagew          = 0,        //half of stagewidth
+                stageh          = 0,        //half of stageheight
+                radius          = 0,        //visual trackball radius
+                pos             = 0,        //top & left of the stage
+                mouseDownVector = [],       //the vector of the cursor position when the mouse down
+                mouseMoveVector = [],       //the vector of the cursor position during the mouse is moving
+                axis            = [1,1,1],  //rotating axis, calculated by mouseDownVector & mouseMoveVector
+                oldAngle        = 0,        //旋转实施之前的角度
+                angle           = 0,        //rotate3d angle旋转的角度
                 oldTime         = 0,        //鼠标点击时刻的时间
-                time            = 0,           //鼠标放开时刻的时间
-                startMatrix     = [],   //starting matrix of every action
-                omega           = 0,          //单位角速度
-                resetMotion     = true,       //当鼠标点击目标元素时，是否停止当前运动
-                omegaCap,          //单位角速度的cap,必须是大于0的数，默认为0.5
-                lambda;             //阻力系数，越大阻力越大，默认0.01
+                time            = 0,        //鼠标放开时刻的时间
+                startMatrix     = [],       //starting matrix of every action
+                omega           = 0,        //单位角速度
+                resetMotion     = true,     //当鼠标点击目标元素时，是否停止当前运动
+                omegaCap,                   //单位角速度的cap,必须是大于0的数，默认为0.5
+                lambda;                     //阻力系数，越大阻力越大，默认0.01
                 
             //闭包函数，做初始化魔方之用--------------------------------------------------------开始
             (function init(){
@@ -54,10 +65,12 @@ define([
                     THIS.obj = document.getElementById(THIS.config.obj[0]);
                     if(THIS.obj === null){
                         // 没有找到相应ID的元素
+                        console.info('obj not found');
                         return false;
                     }
                 }else{
                     // 未定义3D变换的元素
+                    console.info('no obj config');
                     return false;
                 }
 
@@ -97,7 +110,7 @@ define([
                     }
                 }
                 // 目标元素绑定mousedown事件
-                bindEvent(THIS.obj, "mousedown", rotateStart);
+                bindEvent(THIS.stage, {event:"mousedown", callback:rotateStart});
 
             })();
             //闭包函数，做初始化魔方之用--------------------------------------------------------结束
@@ -114,9 +127,9 @@ define([
 
                 oldTime = new Date().getTime();
                 // 绑定三个事件
-                bindEvent(THIS.obj, "mousedown", rotateStart, "remove");
-                bindEvent(document, "mousemove", rotate);
-                bindEvent(document, "mouseup", rotateFinish);
+                unbindEvents(THIS.stage);
+                bindEvent(document, {event:"mousemove", callback:rotate});
+                bindEvent(document, {event:"mouseup", callback:rotateFinish});
 
             }
 
@@ -140,7 +153,7 @@ define([
                 // 旋转的角度
                 angle = calcAngle(mouseDownVector, mouseMoveVector);
         
-                requestAnimFrame(slide);
+                requestAnim(slide);
             }
 
             /**
@@ -152,23 +165,21 @@ define([
                 
                 // 当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
                 if(axis.length == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){
-                    bindEvent(document, 'mousemove', rotate, "remove");
-                    bindEvent(document, 'mouseup', rotateFinish, "remove");
-                    bindEvent(THIS.obj, 'mousedown', rotateStart);
+                    unbindEvents(document);
+                    bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
                     return false;
                 }
 
-                bindEvent(document, 'mousemove', rotate, "remove");
-                bindEvent(document, 'mouseup', rotateFinish, "remove");
-                bindEvent(THIS.obj, 'mousedown', rotateStart);
+                unbindEvents(document);
+                bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
 
                 time = new Date().getTime();
 
                 angularDeceleration(); //计算单位角速度
 
                 if (impulse && omega > 0) {
-                    cancelAnimFrame(slide);
-                    requestAnimFrame(deceleration);     //有单位角速度做惯性运动
+                    cancelAnim(slide);
+                    requestAnim(deceleration);     //有单位角速度做惯性运动
                 }else{
                     stopMotion();
                 }
@@ -181,8 +192,8 @@ define([
 
             // 使用动画
             function slide(){
-                THIS.obj.style[cssPref+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
-                requestAnimFrame(slide);
+                THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
+                requestAnim(slide);
             }
 
             /**
@@ -212,12 +223,12 @@ define([
                 decel = lambda*Math.sqrt(omega);
                 omega = omega > 0 ? omega - decel : 0;
 
-                THIS.obj.style[cssPref+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
+                THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
                 
                 if(omega === 0){
                     stopMotion();
                 }else{
-                    requestAnimFrame(deceleration);
+                    requestAnim(deceleration);
                 }
             }
 
@@ -226,13 +237,13 @@ define([
              * @return {[type]} [description]
              */
             function stopMotion(){
-                cancelAnimFrame(slide);
-                cancelAnimFrame(deceleration);
+                cancelAnim(slide);
+                cancelAnim(deceleration);
 
                 var stopMatrix = [];
                 // 获得运动停止时的矩阵，并且赋值给startMatrix
                 stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
-                startMatrix = multiplyMatrix(startMatrix,stopMatrix);
+                startMatrix = multiplyMatrix3d(startMatrix,stopMatrix);
         
                 //次初始化步骤一定是在获得startMatrix之后，否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
                 oldAngle = angle = 0;
@@ -250,11 +261,9 @@ define([
             }
             //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------结束
             
-            //Rubik.setup end
+            //Trackball.setup end
         }
-
-        window.Rubik = Rubik;
-
-        return Rubik;
+        //给 window 对象添加子类，之后可直接调用
+        window.Trackball = Trackball;
                 
 });
