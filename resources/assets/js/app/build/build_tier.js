@@ -1,12 +1,13 @@
-define(function(){
-    return function build_tier(tier_elements) {
+define([
+	], function(){
 
-        var len = tier_elements.length;
+	    return function (tier_elements) {
 
-        for (var i = 0; i < len; i++) {
-            
-        };
+	        var len = tier_elements.length;
 
+	        for (var i = 0; i < len; i++) {
+	            
+	        };
 
-    }
+	    }
 })

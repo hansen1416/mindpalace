@@ -71,7 +71,9 @@ class Ctg extends Model {
      */
     public function scopeUntilTier($query, $tier)
     {
-        return $query->where('tier', '<=', $tier)->orderBy('tier', 'asc')->select('id', 'pid', 'tier', 'sort', 'title');
+        return $query->where('tier', '<=', $tier)
+                    ->orderBy('tier', 'asc')
+                    ->select('id', 'pid', 'tier', 'sort', 'title');
     }
 
 
