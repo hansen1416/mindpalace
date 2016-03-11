@@ -89,8 +89,8 @@ define([
                 // 旋转空间的top、left
                 pos = findPos(THIS.stage);
 
-                stagew = THIS.stage.offsetWidth/2;
-                stageh = THIS.stage.offsetHeight/2;
+                stagew = THIS.stage.offsetWidth / 2;
+                stageh = THIS.stage.offsetHeight / 2;
                 // 取空间的宽高中小的一个作为trackball半径
                 radius = stagew>stageh ? stageh : stagew;
                 // 元素最初设置的transform值
@@ -110,7 +110,7 @@ define([
                     }
                 }
                 // 目标元素绑定mousedown事件
-                bindEvent(THIS.stage, {event:"mousedown", callback:rotateStart});
+                bindEvent(THIS.stage, {event: "mousedown", callback: rotateStart});
 
             })();
             //闭包函数，做初始化魔方之用--------------------------------------------------------结束
@@ -192,7 +192,7 @@ define([
 
             // 使用动画
             function slide(){
-                THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
+                THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+startMatrix+")";
                 requestAnim(slide);
             }
 
@@ -243,7 +243,7 @@ define([
                 var stopMatrix = [];
                 // 获得运动停止时的矩阵，并且赋值给startMatrix
                 stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
-                startMatrix = multiplyMatrix3d(startMatrix,stopMatrix);
+                startMatrix = multiplyMatrix3d(startMatrix, stopMatrix);
         
                 //次初始化步骤一定是在获得startMatrix之后，否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
                 oldAngle = angle = 0;
