@@ -1,10 +1,11 @@
 define([
+		"../var/document",
 		"../var/prefixJs",
         "../var/prefixCss",
         "../var/trsfm",
         "../var/getStyle",
 
-	], function(prefixJs, prefixCss, trsfm, getStyle){
+	], function(document, prefixJs, prefixCss, trsfm, getStyle){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -39,7 +40,9 @@ define([
                 }
 
 
-                
+                all_stars = document.getElementsByClassName(common_clas);
+
+                console.log(all_stars);
 
         	})();
 

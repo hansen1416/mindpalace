@@ -1,4 +1,5 @@
 define([
+        "../var/document",
         "../var/prefixJs",
         "../var/prefixCss",
         "../var/trsfm",
@@ -16,7 +17,7 @@ define([
         "./func/rotateMatrix",
         "./func/matrixToArr",
         
-    ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
 
         var Trackball = function(confObj){
             this.config = {};
