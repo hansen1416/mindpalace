@@ -35,11 +35,6 @@ define([
                 	common_clas = THIS.config.common_clas;
                 }
 
-                if (THIS.config.start_tier !== undefined) {
-                	start_tier = THIS.config.start_tier;
-                }
-
-                
                 console.log(THIS);
                 diffuse();
 
@@ -72,6 +67,11 @@ define([
                     for (var i in stars) {
                         //如果是 DOM 对象
                         if (typeof stars[i] === 'object') {
+                            //如果是第一层，则需要计算初始位置
+                            if (start_tier == 0) {
+                                
+                            }
+
                             var x = 1.5 * start_tier,
                                 y = 1.5 * start_tier,
                                 z = 1.5 * start_tier;
