@@ -35,17 +35,7 @@ define([
                 	common_clas = THIS.config.common_clas;
                 }
 
-                console.log(THIS);
                 diffuse();
-
-
-                // for (var i in all_stars) {
-                // 	var dataset = all_stars[i].dataset;
-                // 		tier 	= dataset ? dataset.tier : '';
-                // 	if (tier == 1) {
-                // 		all_stars[i].style[prefixJs+"Transform"] = "rotate3d(1,1,1,1rad)";
-                // 	}
-                // }
 
         	})();
 
@@ -60,23 +50,28 @@ define([
              */
             function diffuse() {
 
-                var stars = stage.querySelectorAll('.tier-' + start_tier);
+                var stars = stage.querySelectorAll('.tier-' + start_tier),
+                    n     = stars ? stars.length : 0;
                 //如果能取到元素
-                if (stars.length) {
+                if (n) {
                     //遍历处于这一层的元素
                     for (var i in stars) {
                         //如果是 DOM 对象
                         if (typeof stars[i] === 'object') {
+
+                            var rotate = [];
                             //如果是第一层，则需要计算初始位置
                             if (start_tier == 0) {
-                                
+                                rotate[0] = 2 * Math.PI / n * (i + 1);
+                                rotate[1] = 2 * Math.PI / n * (i + 1);
+                                rotate[2] = 2 * Math.PI / n * (i + 1);
+                                rotate[3] = '360rad';
                             }
 
-                            var x = 1.5 * start_tier,
-                                y = 1.5 * start_tier,
-                                z = 1.5 * start_tier;
 
-                            stars[i].style[prefixJs+"Transform"] = "rotate3d("+x+","+y+","+z+",0rad)";
+                            stars[i].style[prefixJs+"Transform"] = "rotate3d("+ rotate.join(',') +")";
+                            console.log("rotate3d("+ rotate.join(',') +")");
+                            console.log(stars[i].style[prefixJs+"Transform"]);
                         }
 
                     }
