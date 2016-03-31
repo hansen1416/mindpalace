@@ -22,7 +22,8 @@ define([
 			var THIS 		= this,
 				common_clas = 'star',
                 start_tier  = 0,
-                stage       = document.getElementById('stage');
+                stage       = document.getElementById('stage'),
+                radius      = 200;
 
         	(function init(){
 
@@ -59,18 +60,18 @@ define([
                         //如果是 DOM 对象
                         if (typeof stars[i] === 'object') {
 
-                            var rotate = [];
+                            var rotate = [],
+                                trans  = [];
                             //如果是第一层，则需要计算初始位置
                             if (start_tier == 0) {
-                                rotate[0] = 2 * Math.PI / n * (i + 1);
-                                rotate[1] = 2 * Math.PI / n * (i + 1);
-                                rotate[2] = 2 * Math.PI / n * (i + 1);
-                                rotate[3] = '360rad';
+                                
+                                trans[0] = (i + 1) * 2 * radius / n + 'px';
+                                trans[1] = (i + 1) * 2 * radius / n + 'px';
+                                trans[2] = (i + 1) * 2 * radius / n + 'px';
                             }
 
-
-                            stars[i].style[prefixJs+"Transform"] = "rotate3d("+ rotate.join(',') +")";
-                            console.log("rotate3d("+ rotate.join(',') +")");
+                            stars[i].style[prefixJs+"Transform"] = "translate3d("+ trans.join(',') +")";
+                            // console.log("translate3d("+ trans.join(',') +")");
                             console.log(stars[i].style[prefixJs+"Transform"]);
                         }
 
