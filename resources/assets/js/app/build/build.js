@@ -61,18 +61,13 @@ define([
                         if (typeof stars[i] === 'object') {
 
                             var rotate = [],
-                                trans  = [];
+                                trans  = '';
                             //如果是第一层，则需要计算初始位置
-                            if (start_tier == 0) {
-                                
-                                trans[0] = (i + 1) * 2 * radius / n + 'px';
-                                trans[1] = (i + 1) * 2 * radius / n + 'px';
-                                trans[2] = (i + 1) * 2 * radius / n + 'px';
-                            }
+                            var phi   = Math.PI / n * (i + 1),
+                                theta = 2 * Math.PI / n * (i + 1),
+                                trans = SphericalToCartesian(theta, phi, radius * (start_tier + 1));
 
-                            stars[i].style[prefixJs+"Transform"] = "translate3d("+ trans.join(',') +")";
-                            // console.log("translate3d("+ trans.join(',') +")");
-                            console.log(stars[i].style[prefixJs+"Transform"]);
+                            stars[i].style[prefixJs+"Transform"] = "translate3d("+ trans +")";
                         }
 
                     }
@@ -83,6 +78,28 @@ define([
                 }
 
             }
+
+            /**
+             * [SphericalToCartesian 将球面坐标系转化为笛卡尔坐标系]
+             * @AuthorName Hanlongzhen
+             * @DateTime   2016-04-01T11:51:30+0800
+             * @param      {[number]} theta [longtitude]
+             * @param      {[number]} phi [colatitude]
+             * @param      {[number]} r [radius]
+             */
+            function SphericalToCartesian(theta, phi, r) {
+
+                var a = [];
+
+                a[0] = r * Math.sin(phi) * Math.cos(theta) + 'px';
+                a[1] = r * Math.sin(phi) * Math.sin(theta) + 'px';
+                a[2] = r * Math.cos(phi) + 'px';
+
+                return a.join(',');
+            }
+
+
+
 
         }
 
