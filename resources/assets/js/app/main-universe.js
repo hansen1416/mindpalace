@@ -20,9 +20,9 @@ define([
     //     fst_tier        = fst_star.dataset.tier,
     //     fst_tier_star   = galaxy.querySelectorAll(star_clas + "[data-tier='" + fst_tier + "']");
         
-
+console.profile();
     var B = new Build();
-
+console.profileEnd();
     var T = new Trackball({
         stage:          "stage",        //旋转对象的容器，在这里将mousedown事件绑定在了容器上
         obj:            ["galaxy"],     //旋转的对象

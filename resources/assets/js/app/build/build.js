@@ -67,7 +67,7 @@ define([
                                 theta = 2 * Math.PI / n * (i + 1),
                                 trans = SphericalToCartesian(theta, phi, radius * (start_tier + 1));
 
-                            stars[i].style[prefixJs+"Transform"] = "translate3d("+ trans +")";
+                            stars[i].style[prefixJs+"Transform"] = trans;
                         }
 
                     }
@@ -95,7 +95,7 @@ define([
                 a[1] = r * Math.sin(phi) * Math.sin(theta) + 'px';
                 a[2] = r * Math.cos(phi) + 'px';
 
-                return a.join(',');
+                return "translate3d("+ a.join(',') +")";
             }
 
 
