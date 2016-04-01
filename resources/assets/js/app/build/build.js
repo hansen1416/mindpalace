@@ -60,8 +60,7 @@ define([
                         //如果是 DOM 对象
                         if (typeof stars[i] === 'object') {
 
-                            var rotate = [],
-                                trans  = '';
+                            var trans  = '';
                             //如果是第一层，则需要计算初始位置
                             var phi   = Math.PI / n * (i + 1),
                                 theta = 2 * Math.PI / n * (i + 1),
@@ -91,14 +90,12 @@ define([
 
                 var a = [];
 
-                a[0] = r * Math.sin(phi) * Math.cos(theta) + 'px';
-                a[1] = r * Math.sin(phi) * Math.sin(theta) + 'px';
-                a[2] = r * Math.cos(phi) + 'px';
+                a[0] = r * Math.sin(phi) * Math.cos(theta);
+                a[1] = r * Math.sin(phi) * Math.sin(theta);
+                a[2] = r * Math.cos(phi);
 
-                return "translate3d("+ a.join(',') +")";
+                return "matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, "+a.join(',')+", 1)";
             }
-
-
 
 
         }
