@@ -10,6 +10,7 @@ define([
         "../var/unbindEvents",
         "../var/requestAnim",
         "../var/cancelAnim",
+        "../var/styleSheets",
         "./func/multiplyMatrix3d",
         "./func/calcAngle",
         "./func/normalize",
@@ -18,7 +19,7 @@ define([
         "./func/matrixToArr",
         "./func/inverseMatrix3d",
         
-    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr, inverseMatrix3d) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, styleSheets, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr, inverseMatrix3d) {
 
         var Trackball = function(confObj){
             this.config = {};
@@ -97,7 +98,7 @@ define([
                 radius = stagew>stageh ? stageh : stagew;
                 // 元素最初设置的transform值
                 originTransform = getStyle(THIS.obj, prefixCss + "transform");
-                
+            
                 if(originTransform == "none"){
                     startMatrix = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
                 }else{
@@ -195,6 +196,9 @@ define([
             // 使用动画
             function slide(){
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+startMatrix+")";
+
+                styleSheets.cssRules[0].style.color = "rgb(100, 100,100)";
+// console.log(styleSheets.cssRules[0]);
                 requestAnim(slide);
             }
 
