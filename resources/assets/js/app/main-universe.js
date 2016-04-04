@@ -12,17 +12,9 @@ define([
 
 	], function (bindEvent, cancelAnim, document, documentElement, pos, requestAnim, unbindEvents, xmlns, build, trackball) {
 
-    // var stage           = document.getElementById('stage'),         //舞台，等于窗口大小的元素
-    //     galaxy          = document.getElementById('galaxy'),        //银河，包含所有的分类，大小待定
-    //     star_clas       = '.star',
-    //     stars           = galaxy.querySelectorAll(star_clas),        //页面所有的分类
-    //     fst_star        = galaxy.querySelector(star_clas),
-    //     fst_tier        = fst_star.dataset.tier,
-    //     fst_tier_star   = galaxy.querySelectorAll(star_clas + "[data-tier='" + fst_tier + "']");
-        
-
+    //给每一个 star 在空间中定位 translate3d
     var B = new Build();
-
+    //给 galaxy 绑定3d旋转鼠标事件 
     var T = new Trackball({
         stage:          "stage",        //旋转对象的容器，在这里将mousedown事件绑定在了容器上
         obj:            ["galaxy"],     //旋转的对象
