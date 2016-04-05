@@ -10,15 +10,13 @@ define([
         "../var/unbindEvents",
         "../var/requestAnim",
         "../var/cancelAnim",
-        "../var/styleSheets",
         "./func/multiplyMatrix3d",
         "./func/calcAngle",
         "./func/normalize",
         "./func/crossVector",
         "./func/rotateMatrix",
-        "./func/matrixToArr",
         
-    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, styleSheets, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix) {
 
         var Trackball = function(confObj){
             this.config = {};

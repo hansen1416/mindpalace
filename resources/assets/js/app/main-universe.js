@@ -1,18 +1,10 @@
 define([
-		"./var/bindEvent",
-		"./var/cancelAnim",
-		"./var/document",
-		"./var/documentElement",
-		"./var/pos",
-		"./var/requestAnim",
-		"./var/unbindEvents",
-		"./var/xmlns",
         "./build/build",
         "./build/trackball",
 
-	], function (bindEvent, cancelAnim, document, documentElement, pos, requestAnim, unbindEvents, xmlns, build, trackball) {
+	], function (build, trackball) {
 
-    //给每一个 star 在空间中定位 translate3d
+    //给每一个 star 在空间中定位
     var B = new Build();
     //给 galaxy 绑定3d旋转鼠标事件 
     var T = new Trackball({

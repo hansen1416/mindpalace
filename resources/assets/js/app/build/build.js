@@ -11,7 +11,6 @@ define([
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
 	     */
 
-	    
 	    var Build = function(confObj){
             this.config = {};
             this.setup(confObj);
@@ -41,7 +40,8 @@ define([
         	})();
 
             /**
-             * [diffuse 将每一层的元素均匀分布到空间当中，每一层都在同一个球面上
+             * [diffuse 将每一层的元素均匀分布到空间当中，
+             * 每一层都在同一个球面上，并且每一个面都朝向圆心
              * 从第一层开始，递归的取到最后一层元素
              * 通过 rotate3d 定位空间中的旋转角度
              * 通过 translate3d 定位偏离圆心的距离]
