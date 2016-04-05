@@ -17,9 +17,8 @@ define([
         "./func/crossVector",
         "./func/rotateMatrix",
         "./func/matrixToArr",
-        "./func/inverseMatrix3d",
         
-    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, styleSheets, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr, inverseMatrix3d) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, styleSheets, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix, matrixToArr) {
 
         var Trackball = function(confObj){
             this.config = {};
@@ -200,15 +199,11 @@ define([
 
             // 使用动画
             function slide(){
-                
+
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+startMatrix+")";
 
-                styleSheets.cssRules[0].style.color = "rgb(0,0,"+parseInt(Math.random() * 255)+")";
-
-                // console.log(document.defaultView.getComputedStyle(THIS.obj, null));
-
                 rs = requestAnim(slide);
-
+                //如果标示为 true ，则取消动画
                 if (rsf) {
                     cancelAnim(rs);
                 }
@@ -243,7 +238,7 @@ define([
                 omega = omega > 0 ? omega - decel : 0;
 
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
-                
+                //如果角速度为 0 了，则取消动画，并做结束处理
                 if(omega === 0){
                     cancelAnim(rd);
                     stopMotion();
