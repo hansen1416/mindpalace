@@ -4,8 +4,9 @@ define([
         "../var/prefixCss",
         "../var/trsfm",
         "../var/getStyle",
+        "./func/SphericalToCartesian",
 
-	], function(document, prefixJs, prefixCss, trsfm, getStyle){
+	], function(document, prefixJs, prefixCss, trsfm, getStyle, SphericalToCartesian){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -22,7 +23,8 @@ define([
 				common_clas = 'star',
                 start_tier  = 0,
                 stage       = document.getElementById('stage'),
-                radius      = 200;
+                core        = 200;
+                gap         = 150;
 
         	(function init(){
 
@@ -57,16 +59,30 @@ define([
                 if (n) {
                     //遍历处于这一层的元素
                     for (var i in stars) {
+
                         //如果是 DOM 对象
                         if (typeof stars[i] === 'object') {
 
-                            var trans  = '';
-                            //如果是第一层，则需要计算初始位置
-                            var phi   = Math.PI / n * (i + 1),
-                                theta = 2 * Math.PI / n * (i + 1),
-                                trans = SphericalToCartesian(theta, phi, radius * (start_tier + 1));
+                            r = core + start_tier * gap; 
 
-                            stars[i].style[prefixJs+"Transform"] = trans;
+                            //如果是第一层，则需要计算初始位置
+                            var phi    = Math.PI / n * (i + 1),
+                                theta  = 2 * Math.PI / n * (i + 1),
+                                trans  = SphericalToCartesian(theta, phi, r, 'px'),
+                                rotate = [];
+
+                                rotate[0] = Math.acos(parseFloat(trans[2]) / r);
+                                // rotate[0] = 0;
+                                rotate[1] = Math.asin(parseFloat(trans[0]) / r);
+                                // rotate[1] = 0;
+                                rotate[2] = Math.asin(parseFloat(trans[1]) / r);
+                                // rotate[2] = 0;
+
+                            stars[i].style[prefixJs+"Transform"] = 
+                                    "translate3d("+trans.join(',')+") "+
+                                    "rotateX(-"+rotate[0]+"rad) " +
+                                    "rotateY("+rotate[1]+"rad) " +
+                                    "rotateZ(-"+rotate[2]+"rad) ";
                         }
 
                     }
@@ -76,25 +92,6 @@ define([
                     diffuse();
                 }
 
-            }
-
-            /**
-             * [SphericalToCartesian 将球面坐标系转化为笛卡尔坐标系]
-             * @AuthorName Hanlongzhen
-             * @DateTime   2016-04-01T11:51:30+0800
-             * @param      {[number]} theta [longtitude]
-             * @param      {[number]} phi [colatitude]
-             * @param      {[number]} r [radius]
-             */
-            function SphericalToCartesian(theta, phi, r) {
-
-                var a = [];
-
-                a[0] = r * Math.sin(phi) * Math.cos(theta);
-                a[1] = r * Math.sin(phi) * Math.sin(theta);
-                a[2] = r * Math.cos(phi);
-
-                return "matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, "+a.join(',')+", 1)";
             }
 
 
