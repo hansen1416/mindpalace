@@ -84,9 +84,7 @@ class Ctg extends Model {
         foreach ($array as $key => $value) {
 
             $html .= "<div class='tier-{$value->tier} star' data-id={$value->id} data-pid={$value->pid} data-sort={$value->sort}>" .
-                    "<div class='inner-face'>" .
                     substr($value->title, 0, 9) .
-                    "</div>" .
                     "</div>";
         }
 
