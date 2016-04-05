@@ -1,4 +1,8 @@
 define(function(){
-	        return  window["cancelRequestAnimationFrame"] || 
+    return  window.cancelAnimationFrame            		||
+	        window.webkitCancelRequestAnimationFrame    ||
+	        window.mozCancelRequestAnimationFrame       ||
+	        window.oCancelRequestAnimationFrame        	||
+	        window.msCancelRequestAnimationFrame        ||
 	        clearTimeout;
 })

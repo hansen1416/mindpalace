@@ -53,8 +53,11 @@ define([
                 omega           = 0,        //单位角速度
                 resetMotion     = true,     //当鼠标点击目标元素时，是否停止当前运动
                 omegaCap,                   //单位角速度的cap,必须是大于0的数，默认为0.5
-                lambda;                     //阻力系数，越大阻力越大，默认0.01
-                
+                lambda,                     //阻力系数，越大阻力越大，默认0.01
+                rs,                         //requestAnimationFrame slide
+                rd,                         //requestAnimationFrame deceleration
+                rsf             = false;    //slide 的标示
+
             //闭包函数，做初始化魔方之用--------------------------------------------------------开始
             (function init(){
                 //将设置参数传给对象
@@ -87,7 +90,7 @@ define([
 
                 //undefined is NaN
                 omegaCap = isNaN(parseFloat(THIS.config.omegaCap)) ? 0.5 : parseFloat(THIS.config.omegaCap);
-                lambda = isNaN(parseFloat(THIS.config.lambda)) ? 0.01 : parseFloat(THIS.config.lambda);
+                lambda   = isNaN(parseFloat(THIS.config.lambda)) ? 0.01 : parseFloat(THIS.config.lambda);
 
                 // 旋转空间的top、left
                 pos = findPos(THIS.stage);
@@ -127,8 +130,8 @@ define([
                 mouseDownVector = calcZ(touchPos(e));
                 // 获得当前已旋转的角度
                 oldAngle = angle;
-
-                oldTime = new Date().getTime();
+                
+                oldTime  = new Date().getTime();
                 // 绑定三个事件
                 unbindEvents(THIS.stage);
                 bindEvent(document, {event:"mousemove", callback:rotate});
@@ -151,12 +154,13 @@ define([
                 // 一下这段会使在计算惯性运动时，只计算最后一个转动帧里的角度变化，而不是从鼠标点下起的角度变化，比较符合实际的运动模型。
                 oldAngle = angle;
                 // 旋转轴为空间向量的叉积
-                axis = crossVector(mouseDownVector, mouseMoveVector);
-                axis = normalize(axis);
+                axis     = crossVector(mouseDownVector, mouseMoveVector);
+                axis     = normalize(axis);
                 // 旋转的角度
-                angle = calcAngle(mouseDownVector, mouseMoveVector);
+                angle    = calcAngle(mouseDownVector, mouseMoveVector);
         
-                requestAnim(slide);
+                rsf = false;
+                slide();
             }
 
             /**
@@ -178,10 +182,11 @@ define([
 
                 time = new Date().getTime();
 
-                angularDeceleration(); //计算单位角速度
+                angularDeceleration(); //计算单位角速度，这里不能在 下面的 if 条件里面，否则会没有惯性
 
                 if (impulse && omega > 0) {
-                    cancelAnim(slide);
+                    
+                    rsf = true;
                     requestAnim(deceleration);     //有单位角速度做惯性运动
                 }else{
                     stopMotion();
@@ -195,11 +200,19 @@ define([
 
             // 使用动画
             function slide(){
+                
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+startMatrix+")";
 
-                styleSheets.cssRules[0].style.color = "rgb(100, 100,100)";
-// console.log(styleSheets.cssRules[0]);
-                requestAnim(slide);
+                styleSheets.cssRules[0].style.color = "rgb(0,0,"+parseInt(Math.random() * 255)+")";
+
+                // console.log(document.defaultView.getComputedStyle(THIS.obj, null));
+
+                rs = requestAnim(slide);
+
+                if (rsf) {
+                    cancelAnim(rs);
+                }
+
             }
 
             /**
@@ -208,7 +221,7 @@ define([
              */
             function angularDeceleration(){
                 var da = angle - oldAngle,      //鼠标点下到放开转动的角度
-                    dt = time - oldTime;        //鼠标点下到放开经过的事件
+                    dt = time - oldTime;        //鼠标点下到放开经过的时间
                     
                 omega = Math.abs(da*(1000/60)/dt);  //算出单位单位角速度，参数1000/60
            
@@ -232,9 +245,10 @@ define([
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
                 
                 if(omega === 0){
+                    cancelAnim(rd);
                     stopMotion();
                 }else{
-                    requestAnim(deceleration);
+                    rd = requestAnim(deceleration);
                 }
             }
 
@@ -243,8 +257,7 @@ define([
              * @return {[type]} [description]
              */
             function stopMotion(){
-                cancelAnim(slide);
-                cancelAnim(deceleration);
+                rsf = true;
 
                 var stopMatrix = [];
                 // 获得运动停止时的矩阵，并且赋值给startMatrix

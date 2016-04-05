@@ -1,6 +1,10 @@
 define(function(){
-	return  window["requestAnimationFrame"] || 
-	        function(callback){
-	            window.setTimeout(callback, 1000/60);    // 16.7ms display frequency displayed on most monitors
+	return  window.requestAnimationFrame       || 
+	        window.webkitRequestAnimationFrame || 
+	        window.mozRequestAnimationFrame    || 
+	        window.oRequestAnimationFrame      || 
+	        window.msRequestAnimationFrame     || 
+	        function(/* function */ callback, /* DOMElement */ element){
+	            return window.setTimeout(callback, 1000 / 60);
 	        };
 })
