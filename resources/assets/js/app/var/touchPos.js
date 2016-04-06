@@ -1,6 +1,12 @@
 define(function() {
-
-	return function (eventObj){ // get the mouse/touch position
+    /**
+     * touchPos [get the mouse/touch position]
+     * @AuthorName Hanlongzhen
+     * @DateTime   2016-04-06T13:46:34+0800
+     * @param      {[object]} eventObj [事件对象]
+     * @return     {[array]} [平面上的点]
+     */
+	return function (eventObj){
         var x, y;
         if(eventObj.type.indexOf("mouse")>-1){
             x = eventObj.pageX;

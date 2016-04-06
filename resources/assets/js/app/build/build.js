@@ -72,11 +72,11 @@ define([
                                 rotate = [];
 
                                 rotate[0] = Math.acos(parseFloat(trans[2]) / r);
-                                // rotate[0] = 0;
+                                rotate[0] = 0;
                                 rotate[1] = Math.asin(parseFloat(trans[0]) / r);
-                                // rotate[1] = 0;
+                                rotate[1] = 0;
                                 rotate[2] = Math.asin(parseFloat(trans[1]) / r);
-                                // rotate[2] = 0;
+                                rotate[2] = 0;
 
                             stars[i].style[prefixJs+"Transform"] = 
                                     "translate3d("+trans.join(',')+") "+

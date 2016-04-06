@@ -12,11 +12,12 @@ define([
         "../var/cancelAnim",
         "./func/multiplyMatrix3d",
         "./func/calcAngle",
+        "./func/calcZ",
         "./func/normalize",
         "./func/crossVector",
         "./func/rotateMatrix",
         
-    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, normalize, crossVector, rotateMatrix) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
 
         var Trackball = function(confObj){
             this.config = {};
@@ -94,8 +95,10 @@ define([
 
                 stagew = THIS.stage.offsetWidth / 2;
                 stageh = THIS.stage.offsetHeight / 2;
-                // 取空间的宽高中小的一个作为trackball半径
-                radius = stagew>stageh ? stageh : stagew;
+
+                // 取空间的宽高中大的一个作为trackball半径
+                radius = stagew < stageh ? stageh : stagew;
+
                 // 元素最初设置的transform值
                 originTransform = getStyle(THIS.obj, prefixCss + "transform");
             
@@ -125,7 +128,7 @@ define([
                 if (resetMotion && omega !== 0) {stopMotion()};    //如果之前的惯性没有耗尽，停止运动
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 e.preventDefault();
-                mouseDownVector = calcZ(touchPos(e));
+                mouseDownVector = calcZ(touchPos(e), pos, radius);
                 // 获得当前已旋转的角度
                 oldAngle = angle;
                 
@@ -142,21 +145,20 @@ define([
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 e.preventDefault();
                 // 计算鼠标经过轨迹的空间坐标
-                mouseMoveVector = calcZ(touchPos(e));
+                mouseMoveVector = calcZ(touchPos(e), pos, radius);
 
                 //当mouseMoveVector == mouseDownVector时（点击事件，有时候不是点击事件也会出现这种情况，有待进一步调查），向量单位化会出现分母为0的状况，这样便可以避免出现axis里面有NaN的情况，解决了卡死问题。
                 if(mouseMoveVector[0] == mouseDownVector[0] && mouseMoveVector[1] == mouseDownVector[1] && mouseMoveVector[2] == mouseDownVector[2]){
                     return false;
                 }
 
-                // 一下这段会使在计算惯性运动时，只计算最后一个转动帧里的角度变化，而不是从鼠标点下起的角度变化，比较符合实际的运动模型。
+                //以下这段会使在计算惯性运动时，只计算最后一个转动帧里的角度变化，而不是从鼠标点下起的角度变化，比较符合实际的运动模型。
                 oldAngle = angle;
-                // 旋转轴为空间向量的叉积
-                axis     = crossVector(mouseDownVector, mouseMoveVector);
-                axis     = normalize(axis);
-                // 旋转的角度
+                //旋转轴为空间向量的叉积
+                axis     = normalize( crossVector(mouseDownVector, mouseMoveVector) );
+                //旋转的角度
                 angle    = calcAngle(mouseDownVector, mouseMoveVector);
-        
+                //将 slide animation 标示置为 false，表示动画运行
                 rsf = false;
                 slide();
             }
@@ -167,20 +169,19 @@ define([
              * @return {[type]}   [description]
              */
             function rotateFinish(e){
-                
                 // 当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
                 if(axis.length == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){
                     unbindEvents(document);
                     bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
                     return false;
                 }
-
+                //解除 document 上的 mousemove 和 mouseup 事件
                 unbindEvents(document);
                 bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
 
                 time = new Date().getTime();
-
-                angularDeceleration(); //计算单位角速度，这里不能在 下面的 if 条件里面，否则会没有惯性
+                //计算单位角速度，这里不能在 下面的 if 条件里面，否则会没有惯性
+                angularDeceleration(); 
 
                 if (impulse && omega > 0) {
                     
@@ -206,7 +207,6 @@ define([
                 if (rsf) {
                     cancelAnim(rs);
                 }
-
             }
 
             /**
@@ -233,7 +233,7 @@ define([
              */
             function deceleration(){
                 angle += omega;
-                decel = lambda*Math.sqrt(omega);
+                decel = lambda * Math.sqrt(omega);
                 omega = omega > 0 ? omega - decel : 0;
 
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
@@ -251,26 +251,19 @@ define([
              * @return {[type]} [description]
              */
             function stopMotion(){
+                //将 slide 标示置为 true，表示取消 slide animation
                 rsf = true;
 
                 // 获得运动停止时的矩阵，并且赋值给startMatrix
                 var stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
                 startMatrix = multiplyMatrix3d(startMatrix, stopMatrix);
         
-                //次初始化步骤一定是在获得startMatrix之后，否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
-                oldAngle = angle = 0;
-                omega = 0;
+                //次初始化步骤一定是在获得startMatrix之后，
+                //否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
+                //将开始、结束角度和角速度置为 0
+                oldAngle = angle = omega = 0;
             }
 
-            // calculate the z-component for a space vector
-            function calcZ(touchPos){
-
-                var x = (touchPos[0] - pos[0])/radius - 1,
-                    y = (touchPos[1] - pos[1])/radius - 1,
-                    z = 1 - x*x -y*y;
-
-                return [x, y, z];
-            }
             //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------结束
             
             //Trackball.setup end
