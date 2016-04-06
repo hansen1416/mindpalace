@@ -4,9 +4,8 @@ define([
         "../var/prefixCss",
         "../var/trsfm",
         "../var/getStyle",
-        "./func/SphericalToCartesian",
 
-	], function(document, prefixJs, prefixCss, trsfm, getStyle, SphericalToCartesian){
+	], function(document, prefixJs, prefixCss, trsfm, getStyle){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -63,26 +62,8 @@ define([
                         //如果是 DOM 对象
                         if (typeof stars[i] === 'object') {
 
-                            r = core + start_tier * gap; 
-
-                            //如果是第一层，则需要计算初始位置
-                            var phi    = Math.PI / n * (i + 1),
-                                theta  = 2 * Math.PI / n * (i + 1),
-                                trans  = SphericalToCartesian(theta, phi, r, 'px'),
-                                rotate = [];
-
-                                rotate[0] = Math.acos(parseFloat(trans[2]) / r);
-                                rotate[0] = 0;
-                                rotate[1] = Math.asin(parseFloat(trans[0]) / r);
-                                rotate[1] = 0;
-                                rotate[2] = Math.asin(parseFloat(trans[1]) / r);
-                                rotate[2] = 0;
-
-                            stars[i].style[prefixJs+"Transform"] = 
-                                    "translate3d("+trans.join(',')+") "+
-                                    "rotateX(-"+rotate[0]+"rad) " +
-                                    "rotateY("+rotate[1]+"rad) " +
-                                    "rotateZ(-"+rotate[2]+"rad) ";
+                            r = core + start_tier * gap;
+                            
                         }
 
                     }
