@@ -18,12 +18,13 @@ define([
 
         Build.prototype.setup = function(confObj){
 
-			var THIS 		= this,
-				common_clas = 'star',
-                start_tier  = 0,
-                stage       = document.getElementById('stage'),
-                core        = 200;
-                gap         = 150;
+			var THIS 		= this;
+			var common_clas = 'star';
+            var start_tier  = 0;
+            var stage       = document.getElementById('stage');
+            var core        = 200;          //最内层的球面半径
+            var gap         = 150;          //每一层球面的间隔
+            var r           = 0;            //球面实际半径
 
         	(function init(){
 
@@ -63,6 +64,12 @@ define([
                         if (typeof stars[i] === 'object') {
 
                             r = core + start_tier * gap;
+
+                            stars[i].style[prefixJs+"Transform"] = 
+                                    "rotateX("+360*i/n+"deg) " +
+                                    "rotateY("+360*i/n+"deg) " +
+                                    "rotateZ("+360*i/n+"deg) " +
+                                    "translateZ("+r+"px)";
                             
                         }
 
