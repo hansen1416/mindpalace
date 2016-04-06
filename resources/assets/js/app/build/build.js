@@ -66,9 +66,9 @@ define([
                             r = core + start_tier * gap;
 
                             stars[i].style[prefixJs+"Transform"] = 
-                                    "rotateX("+360*i/n+"deg) " +
-                                    "rotateY("+360*i/n+"deg) " +
-                                    "rotateZ("+360*i/n+"deg) " +
+                                    "rotateX("+360*i/(n-3)+"deg) " +
+                                    "rotateY("+360*i/(n-3)+"deg) " +
+                                    "rotateZ("+360*i/(n-3)+"deg) " +
                                     "translateZ("+r+"px)";
                             
                         }
