@@ -34,26 +34,26 @@ define([
         Trackball.prototype.setup = function(confObj){
 
             var THIS            = this,
-                impulse         = true,     //true有惯性，false没有惯性
-                stagew          = 0,        //half of stagewidth
-                stageh          = 0,        //half of stageheight
-                radius          = 0,        //visual trackball radius
-                pos             = 0,        //top & left of the stage
-                mouseDownVector = [],       //the vector of the cursor position when the mouse down
-                mouseMoveVector = [],       //the vector of the cursor position during the mouse is moving
-                axis            = [1,1,1],  //rotating axis, calculated by mouseDownVector & mouseMoveVector
-                oldAngle        = 0,        //旋转实施之前的角度
-                angle           = 0,        //rotate3d angle旋转的角度
-                oldTime         = 0,        //鼠标点击时刻的时间
-                time            = 0,        //鼠标放开时刻的时间
-                startMatrix     = [],       //starting matrix of every action
-                omega           = 0,        //单位角速度
-                resetMotion     = true,     //当鼠标点击目标元素时，是否停止当前运动
-                omegaCap,                   //单位角速度的cap,必须是大于0的数，默认为0.5
-                lambda,                     //阻力系数，越大阻力越大，默认0.01
-                rs,                         //requestAnimationFrame slide
-                rd,                         //requestAnimationFrame deceleration
-                rsf             = false;    //slide 的标示
+                impulse         = true,                     //true有惯性，false没有惯性
+                stagew          = 0,                        //half of stagewidth
+                stageh          = 0,                        //half of stageheight
+                radius          = 0,                        //visual trackball radius
+                pos             = 0,                        //top & left of the stage
+                mouseDownVector = [],                       //the vector of the cursor position when the mouse down
+                mouseMoveVector = [],                       //the vector of the cursor position during the mouse is moving
+                axis            = [1,1,1],                  //rotating axis, calculated by mouseDownVector & mouseMoveVector
+                oldAngle        = 0,                        //旋转实施之前的角度
+                angle           = 0,                        //rotate3d angle旋转的角度
+                oldTime         = 0,                        //鼠标点击时刻的时间
+                time            = 0,                        //鼠标放开时刻的时间
+                startMatrix     = new Float32Array(16),     //starting matrix of every action
+                omega           = 0,                        //单位角速度
+                resetMotion     = true,                     //当鼠标点击目标元素时，是否停止当前运动
+                omegaCap        = 0,                        //单位角速度的cap,必须是大于0的数，默认为0.5
+                lambda          = 0,                        //阻力系数，越大阻力越大，默认0.01
+                rs              = null,                     //requestAnimationFrame slide
+                rd              = null,                     //requestAnimationFrame deceleration
+                rsf             = false;                    //slide 的标示
 
             //闭包函数，做初始化魔方之用--------------------------------------------------------开始
             (function init(){
@@ -100,17 +100,18 @@ define([
                 originTransform = getStyle(THIS.obj, prefixCss + "transform");
             
                 if(originTransform == "none"){
-                    startMatrix = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
+                    startMatrix[0]  = 1;
+                    startMatrix[5]  = 1;
+                    startMatrix[10] = 1;
+                    startMatrix[15] = 1;
                 }else{
                     // 将字符串处理成数组
-                    startMatrix = originTransform.split(",");
-
-                    startMatrix[0] = startMatrix[0].replace(/(matrix3d\()/g, "");
+                    startMatrix     = originTransform.split(",");
+                    
+                    startMatrix[0]  = startMatrix[0].replace(/(matrix3d\()/g, "");
                     startMatrix[15] = startMatrix[15].replace(/\)/g, "");
-
-                    for(var i = 0, l = startMatrix.length; i<l; i++){
-                        startMatrix[i] = parseFloat(startMatrix[i]);
-                    }
+                    
+                    startMatrix     = new Float32Array(startMatrix);
                 }
                 // 目标元素绑定mousedown事件
                 bindEvent(THIS.stage, {event: "mousedown", callback: rotateStart});
@@ -252,9 +253,8 @@ define([
             function stopMotion(){
                 rsf = true;
 
-                var stopMatrix = [];
                 // 获得运动停止时的矩阵，并且赋值给startMatrix
-                stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
+                var stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
                 startMatrix = multiplyMatrix3d(startMatrix, stopMatrix);
         
                 //次初始化步骤一定是在获得startMatrix之后，否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
