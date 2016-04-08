@@ -70,7 +70,8 @@ define([
                                     "rotateY("+360*i/(n-3)+"deg) " +
                                     "rotateZ("+360*i/(n-3)+"deg) " +
                                     "translateZ("+r+"px)";
-                            
+
+
                         }
 
                     }
