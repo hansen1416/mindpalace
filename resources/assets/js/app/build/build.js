@@ -23,7 +23,7 @@ define([
             var start_tier  = 0;
             var stage       = document.getElementById('stage');
             var core        = 200;          //最内层的球面半径
-            var gap         = 150;          //每一层球面的间隔
+            var gap         = 80;          //每一层球面的间隔
             var r           = 0;            //球面实际半径
 
         	(function init(){
@@ -53,42 +53,46 @@ define([
              */
             function diffuse() {
 
-                var stars = stage.querySelectorAll('.tier-' + start_tier),
-                    n     = stars ? stars.length : 0;
+                var stars = stage.querySelectorAll('.tier-' + start_tier);
                 //如果能取到元素
-                if (n) {
-                    //遍历处于这一层的元素
-                    for (var i in stars) {
+                if (!stars.length) {return false;}
+                //如果只找到一个元素，那 NodeList 中就不包含 length 和 item？待查
+                var n     = stars.length > 1 ? stars.length : stars.length + 2;
+                var r     = 0;  //虚拟球体半径
+                var flag  = 0
 
-                        //如果是 DOM 对象
-                        if (typeof stars[i] === 'object' && !start_tier) {
+                //遍历处于这一层的元素
+                for (var i in stars) {
+                    //如果不是 DOM 对象，则跳出当前 for 循环
+                    if (typeof stars[i] !== 'object') {break;}
+                    if (start_tier) {return false;}
 
-                            r = core + start_tier * gap;
+                    r = core + start_tier * gap;
+                    //纵向列数
+                    var col = Math.ceil( Math.sqrt(n) );
+                    //横向行数
+                    var row = Math.ceil( (n - 2) / col );
 
-                            var z = Math.sqrt(n);
-                            z = 3;
+                    if (!(i % col)) flag++;
 
-                            var X = 0;
-                            var Y = (360 / z) * (i % z);
-                            var Z = 0;
+                    var X = (360 / row) * flag;
+                    var Y = (360 / col) * (i % col);
+                    var Z = 0;
 
-                            stars[i].style[prefixJs+"Transform"] = 
-                                    "rotateX("+ X +"deg)" +
-                                    "rotateY("+ Y +"deg)" +
-                                    "rotateZ("+ Z +"deg)" +
-                                    "translateZ(-"+r+"px)";
-console.log(Y);
+                    stars[i].style[prefixJs+"Transform"] = 
+                            "rotateX("+ X +"deg)" +
+                            "rotateY("+ Y +"deg)" +
+                            "rotateZ("+ Z +"deg)" +
+                            "translateZ(-"+r+"px)";
 
-                        }
-
-                    }
-
-                    start_tier++;
-
-                    diffuse();
                 }
 
+                start_tier++;
+
+                diffuse();
+
             }
+
 
 
         }
