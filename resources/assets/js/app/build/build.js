@@ -61,12 +61,23 @@ define([
                     for (var i in stars) {
 
                         //如果是 DOM 对象
-                        if (typeof stars[i] === 'object') {
+                        if (typeof stars[i] === 'object' && !start_tier) {
 
                             r = core + start_tier * gap;
 
-                            stars[i].style[prefixJs+"Transform"] = "translateZ(-"+r+"px)";
+                            var z = Math.sqrt(n);
+                            z = 3;
 
+                            var X = 0;
+                            var Y = (360 / z) * (i % z);
+                            var Z = 0;
+
+                            stars[i].style[prefixJs+"Transform"] = 
+                                    "rotateX("+ X +"deg)" +
+                                    "rotateY("+ Y +"deg)" +
+                                    "rotateZ("+ Z +"deg)" +
+                                    "translateZ(-"+r+"px)";
+console.log(Y);
 
                         }
 
