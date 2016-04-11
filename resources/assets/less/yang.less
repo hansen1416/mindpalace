@@ -59,7 +59,8 @@ body{background-color: @universe; overflow: hidden;}
         .axis {
             // .hide;
             .abs;
-            width: 50vh; height: 1px; top: 50%; left: 50%; margin: 0 0 0 -25vh; background-color: #fff;
+            width: 300px; height: 1px; top: 50%; left: 50%; margin: 0 0 0 -150px;
+            background-color: #fff;
         }
         .axis.y {transform: rotateZ(90deg);}
         .axis.z {transform: rotateY(-90deg);}
@@ -77,11 +78,28 @@ body{background-color: @universe; overflow: hidden;}
             color: #0000ff;
             border: 10px solid #0000ff; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;
         }
+
+        // .plane{
+        //     .abs;
+        //     width: 1000px; height: 1000px; top: -450px; left: -450px;
+        //     background-color: rgba(255, 255, 255, 0.3);
+        // }
+        .plane.x{
+            transform: rotateX(90deg);
+        }
+        .plane.y{
+            transform: rotateY(90deg);
+        }
+        .plane.z{
+            transform: rotateZ(90deg);
+        }
+
         //坐标系结束
         
         //分类
 		.star{
-            .back_face; .over-hidden;
+            // .back_face; 
+            .over-hidden;
 			top: 50%; left: 50%; display: inline-block; position: absolute; padding: 0.3em;
             height: 1em; line-height: 1em; max-width: 5em; text-overflow:ellipsis; white-space:nowrap;
             background-color: fade(lighten(@universe, 50%), 50%);
