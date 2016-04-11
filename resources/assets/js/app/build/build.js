@@ -80,7 +80,7 @@ define([
                     var Y = (360 / col) * (i % col);
                     var Z = 0;
 
-stars[i].appendChild(document.createTextNode(' x:'+X+'-y:'+Y));
+// stars[i].appendChild(document.createTextNode(' x:'+X+'-y:'+Y));
 
                     stars[i].style[prefixJs+"Transform"] = 
                             "rotateX("+ X +"deg)" +
