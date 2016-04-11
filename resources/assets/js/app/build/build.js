@@ -65,7 +65,7 @@ define([
                 for (var i in stars) {
                     //如果不是 DOM 对象，则跳出当前 for 循环
                     if (typeof stars[i] !== 'object') {break;}
-                    // if (start_tier) {return false;}
+                    if (start_tier) {return false;}
 
                     r = core + start_tier * gap;
                     //纵向列数
@@ -79,6 +79,8 @@ define([
                     var X = (360 / row) * flag;
                     var Y = (360 / col) * (i % col);
                     var Z = 0;
+
+stars[i].appendChild(document.createTextNode(' x:'+X+'-y:'+Y));
 
                     stars[i].style[prefixJs+"Transform"] = 
                             "rotateX("+ X +"deg)" +
