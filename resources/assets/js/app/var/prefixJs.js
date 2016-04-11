@@ -11,8 +11,6 @@ define(function(){
         prefixJs = "Moz";
     }else if(/opera/gi.test(userAgent)){
         prefixJs = "O";
-    }else{
-        prefixJs = "";
     }
 
     return prefixJs;

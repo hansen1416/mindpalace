@@ -8,11 +8,9 @@ define(function(){
     }else if(/msie | trident/gi.test(userAgent)){
         prefixCss = "-ms-";
     }else if(/mozilla/gi.test(userAgent)){
-        prefixCss = "-moz-";
+        // prefixCss = "-moz-";
     }else if(/opera/gi.test(userAgent)){
         prefixCss = "-o-";
-    }else{
-        prefixCss = "";
     }
 
     return prefixCss;

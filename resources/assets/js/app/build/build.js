@@ -19,12 +19,12 @@ define([
         Build.prototype.setup = function(confObj){
 
 			var THIS 		= this;
-			var common_clas = 'star';
+			var common_clas = '.star';
             var start_tier  = 0;
             var stage       = document.getElementById('stage');
-            var core        = 200;          //最内层的球面半径
+            var core        = 200;         //最内层的球面半径
             var gap         = 80;          //每一层球面的间隔
-            var r           = 0;            //球面实际半径
+            var r           = 0;           //每层球面实际半径
 
         	(function init(){
 
@@ -65,7 +65,7 @@ define([
                 for (var i in stars) {
                     //如果不是 DOM 对象，则跳出当前 for 循环
                     if (typeof stars[i] !== 'object') {break;}
-                    if (start_tier) {return false;}
+                    // if (start_tier) {return false;}
 
                     r = core + start_tier * gap;
                     //纵向列数
@@ -74,7 +74,8 @@ define([
                     var row = Math.ceil( (n - 2) / col );
 
                     if (!(i % col)) flag++;
-
+                    //通过在 X Y 轴上进行旋转， 使得元素在空间中均匀的分布
+                    //暂时元素会出现颠倒、倾斜的状况，需要在之后优化
                     var X = (360 / row) * flag;
                     var Y = (360 / col) * (i % col);
                     var Z = 0;

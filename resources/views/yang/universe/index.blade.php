@@ -3,9 +3,9 @@
 @section('content')
 <div id="galaxy">
 
-<div class="axis x"><span class="d">x</span></div>
-<div class="axis y"><span class="d">y</span></div>
-<div class="axis z"><span class="d">z</span></div>
+<div class="axis x"><span class="d x">x</span></div>
+<div class="axis y"><span class="d y">y</span></div>
+<div class="axis z"><span class="d z">z</span></div>
 
 {!!$html!!}
 

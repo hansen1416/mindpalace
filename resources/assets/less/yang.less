@@ -11,39 +11,34 @@ body{background-color: @universe; overflow: hidden;}
 
 .perspective{
     -webkit-perspective: 700px;
-    -moz-perspective: 700px;
     perspective:700px;
 }
 .pers_origin{
     -webkit-perspective-origin: 50% 50%;
-    -moz-perspective-origin: 50% 50%;
     perspective-origin: 50% 50%;
 }
 .trsf_origin{
     -webkit-transform-origin: 50% 50%;
-    -moz-transform-origin: 50% 50%;
     -o-transform-origin: 50% 50%;
     transform-origin: 50% 50%;
 }
 .trsf_style_3d{
     -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
     -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 .trsf_style_flat{
     -webkit-transform-style: flat;
-    -moz-transform-style: flat;
     -o-transform-style: flat;
     transform-style: flat;
 }
 .back_face{
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
 }
 
+.hide {display: none;}
 .fl {float: left;}
 .fr {float: right;}
 .abs {position: absolute;}
@@ -58,28 +53,38 @@ body{background-color: @universe; overflow: hidden;}
 	#galaxy{
 		.trsf_style_3d;
 		position: absolute; width: 100px; height: 100px; top: 50%; left: 50%;
-        margin: -50px 0 0 -50px; color: #fff; background-color: rgba(255,255,255,0.5);
+        margin: -50px 0 0 -50px; color: #fff;
 
         //坐标系开始
         .axis {
-            .abs; width: 50vh; height: 1px; top: 50%; left: 50%; margin: 0 0 0 -25vh; background-color: #fff;
+            // .hide;
+            .abs;
+            width: 50vh; height: 1px; top: 50%; left: 50%; margin: 0 0 0 -25vh; background-color: #fff;
         }
         .axis.y {transform: rotateZ(90deg);}
         .axis.z {transform: rotateY(-90deg);}
         //坐标末端的小三角
         .axis .d {
-            .fr; width: 0; height: 0; margin-top: -10px;
-            border: 10px solid #fff;
-            border-top-color: transparent;
-            border-bottom-color: transparent;
-            border-right-width: 0;
+            .fr; width: 0; height: 0; margin-top: -10px; color: #ff0000;
+            border: 10px solid #ff0000; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;
+        }
+
+        .axis .d.y{
+            color: #00ff00;
+            border: 10px solid #00ff00; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;
+        }
+        .axis .d.z{
+            color: #0000ff;
+            border: 10px solid #0000ff; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;
         }
         //坐标系结束
         
         //分类
 		.star{
-            // .back_face;
-			top: 50%; left: 50%; display: inline-block; position: absolute;
+            .back_face; .over-hidden;
+			top: 50%; left: 50%; display: inline-block; position: absolute; padding: 0.3em;
+            height: 1em; line-height: 1em; max-width: 5em; text-overflow:ellipsis; white-space:nowrap;
+            background-color: fade(lighten(@universe, 50%), 50%);
 		}
 
 	}
