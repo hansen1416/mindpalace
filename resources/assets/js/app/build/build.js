@@ -37,6 +37,7 @@ define([
                 	common_clas = THIS.config.common_clas;
                 }
 
+                fibonacciShpere();
                 diffuse();
 
         	})();
@@ -45,8 +46,8 @@ define([
              * [diffuse 将每一层的元素均匀分布到空间当中，
              * 每一层都在同一个球面上，并且每一个面都朝向圆心
              * 从第一层开始，递归的取到最后一层元素
-             * 通过 rotate3d 定位空间中的旋转角度
-             * 通过 translate3d 定位偏离圆心的距离]
+             * 通过 translate3d 定位偏离圆心的距离
+             * 通过 rotate3d 使得面和球面相切]
              * @AuthorName Hanlongzhen
              * @DateTime   2016-03-28T21:58:56+0800
              * @return     {[type]} [description]
@@ -94,6 +95,25 @@ define([
 
                 diffuse();
 
+            }
+
+
+            function fibonacciShpere() {
+                var n = 50;
+                var a = [];
+
+                phi = (Math.sqrt(5) + 1) / 2 - 1;
+                ga = phi * Math.PI * 2;
+
+                for (var i = 0; i < n; i++) {
+                    a[i] = {'lo':ga*i, 'la':Math.asin(-1 + 2*i/n)};
+                }
+
+                var x = Math.cos(e[i].lat) * Math.sin(e[i].lon);
+                var y = Math.sin(e[i].lat) * Math.sin(e[i].lon);
+                var z = Math.cos(e[i].lon);
+
+                console.log(a);
             }
 
 
