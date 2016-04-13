@@ -38,7 +38,7 @@ define([
                 }
 
                 fibonacciShpere();
-                diffuse();
+                // diffuse();
 
         	})();
 
@@ -99,21 +99,45 @@ define([
 
 
             function fibonacciShpere() {
-                var n = 50;
+
+                var N = 50;
                 var a = [];
+                var stars = stage.querySelectorAll('.tier-0');
 
-                phi = (Math.sqrt(5) + 1) / 2 - 1;
-                ga = phi * Math.PI * 2;
-
-                for (var i = 0; i < n; i++) {
-                    a[i] = {'lo':ga*i, 'la':Math.asin(-1 + 2*i/n)};
+                var dlong = Math.PI*(3-Math.sqrt(5));  /* ~2.39996323 */
+                var dz    = 2.0/N;
+                var long  = 0;
+                var z     = 1 - dz/2;
+                for (var k = 0; k < N; k++){
+                    r    = Math.sqrt(1-z*z);
+                    a[k] = {x:Math.cos(long)*r, y:Math.sin(long)*r, z:z};
+                    z    = z - dz;
+                    long = long + dlong;
                 }
 
-                var x = Math.cos(e[i].lat) * Math.sin(e[i].lon);
-                var y = Math.sin(e[i].lat) * Math.sin(e[i].lon);
-                var z = Math.cos(e[i].lon);
 
-                console.log(a);
+                for (var i in stars) {
+                    //如果不是 DOM 对象，则跳出当前 for 循环
+                    if (typeof stars[i] !== 'object') {break;}
+
+                    var tx = a[i]['x'];
+                    var ty = a[i]['y'];
+                    var tz = a[i]['z'];
+
+                    var X = 0;
+                    var Y = 0;
+                    var Z = 0;
+
+                    stars[i].style[prefixJs+"Transform"] = 
+                            "translateX("+ tx * 200+"px)" +
+                            "translateY("+ ty * 200+"px)" +
+                            "translateZ("+ tz * 200+"px)" +
+                            "rotateX("+ Math.atan(tz/tx) +"rad)" +
+                            "rotateY("+ Math.acos(ty/200) +"rad)" +
+                            "rotateZ("+ Z +"rad)";
+
+                }
+                
             }
 
 
