@@ -37,8 +37,6 @@ define([
                 	common_clas = THIS.config.common_clas;
                 }
 
-                console.log(Math.PI, 2*Math.PI);
-
                 fibonacciShpere();
                 // diffuse();
 
@@ -47,7 +45,7 @@ define([
             function fibonacciShpere() {
 
                 var N = 200;
-                var R = 200;
+                var R = 250;
                 var a = [];
                 var stars = stage.querySelectorAll('.tier-0');
 
@@ -73,7 +71,7 @@ define([
                     var ty = a[i]['y'] * R;
                     var tz = a[i]['z'] * R;
 
-                    var rx = Math.atan(ty/tz) * -1;
+                    var rx = Math.asin(ty/R) * -1;
                     var ry = Math.atan(tx/tz);
                     var rz = 0;
 
