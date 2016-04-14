@@ -55,6 +55,7 @@ define([
 
                 var stars = stage.querySelectorAll('.tier-' + start_tier);
                 var N     = stars.length;
+                
                 //如果没有下一层了，则停止
                 if (!N) {return false;}
 
@@ -92,7 +93,7 @@ define([
 
                     rx = Math.asin(ty) * -1 * tz / Math.abs(tz);
                     ry = Math.atan(tx/tz);
-
+console.log(ry, rx);
                     stars[k].style[prefixJs+"Transform"] =
                             "translate3d("+ tx * R +"px, "+ ty * R +"px, "+ tz * R +"px)" +
                             "rotateY("+ ry +"rad)" +
