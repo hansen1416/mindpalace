@@ -13,15 +13,17 @@
 
 <!-- {!!$html!!} -->
 
-<div class="star tier-0">01</div>
-<div class="star tier-0">02</div>
-<div class="star tier-0">03</div>
-<div class="star tier-0">04</div>
-<div class="star tier-0">05</div>
-<div class="star tier-0">06</div>
-<div class="star tier-0">07</div>
-<div class="star tier-0">08</div>
-<div class="star tier-0">09</div>
+<!-- .star.tier-0{$$$}*200 -->
+
+<div class="star tier-0">001</div>
+<div class="star tier-0">002</div>
+<div class="star tier-0">003</div>
+<div class="star tier-0">004</div>
+<div class="star tier-0">005</div>
+<div class="star tier-0">006</div>
+<div class="star tier-0">007</div>
+<div class="star tier-0">008</div>
+<div class="star tier-0">009</div>
 <div class="star tier-0">010</div>
 <div class="star tier-0">011</div>
 <div class="star tier-0">012</div>
