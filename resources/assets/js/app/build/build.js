@@ -19,9 +19,9 @@ define([
         Build.prototype.setup = function(confObj){
 
 			var THIS 		= this;
+            var stage       = document.getElementById('stage');
 			var common_clas = '.star';
             var start_tier  = 0;
-            var stage       = document.getElementById('stage');
             var R           = 200;           //每层球面实际半径
             var gap         = 80;            //每一层球面的间隔
             
@@ -36,9 +36,8 @@ define([
                 if (THIS.config.common_clas !== undefined) {
                 	common_clas = THIS.config.common_clas;
                 }
-
+                //在空间中定位元素
                 fibonacciShpere();
-                // diffuse();
 
         	})();
 
@@ -56,7 +55,7 @@ define([
 
                 var stars = stage.querySelectorAll('.tier-' + start_tier);
                 var N     = stars.length;
-
+                //如果没有下一层了，则停止
                 if (!N) {return false;}
 
                 var dlong = Math.PI*(3-Math.sqrt(5));  /* ~2.39996323 */
@@ -73,11 +72,13 @@ define([
                 var rz = 0;
 
                 var a = [];
-
+                //当前层的半径
                 R += gap * start_tier;
 
                 for (var k = 0; k < N; k++){
-                    
+                    //code from 
+                    //http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
+                    //positioning the points by spiral Fibonacci method
                     r    = Math.sqrt(1-z*z);
                     a[k] = {x:Math.cos(long)*r, y:Math.sin(long)*r, z:z};
                     z    = z - dz;
@@ -102,11 +103,12 @@ define([
                             "rotateZ("+ rz +"rad)";
 
                 }
-
+                //深入到下一层
                 start_tier++;
                 
                 fibonacciShpere();
             }
+
 
 
         }
