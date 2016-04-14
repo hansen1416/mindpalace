@@ -37,10 +37,58 @@ define([
                 	common_clas = THIS.config.common_clas;
                 }
 
+                console.log(Math.PI, 2*Math.PI);
+
                 fibonacciShpere();
                 // diffuse();
 
         	})();
+
+            function fibonacciShpere() {
+
+                var N = 200;
+                var R = 200;
+                var a = [];
+                var stars = stage.querySelectorAll('.tier-0');
+
+                var dlong = Math.PI*(3-Math.sqrt(5));  /* ~2.39996323 */
+                var dz    = 2.0/N;
+                var long  = 0;
+                var z     = 1 - dz/2;
+
+                for (var k = 0; k < N; k++){
+                    r    = Math.sqrt(1-z*z);
+                    a[k] = {x:Math.cos(long)*r, y:Math.sin(long)*r, z:z};
+                    z    = z - dz;
+                    long = long + dlong;
+                }
+
+                for (var i in stars) {
+                    //如果不是 DOM 对象，则跳出当前 for 循环
+                    if (typeof stars[i] !== 'object') {break;}
+
+                    if (!a[i]) {break;}
+
+                    var tx = a[i]['x'] * R;
+                    var ty = a[i]['y'] * R;
+                    var tz = a[i]['z'] * R;
+
+                    var rx = Math.atan(ty/tz) * -1;
+                    var ry = Math.atan(tx/tz);
+                    var rz = 0;
+
+                    stars[i].style[prefixJs+"Transform"] = 
+                            "translateX("+ tx +"px)" +
+                            "translateY("+ ty +"px)" +
+                            "translateZ("+ tz +"px)" +
+                            "rotateX("+ rx +"rad)" +
+                            "rotateY("+ ry +"rad)" +
+                            "rotateZ("+ rz +"rad)";
+
+                }
+                
+            }
+
 
             /**
              * [diffuse 将每一层的元素均匀分布到空间当中，
@@ -95,51 +143,6 @@ define([
 
                 diffuse();
 
-            }
-
-
-            function fibonacciShpere() {
-
-                var N = 200;
-                var a = [];
-                var stars = stage.querySelectorAll('.tier-0');
-
-                var dlong = Math.PI*(3-Math.sqrt(5));  /* ~2.39996323 */
-                var dz    = 2.0/N;
-                var long  = 0;
-                var z     = 1 - dz/2;
-                for (var k = 0; k < N; k++){
-                    r    = Math.sqrt(1-z*z);
-                    a[k] = {x:Math.cos(long)*r, y:Math.sin(long)*r, z:z};
-                    z    = z - dz;
-                    long = long + dlong;
-                }
-
-
-                for (var i in stars) {
-                    //如果不是 DOM 对象，则跳出当前 for 循环
-                    if (typeof stars[i] !== 'object') {break;}
-
-                    if (!a[i]) {break;}
-
-                    var tx = a[i]['x'];
-                    var ty = a[i]['y'];
-                    var tz = a[i]['z'];
-
-                    var X = 0;
-                    var Y = 0;
-                    var Z = 0;
-
-                    stars[i].style[prefixJs+"Transform"] = 
-                            "translateX("+ tx * 200 +"px)" +
-                            "translateY("+ ty * 200 +"px)" +
-                            "translateZ("+ tz * 200 +"px)" +
-                            // "rotateX("+ Math.atan(tz/tx) +"rad)" +
-                            // "rotateY("+ Math.acos(ty/200) +"rad)" +
-                            "rotateZ("+ Z +"rad)";
-
-                }
-                
             }
 
 
