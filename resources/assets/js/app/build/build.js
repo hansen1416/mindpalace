@@ -63,15 +63,15 @@ define([
                 var long  = 0;
                 var z     = 1 - dz/2;
 
-                var tx = 0;
-                var ty = 0;
-                var tz = 0;
+                var tx = 0;     //X方向的位移
+                var ty = 0;     //Y方向的位移
+                var tz = 0;     //Z方向的位移
 
-                var rx = 0;
-                var ry = 0;
-                var rz = 0;
+                var rx = 0;     //X轴的旋转
+                var ry = 0;     //Y轴的旋转
 
                 var a = [];
+
                 //当前层的半径
                 R += gap * start_tier;
 
@@ -86,26 +86,22 @@ define([
                     //如果不是 DOM 对象，则跳出当前 for 循环
                     if (typeof stars[k] !== 'object') {break;}
 
-                    tx = a[k]['x'] * R;
-                    ty = a[k]['y'] * R;
-                    tz = a[k]['z'] * R;
+                    tx = a[k]['x'];
+                    ty = a[k]['y'];
+                    tz = a[k]['z'];
 
-                    rx = Math.asin(ty/R) * -0;
+                    rx = Math.asin(ty) * -1 * tz / Math.abs(tz);
                     ry = Math.atan(tx/tz);
-                    rz = 0;
 
-                    stars[k].style[prefixJs+"Transform"] = 
-                            "translateX("+ tx +"px)" +
-                            "translateY("+ ty +"px)" +
-                            "translateZ("+ tz +"px)" +
-                            "rotateX("+ rx +"rad)" +
+                    stars[k].style[prefixJs+"Transform"] =
+                            "translate3d("+ tx * R +"px, "+ ty * R +"px, "+ tz * R +"px)" +
                             "rotateY("+ ry +"rad)" +
-                            "rotateZ("+ rz +"rad)";
+                            "rotateX("+ rx +"rad)";
 
                 }
                 //深入到下一层
                 start_tier++;
-                
+
                 fibonacciShpere();
             }
 
