@@ -70,6 +70,7 @@ define([
 
                 var rx = 0;     //X轴的旋转
                 var ry = 0;     //Y轴的旋转
+                var sz = 1;     //Z位移的符号
 
                 var a = [];
 
@@ -91,9 +92,12 @@ define([
                     ty = a[k]['y'];
                     tz = a[k]['z'];
 
-                    rx = Math.asin(ty) * -1 * tz / Math.abs(tz);
+                    sz = -1 * tz / Math.abs(tz);
+                    sz = isNaN(sz) ? 1 : sz;
+
+                    rx = Math.asin(ty) * sz;
                     ry = Math.atan(tx/tz);
-console.log(ry, rx);
+
                     stars[k].style[prefixJs+"Transform"] =
                             "translate3d("+ tx * R +"px, "+ ty * R +"px, "+ tz * R +"px)" +
                             "rotateY("+ ry +"rad)" +
