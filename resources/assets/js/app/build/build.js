@@ -91,12 +91,18 @@ define([
                     tx = a[k]['x'];
                     ty = a[k]['y'];
                     tz = a[k]['z'];
-
-                    sz = -1 * tz / Math.abs(tz);
+                    //判断元素是在z轴正方向还是负方向
+                    sz = tz / Math.abs(tz);
                     sz = isNaN(sz) ? 1 : sz;
+                    //如果是在Z轴正方向，
+                    // 则把元素沿y轴多旋转180度，是的正面朝向圆心
+                    if (sz > 0){
+                        ry = Math.atan(tx/tz) + Math.PI;
+                    }else{
+                        ry = Math.atan(tx/tz);
+                    }
 
-                    rx = Math.asin(ty) * sz;
-                    ry = Math.atan(tx/tz);
+                    rx = Math.asin(ty);
 
                     stars[k].style[prefixJs+"Transform"] =
                             "translate3d("+ tx * R +"px, "+ ty * R +"px, "+ tz * R +"px)" +

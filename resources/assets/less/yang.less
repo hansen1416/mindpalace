@@ -24,18 +24,15 @@ body{background-color: @universe; overflow: hidden;}
 }
 .trsf_style_3d{
     -webkit-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 .trsf_style_flat{
     -webkit-transform-style: flat;
-    -o-transform-style: flat;
     transform-style: flat;
 }
 .back_face{
     -webkit-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .hide {display: none;}
@@ -101,7 +98,7 @@ body{background-color: @universe; overflow: hidden;}
         
         //分类
 		.star{
-            // .back_face;
+             .back_face;
             .over-hidden;
             .abs; .in-block; .t-center;
 			top: 50%; left: 50%; padding: 0.2em; margin: -0.6em 0 0 -1.6em;
