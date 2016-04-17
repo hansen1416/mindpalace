@@ -24,7 +24,8 @@ define([
             var start_tier  = 0;
             var R           = 200;           //每层球面实际半径
             var gap         = 80;            //每一层球面的间隔
-            
+            var a           = [];
+            var pos2        = [];
 
         	(function init(){
 
@@ -71,8 +72,6 @@ define([
                 var rx = 0;     //X轴的旋转
                 var ry = 0;     //Y轴的旋转
                 var sz = 1;     //Z位移的符号
-
-                var a = [];
 
                 //当前层的半径
                 R += gap * start_tier;
