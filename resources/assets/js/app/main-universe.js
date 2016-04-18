@@ -5,7 +5,10 @@ define([
 	], function (build, trackball) {
 
     //给每一个 star 在空间中定位
-    var B = new Build();
+    var B = new Build({
+        radius: 200,
+        gap:    80,
+    });
     //给 galaxy 绑定3d旋转鼠标事件 
     var T = new Trackball({
         stage:          "stage",        //旋转对象的容器，在这里将mousedown事件绑定在了容器上

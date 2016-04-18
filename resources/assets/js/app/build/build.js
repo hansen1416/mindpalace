@@ -1,11 +1,8 @@
 define([
 		"../var/document",
 		"../var/prefixJs",
-        "../var/prefixCss",
-        "../var/trsfm",
-        "../var/getStyle",
 
-	], function(document, prefixJs, prefixCss, trsfm, getStyle){
+	], function(document, prefixJs){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -31,6 +28,14 @@ define([
         		//将设置参数传给对象
                 for(var property in confObj){
                     THIS.config[property] = confObj[property];
+                }
+
+                if(THIS.config.radius !== undefined){
+                    R = THIS.config.radius;
+                }
+
+                if(THIS.config.gap !== undefined){
+                    gap = THIS.config.gap;
                 }
 
                 //在空间中定位元素
