@@ -1,9 +1,10 @@
 define([
 		"../var/document",
-		"../var/prefixJs",
+		"../var/trsfm",
+        "../var/colorCircle",
         "./func/closestPoint",
 
-	], function(document, prefixJs, closestPoint){
+	], function(document, trsfm, colorCircle, closestPoint){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -21,8 +22,7 @@ define([
                 prevTier = 0,
                 R        = 200,           //每层球面实际半径
                 gap      = 100,            //每一层球面的间隔
-                tierPos  = [],
-                allPos   = [];
+                tierPos  = allPos = secColor = [];
 
         	(function init(){
 
@@ -62,14 +62,15 @@ define([
 
                 //如果没有下一层了，则停止
                 if (!N) {return false;}
-                //X方向的位移，Y方向的位移，Z方向的位移，X轴的旋转，Y轴的旋转
-                var tx = ty = tz = rx = ry = 0,
-                    sz = 1;     //Z位移的正负号
 
                 //当前层的半径
                 R += gap;
                 //初始化位置和旋转数组
                 tierPos = [];
+
+                //X方向的位移，Y方向的位移，Z方向的位移，X轴的旋转，Y轴的旋转，Z位移的正负号
+                var tx = ty = tz = rx = ry = sz =0;
+
                 //code from
                 //http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
                 //positioning the points by spiral Fibonacci method
@@ -107,12 +108,18 @@ define([
                     //如果不是最内层，则先把这一层所有元素的位置和旋转信息储存起来，
                     //再根据父分类的位置，计算元素所在位置，需要多一次循环
                     if (!prevTier) {
-                        stars[i].style[prefixJs+"Transform"] =
+
+                        var clr = colorCircle[i % colorCircle.length];
+
+                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz, c:clr};
+
+                        stars[i].style[trsfm] =
                             "translate3d("+ tx +"px, "+ ty +"px, "+ tz +"px)" +
                             "rotateY("+ ry +"rad)" +
                             "rotateX("+ rx +"rad)";
 
-                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz};
+                        stars[i].style['backgroundColor'] = clr;
+
                     }else{
                         tierPos[i] = {tx:tx, ty:ty, tz:tz, ry:ry, rx:rx};
                     }
@@ -123,14 +130,17 @@ define([
                 if (prevTier) {
                     for (var i = 0; i < N; i++) {
 
-                        var k = closestPoint(allPos[stars[i].dataset.pid], tierPos);
+                        var p = allPos[stars[i].dataset.pid],
+                            k = closestPoint(p, tierPos);
 
-                        stars[i].style[prefixJs+"Transform"] =
+                        stars[i].style[trsfm] =
                             "translate3d("+ tierPos[k]['tx'] +"px, "+ tierPos[k]['ty'] +"px, "+ tierPos[k]['tz'] +"px)" +
                             "rotateY("+ tierPos[k]['ry'] +"rad)" +
                             "rotateX("+ tierPos[k]['rx'] +"rad)";
 
-                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz};
+                        stars[i].style['backgroundColor'] = p.c;
+
+                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz, c:p.c};
 
                         tierPos.splice(k, 1);
                     }
