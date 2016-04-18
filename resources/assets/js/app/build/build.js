@@ -1,8 +1,9 @@
 define([
 		"../var/document",
 		"../var/prefixJs",
+        "./func/closestPoint",
 
-	], function(document, prefixJs){
+	], function(document, prefixJs, closestPoint){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -15,13 +16,13 @@ define([
 
         Build.prototype.setup = function(confObj){
 
-            var THIS       = this;
-            var stage      = document.getElementById('stage');
-            var start_tier = 0;
-            var R          = 200;           //每层球面实际半径
-            var gap        = 80;            //每一层球面的间隔
-            var pos1       = [];
-            var pos2       = [];
+            var THIS     = this,
+                stage    = document.getElementById('stage'),
+                prevTier = 0,
+                R        = 200,           //每层球面实际半径
+                gap      = 100,            //每一层球面的间隔
+                tierPos  = [],
+                allPos   = [];
 
         	(function init(){
 
@@ -41,6 +42,7 @@ define([
                 //在空间中定位元素
                 fibonacciShpere();
 
+                tierPos = allPos = null;
         	})();
 
             /**
@@ -55,34 +57,30 @@ define([
              */
             function fibonacciShpere() {
 
-                var stars = stage.querySelectorAll('.tier-' + start_tier);
+                var stars = stage.querySelectorAll('.tier-' + prevTier);
                 var N     = stars.length;
 
                 //如果没有下一层了，则停止
                 if (!N) {return false;}
-
-                var tx = 0;     //X方向的位移
-                var ty = 0;     //Y方向的位移
-                var tz = 0;     //Z方向的位移
-
-                var rx = 0;     //X轴的旋转
-                var ry = 0;     //Y轴的旋转
-                var sz = 1;     //Z位移的符号
+                //X方向的位移，Y方向的位移，Z方向的位移，X轴的旋转，Y轴的旋转
+                var tx = ty = tz = rx = ry = 0,
+                    sz = 1;     //Z位移的正负号
 
                 //当前层的半径
-                R += gap * start_tier;
-                pos1 = [];
+                R += gap;
+                //初始化位置和旋转数组
+                tierPos = [];
                 //code from
                 //http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
                 //positioning the points by spiral Fibonacci method
                 /* ~2.39996323 */
-                var dlong = Math.PI * (3 - Math.sqrt(5));
-                var dz    = 2.0 / N;
-                var long  = 0;
-                var z     = 1 - dz / 2;
-                var r     = 0;
+                var dlong = Math.PI * (3 - Math.sqrt(5)),
+                    dz    = 2.0 / N,
+                    long  = 0,
+                    z     = 1 - dz / 2,
+                    r     = 0;
 
-                for (var k = 0; k < N; k++){
+                for (var i = 0; i < N; i++) {
 
                     r    = Math.sqrt(1 - z * z);
                     tx   = Math.cos(long) * r * R;
@@ -91,7 +89,7 @@ define([
                     z    = z - dz;
                     long = long + dlong;
                     //如果不是 DOM 对象，则跳出当前 for 循环
-                    if (typeof stars[k] !== 'object') {break;}
+                    if (typeof stars[i] !== 'object') {break;}
 
                     //判断元素是在z轴正方向还是负方向
                     sz = tz / Math.abs(tz);
@@ -105,35 +103,44 @@ define([
                     }
 
                     rx = Math.asin(ty/R);
-
-                    if (!start_tier) {
-                        stars[k].style[prefixJs+"Transform"] =
+                    //如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置
+                    //如果不是最内层，则先把这一层所有元素的位置和旋转信息储存起来，
+                    //再根据父分类的位置，计算元素所在位置，需要多一次循环
+                    if (!prevTier) {
+                        stars[i].style[prefixJs+"Transform"] =
                             "translate3d("+ tx +"px, "+ ty +"px, "+ tz +"px)" +
                             "rotateY("+ ry +"rad)" +
                             "rotateX("+ rx +"rad)";
 
-                        pos2[stars[k].dataset.id] = {tx:tx, ty:ty, tz:tz, ry:ry, rx:rx};
+                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz};
                     }else{
-                        pos1[k] = {tx:tx, ty:ty, tz:tz, ry:ry, rx:rx};
+                        tierPos[i] = {tx:tx, ty:ty, tz:tz, ry:ry, rx:rx};
                     }
 
                 }
-
-                if (start_tier) {
+                //对于非最内层，先获取元素父级分类的位置，
+                //然后选出当前层中离父级位置最近的位置，给本层元素定位和旋转
+                if (prevTier) {
                     for (var i = 0; i < N; i++) {
+
+                        var k = closestPoint(allPos[stars[i].dataset.pid], tierPos);
+
                         stars[i].style[prefixJs+"Transform"] =
-                            "translate3d("+ pos1[i]['tx'] +"px, "+ pos1[i]['ty'] +"px, "+ pos1[i]['tz'] +"px)" +
-                            "rotateY("+ pos1[i]['ry'] +"rad)" +
-                            "rotateX("+ pos1[i]['rx'] +"rad)";
+                            "translate3d("+ tierPos[k]['tx'] +"px, "+ tierPos[k]['ty'] +"px, "+ tierPos[k]['tz'] +"px)" +
+                            "rotateY("+ tierPos[k]['ry'] +"rad)" +
+                            "rotateX("+ tierPos[k]['rx'] +"rad)";
+
+                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz};
+
+                        tierPos.splice(k, 1);
                     }
                 }
 
                 //深入到下一层
-                start_tier++;
+                prevTier++;
 
                 fibonacciShpere();
             }
-
 
 
         }
