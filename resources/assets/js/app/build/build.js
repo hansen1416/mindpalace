@@ -9,7 +9,6 @@ define([
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
 	     */
-
 	    var Build = function(confObj){
             this.config = {};
             this.setup(confObj);
@@ -23,9 +22,9 @@ define([
                 R        = 200,         //每层球面实际半径
                 gap      = 100,         //每一层球面的间隔
                 N        = 0,           //每一层球面上均匀分布的点的数量，不小于该层的元素数量
-                allPos   = [],
-                tierPos  = [],
-                savedPos = [];
+                allPos   = [],          //记录每一个 id 对应的空间位置的数据
+                tierPos  = [],          //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
+                savedPos = [];          //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
 
         	(function init(){
 
@@ -69,16 +68,16 @@ define([
                  */
                 N = prevTier ? maxPoint(stars, N) : stars.length;
 
-                console.log(N, stars.length);
                 //当前层的半径
                 R += gap;
 
-                if (N == savedPos.length) {
-                    tierPos = savedPos;
-                }else {
-
-                    tierPos = savedPos = fibonacciShpere(N, R);
-                }
+                /**
+                 * 如果计算出的球面的点的数量 N 等于当前储存的 savedPos
+                 * 那么就直接将 savedPos 赋值给 tierPos
+                 * 否则通过 fibonacciShpere 计算出球面点的位置和旋转角度
+                 * 并将返回值赋值给 savedPos 和 tierPos
+                 */
+                tierPos = (N == savedPos.length) ? savedPos : savedPos = fibonacciShpere(N, R);
 
                 /**
                  * 如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置
@@ -93,49 +92,39 @@ define([
                         continue;
                     }
 
-                    var tx = ty = tz = ry = rx = 0;
-
+                    var pos = {},
+                        clr = '';
+                    /**
+                     * 外层球面通过父级分类的位置和当前球面的位置数组 tierPos，
+                     * 计算出应当取哪一个当前点，取到此点之后即将此点从 tierPos 中删除，
+                     * 如果是最内层，因为 N == stars.length，依序取 tierPos 中的点即可
+                     */
                     if (prevTier) {
 
-                        var p = allPos[stars[i].dataset.pid],
-                            k = closestPoint(p, tierPos);
+                        var p   = allPos[stars[i].dataset.pid],
+                            k   = closestPoint(p, tierPos);
 
-                            tx = tierPos[k]['tx'];
-                            ty = tierPos[k]['ty'];
-                            tz = tierPos[k]['tz'];
-                            ry = tierPos[k]['ry'];
-                            rx = tierPos[k]['rx'];
-                        
-                        stars[i].style[trsfm] =
-                            "translate3d("+ tierPos[k]['tx'] +"px, "+ tierPos[k]['ty'] +"px, "+ tierPos[k]['tz'] +"px)" +
-                            "rotateY("+ tierPos[k]['ry'] +"rad)" +
-                            "rotateX("+ tierPos[k]['rx'] +"rad)";
-
-                        stars[i].style['backgroundColor'] = p.c;
-
-                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz, c:p.c};
+                        pos = tierPos[k];
+                        clr = p.c;
 
                         tierPos.splice(k, 1);
 
                     }else{
 
-                        var clr = colorCircle[i % colorCircle.length];
-                            tx  = tierPos[i]['tx'];
-                            ty  = tierPos[i]['ty'];
-                            tz  = tierPos[i]['tz'];
-                            ry  = tierPos[i]['ry'];
-                            rx  = tierPos[i]['rx'];
-
-                        allPos[stars[i].dataset.id] = {x:tx, y:ty, z:tz, c:clr};
-
-                        stars[i].style[trsfm] =
-                            "translate3d(" + tx + "px, " + ty + "px, " + tz + "px)" +
-                            "rotateY(" + ry + "rad)" +
-                            "rotateX(" + rx + "rad)";
-
-                        stars[i].style['backgroundColor'] = clr;
-
+                        pos = tierPos[i];
+                        clr = colorCircle[i % colorCircle.length];
                     }
+
+                    stars[i].style[trsfm] =
+                        "translate3d("+ pos.tx +"px, "+ pos.ty +"px, "+ pos.tz +"px)" +
+                        "rotateY("+ pos.ry +"rad)" +
+                        "rotateX("+ pos.rx +"rad)";
+
+                    stars[i].style['backgroundColor'] = clr;
+
+                    //记录每一个id对应的位置，他的子集分类依据此点计算空间中的位置
+                    allPos[stars[i].dataset.id] = {x:pos.tx, y:pos.ty, z:pos.tz, c:clr};
+
                 }
 
                 //深入到下一层
@@ -145,8 +134,8 @@ define([
             }
 
             /**
-             * 则先算出该层的上一层的分类数，记为 elders，再计算哪个父分类中的子分类最多，记为 sons，
-             * 然后取 elders*sons，arr.length，n 中的最大者，作为该层球面包含的点的数量
+             * 则先算出该层的上一层的分类数，记为 f，再计算哪个父分类中的子分类最多，记为 s，
+             * 然后取 f*s，arr.length，n 中的最大者，作为该层球面包含的点的数量
              * @param arr
              * @param n
              * @returns {number}
@@ -169,7 +158,6 @@ define([
                     var pid = arr[i].dataset.pid;
 
                     if (keys[pid] === undefined) {
-
                         j++;
                         keys[pid] = true;
                         values[j] = 1;
@@ -180,30 +168,36 @@ define([
                 }
 
                 var f = values.length,
-                    m = Math.max(...values);
+                    s = Math.max(...values);
 
-                return Math.max(f * m, arr.length, n);
+                return Math.max(f * s, arr.length, n);
             }
 
-            //code from
-            //http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
-            //positioning the points by spiral Fibonacci method
-            function fibonacciShpere(N, R) {
+            /**
+             * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
+             * positioning the points by spiral Fibonacci method
+             * 在球面做一条螺旋线，依照螺旋线按照黄金分割取点，获取近似的球面均匀分布的点位
+             * @param num 点的总数
+             * @param radius 球面半径
+             * @returns {Array}
+             */
+            function fibonacciShpere(num, radius) {
+
                 var dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
-                    dz    = 2.0 / N,
+                    dz    = 2.0 / num,
                     long  = 0,
                     z     = 1 - dz / 2,
-                    r     = 0;
-                //X方向的位移，Y方向的位移，Z方向的位移，X轴的旋转，Y轴的旋转，Z位移的正负号
-                var tx = ty = tz = rx = ry = sz = 0,
-                    arr = [];
+                    r     = 0,
+                    arr   = [],
+                    //X方向的位移，Y方向的位移，Z方向的位移，X轴的旋转，Y轴的旋转，Z位移的正负号
+                    tx = ty = tz = rx = ry = sz = 0;
 
-                for (var i = 0; i < N; i++) {
+                for (var i = 0; i < num; i++) {
 
                     r    = Math.sqrt(1 - z * z);
-                    tx   = Math.cos(long) * r * R;
-                    ty   = Math.sin(long) * r * R;
-                    tz   = z * R;
+                    tx   = Math.cos(long) * r * radius;
+                    ty   = Math.sin(long) * r * radius;
+                    tz   = z * radius;
                     z    = z - dz;
                     long = long + dlong;
 
@@ -218,7 +212,7 @@ define([
                         ry = Math.atan(tx / tz);
                     }
 
-                    rx = Math.asin(ty / R);
+                    rx = Math.asin(ty / radius);
 
                     arr[i] = {tx: tx, ty: ty, tz: tz, ry: ry, rx: rx};
 
@@ -226,6 +220,7 @@ define([
 
                 return arr;
             }
+
 
         }
 
