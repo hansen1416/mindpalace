@@ -10,16 +10,16 @@ define(function() {
 
         for (var i = 0; i < posArray.length; i++) {
 
-            x = posArray['tx'] - parentPos['x'];
-            y = posArray['ty'] - parentPos['y'];
-            z = posArray['tz'] - parentPos['z'];
+            x = posArray[i]['tx'] - parentPos['x'];
+            y = posArray[i]['ty'] - parentPos['y'];
+            z = posArray[i]['tz'] - parentPos['z'];
 
             d = Math.sqrt(x*x + y*y + z*z);
             //如果还没有最小距离，则把当前点计算出的最小距离和数组中的键名记录下来
             if (dis === null) {
                 dis = d;
                 k   = i;
-                break;
+                continue;
             }
             //如果当前计算出的空间亮点距离小于之前的最小距离
             //则记录当前的最小距离和数组中的键名
@@ -29,7 +29,7 @@ define(function() {
             }
 
         }
-
+        
         return k;
     }
 
