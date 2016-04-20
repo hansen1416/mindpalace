@@ -2,10 +2,11 @@ define([
 		"../var/document",
 		"../var/trsfm",
         "../var/colorCircle",
+        "../var/bindEvent",
         "./func/configVar",
         "./func/closestPoint",
 
-	], function(document, trsfm, colorCircle, configVar, closestPoint){
+	], function(document, trsfm, colorCircle, bindEvent, configVar, closestPoint){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -224,6 +225,21 @@ define([
                 return arr;
             }
 
+
+        };
+
+
+        Build.conning = function(confObj) {
+
+            var con = document.getElementById('conning');
+            bindEvent(con, {event: 'mousedown', callback: zoom});
+
+            function zoom(e) {
+                e.preventDefault();
+                var galaxy = document.getElementById('galaxy');
+
+                console.log(galaxy);
+            }
 
         };
 
