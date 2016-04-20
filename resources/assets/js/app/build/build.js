@@ -2,9 +2,10 @@ define([
 		"../var/document",
 		"../var/trsfm",
         "../var/colorCircle",
+        "./func/configVar",
         "./func/closestPoint",
 
-	], function(document, trsfm, colorCircle, closestPoint){
+	], function(document, trsfm, colorCircle, configVar, closestPoint){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -21,6 +22,7 @@ define([
                 prevTier = 0,
                 R        = 200,         //每层球面实际半径
                 gap      = 100,         //每一层球面的间隔
+                unit     = 'px',        //距离单位，px、em、vw、vh
                 N        = 0,           //每一层球面上均匀分布的点的数量，不小于该层的元素数量
                 allPos   = [],          //记录每一个 id 对应的空间位置的数据
                 tierPos  = [],          //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
@@ -33,18 +35,14 @@ define([
                     THIS.config[property] = confObj[property];
                 }
 
-                if(THIS.config.radius !== undefined){
-                    R = THIS.config.radius;
-                }
-
-                if(THIS.config.gap !== undefined){
-                    gap = THIS.config.gap;
-                }
+                R   = configVar(R, THIS.config.radius);
+                gap = configVar(gap, THIS.config.gap);
 
                 //在空间中定位元素
                 diffuse();
 
                 tierPos = allPos = savedPos = null;
+
         	})();
 
             /**
@@ -101,8 +99,8 @@ define([
                      */
                     if (prevTier) {
 
-                        var p   = allPos[stars[i].dataset.pid],
-                            k   = closestPoint(p, tierPos);
+                        var p = allPos[stars[i].dataset.pid],
+                            k = closestPoint(p, tierPos);
 
                         pos = tierPos[k];
                         clr = p.c;
@@ -116,7 +114,7 @@ define([
                     }
 
                     stars[i].style[trsfm] =
-                        "translate3d("+ pos.tx +"px, "+ pos.ty +"px, "+ pos.tz +"px)" +
+                        "translate3d("+ pos.tx + unit +", "+ pos.ty + unit +", "+ pos.tz + unit +")" +
                         "rotateY("+ pos.ry +"rad)" +
                         "rotateX("+ pos.rx +"rad)";
 
@@ -226,7 +224,7 @@ define([
             }
 
 
-        }
+        };
 
         window.Build = Build;
 
