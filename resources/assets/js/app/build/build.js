@@ -3,10 +3,11 @@ define([
 		"../var/trsfm",
         "../var/colorCircle",
         "../var/bindEvent",
+        "../var/unbindEvents",
         "./func/configVar",
         "./func/closestPoint",
 
-	], function(document, trsfm, colorCircle, bindEvent, configVar, closestPoint){
+	], function(document, trsfm, colorCircle, bindEvent, unbindEvents, configVar, closestPoint){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -47,7 +48,7 @@ define([
 
                     tierPos = allPos = savedPos = null;
 
-                    console.log(R);
+                    THIS.R = R;
                 })();
 
                 /**
@@ -237,16 +238,18 @@ define([
 
                 var con = document.getElementById('conning');
 
-                console.log(this);
+                bindEvent(document, {event: 'wheel', callback: callback});
 
-                //bindEvent(con, {event: 'mousedown', callback: zoom});
+                function callback(e) {
+                    e.preventDefault();
 
-                //function zoom(e) {
-                //    e.preventDefault();
-                //    var galaxy = document.getElementById('galaxy');
-                //
-                //    console.log(galaxy);
-                //}
+                    var stars = document.getElementsByClassName('star');
+
+                    for (var i = 0; i < stars.length; i++) {
+                        var t = stars[i].style[trsfm];
+                        stars[i].style[trsfm] = t + 'translateZ(10px)';
+                    }
+                }
 
             },
 

@@ -46,12 +46,13 @@ body{background-color: @universe; overflow: hidden;}
 //舞台，等于窗口大小的元素
 #stage{
 	.perspective; .pers_origin; .trsf_origin; .abs;
-	width: 100vw; height: 100vw; perspective:700px; top: 50%; margin: -50vw 0 0 0;
+	width: 100vw; height: 100vw; top: 50%; margin: -50vw 0 0 0;
     &:hover{cursor: pointer;}
+
     //银河开始
 	#galaxy{
-		.trsf_style_3d;
-		position: absolute; width: 100px; height: 100px; top: 50%; left: 50%;
+		.trsf_style_3d; .abs;
+		width: 100px; height: 100px; top: 50%; left: 50%;
         margin: -50px 0 0 -50px; color: #fff;
 
         //坐标系开始

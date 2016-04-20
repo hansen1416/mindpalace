@@ -3,6 +3,7 @@
 @section('content')
 
 <div id="stage">
+
     <div id="galaxy">
 
     <div class="axis x"><span class="d x">x</span></div>
@@ -14,6 +15,7 @@
     <!-- .star.tier-0{$$$}*200 -->
 
     </div>
+
 </div>
 
 <div id="conning">
