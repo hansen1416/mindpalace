@@ -1,7 +1,7 @@
-/**
- * params: {event: 'event', callback: eventCallback}
- */
 define(function(){
+	/**
+	 * params: {event: 'event', callback: eventCallback}
+	 */
 	return function bindEvent(obj, params, propa){
 		if ( typeof obj._eventListeners == 'undefined' ) {
 			obj._eventListeners = [];

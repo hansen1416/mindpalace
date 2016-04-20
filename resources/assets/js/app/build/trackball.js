@@ -56,7 +56,8 @@ define([
                 lambda          = 0,                        //阻力系数，越大阻力越大，默认0.01
                 rs              = null,                     //requestAnimationFrame slide
                 rd              = null,                     //requestAnimationFrame deceleration
-                rsf             = false;                    //slide 的标示
+                rsf             = false,                    //slide 的标示
+                originTransform;
 
             //闭包函数，做初始化魔方之用--------------------------------------------------------开始
             (function init(){
@@ -127,7 +128,7 @@ define([
             //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------开始
             // 旋转开始阶段，计算出鼠标点击时刻的坐标，并由此计算出点击时的空间三维向量，初始化时间和角度，在目标元素上移除事件，在document上绑定事件
             function rotateStart(e){
-                if (resetMotion && omega !== 0) {stopMotion()};    //如果之前的惯性没有耗尽，停止运动
+                if (resetMotion && omega !== 0) {stopMotion()}    //如果之前的惯性没有耗尽，停止运动
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 e.preventDefault();
                 mouseDownVector = calcZ(touchPos(e), pos, radius);
@@ -166,13 +167,13 @@ define([
             }
 
             /**
-             * [rotateFinish 旋转结束，移除document上的两个绑定事件mousemove & mouseup，重新给目标元素绑定事件mousedown，计算初始矩阵，取消动画]
-             * @param  {[type]} e [event]
-             * @return {[type]}   [description]
+             * rotateFinish 旋转结束，移除document上的两个绑定事件mousemove & mouseup，重新给目标元素绑定事件mousedown，计算初始矩阵，取消动画
+             * @param  e object
              */
             function rotateFinish(e){
+                e.preventDefault();
                 // 当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
-                if(axis.length == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){
+                if(axis == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){
                     unbindEvents(document);
                     bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
                     return false;
@@ -212,8 +213,8 @@ define([
             }
 
             /**
-             * [angularDeceleration 计算鼠标抬起后的单位角速度]
-             * @return {[number]} [omega]
+             * angularDeceleration 计算鼠标抬起后的单位角速度
+             * @return number omega
              */
             function angularDeceleration(){
                 var da = angle - oldAngle,      //鼠标点下到放开转动的角度
@@ -230,8 +231,7 @@ define([
             }
 
             /**
-             * [deceleration 计算鼠标抬起后的角减速运动]
-             * @return {[type]} [description]
+             * deceleration 计算鼠标抬起后的角减速运动
              */
             function deceleration(){
                 angle += omega;
@@ -249,8 +249,7 @@ define([
             }
 
             /**
-             * [stopMotion 运动停止后的一系列动作,获得开始矩阵，并且将角度和omega设为0]
-             * @return {[type]} [description]
+             * stopMotion 运动停止后的一系列动作,获得开始矩阵，并且将角度和omega设为0
              */
             function stopMotion(){
                 //将 slide 标示置为 true，表示取消 slide animation
@@ -269,7 +268,7 @@ define([
             //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------结束
             
             //Trackball.setup end
-        }
+        };
         //给 window 对象添加子类，之后可直接调用
         window.Trackball = Trackball;
                 

@@ -6,9 +6,8 @@ define(function() {
      * @return {[type]}        [description]
      */
 	return function (matrix){
-        var arr = [];
 
-        arr     = matrix.split(",");
+        var arr = matrix.split(",");
         arr[0]  = arr[0].replace(/(matrix3d\()/g, "");
         arr[15] = arr[15].replace(/\)/g, "");
 

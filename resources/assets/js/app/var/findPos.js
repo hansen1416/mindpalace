@@ -1,6 +1,6 @@
 define(function() {
-
-	return function (obj){ //findPos-script by www.quirksmode.org
+    //findPos-script by www.quirksmode.org
+	return function (obj){
         var curleft = 0,
             curtop  = 0;
     

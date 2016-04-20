@@ -6,7 +6,11 @@ define(function() {
      */
     return function (parentPos, posArray) {
         var dis = null,
-            d = k = x = y = z = 0;
+            d   = 0,
+            k   = 0,
+            x   = 0,
+            y   = 0,
+            z   = 0;
 
         for (var i = 0; i < posArray.length; i++) {
 

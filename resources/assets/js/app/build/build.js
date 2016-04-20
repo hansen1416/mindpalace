@@ -106,7 +106,7 @@ define([
 
                         pos = tierPos[k];
                         clr = p.c;
-
+                        //取过的点即删去
                         tierPos.splice(k, 1);
 
                     }else{
@@ -189,8 +189,12 @@ define([
                     z     = 1 - dz / 2,
                     r     = 0,
                     arr   = [],
-                    //X方向的位移，Y方向的位移，Z方向的位移，X轴的旋转，Y轴的旋转，Z位移的正负号
-                    tx = ty = tz = rx = ry = sz = 0;
+                    tx    = 0,          //X方向的位移
+                    ty    = 0,          //Y方向的位移
+                    tz    = 0,          //Z方向的位移
+                    rx    = 0,          //X轴的旋转
+                    ry    = 0,          //Y轴的旋转
+                    sz    = 0;          //Z位移的正负号
 
                 for (var i = 0; i < num; i++) {
 

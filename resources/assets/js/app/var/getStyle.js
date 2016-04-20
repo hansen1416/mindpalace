@@ -1,6 +1,6 @@
 define(function() {
-
-	return function (target, prop){ //get element style
+    //get element style
+	return function (target, prop){
         return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
     }
 
