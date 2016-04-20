@@ -47,7 +47,7 @@ body{background-color: @universe; overflow: hidden;}
 #stage{
 	.perspective; .pers_origin; .trsf_origin; .abs;
 	width: 100vw; height: 100vw; perspective:700px; top: 50%; margin: -50vw 0 0 0;
-    &:hover{cursor: move;}
+    &:hover{cursor: pointer;}
     //银河开始
 	#galaxy{
 		.trsf_style_3d;
@@ -81,9 +81,7 @@ body{background-color: @universe; overflow: hidden;}
         
         //分类
 		.star{
-             .back_face;
-            .over-hidden;
-            .abs; .in-block; .t-center;
+            .back_face; .over-hidden; .abs; .in-block; .t-center;
 			top: 50%; left: 50%; padding: 0.2em; margin: -0.6em 0 0 -1.6em;
             height: 1em; line-height: 1em; width: 3em; text-overflow:ellipsis; white-space:nowrap;
             background-color: fade(lighten(@universe, 50%), 50%);
@@ -97,6 +95,8 @@ body{background-color: @universe; overflow: hidden;}
 //操控器开始
 #conning{
   .abs;
-  top: 50%; left: 50%; width: 100px; height:100px; margin: -50px 0 0 -50px; background-color: #fff;
+  top: 50%; left: 50%; width: 100px; height:100px; margin: -50px 0 0 -50px;
+  background-color: rgba(255,255,255,0.5); border-radius: 50%;
+  &:hover{cursor: move;}
 }
 //操控器结束

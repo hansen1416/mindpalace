@@ -7,8 +7,9 @@ define([
 
     //给每一个 star 在空间中定位
     var B = new Build({
-        radius: 200,
-        gap:    80,
+        radius: 8,
+        gap:    7,
+        unit:   'vw',
     });
     //给 galaxy 绑定3d旋转鼠标事件 
     var T = new Trackball({

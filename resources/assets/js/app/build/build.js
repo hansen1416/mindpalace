@@ -35,8 +35,9 @@ define([
                     THIS.config[property] = confObj[property];
                 }
 
-                R   = configVar(R, THIS.config.radius);
-                gap = configVar(gap, THIS.config.gap);
+                R    = configVar(R, THIS.config.radius);
+                gap  = configVar(gap, THIS.config.gap);
+                unit = configVar(unit, THIS.config.unit);
 
                 //在空间中定位元素
                 diffuse();
