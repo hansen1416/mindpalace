@@ -10,6 +10,7 @@ define([
         "../var/unbindEvents",
         "../var/requestAnim",
         "../var/cancelAnim",
+        "./func/configVar",
         "./func/multiplyMatrix3d",
         "./func/calcAngle",
         "./func/calcZ",
@@ -17,7 +18,7 @@ define([
         "./func/crossVector",
         "./func/rotateMatrix",
         
-    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, configVar, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
 
         var Trackball = function(confObj){
             this.config = {};
@@ -52,8 +53,8 @@ define([
                 startMatrix     = new Float32Array(16),     //starting matrix of every action
                 omega           = 0,                        //单位角速度
                 resetMotion     = true,                     //当鼠标点击目标元素时，是否停止当前运动
-                omegaCap        = 0,                        //单位角速度的cap,必须是大于0的数，默认为0.5
-                lambda          = 0,                        //阻力系数，越大阻力越大，默认0.01
+                omegaCap        = 0.5,                      //单位角速度的cap,必须是大于0的数，默认为0.5
+                lambda          = 0.01,                     //阻力系数，越大阻力越大，默认0.01
                 rs              = null,                     //requestAnimationFrame slide
                 rd              = null,                     //requestAnimationFrame deceleration
                 rsf             = false,                    //slide 的标示
@@ -66,43 +67,31 @@ define([
                     THIS.config[property] = confObj[property];
                 }
 
-                THIS.stage = document.getElementById(THIS.config.stage) || document.getElementsByTagName('body')[0];
+                THIS.stage = THIS.config.stage || document.getElementsByTagName('body')[0];
 
-                if(THIS.config.obj != undefined){
-                    THIS.obj = document.getElementById(THIS.config.obj[0]);
-                    if(THIS.obj === null){
-                        // 没有找到相应ID的元素
-                        console.info('obj not found');
-                        return false;
-                    }
-                }else{
-                    // 未定义3D变换的元素
-                    console.info('no obj config');
+                THIS.obj = THIS.config.obj;
+
+                if(!THIS.obj || typeof THIS.obj !== 'object'){
+                    //没有找到相应的元素
+                    console.error('rotating object not found');
                     return false;
                 }
 
-                if(THIS.config.impulse !== undefined){
-                    impulse = THIS.config.impulse;
-                }
+                impulse     = configVar(impulse, THIS.config.impulse);
+                resetMotion = configVar(resetMotion, THIS.config.resetMotion);
+                omegaCap    = configVar(omegaCap, THIS.config.omegaCap);
+                lambda      = configVar(lambda, THIS.config.lambda);
 
-                if(THIS.config.resetMotion !== undefined){
-                    resetMotion = THIS.config.resetMotion;
-                }
-
-                //undefined is NaN
-                omegaCap = isNaN(parseFloat(THIS.config.omegaCap)) ? 0.5 : parseFloat(THIS.config.omegaCap);
-                lambda   = isNaN(parseFloat(THIS.config.lambda)) ? 0.01 : parseFloat(THIS.config.lambda);
-
-                // 旋转空间的top、left
+                //旋转空间的top、left
                 pos = findPos(THIS.stage);
 
                 stagew = THIS.stage.offsetWidth / 2;
                 stageh = THIS.stage.offsetHeight / 2;
 
-                // 取空间的宽高中大的一个作为trackball半径
+                //取空间的宽高中大的一个作为trackball半径
                 radius = stagew < stageh ? stageh : stagew;
 
-                // 元素最初设置的transform值
+                //元素最初设置的transform值
                 originTransform = getStyle(THIS.obj, prefixCss + "transform");
             
                 if(originTransform == "none"){
@@ -111,7 +100,7 @@ define([
                     startMatrix[10] = 1;
                     startMatrix[15] = 1;
                 }else{
-                    // 将字符串处理成数组
+                    //将字符串处理成数组
                     startMatrix     = originTransform.split(",");
                     
                     startMatrix[0]  = startMatrix[0].replace(/(matrix3d\()/g, "");
@@ -119,24 +108,24 @@ define([
                     
                     startMatrix     = new Float32Array(startMatrix);
                 }
-                // 目标元素绑定mousedown事件
+                //目标元素绑定mousedown事件
                 bindEvent(THIS.stage, {event: "mousedown", callback: rotateStart});
 
             })();
             //闭包函数，做初始化魔方之用--------------------------------------------------------结束
 
             //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------开始
-            // 旋转开始阶段，计算出鼠标点击时刻的坐标，并由此计算出点击时的空间三维向量，初始化时间和角度，在目标元素上移除事件，在document上绑定事件
+            //旋转开始阶段，计算出鼠标点击时刻的坐标，并由此计算出点击时的空间三维向量，初始化时间和角度，在目标元素上移除事件，在document上绑定事件
             function rotateStart(e){
                 if (resetMotion && omega !== 0) {stopMotion()}    //如果之前的惯性没有耗尽，停止运动
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 e.preventDefault();
                 mouseDownVector = calcZ(touchPos(e), pos, radius);
-                // 获得当前已旋转的角度
+                //获得当前已旋转的角度
                 oldAngle = angle;
                 
                 oldTime  = new Date().getTime();
-                // 绑定三个事件
+                //绑定三个事件
                 unbindEvents(THIS.stage);
                 bindEvent(document, {event:"mousemove", callback:rotate});
                 bindEvent(document, {event:"mouseup", callback:rotateFinish});
@@ -147,7 +136,7 @@ define([
             function rotate(e){
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 e.preventDefault();
-                // 计算鼠标经过轨迹的空间坐标
+                //计算鼠标经过轨迹的空间坐标
                 mouseMoveVector = calcZ(touchPos(e), pos, radius);
 
                 //当mouseMoveVector == mouseDownVector时（点击事件，有时候不是点击事件也会出现这种情况，有待进一步调查），向量单位化会出现分母为0的状况，这样便可以避免出现axis里面有NaN的情况，解决了卡死问题。
@@ -172,7 +161,7 @@ define([
              */
             function rotateFinish(e){
                 e.preventDefault();
-                // 当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
+                //当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
                 if(axis == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){
                     unbindEvents(document);
                     bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
@@ -200,7 +189,7 @@ define([
                 // }
             }
 
-            // 使用动画
+            //使用动画
             function slide(){
 
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+startMatrix+")";
@@ -222,7 +211,7 @@ define([
                     
                 omega = Math.abs(da*(1000/60)/dt);  //算出单位单位角速度，参数1000/60
            
-                // 若设置了最大单位角速度，则单位角速度不得超过
+                //若设置了最大单位角速度，则单位角速度不得超过
                 if(isNaN(omega)){
                     omega = 0;
                 }else if(omegaCap > 0 && omega > omegaCap){
@@ -255,7 +244,7 @@ define([
                 //将 slide 标示置为 true，表示取消 slide animation
                 rsf = true;
 
-                // 获得运动停止时的矩阵，并且赋值给startMatrix
+                //获得运动停止时的矩阵，并且赋值给startMatrix
                 var stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
                 startMatrix = multiplyMatrix3d(startMatrix, stopMatrix);
         
