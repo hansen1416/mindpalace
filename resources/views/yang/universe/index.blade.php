@@ -1,16 +1,22 @@
 @extends('yang.universe.layouts')
 
 @section('content')
-<div id="galaxy">
 
-<div class="axis x"><span class="d x">x</span></div>
-<div class="axis y"><span class="d y">y</span></div>
-<div class="axis z"><span class="d z">z</span></div>
+<div id="stage">
+    <div id="galaxy">
 
-{!!$html!!}
+    <div class="axis x"><span class="d x">x</span></div>
+    <div class="axis y"><span class="d y">y</span></div>
+    <div class="axis z"><span class="d z">z</span></div>
 
-<!-- .star.tier-0{$$$}*200 -->
+    {!!$html!!}
 
+    <!-- .star.tier-0{$$$}*200 -->
+
+    </div>
+</div>
+
+<div id="conning">
 
 </div>
 

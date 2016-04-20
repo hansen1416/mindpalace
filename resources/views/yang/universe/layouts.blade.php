@@ -20,8 +20,8 @@
 
 </head>
 <body>
-	<div id="stage">
+
 	@yield('content')
-	</div>
+
 </body>
 </html>
