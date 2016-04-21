@@ -18,4 +18,4 @@ define(function() {
         return arr;
     }
 
-} );
+});

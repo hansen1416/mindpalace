@@ -6,8 +6,10 @@ define([
         "../var/unbindEvents",
         "./func/configVar",
         "./func/closestPoint",
+        "./func/maxPoint",
+        "./func/fibonacciShpere",
 
-	], function(document, trsfm, colorCircle, bindEvent, unbindEvents, configVar, closestPoint){
+	], function(document, trsfm, colorCircle, bindEvent, unbindEvents, configVar, closestPoint, maxPoint, fibonacciShpere){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -137,98 +139,6 @@ define([
                     prevTier++;
 
                     diffuse();
-                }
-
-                /**
-                 * 则先算出该层的上一层的分类数，记为 f，再计算哪个父分类中的子分类最多，记为 s，
-                 * 然后取 f*s，arr.length，n 中的最大者，作为该层球面包含的点的数量
-                 * @param arr
-                 * @param n
-                 * @returns {number}
-                 */
-                function maxPoint(arr, n) {
-                    /**
-                     * keys 储存父级分类的 id
-                     * values 储存每一个父级分类包含的子分类的个数
-                     * j 表示 values 的键名
-                     */
-                    var keys   = [],
-                        values = [],
-                        j      = -1;
-
-                    for (var i = 0; i < arr.length; i++) {
-
-                        if (!(arr[i] instanceof Object)) {
-                            continue;
-                        }
-                        var pid = arr[i].dataset.pid;
-
-                        if (keys[pid] === undefined) {
-                            j++;
-                            keys[pid] = true;
-                            values[j] = 1;
-                        } else {
-                            values[j]++;
-                        }
-
-                    }
-
-                    var f = values.length,
-                        s = Math.max(...values);
-
-                    return Math.max(f * s, arr.length, n);
-                }
-
-                /**
-                 * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
-                 * positioning the points by spiral Fibonacci method
-                 * 在球面做一条螺旋线，依照螺旋线按照黄金分割取点，获取近似的球面均匀分布的点位
-                 * @param num 点的总数
-                 * @param radius 球面半径
-                 * @returns {Array}
-                 */
-                function fibonacciShpere(num, radius) {
-
-                    var dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
-                        dz    = 2.0 / num,
-                        long  = 0,
-                        z     = 1 - dz / 2,
-                        r     = 0,
-                        arr   = [],
-                        tx    = 0,          //X方向的位移
-                        ty    = 0,          //Y方向的位移
-                        tz    = 0,          //Z方向的位移
-                        rx    = 0,          //X轴的旋转
-                        ry    = 0,          //Y轴的旋转
-                        sz    = 0;          //Z位移的正负号
-
-                    for (var i = 0; i < num; i++) {
-
-                        r    = Math.sqrt(1 - z * z);
-                        tx   = Math.cos(long) * r * radius;
-                        ty   = Math.sin(long) * r * radius;
-                        tz   = z * radius;
-                        z    = z - dz;
-                        long = long + dlong;
-
-                        //判断元素是在z轴正方向还是负方向
-                        sz = tz / Math.abs(tz);
-                        sz = isNaN(sz) ? 1 : sz;
-                        //如果是在Z轴正方向，
-                        //则把元素沿y轴多旋转180度，使得正面朝向圆心
-                        if (sz > 0) {
-                            ry = Math.atan(tx / tz) + Math.PI;
-                        } else {
-                            ry = Math.atan(tx / tz);
-                        }
-
-                        rx = Math.asin(ty / radius);
-
-                        arr[i] = {tx: tx, ty: ty, tz: tz, ry: ry, rx: rx};
-
-                    }
-
-                    return arr;
                 }
 
 
