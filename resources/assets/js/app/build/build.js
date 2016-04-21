@@ -7,9 +7,9 @@ define([
         "./func/configVar",
         "./func/closestPoint",
         "./func/maxPoint",
-        "./func/fibonacciShpere",
+        "./func/fibonacciSphere",
 
-	], function(document, trsfm, colorCircle, bindEvent, unbindEvents, configVar, closestPoint, maxPoint, fibonacciShpere){
+	], function(document, trsfm, colorCircle, bindEvent, unbindEvents, configVar, closestPoint, maxPoint, fibonacciSphere){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -54,7 +54,7 @@ define([
                 })();
 
                 /**
-                 * [fibonacciShpere 将每一层的元素均匀分布到空间当中，
+                 * [fibonacciSphere 将每一层的元素均匀分布到空间当中，
                  * 每一层都在同一个球面上，并且每一个面都朝向圆心
                  * 从第一层开始，递归的取到最后一层元素
                  * 通过 translate3d 定位偏离圆心的距离
@@ -85,7 +85,7 @@ define([
                      * 否则通过 fibonacciShpere 计算出球面点的位置和旋转角度
                      * 并将返回值赋值给 savedPos 和 tierPos
                      */
-                    tierPos = (N == savedPos.length) ? savedPos : savedPos = fibonacciShpere(N, R);
+                    tierPos = (N == savedPos.length) ? savedPos : savedPos = fibonacciSphere(N, R);
 
                     /**
                      * 如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置
