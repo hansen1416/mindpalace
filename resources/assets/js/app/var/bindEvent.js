@@ -1,19 +1,8 @@
 define(function(){
-	/**
-	 * params: {event: 'event', callback: eventCallback}
-	 */
-	return function bindEvent(obj, params, propa){
-		if ( typeof obj._eventListeners == 'undefined' ) {
-			obj._eventListeners = [];
-		}
 
-		var propagation = arguments[2] || false;
+    return function (obj, type, callback, propa) {
 
-		obj.addEventListener(params.event, params.callback, propagation);
-		
-		var eventListeners = obj._eventListeners;
-		eventListeners.push(params);
-		obj._eventListeners = eventListeners;
-
-	}
-})
+        var propagation = arguments[3] || false;
+        obj.addEventListener(type, callback, propagation);
+    }
+});

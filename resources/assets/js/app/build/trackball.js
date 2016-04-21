@@ -7,7 +7,7 @@ define([
         "../var/touchPos",
         "../var/findPos",
         "../var/bindEvent",
-        "../var/unbindEvents",
+        "../var/unbindEvent",
         "../var/requestAnim",
         "../var/cancelAnim",
         "./func/configVar",
@@ -18,7 +18,7 @@ define([
         "./func/crossVector",
         "./func/rotateMatrix",
         
-    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvents, requestAnim, cancelAnim, configVar, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
+    ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, bindEvent, unbindEvent, requestAnim, cancelAnim, configVar, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
 
         var Trackball = function(confObj){
             this.config = {};
@@ -109,7 +109,7 @@ define([
                     startMatrix     = new Float32Array(startMatrix);
                 }
                 //目标元素绑定mousedown事件
-                bindEvent(THIS.stage, {event: "mousedown", callback: rotateStart});
+                bindEvent(THIS.stage, "mousedown", rotateStart);
 
             })();
             //闭包函数，做初始化魔方之用--------------------------------------------------------结束
@@ -126,9 +126,9 @@ define([
                 
                 oldTime  = new Date().getTime();
                 //绑定三个事件
-                unbindEvents(THIS.stage);
-                bindEvent(document, {event:"mousemove", callback:rotate});
-                bindEvent(document, {event:"mouseup", callback:rotateFinish});
+                unbindEvent(THIS.stage, "mousedown", rotateStart);
+                bindEvent(document, "mousemove", rotate);
+                bindEvent(document, "mouseup", rotateFinish);
 
             }
 
@@ -161,15 +161,12 @@ define([
              */
             function rotateFinish(e){
                 e.preventDefault();
-                //当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
-                if(axis == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){
-                    unbindEvents(document);
-                    bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
-                    return false;
-                }
                 //解除 document 上的 mousemove 和 mouseup 事件
-                unbindEvents(document);
-                bindEvent(THIS.stage, {event:'mousedown', callback:rotateStart});
+                unbindEvent(document, 'mousemove', rotate);
+                unbindEvent(document, 'mouseup', rotateFinish);
+                bindEvent(THIS.stage, 'mousedown', rotateStart);
+                //当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
+                if(axis == [] || isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2])){return false;}
 
                 time = new Date().getTime();
                 //计算单位角速度，这里不能在 下面的 if 条件里面，否则会没有惯性

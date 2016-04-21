@@ -3,13 +3,13 @@ define([
 		"../var/trsfm",
         "../var/colorCircle",
         "../var/bindEvent",
-        "../var/unbindEvents",
+        "../var/unbindEvent",
         "./func/configVar",
         "./func/closestPoint",
         "./func/maxPoint",
         "./func/fibonacciSphere",
 
-	], function(document, trsfm, colorCircle, bindEvent, unbindEvents, configVar, closestPoint, maxPoint, fibonacciSphere){
+	], function(document, trsfm, colorCircle, bindEvent, unbindEvent, configVar, closestPoint, maxPoint, fibonacciSphere){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -82,7 +82,7 @@ define([
                     /**
                      * 如果计算出的球面的点的数量 N 等于当前储存的 savedPos
                      * 那么就直接将 savedPos 赋值给 tierPos
-                     * 否则通过 fibonacciShpere 计算出球面点的位置和旋转角度
+                     * 否则通过 fibonacciSphere 计算出球面点的位置和旋转角度
                      * 并将返回值赋值给 savedPos 和 tierPos
                      */
                     tierPos = (N == savedPos.length) ? savedPos : savedPos = fibonacciSphere(N, R);
@@ -146,9 +146,7 @@ define([
 
             zoom : function() {
 
-                var con = document.getElementById('conning');
-
-                bindEvent(document, {event: 'wheel', callback: callback});
+                bindEvent(document, 'wheel', callback);
 
                 function callback(e) {
                     e.preventDefault();
