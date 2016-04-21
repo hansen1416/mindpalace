@@ -10,9 +10,10 @@ define(function() {
             k   = 0,
             x   = 0,
             y   = 0,
-            z   = 0;
+            z   = 0,
+            i   = 0;
 
-        for (var i = 0; i < posArray.length; i++) {
+        do {
 
             x = posArray[i]['tx'] - parentPos['x'];
             y = posArray[i]['ty'] - parentPos['y'];
@@ -32,7 +33,9 @@ define(function() {
                 k   = i;
             }
 
-        }
+            i++;
+
+        } while (i < posArray.length);
         
         return k;
     }

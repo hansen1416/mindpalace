@@ -15,9 +15,10 @@ define(function(){
          */
         var keys   = [],
             values = [],
-            j      = -1;
+            j      = -1,
+            i      = 0;
 
-        for (var i = 0; i < arr.length; i++) {
+        do {
 
             if (!(arr[i] instanceof Object)) {
                 continue;
@@ -32,7 +33,9 @@ define(function(){
                 values[j]++;
             }
 
-        }
+            i++;
+
+        } while (i < arr.length);
 
         var f = values.length,
             s = Math.max(...values);

@@ -1,3 +1,4 @@
+"use strict";
 define([
         "../var/document",
         "../var/prefixJs",
@@ -221,8 +222,7 @@ define([
              */
             function deceleration(){
                 angle += omega;
-                decel = lambda * Math.sqrt(omega);
-                omega = omega > 0 ? omega - decel : 0;
+                omega = omega > 0 ? omega - lambda * Math.sqrt(omega) : 0;
 
                 THIS.obj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
                 //如果角速度为 0 了，则取消动画，并做结束处理

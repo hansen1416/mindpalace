@@ -20,9 +20,10 @@ define(function(){
             tz    = 0,          //Z方向的位移
             rx    = 0,          //X轴的旋转
             ry    = 0,          //Y轴的旋转
-            sz    = 0;          //Z位移的正负号
+            sz    = 0,          //Z位移的正负号
+            i     = 0;
 
-        for (var i = 0; i < num; i++) {
+        do {
 
             r    = Math.sqrt(1 - z * z);
             tx   = Math.cos(long) * r * radius;
@@ -46,7 +47,9 @@ define(function(){
 
             arr[i] = {tx: tx, ty: ty, tz: tz, ry: ry, rx: rx};
 
-        }
+            i++;
+
+        } while (i < num);
 
         return arr;
 

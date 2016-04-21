@@ -1,3 +1,4 @@
+"use strict";
 define([
 		"../var/document",
 		"../var/trsfm",
@@ -94,14 +95,16 @@ define([
                      * 在最内层中给每一个元素赋予一个背景颜色，他所有的后代分类全部继承此颜色
                      * 颜色从预定义的颜色数组 colorCircle 中循环获取
                      */
-                    for (var i = 0; i < stars.length; i++) {
-                        //如果不是 DOM 对象，则跳出当前 for 循环
-                        if (!(stars[i] instanceof Object)) {
-                            continue;
-                        }
+                    var i   = 0,
+                        pos = {},
+                        clr = '';
 
-                        var pos = {},
-                            clr = '';
+                    do {
+                        //如果不是 DOM 对象，则跳出当前 for 循环
+                        //if (!(stars[i] instanceof Object)) {
+                        //    continue;
+                        //}
+
                         /**
                          * 外层球面通过父级分类的位置和当前球面的位置数组 tierPos，
                          * 计算出应当取哪一个当前点，取到此点之后即将此点从 tierPos 中删除，
@@ -133,7 +136,9 @@ define([
                         //记录每一个id对应的位置，他的子集分类依据此点计算空间中的位置
                         allPos[stars[i].dataset.id] = {x: pos.tx, y: pos.ty, z: pos.tz, c: clr};
 
-                    }
+                        i++;
+
+                    } while (i < stars.length);
 
                     //深入到下一层
                     prevTier++;
