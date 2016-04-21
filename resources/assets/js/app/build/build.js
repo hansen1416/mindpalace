@@ -151,17 +151,23 @@ define([
 
             zoom : function() {
 
+                var edge = this.R,
+                    core = this.config.radius,
+                    unit = this.config.unit;
+
                 bindEvent(document, 'wheel', callback);
 
                 function callback(e) {
                     e.preventDefault();
 
-                    var stars = document.getElementsByClassName('star');
+                    var stars = document.getElementsByClassName('star'),
+                        sign  = e.deltaY / Math.abs(e.deltaY);
 
                     for (var i = 0; i < stars.length; i++) {
                         var t = stars[i].style[trsfm];
-                        stars[i].style[trsfm] = t + 'translateZ(10px)';
+                        stars[i].style[trsfm] = t + 'translateZ('+ core/10 * sign + unit +')';
                     }
+
                 }
 
             },
