@@ -223,14 +223,13 @@ define([
                     } while (tier > -1);
 
                     var stars = stage.querySelectorAll('.star' + not),
-                        len   = stars.length,
                         str   = gap / 4 * sign + unit,
                         i     = 0;
                     //缩放所有显示的元素
                     do {
                         stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ('+ str +')';
                         i++;
-                    } while (i < len);
+                    } while (i < stars.length);
 
                 }
 
