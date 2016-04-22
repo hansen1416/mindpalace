@@ -2,6 +2,7 @@
 define([
 		"../var/document",
 		"../var/trsfm",
+        "../var/getStyle",
         "../var/colorCircle",
         "../var/bindEvent",
         "../var/unbindEvent",
@@ -10,7 +11,7 @@ define([
         "./func/maxPoint",
         "./func/fibonacciSphere",
 
-	], function(document, trsfm, colorCircle, bindEvent, unbindEvent, configVar, closestPoint, maxPoint, fibonacciSphere){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, configVar, closestPoint, maxPoint, fibonacciSphere){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -51,7 +52,9 @@ define([
 
                     tierPos = allPos = savedPos = null;
 
-                    THIS.R = R;
+                    THIS.R     = R;
+                    THIS.tiers = prevTier - 1;
+
                 })();
 
                 /**
@@ -131,6 +134,8 @@ define([
                             "rotateY(" + pos.ry + "rad)" +
                             "rotateX(" + pos.rx + "rad)";
 
+                        stars[i].style[trsfm] = getStyle(stars[i], 'transform');
+
                         stars[i].style['backgroundColor'] = clr;
 
                         //记录每一个id对应的位置，他的子集分类依据此点计算空间中的位置
@@ -151,22 +156,81 @@ define([
 
             zoom : function() {
 
-                var edge = this.R,
-                    core = this.config.radius,
-                    unit = this.config.unit;
+                var edge  = this.R,
+                    core  = this.config.radius,
+                    stage    = document.getElementById('stage'),
+                    gap   = this.config.gap,
+                    unit  = this.config.unit,
+                    tiers = this.tiers,
+                    sheet = document.getElementById('style').sheet || document.getElementById('style').styleSheet;
 
                 bindEvent(document, 'wheel', callback);
 
                 function callback(e) {
                     e.preventDefault();
 
-                    var stars = document.getElementsByClassName('star'),
-                        sign  = e.deltaY / Math.abs(e.deltaY);
+                    var sign   = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
+                        fringe = getStyle(document.getElementById('last-star'), 'transform').split(',');
+                    //fringe 是最后一个 star 距离圆心的距离
+                    fringe = Math.round(Math.sqrt(fringe[12] * fringe[12] + fringe[13] * fringe[13] + fringe[14] * fringe[14]));
 
-                    for (var i = 0; i < stars.length; i++) {
-                        var t = stars[i].style[trsfm];
-                        stars[i].style[trsfm] = t + 'translateZ('+ core/10 * sign + unit +')';
+                    /**
+                     * 当最后一个元素距离圆心的距离大于等于最初的球面的外边缘，则不可以再扩展
+                     * 并且在此时，删除styleSheet当中全部的全部css规则
+                     */
+                    if (sign < 0 && fringe >= edge) {
+
+                        var j = 0;
+
+                        do {
+                            if (sheet.cssRules[j]) {
+                                sheet.deleteRule(j);
+                            }
+                            j++;
+                        } while (j < sheet.cssRules.length);
+
+                        return false;
+
                     }
+                    //当最后一个元素距离圆心的距离小于等于最初的球面的内边缘，则不可以再收缩
+                    if (sign > 0 && fringe <= core) {
+                        return false;
+                    }
+
+                    var tier = (edge - fringe) / gap;
+                    //如果当前计算出的需要隐藏的层大于等于最外层，则不可以再收缩
+                    if (tier >= tiers && sign > 0) {
+                        return false;
+                    }
+                    //如果tier是整数，并且 tier 小于最外层，则在收缩时隐藏该层，在扩展时显示该层
+                    if (Number.isInteger(tier) && tier < tiers) {
+
+                        if (sign > 0) {
+                            sheet.insertRule('.tier-'+ tier +'{display:none;}', tier);
+                        }else{
+                            sheet.deleteRule(tier);
+                        }
+
+                    }
+
+                    var not = '';
+
+                    tier = Math.floor(tier) >= tiers ? tiers - 1 : Math.floor(tier) ;
+                    //获取已经隐藏掉的层，在其后不选择
+                    do {
+                        not += ':not(.tier-'+ tier +')';
+                        tier--;
+                    } while (tier > -1);
+
+                    var stars = stage.querySelectorAll('.star' + not),
+                        len   = stars.length,
+                        str   = gap / 4 * sign + unit,
+                        i     = 0;
+                    //缩放所有显示的元素
+                    do {
+                        stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ('+ str +')';
+                        i++;
+                    } while (i < len);
 
                 }
 

@@ -9,8 +9,8 @@ define(function() {
      * @return {[array]}    [空间三维向量]
      */
 	return function (touchPos, pos, radius){
-        var x = (touchPos[0] - pos[0])/radius - 1,
-            y = (touchPos[1] - pos[1])/radius - 1,
+        var x = 1 - (touchPos[0] - pos[0])/radius,
+            y = 1 - (touchPos[1] - pos[1])/radius,
             z = 1 - x*x -y*y;
 
         return [x, y, z];

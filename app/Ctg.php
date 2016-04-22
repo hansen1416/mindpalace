@@ -79,12 +79,15 @@ class Ctg extends Model {
 
     public static function tagWrap($array)
     {
-        $html = '';
-
+        $html  = '';
+        $start = $array[0]->tier;
         foreach ($array as $key => $value) {
 
-            $html .= "<div class='tier-{$value->tier} star' data-id={$value->id} data-pid={$value->pid} data-sort={$value->sort}>" .
-                    substr($value->title, 0, 9) .
+            $tier = $value->tier - $start;
+            $last = $key == count($array) - 1 ? "id = 'last-star'" : '';
+
+            $html .= "<div {$last} class='tier-{$tier} star' data-id={$value->id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
+                    $value->title .
                     "</div>";
         }
 
