@@ -22,9 +22,15 @@
 
     {!!$html!!}
 
+    <div id="operation">
+        <div id="addSib"></div>
+    </div>
+
     <!-- .star.tier-0{$$$}*200 -->
 
     </div>
+
+
 
 </div>
 

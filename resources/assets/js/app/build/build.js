@@ -211,18 +211,30 @@ define([
             },
 
             click : function() {
+
                 bindEvent(document, 'click', callback);
 
                 function callback(e){
                     e.preventDefault();
+
                     var target    = e.target,
                         classList = target.classList;
 
                     if (classList.contains('star')) {
-                        console.log(target);
+
+                        var trans = getStyle(target, 'transform').split(','),
+                            opa   = document.getElementById('operation'),
+                            add = opa.querySelector('#addSib');
+
+                        opa.style.display = 'block';
+                        opa.style[trsfm]  = trans;
+                        add.dataset.pid   = target.dataset.pid;
+                        add.dataset.tier  = target.dataset.tier;
+
                     }
 
                 }
+
             }
 
         };
