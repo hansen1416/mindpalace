@@ -52,7 +52,6 @@ define([
 
                     tierPos = allPos = savedPos = null;
 
-                    THIS.R     = R;
                     THIS.tiers = prevTier - 1;
 
                 })();
@@ -156,66 +155,42 @@ define([
 
             zoom : function() {
 
-                var edge  = this.R,
-                    core  = this.config.radius,
-                    stage    = document.getElementById('stage'),
+                var stage = document.getElementById('stage'),
                     gap   = this.config.gap,
                     unit  = this.config.unit,
                     tiers = this.tiers,
-                    sheet = document.getElementById('style').sheet || document.getElementById('style').styleSheet;
+                    sheet = document.getElementById('style_zoom').sheet || document.getElementById('style_zoom').styleSheet;
 
                 bindEvent(document, 'wheel', callback);
 
+                /**
+                 * 滚轮向下转动一次隐藏一层，直到隐藏倒数第二层，同时所有显示的元素向球心移动一个 gap 的距离
+                 * 滚轮向上转动一次显示一层，直到显示出最内层，同时所有显示的元素背向球心移动一个 gap 的距离
+                 * 通过向页面中的 style[id='style_zoom'] 添加和删除规则来显示和隐藏元素
+                 * styleSheet 中的规则条数应该和隐藏的层数相同
+                 * @param e
+                 */
                 function callback(e) {
                     e.preventDefault();
 
-                    var sign   = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
-                        fringe = getStyle(document.getElementById('last-star'), 'transform').split(',');
-                    //fringe 是最后一个 star 距离圆心的距离
-                    fringe = Math.round(Math.sqrt(fringe[12] * fringe[12] + fringe[13] * fringe[13] + fringe[14] * fringe[14]));
+                    var sign = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
+                        lens = sheet.cssRules.length,
+                        tier = sign > 0 ? lens : lens - 1;
 
-                    /**
-                     * 当最后一个元素距离圆心的距离大于等于最初的球面的外边缘，则不可以再扩展
-                     * 并且在此时，删除styleSheet当中全部的全部css规则
-                     */
-                    if (sign < 0 && fringe >= edge) {
-
-                        var j = 0;
-
-                        do {
-                            if (sheet.cssRules[j]) {
-                                sheet.deleteRule(j);
-                            }
-                            j++;
-                        } while (j < sheet.cssRules.length);
-
-                        return false;
-
-                    }
-                    //当最后一个元素距离圆心的距离小于等于最初的球面的内边缘，则不可以再收缩
-                    if (sign > 0 && fringe <= core) {
+                    //如果当前需要隐藏的层大于等于最外层，则不可以再扩展
+                    //如果当前需要隐藏的层小于等于最外层，则不可以再收缩
+                    if ((tier >= tiers && sign > 0) || (tier < 0 && sign < 0)) {
                         return false;
                     }
 
-                    var tier = (edge - fringe) / gap;
-                    //如果当前计算出的需要隐藏的层大于等于最外层，则不可以再收缩
-                    if (tier >= tiers && sign > 0) {
-                        return false;
-                    }
-                    //如果tier是整数，并且 tier 小于最外层，则在收缩时隐藏该层，在扩展时显示该层
-                    if (Number.isInteger(tier) && tier < tiers) {
-
-                        if (sign > 0) {
-                            sheet.insertRule('.tier-'+ tier +'{display:none;}', tier);
-                        }else{
-                            sheet.deleteRule(tier);
-                        }
-
+                    if (sign > 0) {
+                        sheet.insertRule('.tier-'+ tier +'{display:none;}', tier);
+                    }else{
+                        sheet.deleteRule(tier);
                     }
 
                     var not = '';
 
-                    tier = Math.floor(tier) >= tiers ? tiers - 1 : Math.floor(tier) ;
                     //获取已经隐藏掉的层，在其后不选择
                     do {
                         not += ':not(.tier-'+ tier +')';
@@ -223,7 +198,7 @@ define([
                     } while (tier > -1);
 
                     var stars = stage.querySelectorAll('.star' + not),
-                        str   = gap / 4 * sign + unit,
+                        str   = gap * sign + unit,
                         i     = 0;
                     //缩放所有显示的元素
                     do {

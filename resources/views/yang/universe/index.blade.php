@@ -1,7 +1,7 @@
 @extends('yang.universe.layouts')
 
 @section('content')
-<style id="style"></style>
+<style id="style_zoom"></style>
 <div id="stage">
 
     <div id="galaxy">

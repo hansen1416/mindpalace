@@ -84,9 +84,8 @@ class Ctg extends Model {
         foreach ($array as $key => $value) {
 
             $tier = $value->tier - $start;
-            $last = $key == count($array) - 1 ? "id = 'last-star'" : '';
 
-            $html .= "<div {$last} class='tier-{$tier} star' data-id={$value->id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
+            $html .= "<div class='tier-{$tier} star' data-id={$value->id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
                     $value->title .
                     "</div>";
         }
