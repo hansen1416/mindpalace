@@ -6,12 +6,13 @@ define([
         "../var/colorCircle",
         "../var/bindEvent",
         "../var/unbindEvent",
+        "../var/touchPos",
         "./func/configVar",
         "./func/closestPoint",
         "./func/maxPoint",
         "./func/fibonacciSphere",
 
-	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, configVar, closestPoint, maxPoint, fibonacciSphere){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, configVar, closestPoint, maxPoint, fibonacciSphere){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -222,14 +223,18 @@ define([
 
                     if (classList.contains('star')) {
 
-                        var trans = getStyle(target, 'transform').split(','),
-                            opa   = document.getElementById('operation'),
-                            add = opa.querySelector('#addSib');
+                        var trans  = getStyle(target, 'transform').split(','),
+                            opa    = document.getElementById('operation'),
+                            addSib = opa.querySelector('#addSib');
 
-                        opa.style.display = 'block';
-                        opa.style[trsfm]  = trans;
-                        add.dataset.pid   = target.dataset.pid;
-                        add.dataset.tier  = target.dataset.tier;
+                        opa.style.display   = 'block';
+                        opa.style[trsfm]    = trans;
+                        addSib.dataset.pid  = target.dataset.pid;
+                        addSib.dataset.tier = target.dataset.tier;
+
+                    }else if (target.id === 'addSib') {
+
+                        
 
                     }
 
