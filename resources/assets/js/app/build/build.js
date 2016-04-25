@@ -155,13 +155,13 @@ define([
 
             zoom : function() {
 
+                bindEvent(document, 'wheel', callback);
+
                 var stage = document.getElementById('stage'),
                     gap   = this.config.gap,
                     unit  = this.config.unit,
                     tiers = this.tiers,
                     sheet = document.getElementById('style_zoom').sheet || document.getElementById('style_zoom').styleSheet;
-
-                bindEvent(document, 'wheel', callback);
 
                 /**
                  * 滚轮向下转动一次隐藏一层，直到隐藏倒数第二层，同时所有显示的元素向球心移动一个 gap 的距离
@@ -209,6 +209,21 @@ define([
                 }
 
             },
+
+            click : function() {
+                bindEvent(document, 'click', callback);
+
+                function callback(e){
+                    e.preventDefault();
+                    var target    = e.target,
+                        classList = target.classList;
+
+                    if (classList.contains('star')) {
+                        console.log(target);
+                    }
+
+                }
+            }
 
         };
 
