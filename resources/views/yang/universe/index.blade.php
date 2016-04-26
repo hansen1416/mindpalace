@@ -23,7 +23,15 @@
     {!!$html!!}
 
     <div id="operation">
-        <div id="addSib"></div>
+        <div class="bearing one">
+            <div class="btn" id="addSib"></div>
+            <form action="" method="post">
+                <input type="text" name="title">
+                <input type="hidden" name="pid">
+                <input type="hidden" name="tier">
+            </form>
+        </div>
+
     </div>
 
     <!-- .star.tier-0{$$$}*200 -->
@@ -31,6 +39,8 @@
     </div>
 
 </div>
+
+
 
 <!-- develop -->
 <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>

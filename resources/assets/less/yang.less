@@ -1,9 +1,9 @@
 @charset "utf-8";
+*{margin: 0; padding: 0;}
 html, body, div, p, hr, pre, h1, h2, h3, h4, h5, h6, table, tr, td, th, tfoot, tbody, thead, form, fieldset, input, textarea, label, ul, ol, dl, li, dt, dd{border: 0; outline: 0; list-style: none;}
 header,nav,article,section,aside,footer{display:block;}
 img,input,textarea,button{border: 0;}
 a{text-decoration: none;}
-* {margin: 0; padding: 0;}
 
 @universe: #002240;
 
@@ -64,24 +64,32 @@ body{background-color: @universe; overflow: hidden;}
 		}
         //添加删除等操作
         #operation{
-            .abs; .hide;
+            .abs; .hide; .back_face;
             top: 50%; left: 50%; width: 100px; height: 100px; margin: -50px 0 0 -50px;
             //background-color: rgba(255, 255, 255, 0.4);
 
-            #addSib{
+            .bearing{
                 .abs;
-                width: 1.6em; height: 1.6em; top: 0; left: 50%; margin: -0.8em 0 0 -0.8em;
-                border-radius: 50%; background-color: rgba(255,255,255,0.6);
-                &:hover{background-color: rgba(62,186,248,0.6);}
+                width: 1.6em; height: 1.6em; margin: -0.8em 0 0 -0.8em;
+
+                .btn{
+                  .fl;
+                  width: 1.6em; height: 1.6em;
+                  border-radius: 50%; background-color: rgba(255,255,255,0.6);
+                  &:hover{background-color: rgba(62,186,248,0.6);}
+                }
             }
+            .bearing.one{
+                top: 0; left: 50%;
+                form{
+                  .abs; left: 2em; top: 0;
+                  input{height: 1.6em; width: 8em; line-height: 1.6em; font-size: 1em;}
+                }
+            }
+
         }
 
 	}
     //银河结束
-
-}
-
-#textarea{
-  .abs; .hide;
 
 }

@@ -120,7 +120,7 @@ define([
             function rotateStart(e){
                 if (resetMotion && omega !== 0) {stopMotion()}    //如果之前的惯性没有耗尽，停止运动
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
-                e.preventDefault();
+                //e.preventDefault();
                 mouseDownVector = calcZ(touchPos(e), pos, radius);
                 //获得当前已旋转的角度
                 oldAngle = angle;
