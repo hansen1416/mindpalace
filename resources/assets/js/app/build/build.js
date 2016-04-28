@@ -198,7 +198,7 @@ define([
                         tier--;
                     } while (tier > -1);
 
-                    var stars = stage.querySelectorAll('.star' + not),
+                    var stars = stage.querySelectorAll('#operation, .star' + not),
                         str   = gap * sign + unit,
                         i     = 0;
                     //缩放所有显示的元素

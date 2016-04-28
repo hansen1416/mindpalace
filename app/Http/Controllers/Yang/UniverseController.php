@@ -32,7 +32,11 @@ class UniverseController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		$ctgModel = new Ctg();
+
+//		$ctg->
+
+		return view('yang.universe.index', ['html' => '']);
 	}
 
 	/**
