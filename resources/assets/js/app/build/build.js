@@ -239,8 +239,9 @@ define([
 
                         var ctgForm = document.getElementById('ctgForm');
 
-                        ctgForm.querySelector("input[name='pid']").value  = this.dataset.pid;
-                        ctgForm.querySelector("input[name='tier']").value = this.dataset.tier;
+                        ctgForm.style['display'] = 'block';
+                        ctgForm.querySelector("input[name='pid']").value  = target.dataset.pid;
+                        ctgForm.querySelector("input[name='tier']").value = target.dataset.tier;
 
                     }
 
