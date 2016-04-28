@@ -224,11 +224,13 @@ define([
                     if (classList.contains('star')) {
 
                         var trans  = getStyle(target, 'transform').split(','),
+                            tier   = target.dataset.tier,
                             opa    = document.getElementById('operation'),
                             addSib = opa.querySelector('#addSib');
 
                         opa.style.display   = 'block';
                         opa.style[trsfm]    = trans;
+                        opa.classList.add('tier-'+tier);
                         addSib.dataset.pid  = target.dataset.pid;
                         addSib.dataset.tier = target.dataset.tier;
 
@@ -236,7 +238,8 @@ define([
 
                         var ctgForm = document.getElementById('ctgForm');
 
-
+                        ctgForm.querySelector("input[name='pid']").value  = this.dataset.pid;
+                        ctgForm.querySelector("input[name='tier']").value = this.dataset.tier;
 
                     }
 
