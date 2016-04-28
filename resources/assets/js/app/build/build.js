@@ -216,10 +216,11 @@ define([
                 bindEvent(document, 'click', callback);
 
                 function callback(e){
-                    e.preventDefault();
 
                     var target    = e.target,
                         classList = target.classList;
+
+                    if (target.type !== 'submit') {e.preventDefault();}
 
                     if (classList.contains('star')) {
 

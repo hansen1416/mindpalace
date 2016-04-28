@@ -27,16 +27,20 @@ class UniverseController extends Controller {
 
 	/**
 	 * Show the form for creating a new resource.
-	 *
+	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function create()
+	public function create(Request $request)
 	{
-		$ctgModel = new Ctg();
+        $ctgModel = new Ctg();
 
-//		$ctg->
+        $ctgModel->pid   = $request->pid;
+        $ctgModel->tier  = $request->tier;
+        $ctgModel->title = $request->title;
 
-		return view('yang.universe.index', ['html' => '']);
+        $ctgModel->save();
+
+        return redirect()->route('universeIndex');
 	}
 
 	/**

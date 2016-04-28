@@ -29,6 +29,7 @@
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
                 <input type="hidden" name="tier">
+                <input type="submit" value="ok">
             </form>
         </div>
 
