@@ -24,8 +24,8 @@
 
     <div id="operation">
         <div class="bearing one">
-            <div class="btn" id="addSib" title="{{ trans('general.addSib') }}"></div>
-            <form action="{{route('universeCreate')}}" method="post" id="addSibForm">
+            <div class="btn" id="addSibl" title="{{ trans('general.addSibl') }}"></div>
+            <form action="{{route('universeCreate')}}" method="post" id="addSiblForm">
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
                 <input type="hidden" name="tier">
@@ -34,14 +34,24 @@
         </div>
 
         <div class="bearing two">
-            <div class="btn" id="addDes" title="{{ trans('general.addDes') }}"></div>
-            <form action="{{route('universeCreate')}}" method="post" id="addDesForm">
+            <div class="btn" id="addDesc" title="{{ trans('general.addDesc') }}"></div>
+            <form action="{{route('universeCreate')}}" method="post" id="addDescForm">
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
                 <input type="hidden" name="tier">
                 <input type="submit" value="ok">
             </form>
         </div>
+
+        <div class="bearing three">
+            <div class="btn" id="editSelf" title="{{ trans('general.editSelf') }}"></div>
+            <form action="" method="post" id="editSelfForm">
+                <input type="text" name="title">
+                <input type="hidden" name="ctg_id">
+                <input type="submit" value="ok">
+            </form>
+        </div>
+
     </div>
 
     <!-- .star.tier-0{$$$}*200 -->

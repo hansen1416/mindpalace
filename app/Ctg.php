@@ -61,7 +61,7 @@ class Ctg extends Model {
      */
     public function scopeTierOrder($query)
     {
-        return $query->orderBy('tier', 'asc')->select('id', 'pid', 'tier', 'sort', 'title');
+        return $query->orderBy('tier', 'asc')->select('ctg_id', 'pid', 'tier', 'sort', 'title');
     }
 
     /**
@@ -73,7 +73,7 @@ class Ctg extends Model {
     {
         return $query->where('tier', '<=', $tier)
                     ->orderBy('tier', 'asc')
-                    ->select('id', 'pid', 'tier', 'sort', 'title');
+                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title');
     }
 
 
@@ -85,7 +85,7 @@ class Ctg extends Model {
 
             $tier = $value->tier - $start;
 
-            $html .= "<div class='tier-{$tier} star' data-id={$value->id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
+            $html .= "<div class='tier-{$tier} star' data-ctg_id={$value->ctg_id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
                     $value->title .
                     "</div>";
         }

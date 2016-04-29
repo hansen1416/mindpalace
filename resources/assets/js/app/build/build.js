@@ -138,8 +138,8 @@ define([
 
                         stars[i].style['backgroundColor'] = clr;
 
-                        //记录每一个id对应的位置，他的子集分类依据此点计算空间中的位置
-                        allPos[stars[i].dataset.id] = {x: pos.tx, y: pos.ty, z: pos.tz, c: clr};
+                        //记录每一个ctg_id对应的位置，他的子集分类依据此点计算空间中的位置
+                        allPos[stars[i].dataset.ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz, c: clr};
 
                         i++;
 
@@ -239,13 +239,13 @@ define([
                      */
                     function starClick(target){
 
-                        var trans = getStyle(target, 'transform').split(','),
-                            id    = target.dataset.id,
-                            pid   = target.dataset.pid,
-                            tier  = target.dataset.tier,
-                            opa   = document.getElementById('operation'),
-                            btn   = opa.querySelectorAll('.btn'),
-                            i     = 0;
+                        var trans  = getStyle(target, 'transform').split(','),
+                            ctg_id = target.dataset.ctg_id,
+                            pid    = target.dataset.pid,
+                            tier   = target.dataset.tier,
+                            opa    = document.getElementById('operation'),
+                            btn    = opa.querySelectorAll('.btn'),
+                            i      = 0;
 
                         opa.style.display = 'block';
                         opa.style[trsfm]  = trans;
@@ -253,9 +253,9 @@ define([
 
                         do {
 
-                            btn[i].dataset.id   = id;
-                            btn[i].dataset.pid  = pid;
-                            btn[i].dataset.tier = tier;
+                            btn[i].dataset.ctg_id = ctg_id;
+                            btn[i].dataset.pid    = pid;
+                            btn[i].dataset.tier   = tier;
                             i++;
 
                         } while (i < btn.length);
@@ -268,13 +268,14 @@ define([
                      */
                     function btnClick(target) {
 
-                        var id    = target.id,
-                            opa   = document.getElementById('operation'),
-                            form  = document.getElementById(id + 'Form'),
-                            other = opa.querySelectorAll("form:not(#" + id + "Form)"),
-                            tier  = target.dataset.tier,
+                        var tid    = target.id,
+                            opa    = document.getElementById('operation'),
+                            form   = document.getElementById(tid + 'Form'),
+                            other  = opa.querySelectorAll("form:not(#" + tid + "Form)"),
+                            ctg_id = target.dataset.ctg_id,
+                            tier   = target.dataset.tier,
                             pid,
-                            i     = 0;
+                            i      = 0;
                         //隐藏其他form
                         do {
                             other[i].style['display'] = 'none';
@@ -285,13 +286,13 @@ define([
                          * 添加同级分类，pid 取目标的 pid
                          * 添加子级分类，pid 取目标的 id
                          */
-                        switch (id)
+                        switch (tid)
                         {
-                        case 'addSib':
+                        case 'addSibl':
                             pid = target.dataset.pid;
                             break;
-                        case 'addDes':
-                            pid  = target.dataset.id;
+                        case 'addDesc':
+                            pid  = ctg_id;
                             tier = tier + 1;
                             break;
                         }
@@ -306,8 +307,19 @@ define([
                                 form.style['display'] = 'none';
                             }else {
                                 form.style['display']                          = 'block';
-                                form.querySelector("input[name='pid']").value  = pid;
-                                form.querySelector("input[name='tier']").value = tier;
+
+                                if (form.querySelector("input[name='ctg_id']")) {
+                                    form.querySelector("input[name='ctg_id']").value = ctg_id;
+                                }
+
+                                if (form.querySelector("input[name='pid']")) {
+                                    form.querySelector("input[name='pid']").value = pid;
+                                }
+
+                                if (form.querySelector("input[name='tier']")) {
+                                    form.querySelector("input[name='tier']").value = tier;
+                                }
+
                             }
                         }
 

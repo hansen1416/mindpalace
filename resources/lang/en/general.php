@@ -2,7 +2,8 @@
 
 return [
 
-    'addSib' => 'Add a sibling category',
-    'addDes' => 'Add a descendant category',
+    'addSibl'    => 'Add a sibling category',
+    'addDesc'    => 'Add a descendant category',
+    'editSelf'  => 'Edit the category title',
 
 ];
