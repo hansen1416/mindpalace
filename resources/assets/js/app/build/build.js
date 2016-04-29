@@ -224,30 +224,67 @@ define([
 
                     if (classList.contains('star')) {
 
-                        var trans  = getStyle(target, 'transform').split(','),
-                            tier   = target.dataset.tier,
-                            opa    = document.getElementById('operation'),
-                            addSib = opa.querySelector('#addSib');
+                        starClick(target);
 
-                        opa.style.display   = 'block';
-                        opa.style[trsfm]    = trans;
-                        opa.classList.add('tier-'+tier);
-                        addSib.dataset.pid  = target.dataset.pid;
-                        addSib.dataset.tier = target.dataset.tier;
+                    }else if (classList.contains('btn')) {
 
-                    }else if (target.id === 'addSib') {
-
-                        var ctgForm = document.getElementById('ctgForm');
-
-                        ctgForm.style['display'] = 'block';
-                        ctgForm.querySelector("input[name='pid']").value  = target.dataset.pid;
-                        ctgForm.querySelector("input[name='tier']").value = target.dataset.tier;
+                        btnClick(target);
 
                     }
 
+
+                    function starClick(target){
+
+                        var trans = getStyle(target, 'transform').split(','),
+                            id    = target.dataset.id,
+                            pid   = target.dataset.pid,
+                            tier  = target.dataset.tier,
+                            opa   = document.getElementById('operation'),
+                            btn   = opa.querySelectorAll('.btn'),
+                            i     = 0;
+
+                        opa.style.display = 'block';
+                        opa.style[trsfm]  = trans;
+                        opa.classList.add('tier-'+tier);
+
+                        do {
+
+                            btn[i].dataset.id   = id;
+                            btn[i].dataset.pid  = pid;
+                            btn[i].dataset.tier = tier;
+                            i++;
+
+                        } while (i < btn.length);
+
+                    }
+
+
+                    function btnClick(target) {
+
+                        var id   = target.id,
+                            form = document.getElementById(id + 'Form'),
+                            tier = target.dataset.tier,
+                            pid;
+
+                        //swtich(id) {
+                        //    case :
+                        //
+                        //        break;
+                        //}
+
+                        if (form) {
+                            form.style['display'] = 'block';
+                            form.querySelector("input[name='pid']").value  = target.dataset.pid;
+                            form.querySelector("input[name='tier']").value = tier;
+                        }
+
+
+                    }
+
+
                 }
 
-            }
+            },
 
         };
 

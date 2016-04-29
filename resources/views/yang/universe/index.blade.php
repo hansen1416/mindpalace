@@ -25,7 +25,7 @@
     <div id="operation">
         <div class="bearing one">
             <div class="btn" id="addSib" title="{{ trans('general.addSib') }}"></div>
-            <form action="{{route('universeCreate')}}" method="post" id="ctgForm">
+            <form action="{{route('universeCreate')}}" method="post" id="addSibForm">
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
                 <input type="hidden" name="tier">
@@ -33,6 +33,15 @@
             </form>
         </div>
 
+        <div class="bearing two">
+            <div class="btn" id="addDes" title="{{ trans('general.addDes') }}"></div>
+            <form action="{{route('universeCreate')}}" method="post" id="addDesForm">
+                <input type="text" name="title">
+                <input type="hidden" name="pid">
+                <input type="hidden" name="tier">
+                <input type="submit" value="ok">
+            </form>
+        </div>
     </div>
 
     <!-- .star.tier-0{$$$}*200 -->

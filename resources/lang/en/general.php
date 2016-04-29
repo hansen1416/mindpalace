@@ -2,6 +2,7 @@
 
 return [
 
-    'addSib' => 'Add a sibling category.',
+    'addSib' => 'Add a sibling category',
+    'addDes' => 'Add a descendant category',
 
 ];
