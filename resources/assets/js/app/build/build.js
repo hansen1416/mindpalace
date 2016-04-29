@@ -244,8 +244,10 @@ define([
                             pid    = target.dataset.pid,
                             tier   = target.dataset.tier,
                             opa    = document.getElementById('operation'),
+                            forms  = opa.querySelectorAll('form'),
                             btn    = opa.querySelectorAll('.btn'),
-                            i      = 0;
+                            i      = 0,
+                            j      = 0;
 
                         opa.style.display = 'block';
                         opa.style[trsfm]  = trans;
@@ -260,6 +262,13 @@ define([
                             i++;
 
                         } while (i < btn.length);
+                        //隐藏所有表单
+                        do {
+
+                            forms[j].style['display'] = 'none';
+                            j++;
+
+                        } while (j < forms.length);
 
                     }//starClick end
 
@@ -310,7 +319,7 @@ define([
                             if (dis === 'block') {
                                 form.style['display'] = 'none';
                             }else {
-                                form.style['display']                          = 'block';
+                                form.style['display'] = 'block';
 
                                 if (form.querySelector("input[name='ctg_id']")) {
                                     form.querySelector("input[name='ctg_id']").value = ctg_id;
