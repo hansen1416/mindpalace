@@ -153,7 +153,7 @@ define([
 
 
             },
-
+            //同心球的缩放
             zoom : function() {
 
                 bindEvent(document, 'wheel', callback);
@@ -268,11 +268,23 @@ define([
                      */
                     function btnClick(target) {
 
-                        var id   = target.id,
-                            form = document.getElementById(id + 'Form'),
-                            tier = target.dataset.tier,
-                            pid;
+                        var id    = target.id,
+                            opa   = document.getElementById('operation'),
+                            form  = document.getElementById(id + 'Form'),
+                            other = opa.querySelectorAll("form:not(#" + id + "Form)"),
+                            tier  = target.dataset.tier,
+                            pid,
+                            i     = 0;
+                        //隐藏其他form
+                        do {
+                            other[i].style['display'] = 'none';
+                            i++;
+                        } while (i < other.length);
 
+                        /**
+                         * 添加同级分类，pid 取目标的 pid
+                         * 添加子级分类，pid 取目标的 id
+                         */
                         switch (id)
                         {
                         case 'addSib':
@@ -283,13 +295,21 @@ define([
                             tier = tier + 1;
                             break;
                         }
-
+                        /**
+                         * 如果当前按钮存在对应的 form 则 toggle，并且带入 pid,tier
+                         */
                         if (form) {
-                            form.style['display'] = 'block';
-                            form.querySelector("input[name='pid']").value  = pid;
-                            form.querySelector("input[name='tier']").value = tier;
-                        }
 
+                            var dis = form.style['display'];
+
+                            if (dis === 'block') {
+                                form.style['display'] = 'none';
+                            }else {
+                                form.style['display']                          = 'block';
+                                form.querySelector("input[name='pid']").value  = pid;
+                                form.querySelector("input[name='tier']").value = tier;
+                            }
+                        }
 
                     }
 
