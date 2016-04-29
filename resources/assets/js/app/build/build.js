@@ -152,7 +152,7 @@ define([
                 }
 
 
-            },
+            },//setup end
             //同心球的缩放
             zoom : function() {
 
@@ -209,7 +209,7 @@ define([
 
                 }
 
-            },
+            },//zoom end
             //页面的所有点击事件
             click : function() {
 
@@ -260,7 +260,7 @@ define([
 
                         } while (i < btn.length);
 
-                    }
+                    }//starClick end
 
                     /**
                      * #operation 中各个 .btn 的点击事件
@@ -311,12 +311,12 @@ define([
                             }
                         }
 
-                    }
+                    }//btnClick end
 
 
-                }
+                }//callback end
 
-            },
+            },//click end
 
         };
 
