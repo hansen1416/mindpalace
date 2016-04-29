@@ -262,7 +262,10 @@ define([
 
                     }
 
-
+                    /**
+                     * #operation 中各个 .btn 的点击事件
+                     * @param target
+                     */
                     function btnClick(target) {
 
                         var id   = target.id,
