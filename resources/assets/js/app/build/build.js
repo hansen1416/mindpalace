@@ -256,6 +256,7 @@ define([
                             btn[i].dataset.ctg_id = ctg_id;
                             btn[i].dataset.pid    = pid;
                             btn[i].dataset.tier   = tier;
+                            btn[i].dataset.title  = target.innerHTML;
                             i++;
 
                         } while (i < btn.length);
@@ -294,6 +295,9 @@ define([
                         case 'addDesc':
                             pid  = ctg_id;
                             tier = tier + 1;
+                            break;
+                        case 'editSelf':
+                            form.querySelector("input[name='title']").value = target.dataset.title;
                             break;
                         }
                         /**
