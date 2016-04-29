@@ -24,7 +24,7 @@
 
     <div id="operation">
         <div class="bearing one">
-            <div class="btn" id="addSib" title="添加同级分类"></div>
+            <div class="btn" id="addSib" title="{{ trans('general.addSib') }}"></div>
             <form action="{{route('universeCreate')}}" method="post" id="ctgForm">
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
