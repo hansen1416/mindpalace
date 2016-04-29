@@ -266,15 +266,20 @@ define([
                             tier = target.dataset.tier,
                             pid;
 
-                        //swtich(id) {
-                        //    case :
-                        //
-                        //        break;
-                        //}
+                        switch (id)
+                        {
+                        case 'addSib':
+                            pid = target.dataset.pid;
+                            break;
+                        case 'addDes':
+                            pid  = target.dataset.id;
+                            tier = tier + 1;
+                            break;
+                        }
 
                         if (form) {
                             form.style['display'] = 'block';
-                            form.querySelector("input[name='pid']").value  = target.dataset.pid;
+                            form.querySelector("input[name='pid']").value  = pid;
                             form.querySelector("input[name='tier']").value = tier;
                         }
 
