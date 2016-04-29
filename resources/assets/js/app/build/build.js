@@ -210,7 +210,7 @@ define([
                 }
 
             },
-
+            //页面的所有点击事件
             click : function() {
 
                 bindEvent(document, 'click', callback);
@@ -227,12 +227,16 @@ define([
                         starClick(target);
 
                     }else if (classList.contains('btn')) {
-
+                        //#operation 包含的所有 .btn 的点击
                         btnClick(target);
 
                     }
 
-
+                    /**
+                     * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
+                     * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
+                     * @param target 点击的目标元素
+                     */
                     function starClick(target){
 
                         var trans = getStyle(target, 'transform').split(','),
