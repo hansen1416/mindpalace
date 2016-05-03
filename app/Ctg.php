@@ -84,7 +84,7 @@ class Ctg extends Model {
      */
     public function scopeSubset($query, $path)
     {
-        return $query->where('path', 'like', '%-' .$path. '%-')
+        return $query->where('path', 'like', '%-' .$path. '-%')
                     ->orderBy('tier', 'asc')
                     ->select('ctg_id', 'pid', 'tier', 'sort', 'title');
     }
