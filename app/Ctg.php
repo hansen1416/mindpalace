@@ -10,16 +10,13 @@ class Ctg extends Model {
 	 * @var string
 	 */
 	protected $table = 'ctg';
+
     /**
-     * pk
+     * The primary key used by the model.
+     *
+     * @var int
      */
     protected $primaryKey = 'ctg_id';
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-//    public $timestamps = false;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -80,6 +77,17 @@ class Ctg extends Model {
                     ->select('ctg_id', 'pid', 'tier', 'sort', 'title');
     }
 
+    /**
+     * Scope a query to retrive all categories with tier num less than $tier.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSubset($query, $path)
+    {
+        return $query->where('path', 'like', '%-' .$path. '%-')
+                    ->orderBy('tier', 'asc')
+                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title');
+    }
 
     public static function tagWrap($array)
     {
