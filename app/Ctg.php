@@ -11,6 +11,10 @@ class Ctg extends Model {
 	 */
 	protected $table = 'ctg';
     /**
+     * pk
+     */
+    protected $primaryKey = 'ctg_id';
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool

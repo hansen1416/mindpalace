@@ -25,7 +25,7 @@
     <div id="operation">
         <div class="bearing one">
             <div class="btn" id="addSibl" title="{{ trans('general.addSibl') }}"></div>
-            <form action="{{route('universeCreate')}}" method="post" id="addSiblForm">
+            <form action="{{ route('universeCreate') }}" method="post" id="addSiblForm">
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
                 <input type="hidden" name="tier">
@@ -35,7 +35,7 @@
 
         <div class="bearing two">
             <div class="btn" id="addDesc" title="{{ trans('general.addDesc') }}"></div>
-            <form action="{{route('universeCreate')}}" method="post" id="addDescForm">
+            <form action="{{ route('universeCreate') }}" method="post" id="addDescForm">
                 <input type="text" name="title">
                 <input type="hidden" name="pid">
                 <input type="hidden" name="tier">
@@ -45,7 +45,7 @@
 
         <div class="bearing three">
             <div class="btn" id="editSelf" title="{{ trans('general.editSelf') }}"></div>
-            <form action="" method="post" id="editSelfForm">
+            <form action="{{ route('universeUpdate') }}" method="post" id="editSelfForm">
                 <input type="text" name="title">
                 <input type="hidden" name="ctg_id">
                 <input type="submit" value="ok">

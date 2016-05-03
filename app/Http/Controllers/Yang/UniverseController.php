@@ -43,7 +43,24 @@ class UniverseController extends Controller {
         return redirect()->route('universeIndex');
 	}
 
-	/**
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request)
+    {
+		$ctgModel = Ctg::find($request->ctg_id);
+
+		$ctgModel->title = $request->title;
+
+		$res = $ctgModel->save();
+
+		return redirect()->route('universeIndex');
+    }
+
+    /**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -71,17 +88,6 @@ class UniverseController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
 	{
 		//
 	}
