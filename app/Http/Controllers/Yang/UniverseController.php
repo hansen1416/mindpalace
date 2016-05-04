@@ -33,10 +33,13 @@ class UniverseController extends Controller {
 	public function create(Request $request)
 	{
         $ctgModel = new Ctg();
+        $parent   = $ctgModel::find($request->pid);
+        $path     = $parent->path . '-' . $request->pid . '-';
 
         $ctgModel->pid   = $request->pid;
         $ctgModel->tier  = $request->tier;
         $ctgModel->title = $request->title;
+        $ctgModel->path  = $path;
 
         $ctgModel->save();
 

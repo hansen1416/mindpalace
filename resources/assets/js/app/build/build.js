@@ -48,6 +48,9 @@ define([
                     gap  = configVar(gap, THIS.config.gap);
                     unit = configVar(unit, THIS.config.unit);
 
+                    //给每一个区域赋予不同的颜色
+                    section();
+
                     //在空间中定位元素
                     diffuse();
 
@@ -56,6 +59,25 @@ define([
                     THIS.tiers = prevTier - 1;
 
                 })();
+
+                /**
+                 * 取最内层的元素，在 style_section 中给每一个相应的 section 添加不同的样式
+                 */
+                function section() {
+
+                    var core  = stage.querySelectorAll('.tier-' + prevTier),
+                        sheet = document.getElementById('style_section').sheet || document.getElementById('style_section').styleSheet,
+                        i     = 0,
+                        clr   = '';
+
+                    while (i < core.length) {
+                        clr = colorCircle[i % colorCircle.length];
+
+                        sheet.insertRule('.sec-' + core[i].dataset.ctg_id + '{border: 2px solid ' +clr+ ';}', i);
+
+                        i++;
+                    }
+                }
 
                 /**
                  * [fibonacciSphere 将每一层的元素均匀分布到空间当中，
@@ -95,12 +117,9 @@ define([
                      * 如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置
                      * 如果不是最内层，则先把这一层所有元素的位置和旋转信息储存起来，
                      * 再根据父分类的位置，计算元素所在位置，需要多一次循环
-                     * 在最内层中给每一个元素赋予一个背景颜色，他所有的后代分类全部继承此颜色
-                     * 颜色从预定义的颜色数组 colorCircle 中循环获取
                      */
                     var i   = 0,
-                        pos = {},
-                        clr = '';
+                        pos = {};
 
                     do {
                         //如果不是 DOM 对象，则跳出当前 for 循环
@@ -119,14 +138,12 @@ define([
                                 k = closestPoint(p, tierPos);
 
                             pos = tierPos[k];
-                            clr = p.c;
                             //取过的点即删去
                             tierPos.splice(k, 1);
 
                         } else {
 
                             pos = tierPos[i];
-                            clr = colorCircle[i % colorCircle.length];
                         }
 
                         stars[i].style[trsfm] =
@@ -136,10 +153,8 @@ define([
 
                         stars[i].style[trsfm] = getStyle(stars[i], 'transform');
 
-                        stars[i].style['backgroundColor'] = clr;
-
                         //记录每一个ctg_id对应的位置，他的子集分类依据此点计算空间中的位置
-                        allPos[stars[i].dataset.ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz, c: clr};
+                        allPos[stars[i].dataset.ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz};
 
                         i++;
 
@@ -298,9 +313,6 @@ define([
                          */
                         switch (tid)
                         {
-                        case 'addSibl':
-                            pid = target.dataset.pid;
-                            break;
                         case 'addDesc':
                             pid  = ctg_id;
                             tier = tier + 1;

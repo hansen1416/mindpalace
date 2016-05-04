@@ -2,6 +2,7 @@
 
 @section('content')
 <style id="style_zoom"></style>
+<style id="style_section"></style>
 <div id="stage">
 
     <div id="galaxy">
@@ -23,17 +24,8 @@
     {!!$html!!}
 
     <div id="operation">
-        <div class="bearing one">
-            <div class="btn" id="addSibl" title="{{ trans('general.addSibl') }}"></div>
-            <form action="{{ route('universeCreate') }}" method="post" id="addSiblForm">
-                <input type="text" name="title">
-                <input type="hidden" name="pid">
-                <input type="hidden" name="tier">
-                <input type="submit" value="ok">
-            </form>
-        </div>
 
-        <div class="bearing two">
+        <div class="bearing one">
             <div class="btn" id="addDesc" title="{{ trans('general.addDesc') }}"></div>
             <form action="{{ route('universeCreate') }}" method="post" id="addDescForm">
                 <input type="text" name="title">
@@ -43,7 +35,7 @@
             </form>
         </div>
 
-        <div class="bearing three">
+        <div class="bearing two">
             <div class="btn" id="editSelf" title="{{ trans('general.editSelf') }}"></div>
             <form action="{{ route('universeUpdate') }}" method="post" id="editSelfForm">
                 <input type="text" name="title">

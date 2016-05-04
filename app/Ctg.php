@@ -23,7 +23,7 @@ class Ctg extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['pid', 'tier', 'sort', 'title', 'tags'];
+	protected $fillable = ['pid', 'tier', 'sort', 'title', 'path', 'tags'];
 
 	/**
      * Scope a query to only top categories to be retrived.
@@ -74,7 +74,7 @@ class Ctg extends Model {
     {
         return $query->where('tier', '<=', $tier)
                     ->orderBy('tier', 'asc')
-                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title');
+                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
     }
 
     /**
@@ -86,18 +86,42 @@ class Ctg extends Model {
     {
         return $query->where('path', 'like', '%-' .$path. '-%')
                     ->orderBy('tier', 'asc')
-                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title');
+                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
     }
 
+    /**
+     * 将所有分类用 html 标签包裹，赋予相应的 class 和 dataset
+     * @param $array
+     *
+     * @return string
+     */
     public static function tagWrap($array)
     {
-        $html  = '';
-        $start = $array[0]->tier;
+        $html    = '';
+        $section = '';
+        $start   = $array[0]->tier;
+        $core_id = [];
+
+        //取第一层的所有id
+        foreach ($array as $key => $value) {
+
+            $core_id[] = $value->ctg_id;
+
+            if ($value->tier > $start) break;
+        }
+
         foreach ($array as $key => $value) {
 
             $tier = $value->tier - $start;
+            //在其后的子元素中寻找他属于最内层的哪一个分类，咋把它归到哪一个 section 中
+            if ($tier) {
+                preg_match('/^-('.join('|', $core_id).')-/', $value->path, $match);
+                if ($match && isset($match[1])) $section = 'sec-' . $match[1];
+            }else{
+                $section = 'sec-' . $value->ctg_id;
+            }
 
-            $html .= "<div class='tier-{$tier} star' data-ctg_id={$value->ctg_id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
+            $html .= "<div class='tier-{$tier} star {$section}' data-ctg_id={$value->ctg_id} data-pid={$value->pid} data-tier={$tier} data-sort={$value->sort}>" .
                     $value->title .
                     "</div>";
         }
