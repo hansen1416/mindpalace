@@ -64,64 +64,65 @@ form{display: none;}
             background-color: rgb(114, 133, 137); border-radius: 3px;
             &:hover{border: 2px solid #fff;}
 		}
-        //添加删除等操作
-        #operation{
-            .abs; .hide; .back_face;
-            top: 50%; left: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px;
-            background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
-
-            .bearing{
-                .abs;
-                width: 30px; height: 30px; margin: -15px 0 0 -15px;
-
-                .btn{
-                    .fl;
-                    width: 30px; height: 30px;
-                    border-radius: 50%; background-color: rgba(255,255,255,0.6);
-                    &:hover{background-color: rgba(62,186,248,0.6);}
-                }
-
-                form{
-                    .abs; top: 0; width: 150px;
-                    input{
-                        font-size: 1em;
-                    }
-                    input[type='text']{
-                        .fl;
-                        height: 30px; width: 120px; line-height: 30px;
-                    }
-                    input[type='submit']{
-                        .fl;
-                        width: 30px; height: 30px;
-                        &:hover{background-color: #00b3ee; cursor: pointer;}
-                    }
-                }
-            }
-
-            .bearing.one{
-                top: 0; left: 50%;
-                form{
-                    left: 40px;
-                }
-            }
-
-            .bearing.two{
-                top: 14.644661%; left: 85.355339%;
-                form{
-                    left: 40px;
-                }
-            }
-
-            .bearing.three{
-                top: 50%; left: 100%;
-                form{
-                    left: 40px;
-                }
-            }
-
-        }
 
 	}
     //银河结束
+
+}
+
+//添加删除等操作
+#operation{
+    .abs; .back_face;
+    top: 50%; left: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px;
+    background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
+
+    .bearing{
+        .abs;
+        width: 30px; height: 30px; margin: -15px 0 0 -15px;
+
+        .btn{
+            .fl;
+            width: 30px; height: 30px;
+            border-radius: 50%; background-color: rgba(255,255,255,0.6);
+            &:hover{background-color: rgba(62,186,248,0.6);}
+        }
+
+        form{
+            .abs; top: 0; width: 150px;
+            input{
+                font-size: 1em;
+            }
+            input[type='text']{
+                .fl;
+                height: 30px; width: 120px; line-height: 30px;
+            }
+            input[type='submit']{
+                .fl;
+                width: 30px; height: 30px;
+                &:hover{background-color: #00b3ee; cursor: pointer;}
+            }
+        }
+    }
+
+    .bearing.one{
+        top: 0; left: 50%;
+        form{
+            left: 40px;
+        }
+    }
+
+    .bearing.two{
+        top: 14.644661%; left: 85.355339%;
+        form{
+            left: 40px;
+        }
+    }
+
+    .bearing.three{
+        top: 50%; left: 100%;
+        form{
+            left: 40px;
+        }
+    }
 
 }

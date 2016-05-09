@@ -254,8 +254,7 @@ define([
                      */
                     function starClick(target){
 
-                        var trans  = getStyle(target, 'transform').split(','),
-                            ctg_id = target.dataset.ctg_id,
+                        var ctg_id = target.dataset.ctg_id,
                             pid    = target.dataset.pid,
                             tier   = target.dataset.tier,
                             opa    = document.getElementById('operation'),
@@ -265,8 +264,6 @@ define([
                             j      = 0;
 
                         opa.style.display = 'block';
-                        opa.style[trsfm]  = trans;
-                        opa.classList.add('tier-'+tier);
 
                         do {
 
