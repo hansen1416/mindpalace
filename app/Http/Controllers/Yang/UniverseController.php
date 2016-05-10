@@ -34,7 +34,7 @@ class UniverseController extends Controller {
 	{
         $ctgModel = new Ctg();
         $parent   = $ctgModel::find($request->pid);
-        $path     = $parent->path . '-' . $request->pid . '-';
+        $path     = $parent->path ? $parent->path . $request->pid . '-' : '-' . $request->pid . '-';
 
         $ctgModel->pid   = $request->pid;
         $ctgModel->tier  = $request->tier;

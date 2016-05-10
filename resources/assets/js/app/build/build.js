@@ -295,7 +295,7 @@ define([
                             form   = document.getElementById(tid + 'Form'),
                             other  = opa.querySelectorAll("form:not(#" + tid + "Form)"),
                             ctg_id = target.dataset.ctg_id,
-                            tier   = target.dataset.tier,
+                            tier   = parseInt(target.dataset.tier),
                             pid,
                             i      = 0;
                         //隐藏其他form
