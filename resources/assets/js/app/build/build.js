@@ -281,11 +281,10 @@ define([
                      */
                     function btnClick(target) {
 
-                        var tid  = target.id;
+                        var tid = target.id,
+                            act = form.querySelector("input[name='act']");
 
                         form.action = target.dataset.action;
-
-                        reveal(form);
 
                         /**
                          * 添加同级分类，pid 取目标的 pid
@@ -294,12 +293,17 @@ define([
                         switch (tid)
                         {
                         case 'addDesc':
-                            form.querySelector("input[name='act']").value = 'desc';
+                            act.value = 'desc';
+                            break;
+                        case 'addSibl':
+                            act.value = 'sibl';
                             break;
                         case 'editSelf':
-
+                            act.value = '';
                             break;
                         }
+
+                        reveal(form);
 
                     }//btnClick end
 

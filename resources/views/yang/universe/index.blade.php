@@ -41,8 +41,8 @@
     </form>
 
     <div class="btn one" id="addDesc" title="{{ trans('general.addDesc') }}" data-action="{{ route('universeCreate') }}"></div>
-
-    <div class="btn two" id="editSelf" title="{{ trans('general.editSelf') }}" data-action="{{ route('universeUpdate') }}"></div>
+    <div class="btn two" id="addSibl" title="{{ trans('general.addSibl') }}" data-action="{{ route('universeCreate') }}"></div>
+    <div class="btn thr" id="editSelf" title="{{ trans('general.editSelf') }}" data-action="{{ route('universeUpdate') }}"></div>
 
 </div>
 
