@@ -83,16 +83,21 @@ form{display: none;}
     background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
 
     form{
-      .abs; top: 50%; left: 50%; width: 0; height: 0;
-      input[type='text']{
-        .fl;
-        height: 25px; width: 120px; line-height: 25px;
-      }
-      input[type='submit']{
-        .fl;
-        width: 25px; height: 25px;
-        &:hover{background-color: #00b3ee; cursor: pointer;}
-      }
+        @fw: @ow*2/3;
+        @fw2: @fw * -1 / 2;
+        @fh: @ow/2;
+        @fh2: @fh * -1 / 2;
+        .abs;
+        top: 50%; left: 50%; width: @fw; height: @fh; margin: @fh2 0 0 @fw2;
+        textarea{
+            .abs;
+            top: 0; left: 0; width: @fw; height: @fh*2/3;
+        }
+        input[type='submit']{
+            .abs;
+            bottom: 0; left: 0; width: @fw; height: @fh/3;
+            &:hover{background-color: #00b3ee; cursor: pointer;}
+        }
     }
 
     .btn{

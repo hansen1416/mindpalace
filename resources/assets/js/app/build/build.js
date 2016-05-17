@@ -268,6 +268,7 @@ define([
                         form.querySelector("input[name='ctg_id']").value = target.dataset.ctg_id;
                         form.querySelector("input[name='pid']").value    = target.dataset.pid;
                         form.querySelector("input[name='tier']").value   = target.dataset.tier;
+                        form.querySelector('textarea').placeholder       = target.dataset.title;
 
                         conceal(core);
                         reveal(operation);
@@ -280,7 +281,7 @@ define([
                      */
                     function btnClick(target) {
 
-                        var tid = target.id;
+                        var tid  = target.id;
 
                         form.action = target.dataset.action;
 
@@ -293,7 +294,7 @@ define([
                         switch (tid)
                         {
                         case 'addDesc':
-
+                            form.querySelector("input[name='act']").value = 'desc';
                             break;
                         case 'editSelf':
 

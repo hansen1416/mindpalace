@@ -32,14 +32,27 @@ class UniverseController extends Controller {
 	 */
 	public function create(Request $request)
 	{
+        $act      = $request->act;
         $ctgModel = new Ctg();
-        $parent   = $ctgModel::find($request->pid);
-        $path     = $parent->path ? $parent->path . $request->pid . '-' : '-' . $request->pid . '-';
 
-        $ctgModel->pid   = $request->pid;
-        $ctgModel->tier  = $request->tier;
-        $ctgModel->title = $request->title;
-        $ctgModel->path  = $path;
+        if ($act == 'desc') {
+
+            $pid             = $request->ctg_id;
+            $parent          = $ctgModel::find($pid);
+            $ctgModel->pid   = $pid;
+            $ctgModel->tier  = (int)($request->tier) + 1;
+            $ctgModel->title = $request->title;
+            $ctgModel->path  = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
+
+        }elseif ($act == 'sibl') {
+
+            $pid             = $request->pid;
+            $parent          = $ctgModel::find($pid);
+            $ctgModel->pid   = $pid;
+            $ctgModel->tier  = $request->tier;
+            $ctgModel->title = $request->title;
+            $ctgModel->path  = $parent->path;
+        }
 
         $ctgModel->save();
 

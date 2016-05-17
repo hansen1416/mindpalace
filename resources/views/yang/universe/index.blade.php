@@ -36,6 +36,7 @@
         <input type="hidden" name="ctg_id">
         <input type="hidden" name="pid" value="0">
         <input type="hidden" name="tier" value="0">
+        <input type="hidden" name="act">
         <input type="submit" value="ok">
     </form>
 
