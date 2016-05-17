@@ -44,11 +44,12 @@ form{display: none;}
 .over-hidden {overflow: hidden;}
 .in-block {display: inline-block;}
 .t-center {text-align: center;}
+.cursor-grab {cursor: -webkit-grab; cursor: -moz-grab; cursor: grab;}
 //舞台，等于窗口大小的元素
 #stage{
 	.perspective; .pers_origin; .trsf_origin; .abs;
 	width: 100vw; height: 100vw; top: 50%; margin: -50vw 0 0 0;
-    &:hover{cursor: pointer;}
+    &:hover{.cursor-grab;}
 
     //银河开始
 	#galaxy{
@@ -72,9 +73,9 @@ form{display: none;}
 
 //添加删除等操作
 #operation{
-    .abs; .back_face;
+    .abs; .hide;
     top: 50%; left: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px;
-    background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
+    //background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
 
     .bearing{
         .abs;
@@ -89,16 +90,13 @@ form{display: none;}
 
         form{
             .abs; top: 0; width: 150px;
-            input{
-                font-size: 1em;
-            }
             input[type='text']{
                 .fl;
-                height: 30px; width: 120px; line-height: 30px;
+                height: 25px; width: 120px; line-height: 25px;
             }
             input[type='submit']{
                 .fl;
-                width: 30px; height: 30px;
+                width: 25px; height: 25px;
                 &:hover{background-color: #00b3ee; cursor: pointer;}
             }
         }
@@ -125,4 +123,11 @@ form{display: none;}
         }
     }
 
+}
+
+#core {
+  .abs;
+  top: 50%; left: 50%; margin: -15px 0 0 -15px;
+  width: 30px; height: 30px; border-radius: 50%; background-color: rgba(255,255,255,0.6);
+  &:hover{background-color: rgba(62,186,248,0.6); cursor: pointer;}
 }

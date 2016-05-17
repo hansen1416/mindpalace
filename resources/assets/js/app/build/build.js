@@ -296,7 +296,8 @@ define([
                             other  = opa.querySelectorAll("form:not(#" + tid + "Form)"),
                             ctg_id = target.dataset.ctg_id,
                             tier   = parseInt(target.dataset.tier),
-                            pid,
+                            title  = target.dataset.title ? target.dataset.title : '',
+                            pid    = 0,
                             i      = 0;
                         //隐藏其他form
                         do {
@@ -315,7 +316,7 @@ define([
                             tier = tier + 1;
                             break;
                         case 'editSelf':
-                            form.querySelector("input[name='title']").value = target.dataset.title;
+                            form.querySelector("input[name='title']").value = title;
                             break;
                         }
                         /**
