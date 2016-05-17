@@ -7,12 +7,14 @@ define([
         "../var/bindEvent",
         "../var/unbindEvent",
         "../var/touchPos",
+        "./func/reveal",
+        "./func/conceal",
         "./func/configVar",
         "./func/closestPoint",
         "./func/maxPoint",
         "./func/fibonacciSphere",
 
-	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, configVar, closestPoint, maxPoint, fibonacciSphere){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -233,11 +235,18 @@ define([
                 function callback(e){
 
                     var target    = e.target,
-                        classList = target.classList;
+                        classList = target.classList,
+                        core      = document.getElementById('core'),
+                        operation = document.getElementById('operation');
 
                     if (target.type !== 'submit') {e.preventDefault();}
 
-                    if (classList.contains('star')) {
+                    if (target.id == 'core'){
+
+                        reveal(operation);
+                        conceal(target);
+
+                    }else if(classList.contains('star')) {
 
                         starClick(target);
 
@@ -250,6 +259,7 @@ define([
                     /**
                      * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
                      * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
+                     * 显示 operation
                      * @param target 点击的目标元素
                      */
                     function starClick(target){
@@ -257,13 +267,10 @@ define([
                         var ctg_id = target.dataset.ctg_id,
                             pid    = target.dataset.pid,
                             tier   = target.dataset.tier,
-                            opa    = document.getElementById('operation'),
-                            forms  = opa.querySelectorAll('form'),
-                            btn    = opa.querySelectorAll('.btn'),
+                            forms  = operation.querySelectorAll('form'),
+                            btn    = operation.querySelectorAll('.btn'),
                             i      = 0,
                             j      = 0;
-
-                        opa.style.display = 'block';
 
                         do {
 
@@ -277,10 +284,13 @@ define([
                         //隐藏所有表单
                         do {
 
-                            forms[j].style['display'] = 'none';
+                            conceal(forms[j]);
                             j++;
 
                         } while (j < forms.length);
+
+                        conceal(core);
+                        reveal(operation);
 
                     }//starClick end
 
@@ -291,9 +301,8 @@ define([
                     function btnClick(target) {
 
                         var tid    = target.id,
-                            opa    = document.getElementById('operation'),
                             form   = document.getElementById(tid + 'Form'),
-                            other  = opa.querySelectorAll("form:not(#" + tid + "Form)"),
+                            other  = operation.querySelectorAll("form:not(#" + tid + "Form)"),
                             ctg_id = target.dataset.ctg_id,
                             tier   = parseInt(target.dataset.tier),
                             title  = target.dataset.title ? target.dataset.title : '',
@@ -301,7 +310,7 @@ define([
                             i      = 0;
                         //隐藏其他form
                         do {
-                            other[i].style['display'] = 'none';
+                            conceal(other[i]);
                             i++;
                         } while (i < other.length);
 
@@ -327,9 +336,9 @@ define([
                             var dis = form.style['display'];
 
                             if (dis === 'block') {
-                                form.style['display'] = 'none';
+                                conceal(form);
                             }else {
-                                form.style['display'] = 'block';
+                                reveal(form);
 
                                 if (form.querySelector("input[name='ctg_id']")) {
                                     form.querySelector("input[name='ctg_id']").value = ctg_id;
