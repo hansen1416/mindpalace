@@ -237,7 +237,8 @@ define([
                     var target    = e.target,
                         classList = target.classList,
                         core      = document.getElementById('core'),
-                        operation = document.getElementById('operation');
+                        operation = document.getElementById('operation'),
+                        form      = operation.querySelector('form');
 
                     if (target.type !== 'submit') {e.preventDefault();}
 
@@ -264,30 +265,10 @@ define([
                      */
                     function starClick(target){
 
-                        var ctg_id = target.dataset.ctg_id,
-                            pid    = target.dataset.pid,
-                            tier   = target.dataset.tier,
-                            forms  = operation.querySelectorAll('form'),
-                            btn    = operation.querySelectorAll('.btn'),
-                            i      = 0,
-                            j      = 0;
-
-                        do {
-
-                            btn[i].dataset.ctg_id = ctg_id;
-                            btn[i].dataset.pid    = pid;
-                            btn[i].dataset.tier   = tier;
-                            btn[i].dataset.title  = target.innerHTML;
-                            i++;
-
-                        } while (i < btn.length);
-                        //隐藏所有表单
-                        do {
-
-                            conceal(forms[j]);
-                            j++;
-
-                        } while (j < forms.length);
+                        form.querySelector("input[name='ctg_id']").value = target.dataset.ctg_id;
+                        form.querySelector("input[name='pid']").value    = target.dataset.pid;
+                        form.querySelector("input[name='tier']").value   = target.dataset.tier;
+                        form.querySelector("input[name='title']").value  = target.dataset.title;
 
                         conceal(core);
                         reveal(operation);
@@ -300,19 +281,11 @@ define([
                      */
                     function btnClick(target) {
 
-                        var tid    = target.id,
-                            form   = document.getElementById(tid + 'Form'),
-                            other  = operation.querySelectorAll("form:not(#" + tid + "Form)"),
-                            ctg_id = target.dataset.ctg_id,
-                            tier   = parseInt(target.dataset.tier),
-                            title  = target.dataset.title ? target.dataset.title : '',
-                            pid    = 0,
-                            i      = 0;
-                        //隐藏其他form
-                        do {
-                            conceal(other[i]);
-                            i++;
-                        } while (i < other.length);
+                        var tid = target.id;
+
+                        form.action = target.dataset.action;
+
+                        reveal(form);
 
                         /**
                          * 添加同级分类，pid 取目标的 pid
@@ -321,39 +294,13 @@ define([
                         switch (tid)
                         {
                         case 'addDesc':
-                            pid  = ctg_id;
-                            tier = tier + 1;
+
                             break;
                         case 'editSelf':
-                            form.querySelector("input[name='title']").value = title;
+
                             break;
                         }
-                        /**
-                         * 如果当前按钮存在对应的 form 则 toggle，并且带入 pid,tier
-                         */
-                        if (form) {
 
-                            var dis = form.style['display'];
-
-                            if (dis === 'block') {
-                                conceal(form);
-                            }else {
-                                reveal(form);
-
-                                if (form.querySelector("input[name='ctg_id']")) {
-                                    form.querySelector("input[name='ctg_id']").value = ctg_id;
-                                }
-
-                                if (form.querySelector("input[name='pid']")) {
-                                    form.querySelector("input[name='pid']").value = pid;
-                                }
-
-                                if (form.querySelector("input[name='tier']")) {
-                                    form.querySelector("input[name='tier']").value = tier;
-                                }
-
-                            }
-                        }
 
                     }//btnClick end
 

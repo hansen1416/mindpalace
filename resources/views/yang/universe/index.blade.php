@@ -31,24 +31,23 @@
 
 <div id="operation">
 
+    <form action="" method="post" id="addDescForm">
+        <input type="text" title="title" name="title">
+        <input type="hidden" name="ctg_id">
+        <input type="hidden" name="pid" value="0">
+        <input type="hidden" name="tier" value="0">
+        <input type="submit" value="ok">
+    </form>
+
     <div class="bearing one">
-        <div class="btn" id="addDesc" title="{{ trans('general.addDesc') }}"></div>
-        <form action="{{ route('universeCreate') }}" method="post" id="addDescForm">
-            <input type="text" title="title" name="title">
-            <input type="hidden" name="pid">
-            <input type="hidden" name="tier">
-            <input type="submit" value="ok">
-        </form>
+        <div class="btn" id="addDesc" title="{{ trans('general.addDesc') }}" data-action="{{ route('universeCreate') }}"></div>
     </div>
 
     <div class="bearing two">
-        <div class="btn" id="editSelf" title="{{ trans('general.editSelf') }}"></div>
-        <form action="{{ route('universeUpdate') }}" method="post" id="editSelfForm">
-            <input type="text" name="title">
-            <input type="hidden" name="ctg_id">
-            <input type="submit" value="ok">
-        </form>
+        <div class="btn" id="editSelf" title="{{ trans('general.editSelf') }}" data-action="{{ route('universeUpdate') }}"></div>
     </div>
+
+
 
 </div>
 
