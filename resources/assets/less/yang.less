@@ -71,56 +71,47 @@ form{display: none;}
 
 }
 
+@ow: 150px;
+@ow2: @ow * -1 / 2;
+@btnw: 30px;
+@btnw2: @btnw * -1 / 2;
+
 //添加删除等操作
 #operation{
     .abs; .hide;
-    top: 50%; left: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px;
-    //background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
+    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow2  0 0 @ow2;
+    background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
 
-    .bearing{
+    form{
+      .abs; top: 50%; left: 50%; width: 0; height: 0;
+      input[type='text']{
+        .fl;
+        height: 25px; width: 120px; line-height: 25px;
+      }
+      input[type='submit']{
+        .fl;
+        width: 25px; height: 25px;
+        &:hover{background-color: #00b3ee; cursor: pointer;}
+      }
+    }
+
+    .btn{
         .abs;
-        width: 30px; height: 30px; margin: -15px 0 0 -15px;
-
-        .btn{
-            .fl;
-            width: 30px; height: 30px;
-            border-radius: 50%; background-color: rgba(255,255,255,0.6);
-            &:hover{background-color: rgba(62,186,248,0.6);}
-        }
-
-        form{
-            .abs; top: 0; width: 150px;
-            input[type='text']{
-                .fl;
-                height: 25px; width: 120px; line-height: 25px;
-            }
-            input[type='submit']{
-                .fl;
-                width: 25px; height: 25px;
-                &:hover{background-color: #00b3ee; cursor: pointer;}
-            }
-        }
+        width: @btnw; height: @btnw; margin: @btnw2 0 0 @btnw2;
+        border-radius: 50%; background-color: rgba(255,255,255,0.6);
+        &:hover{background-color: rgba(62,186,248,0.6); cursor: pointer;}
     }
 
-    .bearing.one{
+    .btn.one{
         top: 0; left: 50%;
-        form{
-            left: 40px;
-        }
     }
 
-    .bearing.two{
+    .btn.two{
         top: 14.644661%; left: 85.355339%;
-        form{
-            left: 40px;
-        }
     }
 
-    .bearing.three{
+    .btn.three{
         top: 50%; left: 100%;
-        form{
-            left: 40px;
-        }
     }
 
 }

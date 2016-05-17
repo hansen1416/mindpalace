@@ -268,7 +268,6 @@ define([
                         form.querySelector("input[name='ctg_id']").value = target.dataset.ctg_id;
                         form.querySelector("input[name='pid']").value    = target.dataset.pid;
                         form.querySelector("input[name='tier']").value   = target.dataset.tier;
-                        form.querySelector("input[name='title']").value  = target.dataset.title;
 
                         conceal(core);
                         reveal(operation);
@@ -300,7 +299,6 @@ define([
 
                             break;
                         }
-
 
                     }//btnClick end
 

@@ -32,22 +32,16 @@
 <div id="operation">
 
     <form action="" method="post" id="addDescForm">
-        <input type="text" title="title" name="title">
+        <textarea name="title"></textarea>
         <input type="hidden" name="ctg_id">
         <input type="hidden" name="pid" value="0">
         <input type="hidden" name="tier" value="0">
         <input type="submit" value="ok">
     </form>
 
-    <div class="bearing one">
-        <div class="btn" id="addDesc" title="{{ trans('general.addDesc') }}" data-action="{{ route('universeCreate') }}"></div>
-    </div>
+    <div class="btn one" id="addDesc" title="{{ trans('general.addDesc') }}" data-action="{{ route('universeCreate') }}"></div>
 
-    <div class="bearing two">
-        <div class="btn" id="editSelf" title="{{ trans('general.editSelf') }}" data-action="{{ route('universeUpdate') }}"></div>
-    </div>
-
-
+    <div class="btn two" id="editSelf" title="{{ trans('general.editSelf') }}" data-action="{{ route('universeUpdate') }}"></div>
 
 </div>
 
