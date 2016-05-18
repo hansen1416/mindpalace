@@ -25,7 +25,10 @@ class Item extends Model {
      */
     protected $fillable = ['ctg_id', 'sort', 'title', 'tags', 'content'];
 
-
+    /**
+     * belongsto, many to one relationship, with table mp_ctg
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function ctg()
     {
         return $this->belongsTo('App\Ctg');

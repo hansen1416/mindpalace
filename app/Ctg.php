@@ -89,7 +89,10 @@ class Ctg extends Model {
                     ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
     }
 
-
+    /**
+     * one to many relationship, with table mp_item
+     * @return mixed
+     */
     public function item()
     {
         return $this->hasMany('App\Item')

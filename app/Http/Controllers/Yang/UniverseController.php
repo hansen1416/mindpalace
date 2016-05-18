@@ -18,12 +18,11 @@ class UniverseController extends Controller {
 	public function index()
 	{
         $Ctg  = new Ctg();
-        $ctgs = $Ctg::untilTier(999)->get();
-
+        $ctgs = $Ctg::untilTier(99)->get();
+        //加载 item 表的内容
         if (true) {
             $ctgs->load('item');
         }
-
 
         $html = $Ctg->tagWrap($ctgs);
 
