@@ -284,14 +284,16 @@ define([
                         var tid = target.id,
                             act = form.querySelector("input[name='act']");
 
-                        form.action = target.dataset.action;
-
+                        act.value = '';
                         /**
                          * 添加同级分类，pid 取目标的 pid
                          * 添加子级分类，pid 取目标的 id
                          */
                         switch (tid)
                         {
+                        case 'focus':
+
+                            break;
                         case 'addDesc':
                             act.value = 'desc';
                             break;
@@ -299,11 +301,23 @@ define([
                             act.value = 'sibl';
                             break;
                         case 'editSelf':
-                            act.value = '';
+
+                            break;
+                        case 'hideOper':
+                            conceal(operation);
+                            reveal(core);
                             break;
                         }
 
-                        reveal(form);
+                        var url = target.dataset.action ? target.dataset.action : '';
+                        form.action = url;
+
+                        if (url) {
+                            reveal(form);
+                        }else{
+                            conceal(form);
+                        }
+
 
                     }//btnClick end
 
