@@ -18,7 +18,7 @@ class UniverseController extends Controller {
 	public function index()
 	{
 
-		$ctgs = Ctg::untilTier(10)->get();
+		$ctgs = Ctg::untilTier(999)->get();
 
 		$html = Ctg::tagWrap($ctgs);
 
