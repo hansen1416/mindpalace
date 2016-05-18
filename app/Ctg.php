@@ -131,13 +131,14 @@ class Ctg extends Model {
                 $section = 'sec-' . $value->ctg_id;
             }
 
-            $html .= "<div class='tier-{$tier} star {$section}' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}' data-sort='{$value->sort}'>" .
+            $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}' data-sort='{$value->sort}'>" .
                     $value->title .
                     "</div>";
 
             if ( count($value->item) ) {
+                $tier = $tier + 1;
                 foreach ($value->item as $item) {
-                    $html .= "<div class='tier-{$tier} star {$section}' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->ctg_id}' data-tier='{$tier}' data-sort='{$item->sort}'>" .
+                    $html .= "<div class='tier-{$tier} star {$section} item' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->item_id}' data-tier='{$tier}' data-sort='{$item->sort}'>" .
                              $item->title .
                              "</div>";
                 }

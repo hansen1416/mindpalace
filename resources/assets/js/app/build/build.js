@@ -156,7 +156,9 @@ define([
                         stars[i].style[trsfm] = getStyle(stars[i], 'transform');
 
                         //记录每一个ctg_id对应的位置，他的子集分类依据此点计算空间中的位置
-                        allPos[stars[i].dataset.ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz};
+                        if (stars[i].dataset.ctg_id) {
+                            allPos[stars[i].dataset.ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz};
+                        }
 
                         i++;
 
