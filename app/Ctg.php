@@ -74,7 +74,7 @@ class Ctg extends Model {
     {
         return $query->where('tier', '<=', $tier)
                     ->orderBy('tier', 'asc')
-                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
+                    ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
     /**
@@ -87,6 +87,13 @@ class Ctg extends Model {
         return $query->where('path', 'like', '%-' .$path. '-%')
                     ->orderBy('tier', 'asc')
                     ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
+    }
+
+
+    public function item()
+    {
+        return $this->hasMany('App\Item')
+            ->select('item_id', 'ctg_id', 'sort', 'title');
     }
 
     /**
@@ -103,14 +110,14 @@ class Ctg extends Model {
         $core_id = [];
 
         //取第一层的所有id
-        foreach ($array as $key => $value) {
+        foreach ($array as $value) {
 
             $core_id[] = $value->ctg_id;
 
             if ($value->tier > $start) break;
         }
 
-        foreach ($array as $key => $value) {
+        foreach ($array as $value) {
 
             $tier = $value->tier - $start;
             //在其后的子元素中寻找他属于最内层的哪一个分类，咋把它归到哪一个 section 中
@@ -124,6 +131,14 @@ class Ctg extends Model {
             $html .= "<div class='tier-{$tier} star {$section}' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}' data-sort='{$value->sort}'>" .
                     $value->title .
                     "</div>";
+
+            if ( count($value->item) ) {
+                foreach ($value->item as $item) {
+                    $html .= "<div class='tier-{$tier} star {$section}' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->ctg_id}' data-tier='{$tier}' data-sort='{$item->sort}'>" .
+                             $item->title .
+                             "</div>";
+                }
+            }
         }
 
         return $html;

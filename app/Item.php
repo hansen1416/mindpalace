@@ -25,4 +25,10 @@ class Item extends Model {
      */
     protected $fillable = ['ctg_id', 'sort', 'title', 'tags', 'content'];
 
+
+    public function ctg()
+    {
+        return $this->belongsTo('App\Ctg');
+    }
+
 }
