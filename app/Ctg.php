@@ -95,7 +95,7 @@ class Ctg extends Model {
      *
      * @return string
      */
-    public static function tagWrap($array)
+    public function tagWrap($array)
     {
         $html    = '';
         $section = '';

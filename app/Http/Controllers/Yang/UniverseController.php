@@ -17,10 +17,9 @@ class UniverseController extends Controller {
 	 */
 	public function index()
 	{
-
-		$ctgs = Ctg::untilTier(999)->get();
-
-		$html = Ctg::tagWrap($ctgs);
+        $Ctg  = new Ctg();
+        $ctgs = $Ctg::untilTier(10)->get();
+        $html = $Ctg->tagWrap($ctgs);
 
 		return view('yang.universe.index', ['html' => $html]);
 	}
