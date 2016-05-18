@@ -33,7 +33,8 @@
 
     <form action="" method="post" id="addDescForm">
         <textarea name="title"></textarea>
-        <input type="hidden" name="ctg_id">
+        <input type="hidden" name="ctg_id" value="0">
+        <input type="hidden" name="item_id" value="0">
         <input type="hidden" name="pid" value="0">
         <input type="hidden" name="tier" value="0">
         <input type="hidden" name="act">

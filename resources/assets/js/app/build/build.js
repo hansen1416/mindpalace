@@ -217,7 +217,7 @@ define([
                         tier--;
                     } while (tier > -1);
 
-                    var stars = stage.querySelectorAll('#operation, .star' + not),
+                    var stars = stage.querySelectorAll('.star' + not),
                         str   = gap * sign + unit,
                         i     = 0;
                     //缩放所有显示的元素
@@ -267,7 +267,8 @@ define([
                      */
                     function starClick(target){
 
-                        form.querySelector("input[name='ctg_id']").value = target.dataset.ctg_id;
+                        form.querySelector("input[name='ctg_id']").value = target.dataset.ctg_id ? target.dataset.ctg_id : 0;
+                        form.querySelector("input[name='item_id']").value = target.dataset.item_id ? target.dataset.item_id : 0;
                         form.querySelector("input[name='pid']").value    = target.dataset.pid;
                         form.querySelector("input[name='tier']").value   = target.dataset.tier;
                         form.querySelector('textarea').placeholder       = target.dataset.title;
@@ -283,8 +284,14 @@ define([
                      */
                     function btnClick(target) {
 
-                        var tid = target.id,
-                            act = form.querySelector("input[name='act']");
+                        var tid     = target.id,
+                            act     = form.querySelector("input[name='act']"),
+                            ctg_id  = form.querySelector("input[name='ctg_id']").value,
+                            item_id = form.querySelector("input[name='item_id']").value;
+
+                        if (ctg_id == 0) {
+                            return false;
+                        }
 
                         act.value = '';
                         /**
