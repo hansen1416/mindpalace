@@ -238,18 +238,12 @@ define([
 
                     var target    = e.target,
                         classList = target.classList,
-                        core      = document.getElementById('core'),
                         operation = document.getElementById('operation'),
                         form      = operation.querySelector('form');
 
                     if (target.type !== 'submit') {e.preventDefault();}
 
-                    if (target.id == 'core'){
-
-                        reveal(operation);
-                        conceal(target);
-
-                    }else if(classList.contains('star')) {
+                    if(classList.contains('star')) {
 
                         starClick(target);
 
@@ -273,7 +267,6 @@ define([
                         form.querySelector("input[name='tier']").value    = target.dataset.tier;
                         form.querySelector('textarea').placeholder        = target.dataset.title;
 
-                        conceal(core);
                         reveal(operation);
 
                     }//starClick end
@@ -319,7 +312,6 @@ define([
                             break;
                         case 'hideOper':
                             conceal(operation);
-                            reveal(core);
                             break;
                         case 'addItem':
                             is_act = true;

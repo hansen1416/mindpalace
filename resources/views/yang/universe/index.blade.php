@@ -50,10 +50,6 @@
 
 </div>
 
-<div id="core">
-
-</div>
-
 <!-- develop -->
 <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>
 <script type="text/javascript">
