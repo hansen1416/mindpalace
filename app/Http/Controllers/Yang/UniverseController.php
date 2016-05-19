@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Ctg;
+use App\Item;
 //use App\Helpers\Helper;
 
 class UniverseController extends Controller {
@@ -17,14 +18,14 @@ class UniverseController extends Controller {
 	 */
 	public function index()
 	{
-        $Ctg  = new Ctg();
-        $ctgs = $Ctg::untilTier(99)->get();
+        $ctgModel = new Ctg();
+        $ctgs     = $ctgModel::untilTier(99)->get();
         //加载 item 表的内容
         if (true) {
             $ctgs->load('item');
         }
 
-        $html = $Ctg->tagWrap($ctgs);
+        $html = $ctgModel->tagWrap($ctgs);
 
 		return view('yang.universe.index', ['html' => $html]);
 	}
@@ -81,46 +82,21 @@ class UniverseController extends Controller {
     }
 
     /**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+     * 创建新的同级内容
+     * @param Request $request
+     * @author Hanlongzhen 2016-05-19 11:17
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createItem(Request $request)
+    {
+        $itemModel = new Item();
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+        $itemModel->ctg_id = $request->pid;
+        $itemModel->title  = $request->title;
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+        $res = $itemModel->save();
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+        return redirect()->route('universeIndex');
+    }
 
 }

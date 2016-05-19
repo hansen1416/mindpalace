@@ -321,11 +321,17 @@ define([
                             conceal(operation);
                             reveal(core);
                             break;
+                        case 'addItem':
+                            is_act = true;
+
+                            break;
                         }
 
                         if (is_act) {
                             if (ctg_id != 0) {
                                 url = target.dataset.ctg_action;
+                            }else if (item_id != 0) {
+                                url = target.dataset.item_action;
                             }
                         }
 

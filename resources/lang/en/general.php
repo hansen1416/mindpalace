@@ -1,9 +1,10 @@
 <?php
 
 return [
-    'focus' => 'focus the selected element',
-    'addSibl'  => 'Add a sibling category',
-    'addDesc'  => 'Add a descendant category',
-    'editSelf' => 'Edit the category title',
-    'hideOper' => 'Hide the operation panel',
+    'focus'     => 'focus the selected element',
+    'addSibl'   => 'Add a sibling category',
+    'addDesc'   => 'Add a descendant category',
+    'editSelf'  => 'Edit the title',
+    'hideOper'  => 'Hide the operation panel',
+    'addItem'   => 'Add a item',
 ];
