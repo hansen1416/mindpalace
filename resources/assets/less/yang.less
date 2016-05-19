@@ -5,9 +5,9 @@ header,nav,article,section,aside,footer{display:block;}
 img,input,textarea,button{border: 0;}
 a{text-decoration: none;}
 
-@universe: #002240;
-@white: #fff;
-@black: #000;
+@universe:  #002240;
+@white:     #fff;
+@black:     #000;
 
 body{background-color: @universe; overflow: hidden;}
 
@@ -82,12 +82,13 @@ form{display: none;}
 
 }
 
-@ow: 150px;
-@ow2: @ow * -1 / 2;
-@btnw: 30px;
-@btnw2: @btnw * -1 / 2;
-@btn: rgb(62,186,248);
+@ow:        150px;
+@ow2:       @ow * -1 / 2;
+@btnw:      30px;
+@btnw2:     @btnw * -1 / 2;
+@btn:       rgb(62, 186, 248);
 @btn-hover: fade(@btn, 70%);
+@disable:  @black;
 
 //添加删除等操作
 #operation{
@@ -126,4 +127,6 @@ form{display: none;}
     .btn.fou{top: 85.355339%; left: 85.355339%;}
     .btn.fiv{top: 100%; left: 50%;}
     .btn.six{top: 85.355339%; left: 14.644661%;}
+
+    .btn.disable{background-color: @disable;}
 }

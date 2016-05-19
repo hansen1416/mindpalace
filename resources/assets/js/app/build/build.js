@@ -232,14 +232,15 @@ define([
             //页面的所有点击事件
             click : function() {
 
+                var operation = document.getElementById('operation'),
+                    form      = operation.querySelector('form');
+
                 bindEvent(document, 'click', callback);
 
                 function callback(e){
 
                     var target    = e.target,
-                        classList = target.classList,
-                        operation = document.getElementById('operation'),
-                        form      = operation.querySelector('form');
+                        classList = target.classList;
 
                     if (target.type !== 'submit') {e.preventDefault();}
 
@@ -253,93 +254,127 @@ define([
 
                     }
 
-                    /**
-                     * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
-                     * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
-                     * 显示 operation
-                     * @param target 点击的目标元素
-                     */
-                    function starClick(target){
-
-                        form.querySelector("input[name='ctg_id']").value  = target.dataset.ctg_id ? target.dataset.ctg_id : 0;
-                        form.querySelector("input[name='item_id']").value = target.dataset.item_id ? target.dataset.item_id : 0;
-                        form.querySelector("input[name='pid']").value     = target.dataset.pid;
-                        form.querySelector("input[name='tier']").value    = target.dataset.tier;
-                        form.querySelector('textarea').placeholder        = target.dataset.title;
-
-                        reveal(operation);
-
-                    }//starClick end
-
-                    /**
-                     * #operation 中各个 .btn 的点击事件
-                     * @param target
-                     */
-                    function btnClick(target) {
-
-                        var url     = '',
-                            is_act  = false,
-                            tid     = target.id,
-                            act     = form.querySelector("input[name='act']"),
-                            ctg_id  = form.querySelector("input[name='ctg_id']").value,
-                            item_id = form.querySelector("input[name='item_id']").value;
-
-                        //首先将 act 和 form.action 置空
-                        act.value   = '';
-                        form.action = '';
-
-                        /**
-                         * 根据按钮的 id ，加入相应的操作
-                         */
-                        switch (tid)
-                        {
-                        case 'focus':
-
-                            break;
-                        case 'addDesc':
-                            act.value = 'desc';
-                            is_act = true;
-
-                            break;
-                        case 'addSibl':
-                            act.value = 'sibl';
-                            is_act = true;
-
-                            break;
-                        case 'editSelf':
-                            is_act = true;
-
-                            break;
-                        case 'hideOper':
-                            conceal(operation);
-                            break;
-                        case 'addItem':
-                            is_act = true;
-
-                            break;
-                        }
-
-                        if (is_act) {
-                            if (ctg_id != 0) {
-                                url = target.dataset.ctg_action;
-                            }else if (item_id != 0) {
-                                url = target.dataset.item_action;
-                            }
-                        }
-
-                        form.action = url;
-
-                        if (url) {
-                            reveal(form);
-                        }else{
-                            conceal(form);
-                        }
-
-
-                    }//btnClick end
-
-
                 }//callback end
+
+                /**
+                 * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
+                 * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
+                 * 显示 operation
+                 * @param target 点击的目标元素
+                 */
+                function starClick(target){
+
+                    var ctg_id   = target.dataset.ctg_id ? target.dataset.ctg_id : 0,
+                        item_id  = target.dataset.item_id ? target.dataset.item_id : 0,
+                        disable  = item_id ? ['addDesc', 'addSibl'] : [],               //不可点击的按钮
+                        disabled = operation.querySelectorAll('.disable'),
+                        i        = 0;
+                    /**
+                     * 给form表单写入参数
+                     */
+                    form.querySelector("input[name='ctg_id']").value  = ctg_id;
+                    form.querySelector("input[name='item_id']").value = item_id;
+                    form.querySelector("input[name='pid']").value     = target.dataset.pid;
+                    form.querySelector("input[name='tier']").value    = target.dataset.tier;
+                    form.querySelector('textarea').placeholder        = target.dataset.title;
+                    /**
+                     * 先取消所有 disabled 按钮
+                     */
+                    while (i < disabled.length) {
+                        disabled[i].classList.remove('disable');
+                        console.log(disabled[i]);
+                        i++;
+                    }
+
+                    i = 0;
+                    /**
+                     * 给不可用的按钮加 class disable
+                     */
+                    while (i < disable.length) {
+                        var btn = document.getElementById(disable[i]);
+
+                        if (btn) {
+                            btn.classList.add('disable');
+                        }
+
+                        i++;
+                    }
+
+                    reveal(operation);
+
+                }//starClick end
+
+                /**
+                 * #operation 中各个 .btn 的点击事件
+                 * @param target
+                 */
+                function btnClick(target) {
+
+                    var url     = '',
+                        is_act  = false,
+                        tid     = target.id,
+                        act     = form.querySelector("input[name='act']"),
+                        ctg_id  = form.querySelector("input[name='ctg_id']").value,
+                        item_id = form.querySelector("input[name='item_id']").value;
+
+                    //首先将 act 和 form.action 置空
+                    act.value   = '';
+                    form.action = '';
+
+                    /**
+                     * 根据按钮的 id ，加入相应的操作
+                     */
+                    switch (tid)
+                    {
+                    case 'focus':       //聚焦点击的元素
+
+                        break;
+                    case 'addDesc':     //添加一个子分类，只适用于分类元素
+                        act.value = 'desc';
+                        is_act = true;
+
+                        break;
+                    case 'addSibl':     //添加一个同级分类，只适用于分类元素
+                        act.value = 'sibl';
+                        is_act = true;
+
+                        break;
+                    case 'editSelf':    //编辑标题的内容，适用于分类和内容
+                        is_act = true;
+
+                        break;
+                    case 'hideOper':    //隐藏操作界面
+                        conceal(operation);
+                        break;
+                    case 'addItem':     //添加一个内容，适用于分类和内容
+                        is_act = true;
+
+                        break;
+                    }
+                    /**
+                     * 如果是进行表单操作的
+                     * 赋予相应的 url
+                     */
+                    if (is_act) {
+                        if (ctg_id != 0) {
+                            url = target.dataset.ctg_action;
+                        }else if (item_id != 0) {
+                            url = target.dataset.item_action;
+                        }
+                    }
+
+                    form.action = url;
+                    /**
+                     * 如果form有url，则显示form
+                     */
+                    if (url) {
+                        reveal(form);
+                    }else{
+                        conceal(form);
+                    }
+
+                }//btnClick end
+
 
             },//click end
 
