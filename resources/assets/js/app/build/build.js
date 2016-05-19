@@ -249,6 +249,9 @@ define([
                         starClick(target);
 
                     }else if (classList.contains('btn')) {
+                        if (classList.contains('disable')) {
+                            return false;
+                        }
                         //#operation 包含的所有 .btn 的点击
                         btnClick(target);
 
@@ -300,6 +303,7 @@ define([
                         i++;
                     }
 
+                    conceal(form);
                     reveal(operation);
 
                 }//starClick end
