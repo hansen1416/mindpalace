@@ -34,7 +34,7 @@ class UniverseController extends Controller {
 	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function createItem(Request $request)
+	public function createCtg(Request $request)
 	{
         $act      = $request->act;
         $ctgModel = new Ctg();
@@ -55,7 +55,7 @@ class UniverseController extends Controller {
             $ctgModel->pid   = $pid;
             $ctgModel->tier  = $request->tier;
             $ctgModel->title = $request->title;
-            $ctgModel->path  = $parent->path;
+            $ctgModel->path  = $parent ? $parent->path : '';
         }
 
         $ctgModel->save();
@@ -69,7 +69,7 @@ class UniverseController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function updateItem(Request $request)
+    public function updateCtg(Request $request)
     {
 		$ctgModel = Ctg::find($request->ctg_id);
 

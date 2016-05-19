@@ -41,11 +41,11 @@
         <input type="submit" value="ok">
     </form>
 
-    <div class="btn one" id="focus"     title="{{ trans('general.focus') }}"    data-action=""></div>
-    <div class="btn two" id="addDesc"   title="{{ trans('general.addDesc') }}"  data-action="{{ route('createItem') }}"></div>
-    <div class="btn thr" id="addSibl"   title="{{ trans('general.addSibl') }}"  data-action="{{ route('createItem') }}"></div>
-    <div class="btn fou" id="editSelf"  title="{{ trans('general.editSelf') }}" data-action="{{ route('updateItem') }}"></div>
-    <div class="btn fiv" id="hideOper"  title="{{ trans('general.hideOper') }}" data-action=""></div>
+    <div class="btn one" id="focus"     title="{{ trans('general.focus') }}" ></div>
+    <div class="btn two" id="addDesc"   title="{{ trans('general.addDesc') }}"  data-ctg_action="{{ route('createCtg') }}"></div>
+    <div class="btn thr" id="addSibl"   title="{{ trans('general.addSibl') }}"  data-ctg_action="{{ route('createCtg') }}"></div>
+    <div class="btn fou" id="editSelf"  title="{{ trans('general.editSelf') }}" data-ctg_action="{{ route('updateCtg') }}"></div>
+    <div class="btn fiv" id="hideOper"  title="{{ trans('general.hideOper') }}" ></div>
 
 </div>
 

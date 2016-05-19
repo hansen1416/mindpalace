@@ -267,11 +267,11 @@ define([
                      */
                     function starClick(target){
 
-                        form.querySelector("input[name='ctg_id']").value = target.dataset.ctg_id ? target.dataset.ctg_id : 0;
+                        form.querySelector("input[name='ctg_id']").value  = target.dataset.ctg_id ? target.dataset.ctg_id : 0;
                         form.querySelector("input[name='item_id']").value = target.dataset.item_id ? target.dataset.item_id : 0;
-                        form.querySelector("input[name='pid']").value    = target.dataset.pid;
-                        form.querySelector("input[name='tier']").value   = target.dataset.tier;
-                        form.querySelector('textarea').placeholder       = target.dataset.title;
+                        form.querySelector("input[name='pid']").value     = target.dataset.pid;
+                        form.querySelector("input[name='tier']").value    = target.dataset.tier;
+                        form.querySelector('textarea').placeholder        = target.dataset.title;
 
                         conceal(core);
                         reveal(operation);
@@ -284,19 +284,18 @@ define([
                      */
                     function btnClick(target) {
 
-                        var tid     = target.id,
+                        var url     = '',
+                            tid     = target.id,
                             act     = form.querySelector("input[name='act']"),
                             ctg_id  = form.querySelector("input[name='ctg_id']").value,
                             item_id = form.querySelector("input[name='item_id']").value;
 
-                        if (ctg_id == 0) {
-                            return false;
-                        }
+                        //首先将 act 和 form.action 置空
+                        act.value   = '';
+                        form.action = '';
 
-                        act.value = '';
                         /**
-                         * 添加同级分类，pid 取目标的 pid
-                         * 添加子级分类，pid 取目标的 id
+                         * 根据按钮的 id ，加入相应的操作
                          */
                         switch (tid)
                         {
@@ -305,11 +304,25 @@ define([
                             break;
                         case 'addDesc':
                             act.value = 'desc';
+                            
+                            if (ctg_id != 0) {
+                                url = target.dataset.ctg_action;
+                            }
+                            
                             break;
                         case 'addSibl':
                             act.value = 'sibl';
+
+                            if (ctg_id != 0) {
+                                url = target.dataset.ctg_action;
+                            }
+
                             break;
                         case 'editSelf':
+
+                            if (ctg_id != 0) {
+                                url = target.dataset.ctg_action;
+                            }
 
                             break;
                         case 'hideOper':
@@ -318,7 +331,6 @@ define([
                             break;
                         }
 
-                        var url = target.dataset.action ? target.dataset.action : '';
                         form.action = url;
 
                         if (url) {
