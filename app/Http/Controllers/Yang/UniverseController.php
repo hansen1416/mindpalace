@@ -91,12 +91,25 @@ class UniverseController extends Controller {
     {
         $itemModel = new Item();
 
-        $itemModel->ctg_id = $request->pid;
+        $itemModel->ctg_id = $request->item_id ? $request->pid : $request->ctg_id;
         $itemModel->title  = $request->title;
 
         $res = $itemModel->save();
 
         return redirect()->route('universeIndex');
+    }
+
+
+    public function updateItem(Request $request)
+    {
+        $itemModel = Item::find($request->item_id);
+
+        $itemModel->title = $request->title;
+
+        $res = $itemModel->save();
+
+        return redirect()->route('universeIndex');
+
     }
 
 }

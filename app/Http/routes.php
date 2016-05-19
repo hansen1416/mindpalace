@@ -26,4 +26,5 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang'], function()
 	Route::post('universe/createCtg',   ['as' => 'createCtg',       'uses' => 'UniverseController@createCtg']);
 	Route::post('universe/updateCtg',   ['as' => 'updateCtg',       'uses' => 'UniverseController@updateCtg']);
     Route::post('universe/createItem',  ['as' => 'createItem',      'uses' => 'UniverseController@createItem']);
+    Route::post('universe/updateItem',  ['as' => 'updateItem',      'uses' => 'UniverseController@updateItem']);
 });

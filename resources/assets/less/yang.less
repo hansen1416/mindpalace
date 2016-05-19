@@ -6,6 +6,8 @@ img,input,textarea,button{border: 0;}
 a{text-decoration: none;}
 
 @universe: #002240;
+@white: #fff;
+@black: #000;
 
 body{background-color: @universe; overflow: hidden;}
 
@@ -45,6 +47,7 @@ form{display: none;}
 .in-block {display: inline-block;}
 .t-center {text-align: center;}
 .cursor-grab {cursor: -webkit-grab; cursor: -moz-grab; cursor: grab;}
+
 //舞台，等于窗口大小的元素
 #stage{
 	.perspective; .pers_origin; .trsf_origin; .abs;
@@ -57,22 +60,21 @@ form{display: none;}
 		width: 100px; height: 100px; top: 50%; left: 50%;
         margin: -50px 0 0 -50px; color: #fff;
 
-        @star: #fff;
         //分类
 		.star{
-            .back_face; .over-hidden; .abs; .t-center;
+            .back_face; .over-hidden; .abs;
 			top: 50%; left: 50%; padding: 0.2em; margin: -0.6em 0 0 -2.1em;
-            line-height: 1em; width: 4em; height: 1em; text-overflow:ellipsis; white-space:normal;
+            line-height: 1em; max-width: 4em; height: 1em; text-overflow:ellipsis; white-space:nowrap;
             border-radius: 3px;
             &:hover{border: 2px solid #fff;}
 		}
 
         .star.ctg{
-            background-color: fade(@star, 20%);
+            background-color: fade(@white, 20%);
         }
 
         .star.item{
-            background-color: fade(@star, 40%);
+            background-color: fade(@white, 40%);
         }
 
 	}
@@ -84,12 +86,14 @@ form{display: none;}
 @ow2: @ow * -1 / 2;
 @btnw: 30px;
 @btnw2: @btnw * -1 / 2;
+@btn: rgb(62,186,248);
+@btn-hover: fade(@btn, 70%);
 
 //添加删除等操作
 #operation{
     .abs; .hide;
     top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow2  0 0 @ow2;
-    //background-color: rgba(94, 226, 209, 0.1); border-radius: 50%;
+    background-color: fade(@white, 10%); border-radius: 50%;
 
     form{
         @fw: @ow*2/3;
@@ -112,8 +116,8 @@ form{display: none;}
     .btn{
         .abs;
         width: @btnw; height: @btnw; margin: @btnw2 0 0 @btnw2;
-        border-radius: 50%; background-color: rgba(255,255,255,0.6);
-        &:hover{background-color: rgba(62,186,248,0.6); cursor: pointer;}
+        border-radius: 50%; background-color: @btn;
+        &:hover{background-color: @btn-hover; cursor: pointer;}
     }
 
     .btn.one{top: 0; left: 50%;}
@@ -127,6 +131,6 @@ form{display: none;}
 #core {
     .abs;
     top: 50%; left: 50%; margin: -15px 0 0 -15px;
-    width: 30px; height: 30px; border-radius: 50%; background-color: rgba(255,255,255,0.6);
-    &:hover{background-color: rgba(62,186,248,0.6); cursor: pointer;}
+    width: 30px; height: 30px; border-radius: 50%; background-color: @btn;
+    &:hover{background-color: @btn-hover; cursor: pointer;}
 }
