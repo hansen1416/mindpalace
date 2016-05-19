@@ -7,4 +7,5 @@ return [
     'editSelf'  => 'Edit the title',
     'hideOper'  => 'Hide the operation panel',
     'addItem'   => 'Add a item',
+    'showItem'  => 'Display the item content',
 ];

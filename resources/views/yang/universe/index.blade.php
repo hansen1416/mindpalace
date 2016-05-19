@@ -47,6 +47,7 @@
     <div class="btn fou" id="editSelf"  title="{{ trans('general.editSelf') }}" data-ctg_action="{{ route('updateCtg') }}" data-item_action="{{ route('updateItem') }}"></div>
     <div class="btn fiv" id="hideOper"  title="{{ trans('general.hideOper') }}" ></div>
     <div class="btn six" id="addItem"   title="{{ trans('general.addItem') }}"  data-ctg_action="{{ route('createItem') }}" data-item_action="{{ route('createItem') }}"></div>
+    <div class="btn sev" id="showItem"  title="{{ trans('general.showItem') }}" ></div>
 
 </div>
 

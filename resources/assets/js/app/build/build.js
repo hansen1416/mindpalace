@@ -269,7 +269,7 @@ define([
 
                     var ctg_id   = target.dataset.ctg_id ? target.dataset.ctg_id : 0,
                         item_id  = target.dataset.item_id ? target.dataset.item_id : 0,
-                        disable  = item_id ? ['addDesc', 'addSibl'] : [],               //不可点击的按钮
+                        disable  = item_id ? ['#addDesc', '#addSibl'] : ['#showItem'],               //不可点击的按钮
                         disabled = operation.querySelectorAll('.disable'),
                         i        = 0;
                     /**
@@ -285,7 +285,6 @@ define([
                      */
                     while (i < disabled.length) {
                         disabled[i].classList.remove('disable');
-                        console.log(disabled[i]);
                         i++;
                     }
 
@@ -294,7 +293,7 @@ define([
                      * 给不可用的按钮加 class disable
                      */
                     while (i < disable.length) {
-                        var btn = document.getElementById(disable[i]);
+                        var btn = operation.querySelector(disable[i]);
 
                         if (btn) {
                             btn.classList.add('disable');
