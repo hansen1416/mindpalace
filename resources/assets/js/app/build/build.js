@@ -285,6 +285,7 @@ define([
                     function btnClick(target) {
 
                         var url     = '',
+                            is_act  = false,
                             tid     = target.id,
                             act     = form.querySelector("input[name='act']"),
                             ctg_id  = form.querySelector("input[name='ctg_id']").value,
@@ -304,31 +305,28 @@ define([
                             break;
                         case 'addDesc':
                             act.value = 'desc';
-                            
-                            if (ctg_id != 0) {
-                                url = target.dataset.ctg_action;
-                            }
-                            
+                            is_act = true;
+
                             break;
                         case 'addSibl':
                             act.value = 'sibl';
-
-                            if (ctg_id != 0) {
-                                url = target.dataset.ctg_action;
-                            }
+                            is_act = true;
 
                             break;
                         case 'editSelf':
-
-                            if (ctg_id != 0) {
-                                url = target.dataset.ctg_action;
-                            }
+                            is_act = true;
 
                             break;
                         case 'hideOper':
                             conceal(operation);
                             reveal(core);
                             break;
+                        }
+
+                        if (is_act) {
+                            if (ctg_id != 0) {
+                                url = target.dataset.ctg_action;
+                            }
                         }
 
                         form.action = url;
