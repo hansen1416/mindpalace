@@ -11,20 +11,6 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
-
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
-
-Route::group(['prefix' => 'yang', 'namespace' => 'Yang'], function()  
-{
-	Route::get('universe',              ['as' => 'universeIndex',   'uses' => 'UniverseController@index']);
-	Route::post('universe/createCtg',   ['as' => 'createCtg',       'uses' => 'UniverseController@createCtg']);
-	Route::post('universe/updateCtg',   ['as' => 'updateCtg',       'uses' => 'UniverseController@updateCtg']);
-    Route::post('universe/createItem',  ['as' => 'createItem',      'uses' => 'UniverseController@createItem']);
-    Route::post('universe/updateItem',  ['as' => 'updateItem',      'uses' => 'UniverseController@updateItem']);
+Route::get('/', function () {
+    return view('welcome');
 });
