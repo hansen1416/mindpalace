@@ -29,3 +29,7 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang'], function()
     Route::post('universe/createItem',  ['as' => 'createItem',      'uses' => 'UniverseController@createItem']);
     Route::post('universe/updateItem',  ['as' => 'updateItem',      'uses' => 'UniverseController@updateItem']);
 });
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
