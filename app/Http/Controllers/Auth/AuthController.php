@@ -23,7 +23,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/yang/universe';
+    protected $redirectTo = '/';
     /**
      * Create a new authentication controller instance.
      *

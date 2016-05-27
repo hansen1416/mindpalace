@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.yang.home')
 
 <!-- Main Content -->
 @section('content')

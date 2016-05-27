@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('yang.home.index');
+    return redirect()->route('home');
 });
 
 Route::controllers([
