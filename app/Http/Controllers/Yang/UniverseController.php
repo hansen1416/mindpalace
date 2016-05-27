@@ -61,7 +61,7 @@ class UniverseController extends Controller
 
         $ctgModel->save();
 
-        return redirect()->route('universeIndex');
+        return redirect()->route('universe');
 	}
 
     /**
@@ -78,7 +78,7 @@ class UniverseController extends Controller
 
 		$res = $ctgModel->save();
 
-		return redirect()->route('universeIndex');
+		return redirect()->route('universe');
     }
 
     /**
@@ -96,7 +96,7 @@ class UniverseController extends Controller
 
         $res = $itemModel->save();
 
-        return redirect()->route('universeIndex');
+        return redirect()->route('universe');
     }
 
 
@@ -108,7 +108,7 @@ class UniverseController extends Controller
 
         $res = $itemModel->save();
 
-        return redirect()->route('universeIndex');
+        return redirect()->route('universe');
 
     }
 
