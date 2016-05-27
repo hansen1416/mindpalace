@@ -15,13 +15,14 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
+Route::get('/yang/home', ['as' => 'home', 'uses' => 'Yang\HomeController@index']);
+
 Route::controllers([
                        'auth' => 'Auth\AuthController',
                        'password' => 'Auth\PasswordController',
                    ]);
 Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth'], function()
 {
-    Route::get('home',                  ['as' => 'home',       'uses' => 'HomeController@index']);
     Route::get('universe',              ['as' => 'universe',   'uses' => 'UniverseController@index']);
     Route::post('universe/createCtg',   ['as' => 'createCtg',  'uses' => 'UniverseController@createCtg']);
     Route::post('universe/updateCtg',   ['as' => 'updateCtg',  'uses' => 'UniverseController@updateCtg']);
