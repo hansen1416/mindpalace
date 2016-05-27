@@ -21,7 +21,7 @@ Route::controllers([
                        'auth' => 'Auth\AuthController',
                        'password' => 'Auth\PasswordController',
                    ]);
-Route::group(['prefix' => 'yang', 'namespace' => 'Yang'], function()
+Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth'], function()
 {
     Route::get('universe',              ['as' => 'universeIndex',   'uses' => 'UniverseController@index']);
     Route::post('universe/createCtg',   ['as' => 'createCtg',       'uses' => 'UniverseController@createCtg']);
