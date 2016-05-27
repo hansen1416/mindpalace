@@ -12,10 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
-
-Route::get('home', 'HomeController@index');
 
 Route::controllers([
                        'auth' => 'Auth\AuthController',
@@ -23,6 +21,7 @@ Route::controllers([
                    ]);
 Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth'], function()
 {
+    Route::get('home',                  ['as' => 'home',            'uses' => 'HomeController@index']);
     Route::get('universe',              ['as' => 'universeIndex',   'uses' => 'UniverseController@index']);
     Route::post('universe/createCtg',   ['as' => 'createCtg',       'uses' => 'UniverseController@createCtg']);
     Route::post('universe/updateCtg',   ['as' => 'updateCtg',       'uses' => 'UniverseController@updateCtg']);
@@ -32,4 +31,3 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth']
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');

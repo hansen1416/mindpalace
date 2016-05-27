@@ -1,14 +1,15 @@
-<?php namespace App\Http\Controllers\Yang;
+<?php
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers\Yang;
 
 use Illuminate\Http\Request;
-
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use App\Ctg;
 use App\Item;
 
-class UniverseController extends Controller {
+class UniverseController extends Controller
+{
 
 	/**
 	 * Display a listing of the resource.
