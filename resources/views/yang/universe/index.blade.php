@@ -1,4 +1,4 @@
-@extends('yang.universe.layouts')
+@extends('layouts.yang.universe')
 
 @section('content')
 <style id="style_zoom"></style>
