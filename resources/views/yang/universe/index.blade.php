@@ -59,7 +59,7 @@
     });
 </script>
 @else
-<!-- <script src="{{ asset('/js/universe.js') }}"></script> -->
+<script src="{{ asset('/js/universe.js') }}"></script>
 @endif
 
 @endsection
