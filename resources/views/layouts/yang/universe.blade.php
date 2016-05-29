@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
-	<title>Mind Palace</title>
+	<title>{{ trans('general.pageTitle') }}</title>
 
     <!-- develop -->
     <link rel="stylesheet/less" type="text/css" href="{{ asset('../resources/assets/less/yang.less') }}" >

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'pageTitle' => 'Mind Palace',
     'focus'     => 'focus the selected element',
     'addSibl'   => 'Add a sibling category',
     'addDesc'   => 'Add a descendant category',
