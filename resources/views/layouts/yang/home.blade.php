@@ -8,6 +8,12 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
     <title>{{ trans('general.pageTitle') }}</title>
 
+    @if(App::environment('local'))
+    <link rel="stylesheet/less" type="text/css" href="{{ asset('../resources/assets/less/home.less') }}" >
+    @else
+    <!-- <link href="{{ asset('/css/home.min.css') }}" rel="stylesheet"> -->
+    @endif
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
