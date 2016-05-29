@@ -51,17 +51,15 @@
 
 </div>
 
-<!-- develop -->
+@if(App::environment('local'))
 <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>
 <script type="text/javascript">
 	require.config({
         urlArgs: "v=" + (new Date()).getTime()
     });
 </script>
-<!-- develop -->
-
-<!-- product -->
+@else
 <!-- <script src="{{ asset('/js/universe.js') }}"></script> -->
-<!-- product -->
+@endif
 
 @endsection

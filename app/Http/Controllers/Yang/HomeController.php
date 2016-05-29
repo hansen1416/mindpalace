@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Yang;
 
+use App;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
