@@ -99,7 +99,12 @@ class UniverseController extends Controller
         return redirect()->route('universe');
     }
 
-
+    /**
+     * 编辑内容的标题
+     * @param Request $request
+     * @author Hanlongzhen 2016-05-29 11:31
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateItem(Request $request)
     {
         $itemModel = Item::find($request->item_id);
