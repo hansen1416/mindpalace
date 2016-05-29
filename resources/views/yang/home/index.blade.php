@@ -1,29 +1,29 @@
 @extends('layouts.yang.home')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading"></div>
+    @section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading"></div>
 
-                <div class="panel-body">
-                    <a href="{{ route('universe') }}">universe</a>
+                    <div class="panel-body">
+                        <a href="{{ route('universe') }}">universe</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@if(App::environment('local'))
-    <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>
-    <script type="text/javascript">
-        require.config({
-                           urlArgs: "v=" + (new Date()).getTime()
-                       });
-    </script>
-@else
-    <script src="{{ asset('/js/universe.js') }}"></script>
-@endif
+    @if(App::environment('local'))
+        <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>
+        <script type="text/javascript">
+            require.config({
+                               urlArgs: "v=" + (new Date()).getTime()
+                           });
+        </script>
+    @else
+        <script src="{{ asset('/js/universe.js') }}"></script>
+    @endif
 
 @endsection
