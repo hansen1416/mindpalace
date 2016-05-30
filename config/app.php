@@ -27,6 +27,7 @@ return [
 	*/
 
 	'url' => 'http://localhost',
+    'document_root' => 'file:///D:/wamp/www/mindpalace',
 
 	/*
 	|--------------------------------------------------------------------------

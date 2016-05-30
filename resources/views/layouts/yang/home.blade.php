@@ -9,7 +9,7 @@
     <title>{{ trans('general.pageTitle') }}</title>
 
     @if(App::environment('local'))
-    <link rel="stylesheet/less" type="text/css" href="{{ URL::asset('../resources/assets/less/home.less') }}" >
+    <link rel="stylesheet/less" type="text/css" href="{{config('app.document_root')}}/resources/assets/less/home.less" >
     <script type="text/javascript" src="{{ URL::asset('/js/require.js') }}"></script>
     @else
     <link href="{{ URL::asset('/css/home.min.css') }}" rel="stylesheet">

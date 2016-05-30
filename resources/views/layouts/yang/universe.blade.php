@@ -9,8 +9,8 @@
 	<title>{{ trans('general.pageTitle') }}</title>
 
     @if(App::environment('local'))
-    <link rel="stylesheet/less" type="text/css" href="{{ URL::asset('../resources/assets/less/yang.less') }}" >
-    <script type="text/javascript" src="{{ URL::asset('../node_modules/less/dist/less.js') }}"></script>
+    <link rel="stylesheet/less" type="text/css" href="{{config('app.document_root')}}/resources/assets/less/yang.less" >
+    <script type="text/javascript" src="{{config('app.document_root')}}/node_modules/less/dist/less.js"></script>
     @else
 	<link href="{{ URL::asset('/css/yang.min.css') }}" rel="stylesheet">
     <script src="{{ URL::asset('/js/require.js') }}"></script>
