@@ -16,14 +16,14 @@
     </div>
 
     @if(App::environment('local'))
-        <script data-main="{{ asset('../resources/assets/js/app/main-universe.js') }}" src="{{ asset('/js/require.js') }}"></script>
+        <script data-main="{{ URL::asset('../resources/assets/js/app/main-universe.js') }}" src="{{ URL::asset('/js/require.js') }}"></script>
         <script type="text/javascript">
             require.config({
                                urlArgs: "v=" + (new Date()).getTime()
                            });
         </script>
     @else
-        <script src="{{ asset('/js/universe.js') }}"></script>
+        <script src="{{ URL::asset('/js/universe.js') }}"></script>
     @endif
 
 @endsection

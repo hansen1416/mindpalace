@@ -9,11 +9,11 @@
 	<title>{{ trans('general.pageTitle') }}</title>
 
     @if(App::environment('local'))
-    <link rel="stylesheet/less" type="text/css" href="{{ asset('../resources/assets/less/yang.less') }}" >
-    <script type="text/javascript" src="{{ asset('../node_modules/less/dist/less.js') }}"></script>
+    <link rel="stylesheet/less" type="text/css" href="{{ URL::asset('../resources/assets/less/yang.less') }}" >
+    <script type="text/javascript" src="{{ URL::asset('../node_modules/less/dist/less.js') }}"></script>
     @else
-	<link href="{{ asset('/css/yang.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('/js/require.js') }}"></script>
+	<link href="{{ URL::asset('/css/yang.min.css') }}" rel="stylesheet">
+    <script src="{{ URL::asset('/js/require.js') }}"></script>
     @endif
 
 </head>
