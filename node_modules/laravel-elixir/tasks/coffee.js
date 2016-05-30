@@ -4,7 +4,6 @@ var Elixir = require('laravel-elixir');
 var $ = Elixir.Plugins;
 var config = Elixir.config;
 
-
 /*
  |----------------------------------------------------------------
  | CoffeeScript Compilation
@@ -17,9 +16,9 @@ var config = Elixir.config;
  */
 
 Elixir.extend('coffee', function(src, output, options) {
-    new Elixir.Task('coffee', function() {
-        var paths = prepGulpPaths(src, output);
+    var paths = prepGulpPaths(src, output);
 
+    new Elixir.Task('coffee', function() {
         this.log(paths.src, paths.output);
 
         return (
@@ -39,16 +38,17 @@ Elixir.extend('coffee', function(src, output, options) {
             .pipe(new Elixir.Notification('CoffeeScript Compiled!'))
         );
     })
-    .watch(config.get('assets.js.coffee.folder') + '/**/*.coffee')
+    .watch(paths.src.path)
+    .ignore(paths.output.path);
 });
 
 
 /**
  * Prep the Gulp src and output paths.
  *
- * @param  {string|array} src
+ * @param  {string|Array} src
  * @param  {string|null}  output
- * @return {object}
+ * @return {GulpPaths}
  */
 var prepGulpPaths = function(src, output) {
     return new Elixir.GulpPaths()

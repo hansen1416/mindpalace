@@ -4,7 +4,6 @@ var Elixir = require('laravel-elixir');
 
 var config = Elixir.config;
 
-
 /*
  |----------------------------------------------------------------
  | Sass Compilation Task
@@ -17,9 +16,9 @@ var config = Elixir.config;
  */
 
 var gulpTask = function(src, output, options) {
-    new Elixir.Task('sass', function() {
-        var paths = prepGulpPaths(src, output);
+    var paths = prepGulpPaths(src, output);
 
+    new Elixir.Task('sass', function() {
         return compile({
             name: 'Sass',
             compiler: require('gulp-sass'),
@@ -29,7 +28,8 @@ var gulpTask = function(src, output, options) {
             pluginOptions: options || config.css.sass.pluginOptions
         });
     })
-    .watch(config.get('assets.css.sass.folder') + '/**/*.+(sass|scss)');
+    .watch(paths.src.baseDir + '/**/*.+(sass|scss)')
+    .ignore(paths.output.path);
 };
 
 
@@ -43,13 +43,12 @@ Elixir.extend('rubySass', function() {
     gulpTask.apply(this, arguments);
 });
 
-
 /**
  * Prep the Gulp src and output paths.
  *
- * @param  {string|array} src
+ * @param  {string|Array} src
  * @param  {string|null}  output
- * @return {object}
+ * @return {GulpPaths}
  */
 var prepGulpPaths = function(src, output) {
     return new Elixir.GulpPaths()
