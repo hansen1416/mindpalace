@@ -1,5 +1,12 @@
 @import "general";
 
- body{.over-hidden;}
+@home: #ccc;
+@pw: 200px;
 
-.center {display: block; color: red;}
+body{.over-hidden; background-color: @home;}
+
+.portrait {
+    .abs; .circle;
+    width: @pw; height: @pw; top: 50%; left: 50%; margin: @pw/-2 0 0 @pw/-2;
+    background-color: @white;
+}
