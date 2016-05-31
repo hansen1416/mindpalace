@@ -26,5 +26,4 @@ define([
     B.zoom();
     B.click();
 
-
 });

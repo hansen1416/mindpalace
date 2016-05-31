@@ -36,9 +36,6 @@ elixir.config.sourcemaps = false;
 elixir(function(mix) {
     mix.less('yang.less', 'public/css/yang.css');
     mix.less('home.less', 'public/css/home.css');
-    mix.task('requirejsBuild');
-    mix.browserSync({
-                        proxy: 'mindpalace.com'
-                    });
+    mix.task('requirejsBuild', './resources/js/**/*.js');
 });
 
