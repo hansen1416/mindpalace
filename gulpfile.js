@@ -11,8 +11,9 @@ var elixir = require('laravel-elixir');
  |
  */
 
-var gulp = require('gulp'),
-    rjs  = require('gulp-requirejs');
+var gulp   = require('gulp'),
+    rjs    = require('gulp-requirejs'),
+    uglify = require('gulp-uglify');
 
 gulp.task('requirejsBuild', function() {
     /**
@@ -23,8 +24,8 @@ gulp.task('requirejsBuild', function() {
             baseUrl:    './resources/assets/js/',
             name:       "build-yang-universe",
             out:        "universe.js",
-            uglify:     {},
         })
+    .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
 });
 
