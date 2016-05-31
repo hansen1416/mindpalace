@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
     <title>{{ trans('general.pageTitle') }}</title>
 
-    <link href="{{ URL::asset('/css/home.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('/css/home.css') }}" rel="stylesheet">
     <script src="{{ URL::asset('/js/require.js') }}"></script>
 
 </head>

@@ -15,6 +15,6 @@
         </div>
     </div>
 
-    <script src="{{ URL::asset('/js/universe.js') }}"></script>
+    <script src="{{ URL::asset('/js/home.js') }}"></script>
 
 @endsection
