@@ -1123,7 +1123,7 @@ define('yang/yang-universe',[
     B.click();
 
 
-
+    var t;
 });
 
 // For any third party dependencies, like jQuery, place them in the lib folder.
