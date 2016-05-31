@@ -13,14 +13,11 @@ var elixir = require('laravel-elixir');
 
 elixir.config.sourcemaps = false;
 
-// elixir(function(mix) {
-//     mix.less('app.less');
-// });
-
 elixir(function(mix) {
-    mix.less('yang.less');
+    mix.less('yang.less', 'public/css/yang.min.css');
+    mix.less('home.less', 'public/css/home.min.css');
 });
 
-elixir(function(mix) {
-    mix.scripts(['common.js', 'universe.js'], 'public/js/universe.js');
-});
+//elixir(function(mix) {
+//    mix.scripts(['common.js', 'universe.js'], 'public/js/universe.js');
+//});

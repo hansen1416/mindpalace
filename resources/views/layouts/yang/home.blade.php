@@ -8,13 +8,8 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
     <title>{{ trans('general.pageTitle') }}</title>
 
-    @if(App::environment('local'))
-    <link rel="stylesheet/less" type="text/css" href="{{base_path('/resources/assets/less/home.less')}}" >
-    <script type="text/javascript" src="{{ URL::asset('/js/require.js') }}"></script>
-    @else
     <link href="{{ URL::asset('/css/home.min.css') }}" rel="stylesheet">
     <script src="{{ URL::asset('/js/require.js') }}"></script>
-    @endif
 
 </head>
 <body id="app-layout">
