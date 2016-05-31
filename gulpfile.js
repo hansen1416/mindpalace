@@ -23,8 +23,8 @@ gulp.task('requirejsBuild', function() {
             baseUrl:    './resources/assets/js/',
             name:       "build-yang-universe",
             out:        "universe.js",
+            uglify:     {},
         })
-    .pipe(minify())
     .pipe(gulp.dest('./public/js/'));
 });
 
