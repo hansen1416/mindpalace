@@ -1,8 +1,8 @@
 
-define( 'app/var/document',[],function() {
+define( 'yang/var/document',[],function() {
 	return window.document;
 } );
-define('app/var/prefixJs',[],function(){
+define('yang/var/prefixJs',[],function(){
 
     var userAgent   = navigator.userAgent.toLowerCase(),
         prefixJs    = "";
@@ -19,19 +19,19 @@ define('app/var/prefixJs',[],function(){
 
     return prefixJs;
 });
-define('app/var/trsfm',[
+define('yang/var/trsfm',[
         "./prefixJs",
     ], function(prefixJs) { //判断浏览器支持那种transform的写法;
 	return (prefixJs+"Transform" in document.documentElement.style) ? prefixJs+"Transform" : "transform";
 } );
-define('app/var/getStyle',[],function() {
+define('yang/var/getStyle',[],function() {
     //get element style
 	return function (target, prop){
         return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
     }
 
 } );
-define('app/var/colorCircle',[],function() {
+define('yang/var/colorCircle',[],function() {
     /**
      * colorCircle
      */
@@ -50,7 +50,7 @@ define('app/var/colorCircle',[],function() {
             'rgb(255, 0, 128)',
             ]
 });
-define('app/var/bindEvent',[],function(){
+define('yang/var/bindEvent',[],function(){
 
     return function (obj, type, callback, propa) {
 
@@ -58,7 +58,7 @@ define('app/var/bindEvent',[],function(){
         obj.addEventListener(type, callback, propagation);
     }
 });
-define('app/var/unbindEvent',[],function(){
+define('yang/var/unbindEvent',[],function(){
 
     return function (obj, type, callback, option ) {
 
@@ -66,7 +66,7 @@ define('app/var/unbindEvent',[],function(){
         obj.removeEventListener(type, callback, useCapture);
     }
 });
-define('app/var/touchPos',[],function() {
+define('yang/var/touchPos',[],function() {
     /**
      * touchPos [get the mouse/touch position]
      * @AuthorName Hanlongzhen
@@ -90,7 +90,7 @@ define('app/var/touchPos',[],function() {
     }
 
 } );
-define('app/build/func/reveal',[],function() {
+define('yang/build/func/reveal',[],function() {
     /**
      * 显示元素
      */
@@ -99,7 +99,7 @@ define('app/build/func/reveal',[],function() {
     }
 
 });
-define('app/build/func/conceal',[],function() {
+define('yang/build/func/conceal',[],function() {
     /**
      * 隐藏元素
      */
@@ -108,14 +108,14 @@ define('app/build/func/conceal',[],function() {
     }
 
 });
-define('app/build/func/configVar',[],function() {
+define('yang/build/func/configVar',[],function() {
 
    return function (v, config) {
        return config || v;
    }
 
 });
-define('app/build/func/closestPoint',[],function() {
+define('yang/build/func/closestPoint',[],function() {
     /**
      * closestPoint 从位置数组中寻找离空间中指定点最近的点
      * @param parentPos
@@ -158,7 +158,7 @@ define('app/build/func/closestPoint',[],function() {
     }
 
 } );
-define('app/build/func/maxPoint',[],function(){
+define('yang/build/func/maxPoint',[],function(){
     /**
      * maxPoint 计算出每个球面上应该有多少个均匀分布的点
      * 先算出该层的上一层的分类数，记为 f，再计算哪个父分类中的子分类最多，记为 s，
@@ -203,7 +203,7 @@ define('app/build/func/maxPoint',[],function(){
         return Math.max(f * s, arr.length, n);
     }
 });
-define('app/build/func/fibonacciSphere',[],function(){
+define('yang/build/func/fibonacciSphere',[],function(){
     /**
      * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
      * positioning the points by spiral Fibonacci method
@@ -261,7 +261,7 @@ define('app/build/func/fibonacciSphere',[],function(){
     }
 });
 
-define('app/build/build',[
+define('yang/build/build',[
 		"../var/document",
 		"../var/trsfm",
         "../var/getStyle",
@@ -649,7 +649,7 @@ define('app/build/build',[
         window.Build = Build;
 
 });
-define('app/var/prefixCss',[],function(){
+define('yang/var/prefixCss',[],function(){
 
     var userAgent   = navigator.userAgent.toLowerCase(),
         prefixCss    = "";
@@ -666,7 +666,7 @@ define('app/var/prefixCss',[],function(){
 
     return prefixCss;
 });
-define('app/var/findPos',[],function() {
+define('yang/var/findPos',[],function() {
     //findPos-script by www.quirksmode.org
 	return function (obj){
         var curleft = 0,
@@ -683,7 +683,7 @@ define('app/var/findPos',[],function() {
     }
 
 } );
-define('app/var/requestAnim',[],function(){
+define('yang/var/requestAnim',[],function(){
 	return  window.requestAnimationFrame       || 
 	        window.webkitRequestAnimationFrame || 
 	        window.mozRequestAnimationFrame    || 
@@ -693,7 +693,7 @@ define('app/var/requestAnim',[],function(){
 	            return window.setTimeout(callback, 1000 / 60);
 	        };
 });
-define('app/var/cancelAnim',[],function(){
+define('yang/var/cancelAnim',[],function(){
     return  window.cancelAnimationFrame            		||
 	        window.webkitCancelRequestAnimationFrame    ||
 	        window.mozCancelRequestAnimationFrame       ||
@@ -701,7 +701,7 @@ define('app/var/cancelAnim',[],function(){
 	        window.msCancelRequestAnimationFrame        ||
 	        clearTimeout;
 });
-define('app/build/func/multiplyMatrix3d',[],function() {
+define('yang/build/func/multiplyMatrix3d',[],function() {
     // 计算两个m3d的乘积，其实是长度16的数组相乘，转化成两个4x4的矩阵相成
 	return function (m1, m2){
         var m = new Float32Array(16);
@@ -727,7 +727,7 @@ define('app/build/func/multiplyMatrix3d',[],function() {
     }
 
 } );
-define('app/build/func/calcAngle',[],function() {
+define('yang/build/func/calcAngle',[],function() {
 	/**
 	 * calcAngle [计算两空间三维向量之间夹角]
 	 * @AuthorName Hanlongzhen 
@@ -744,7 +744,7 @@ define('app/build/func/calcAngle',[],function() {
     }
 
 });
-define('app/build/func/calcZ',[],function() {
+define('yang/build/func/calcZ',[],function() {
 
 	/**
      * [calcZ calculate the z-component for a space vector.
@@ -763,7 +763,7 @@ define('app/build/func/calcZ',[],function() {
     }
 
 } );
-define('app/build/func/normalize',[],function() {
+define('yang/build/func/normalize',[],function() {
 
 	return function (vec){ // 向量单位化，可以是任意维向量
         var len = vec.length, vecLength = 0, norm = [];
@@ -786,7 +786,7 @@ define('app/build/func/normalize',[],function() {
     }
 
 } );
-define('app/build/func/crossVector',[],function() {
+define('yang/build/func/crossVector',[],function() {
 	/**
      * crossVector [两个空间三维向量的叉积，既是计算出旋转轴
     // 如果两个向量长度不一致，则不可以进行运算]
@@ -807,7 +807,7 @@ define('app/build/func/crossVector',[],function() {
     }
 
 } );
-define('app/build/func/rotateMatrix',[],function() {
+define('yang/build/func/rotateMatrix',[],function() {
     // inerpolate rotate3d vector into a 3d matrix, information from w3 org
 	return function (axis, angle){
         var x  = axis[0],
@@ -834,7 +834,7 @@ define('app/build/func/rotateMatrix',[],function() {
 
 } );
 
-define('app/build/trackball',[
+define('yang/build/trackball',[
         "../var/document",
         "../var/prefixJs",
         "../var/prefixCss",
@@ -1094,14 +1094,12 @@ define('app/build/trackball',[
         window.Trackball = Trackball;
                 
 });
-define('app/main-universe',[
+define('yang/yang-universe',[
         "./var/document",
         "./build/build",
         "./build/trackball",
 
 	], function (document, build, trackball) {
-
-    
 
     //给每一个 star 在空间中定位
     var B = new Build({
@@ -1134,12 +1132,12 @@ define('app/main-universe',[
 requirejs.config({
     baseUrl: 'public/js',
     paths: {
-        app: '../js/app'
+        app: '../js/yang'
     }
 });
 
 // Start loading the main app file. Put all of
 // your application logic in there.
-requirejs(['app/main-universe']);
+requirejs(['yang/yang-universe']);
 
-define("app-universe", function(){});
+define("build-yang-universe", function(){});
