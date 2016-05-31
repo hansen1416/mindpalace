@@ -15,15 +15,6 @@
         </div>
     </div>
 
-    @if(App::environment('local'))
-        <script data-main="{{ config('app.document_root') }}/resources/assets/js/app/main-universe.js" src="{{ URL::asset('/js/require.js') }}"></script>
-        <script type="text/javascript">
-            require.config({
-                               urlArgs: "v=" + (new Date()).getTime()
-                           });
-        </script>
-    @else
-        <script src="{{ URL::asset('/js/universe.js') }}"></script>
-    @endif
+    <script src="{{ URL::asset('/js/universe.js') }}"></script>
 
 @endsection
