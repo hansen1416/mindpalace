@@ -17,7 +17,7 @@ var gulp = require('gulp'),
 gulp.task('requirejsBuild', function() {
     rjs({
             baseUrl: './resources/assets/js/',
-            name: "app-universe",
+            name: "build-yang-universe",
             out: "./public/js/universe.js",
         }); // pipe it to the output DIR
 });

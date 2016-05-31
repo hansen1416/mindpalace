@@ -5,8 +5,6 @@ define([
 
 	], function (document, build, trackball) {
 
-    "use strict";
-
     //给每一个 star 在空间中定位
     var B = new Build({
         radius: 140,

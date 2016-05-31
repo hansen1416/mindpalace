@@ -6,10 +6,10 @@
 requirejs.config({
     baseUrl: 'public/js',
     paths: {
-        app: '../js/app'
+        app: '../js/yang'
     }
 });
 
 // Start loading the main app file. Put all of
 // your application logic in there.
-requirejs(['app/main-universe']);
+requirejs(['yang/yang-universe']);
