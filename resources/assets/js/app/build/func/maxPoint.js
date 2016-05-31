@@ -38,7 +38,7 @@ define(function(){
         } while (i < arr.length);
 
         var f = values.length,
-            s = Math.max(...values);
+            s = Math.max.apply(null, values);
 
         return Math.max(f * s, arr.length, n);
     }

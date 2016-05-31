@@ -11,14 +11,23 @@ var elixir = require('laravel-elixir');
  |
  */
 
+var gulp = require('gulp'),
+    rjs  = require('gulp-requirejs');
+
+gulp.task('requirejsBuild', function() {
+    rjs({
+            baseUrl: './resources/assets/js/',
+            name: "app-universe",
+            out: "./public/js/universe.js",
+        }); // pipe it to the output DIR
+});
+
 elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
-    mix.less('yang.less', 'public/css/yang.css');
-    mix.less('home.less', 'public/css/home.css');
+    //mix.less('yang.less', 'public/css/yang.css');
+    //mix.less('home.less', 'public/css/home.css');
+    mix.task('requirejsBuild');
     //mix.version(['css/yang.css', 'public/css/home.css']);
 });
 
-//elixir(function(mix) {
-//    mix.scripts(['common.js', 'universe.js'], 'public/js/universe.js');
-//});
