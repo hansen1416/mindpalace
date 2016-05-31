@@ -15,19 +15,24 @@ var gulp = require('gulp'),
     rjs  = require('gulp-requirejs');
 
 gulp.task('requirejsBuild', function() {
+    /**
+     * optimize the requireJs project
+     * based on build-yang-universe.js
+     */
     rjs({
             baseUrl: './resources/assets/js/',
             name: "build-yang-universe",
             out: "./public/js/universe.js",
-        }); // pipe it to the output DIR
+        });
 });
 
+//do not generate the map
 elixir.config.sourcemaps = false;
 
+//compile less, optimize requireJs
 elixir(function(mix) {
     //mix.less('yang.less', 'public/css/yang.css');
     //mix.less('home.less', 'public/css/home.css');
     mix.task('requirejsBuild');
-    //mix.version(['css/yang.css', 'public/css/home.css']);
 });
 
