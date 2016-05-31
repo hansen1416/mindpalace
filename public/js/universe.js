@@ -1101,6 +1101,8 @@ define('yang/yang-universe',[
 
 	], function (document, build, trackball) {
 
+    
+
     //给每一个 star 在空间中定位
     var B = new Build({
         radius: 140,

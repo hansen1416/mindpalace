@@ -33,8 +33,8 @@ elixir.config.sourcemaps = false;
 
 //compile less, optimize requireJs
 elixir(function(mix) {
-    mix.less('yang.less', 'public/css/yang.css');
-    mix.less('home.less', 'public/css/home.css');
+    //mix.less('yang.less', 'public/css/yang.css');
+    //mix.less('home.less', 'public/css/home.css');
     mix.task('requirejsBuild');
 });
 
