@@ -8,9 +8,13 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
     <title>{{ trans('general.pageTitle') }}</title>
 
-    <link href="{{ URL::asset('/css/home.css') }}" rel="stylesheet">
-    <script src="{{ URL::asset('/js/require.js') }}"></script>
-
+    @if(App::environment('development'))
+        <link rel="stylesheet/less" type="text/css" href="../../../assets/less/yang.less">
+        <script src="./resources/assets/less/less.min.js"></script>
+    @else
+        <link href="{{ URL::asset('/css/home.css') }}" rel="stylesheet">
+        <script src="{{ URL::asset('/js/require.js') }}"></script>
+    @endif
 </head>
 <body>
 
