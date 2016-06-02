@@ -52,8 +52,8 @@
 
     </div>
 
-    @if(App::environment('local'))
-        <script data-main="/resources/assets/js/app/yang-universe.js" src="{{ URL::asset('/js/require.js') }}"></script>
+    @if(App::environment('development'))
+        <script data-main="/resources/assets/js/yang/yang-universe.js" src="{{ URL::asset('/js/require.js') }}"></script>
         <script type="text/javascript">
             require.config({
                                urlArgs: "v=" + (new Date()).getTime()

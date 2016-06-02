@@ -1,1 +1,1 @@
-define("yang/yang-home",function(){}),requirejs.config({baseUrl:"public/js",paths:{app:"../js/yang"}}),requirejs(["yang/yang-home"]),define("build-yang-home",function(){});
+define("yang/yang-home",[],function(){console.log(123)}),requirejs.config({baseUrl:"public/js",paths:{app:"../js/yang"}}),requirejs(["yang/yang-home"]),define("build-yang-home",function(){});
