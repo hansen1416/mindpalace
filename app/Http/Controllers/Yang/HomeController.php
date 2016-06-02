@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Yang;
 
 use App;
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('yang.home.index');
+        return view('yang.home.index', ['user' => Auth::user()]);
     }
 }

@@ -1,12 +1,21 @@
 @import "general";
 
 @home: #ccc;
-@pw: 200px;
+@font-color: lighten(@black, 40%);
+@porw: 200px;
+@panw: 100px;
 
-body{.over-hidden; background-color: @home;}
+body{.over-hidden; background-color: @home; color: @font-color}
+a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
 
 .portrait {
-    .abs; .circle;
-    width: @pw; height: @pw; top: 50%; left: 50%; margin: @pw/-2 0 0 @pw/-2;
+    .center; .circle;
+    width: @porw; height: @porw; margin: @porw/-2 0 0 @porw/-2;
     background-color: @white;
+}
+
+.panel {
+    .center;
+    width: @panw; height:@panw; margin: @panw/-2 0 0 @panw/-2;
+
 }
