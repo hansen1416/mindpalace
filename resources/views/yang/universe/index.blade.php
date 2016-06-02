@@ -52,6 +52,15 @@
 
     </div>
 
-    <script src="{{ URL::asset('/js/universe.js') }}"></script>
+    @if(App::environment('local'))
+        <script data-main="/resources/assets/js/app/yang-universe.js" src="{{ URL::asset('/js/require.js') }}"></script>
+        <script type="text/javascript">
+            require.config({
+                               urlArgs: "v=" + (new Date()).getTime()
+                           });
+        </script>
+    @else
+        <script src="{{ URL::asset('/js/universe.js') }}"></script>
+    @endif
 
 @endsection

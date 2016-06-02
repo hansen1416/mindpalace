@@ -27,6 +27,19 @@ gulp.task('requirejsBuild', function() {
         })
     .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
+
+    /**
+     * optimize the requireJs project
+     * based on build-yang-home.js
+     */
+    rjs({
+            baseUrl:    './resources/assets/js/',
+            name:       "build-yang-home",
+            out:        "home.js",
+        })
+    .pipe(uglify())
+    .pipe(gulp.dest('./public/js/'));
+
 });
 
 //do not generate the map
