@@ -1,4 +1,3 @@
-"use strict";
 define([
 		"../var/document",
 		"../var/trsfm",
@@ -19,12 +18,12 @@ define([
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
 	     */
-	    var Build = function(confObj){
+	    var BuildUniverse = function(confObj){
             this.config = {};
             this.setup(confObj);
         };
 
-        Build.prototype = {
+        BuildUniverse.prototype = {
 
             setup : function (confObj) {
 
@@ -384,6 +383,6 @@ define([
         };
 
 
-        window.Build = Build;
+        window.BuildUniverse = BuildUniverse;
 
 });

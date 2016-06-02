@@ -37,13 +37,13 @@
     </div>
 
     @if ($user)
-        <div class="panel">
-            <a href="{{ url('/logout') }}">universe</a>
-        </div>
+    <div class="panel">
+        <a href="{{ url('/logout') }}">universe</a>
+    </div>
     @else
-        <div class="panel">
-            <a href="{{ url('/login') }}">Login</a>
-        </div>
+    <div class="panel">
+        <a href="{{ url('/login') }}">Login</a>
+    </div>
     @endif
 
     </form>
