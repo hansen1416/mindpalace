@@ -1,9 +1,14 @@
 define([
+        "../var/document",
+        './build/build_home',
+
+   ], function (document, build_home) {
 
 
-       ], function () {
+    var B = BuildHome({});
 
-
-    console.log(123);
+    B.annulus({
+        'class': 'panel',
+              });
 
 });

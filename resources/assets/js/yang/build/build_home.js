@@ -1,6 +1,5 @@
 define([
-           "../var/document",
-
+       "../var/document",
 
        ], function(document){
 
@@ -14,11 +13,14 @@ define([
 
     BuildHome.prototype = {
 
-        setup : function (confObj) {
+        setup: function (confObj) {
 
 
         },//setup end
 
+        annulus: function(annulusOpt){
+            console.log(annulusOpt);
+        }
 
     };
 
