@@ -6,7 +6,6 @@ define([
 	], function (document, build_universe, trackball) {
 
 
-
     //给每一个 star 在空间中定位
     var B = new BuildUniverse({
         radius: 140,

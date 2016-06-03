@@ -1,14 +1,18 @@
 define([
-        "../var/document",
+        "./var/document",
         './build/build_home',
 
    ], function (document, build_home) {
 
 
-    var B = BuildHome({});
+    var B = new BuildHome({
 
+    });
+    //将控制按钮排成环形
     B.annulus({
-        'class': 'panel',
+                  'annu': [
+                      {'selector': '.panel', 'radius': 150},
+                  ],
               });
 
 });

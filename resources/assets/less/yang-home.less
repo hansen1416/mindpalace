@@ -3,18 +3,19 @@
 @home: #ccc;
 @font-color: lighten(@black, 40%);
 @porw: 200px;
-@panw: 100px;
+@panw: 60px;
 
 body{.over-hidden; background-color: @home; color: @font-color}
 a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
-
+//用户头像
 .portrait {
     .center; .circle;
     width: @porw; height: @porw; margin: @porw/-2 0 0 @porw/-2;
     background-color: @white;
 }
-
+//控制按钮
 .panel {
-    .center;
+    .center; .circle;
     width: @panw; height:@panw; margin: @panw/-2 0 0 @panw/-2;
+    background-color: @white;
 }
