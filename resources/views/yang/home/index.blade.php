@@ -3,7 +3,7 @@
 @section('content')
 
     <form action="">
-        //根据登陆状态显示用户头像或者是登陆输入框
+        {{--根据登陆状态显示用户头像或者是登陆输入框--}}
         <div class="portrait">
             @if ($user)
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -17,32 +17,31 @@
                 {{ csrf_field() }}
                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                 @if ($errors->has('email'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
                 @endif
                 <input type="password" class="form-control" name="password">
                 @if ($errors->has('password'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
                 @endif
                 <input type="checkbox" name="remember">
-
             @endif
         </div>
         {{--跳转到universe--}}
         <div class="panel">
-            <a href="{{ route('universe') }}">universe</a>
+            <a href="{{ route('universe') }}">{{ trans('general.universe') }}</a>
         </div>
         {{--根据登陆状态显示登陆或登出--}}
         @if ($user)
         <div class="panel">
-            <a href="{{ url('/logout') }}">universe</a>
+            <a href="{{ url('/logout') }}">{{ trans('general.logout') }}</a>
         </div>
         @else
         <div class="panel">
-            <a href="{{ url('/login') }}">Login</a>
+            <a href="{{ url('/login') }}">{{ trans('general.login') }}</a>
         </div>
         @endif
 
