@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <form action="">
+    <form action="{{ $user ? url('/logout') : url('/login') }}">
         {{--根据登陆状态显示用户头像或者是登陆输入框--}}
         <div class="portrait">
             @if ($user)
@@ -37,11 +37,13 @@
         {{--根据登陆状态显示登陆或登出--}}
         @if ($user)
         <div class="panel">
-            <a href="{{ url('/logout') }}">{{ trans('general.logout') }}</a>
+            <input type="submit" value="{{ trans('general.logout') }}">
+            {{--<a href="{{ url('/logout') }}"></a>--}}
         </div>
         @else
         <div class="panel">
-            <a href="{{ url('/login') }}">{{ trans('general.login') }}</a>
+            <input type="submit" value="{{ trans('general.login') }}">
+{{--            <a href="{{ url('/login') }}">{{ trans('general.login') }}</a>--}}
         </div>
         @endif
 
