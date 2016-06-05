@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Ctg;
 use App\Item;
 
-class UniverseController extends Controller
+class SpaceController extends Controller
 {
 
 	/**
@@ -27,7 +27,7 @@ class UniverseController extends Controller
 
         $html = $ctgModel->tagWrap($ctgs);
 
-		return view('yang.universe.index', ['html' => $html]);
+		return view('yang.space.index', ['html' => $html]);
 	}
 
 	/**
@@ -61,13 +61,13 @@ class UniverseController extends Controller
 
         $ctgModel->save();
 
-        return redirect()->route('universe');
+        return redirect()->route('space');
 	}
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  Request $request
      * @return Response
      */
     public function updateCtg(Request $request)
@@ -78,7 +78,7 @@ class UniverseController extends Controller
 
 		$res = $ctgModel->save();
 
-		return redirect()->route('universe');
+		return redirect()->route('space');
     }
 
     /**
@@ -96,7 +96,7 @@ class UniverseController extends Controller
 
         $res = $itemModel->save();
 
-        return redirect()->route('universe');
+        return redirect()->route('space');
     }
 
     /**
@@ -113,7 +113,7 @@ class UniverseController extends Controller
 
         $res = $itemModel->save();
 
-        return redirect()->route('universe');
+        return redirect()->route('space');
 
     }
 

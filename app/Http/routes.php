@@ -23,11 +23,11 @@ Route::controllers([
                    ]);
 Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth'], function()
 {
-    Route::get('universe',              ['as' => 'universe',   'uses' => 'UniverseController@index']);
-    Route::post('universe/createCtg',   ['as' => 'createCtg',  'uses' => 'UniverseController@createCtg']);
-    Route::post('universe/updateCtg',   ['as' => 'updateCtg',  'uses' => 'UniverseController@updateCtg']);
-    Route::post('universe/createItem',  ['as' => 'createItem', 'uses' => 'UniverseController@createItem']);
-    Route::post('universe/updateItem',  ['as' => 'updateItem', 'uses' => 'UniverseController@updateItem']);
+    Route::get('space',              ['as' => 'space',   'uses' => 'SpaceController@index']);
+    Route::post('space/createCtg',   ['as' => 'createCtg',  'uses' => 'SpaceController@createCtg']);
+    Route::post('space/updateCtg',   ['as' => 'updateCtg',  'uses' => 'SpaceController@updateCtg']);
+    Route::post('space/createItem',  ['as' => 'createItem', 'uses' => 'SpaceController@createItem']);
+    Route::post('space/updateItem',  ['as' => 'updateItem', 'uses' => 'SpaceController@updateItem']);
 });
 
 Route::auth();

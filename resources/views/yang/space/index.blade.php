@@ -1,4 +1,4 @@
-@extends('layouts.yang.universe')
+@extends('layouts.yang.space')
 
 @section('content')
 
@@ -53,14 +53,14 @@
     </div>
 
     @if(App::environment('development'))
-        <script data-main="/resources/assets/js/yang/yang-universe.js" src="{{ URL::asset('/js/require.js') }}"></script>
+        <script data-main="/resources/assets/js/yang/yang-space.js" src="{{ URL::asset('/js/require.js') }}"></script>
         <script type="text/javascript">
             require.config({
                                urlArgs: "v=" + (new Date()).getTime()
                            });
         </script>
     @else
-        <script src="{{ URL::asset('/js/universe.js') }}"></script>
+        <script src="{{ URL::asset('/js/space.js') }}"></script>
     @endif
 
 @endsection

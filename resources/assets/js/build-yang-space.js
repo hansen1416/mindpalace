@@ -12,4 +12,4 @@ requirejs.config({
 
 // Start loading the main app file. Put all of
 // your application logic in there.
-requirejs(['yang/yang-universe']);
+requirejs(['yang/yang-space']);

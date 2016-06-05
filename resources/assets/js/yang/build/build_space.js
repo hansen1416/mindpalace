@@ -18,12 +18,12 @@ define([
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
 	     */
-	    var BuildUniverse = function(confObj){
+	    var BuildSpace = function(confObj){
             this.config = {};
             this.setup(confObj);
         };
 
-        BuildUniverse.prototype = {
+        BuildSpace.prototype = {
 
             setup : function (confObj) {
 
@@ -383,6 +383,6 @@ define([
         };
 
 
-        window.BuildUniverse = BuildUniverse;
+        window.BuildSpace = BuildSpace;
 
 });

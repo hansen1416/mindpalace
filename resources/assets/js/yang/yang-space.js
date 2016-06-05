@@ -1,13 +1,13 @@
 define([
         "./var/document",
-        "./build/build_universe",
+        "./build/build_space",
         "./build/trackball",
 
-	], function (document, build_universe, trackball) {
+	], function (document, build_space, trackball) {
 
 
     //给每一个 star 在空间中定位
-    var B = new BuildUniverse({
+    var B = new BuildSpace({
         radius: 140,
         gap:    80,
         unit:   'px',

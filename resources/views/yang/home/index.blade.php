@@ -30,9 +30,9 @@
                 <input type="checkbox" name="remember">
             @endif
         </div>
-        {{--跳转到universe--}}
+        {{--跳转到space--}}
         <div class="panel">
-            <a href="{{ route('universe') }}">{{ trans('general.universe') }}</a>
+            <a href="{{ route('space') }}">{{ trans('general.space') }}</a>
         </div>
         {{--根据登陆状态显示登陆或登出--}}
         @if ($user)
