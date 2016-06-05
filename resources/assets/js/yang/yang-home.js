@@ -6,13 +6,10 @@ define([
 
 
     var B = new BuildHome({
-
+        'annu': [
+            {'selector': '.panel', 'radius': 150},
+        ],
     });
-    //将控制按钮排成环形
-    B.annulus({
-                  'annu': [
-                      {'selector': '.panel', 'radius': 150},
-                  ],
-              });
+
 
 });
