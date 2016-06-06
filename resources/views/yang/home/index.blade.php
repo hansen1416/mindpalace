@@ -3,6 +3,22 @@
 @section('content')
 
     <form action="{{ $user ? url('/logout') : url('/login') }}">
+
+        {{--跳转到space--}}
+        <div class="panel">
+            <a href="{{ route('space') }}">{{ trans('general.space') }}</a>
+        </div>
+        {{--根据登陆状态显示登陆或登出--}}
+        @if ($user)
+            <div class="panel">
+                <input type="submit" value="{{ trans('general.logout') }}">
+            </div>
+        @else
+            <div class="panel">
+                <input type="submit" value="{{ trans('general.login') }}">
+            </div>
+        @endif
+
         {{--根据登陆状态显示用户头像或者是登陆输入框--}}
         <div class="portrait">
             @if ($user)
@@ -37,20 +53,6 @@
             </div>
             @endif
         </div>
-        {{--跳转到space--}}
-        <div class="panel">
-            <a href="{{ route('space') }}">{{ trans('general.space') }}</a>
-        </div>
-        {{--根据登陆状态显示登陆或登出--}}
-        @if ($user)
-        <div class="panel">
-            <input type="submit" value="{{ trans('general.logout') }}">
-        </div>
-        @else
-        <div class="panel">
-            <input type="submit" value="{{ trans('general.login') }}">
-        </div>
-        @endif
 
     </form>
 

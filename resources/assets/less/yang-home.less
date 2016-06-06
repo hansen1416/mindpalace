@@ -16,14 +16,14 @@ a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
     font-size: @profz;
     background-color: @white;
     white-space: nowrap;
-
+    //伪元素，用于垂直居中
     &:before {
         content: '';
         display: inline-block;
         height: 100%;
         vertical-align: middle;
     }
-
+    //包含登陆内容
     .form-box{
         display: inline-block; vertical-align: middle;
         width: 80%;
@@ -33,27 +33,26 @@ a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
             display:block; width: 100%; height:30px;
             font-size: inherit; line-height: 30px;
         }
-
-    .remember-box{
-        label{
-            display: inline-block; margin: 0 auto;
-            height: 20px; line-height: 20px; font-size: inherit;
-            input[type='checkbox']{
-                .fl;
-                display: inline-block; margin: 3px 3px 0 0;
-                width: 14px; height: 14px;
-            }
-            span{
-                .fl;
+        //记住登陆状态的选项
+        .remember-box{
+            label{
+                display: inline-block; margin: 0 auto;
+                height: 20px; line-height: 20px; font-size: inherit;
+                input[type='checkbox']{
+                    .fl;
+                    display: inline-block; margin: 3px 3px 0 0;
+                    width: 14px; height: 14px;
+                }
+                span{
+                    .fl;
+                }
             }
         }
-    }
+
+    }//.form-box end
 
 
-    }
-
-
-}
+}//.portrait end
 //控制按钮
 .panel {
     .center; .circle; .t-center;
