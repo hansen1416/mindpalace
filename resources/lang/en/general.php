@@ -2,6 +2,7 @@
 
 return [
     'pageTitle' => 'Mind Palace',
+    'space'     => 'Space',
     'focus'     => 'focus the selected element',
     'addSibl'   => 'Add a sibling category',
     'addDesc'   => 'Add a descendant category',
@@ -11,5 +12,5 @@ return [
     'showItem'  => 'Display the item content',
     'login'     => 'Login',
     'logout'    => 'Logout',
-    'space'  => 'Space',
+    'remember'   => 'Remember Me',
 ];

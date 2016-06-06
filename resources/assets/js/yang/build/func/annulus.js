@@ -7,7 +7,7 @@ define([
      * 将若干个元素根据指定半径排成环形
      * 顺时针从12点方位开始
      * @param annulusOpt 选项
-     * annulusOpt.annu 传入元素选择器和半径 array 每一个键值如下 {'selector':'', 'radius':number}
+     * arr 传入元素选择器和半径 array 每一个键值如下 {'selector':'', 'radius':number}
      */
     return function (arr){
 

@@ -1,21 +1,71 @@
 @import "general";
 
-@home: #ccc;
-@font-color: lighten(@black, 40%);
-@porw: 200px;
-@panw: 60px;
+@home:        #ccc;
+@font-color:  lighten(@black, 40%);
+@porw:        200px;
+@profz:       14px;
+@panw:        60px;
+@panfz:       14px;
 
 body{.over-hidden; background-color: @home; color: @font-color}
 a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
 //用户头像或登陆输入框
-.portrait {
-    .center; .circle;
+.portrait{
+    .center; .circle; .t-center;
     width: @porw; height: @porw; margin: @porw/-2 0 0 @porw/-2;
+    font-size: @profz;
     background-color: @white;
+    white-space: nowrap;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .form-box{
+        display: inline-block; vertical-align: middle;
+        width: 80%;
+
+        input[type='email'], input[type='password']{
+            margin: 10px auto;
+            display:block; width: 100%; height:30px;
+            font-size: inherit; line-height: 30px;
+        }
+
+    .remember-box{
+        label{
+            display: inline-block; margin: 0 auto;
+            height: 20px; line-height: 20px; font-size: inherit;
+            input[type='checkbox']{
+                .fl;
+                display: inline-block; margin: 3px 3px 0 0;
+                width: 14px; height: 14px;
+            }
+            span{
+                .fl;
+            }
+        }
+    }
+
+
+    }
+
+
 }
 //控制按钮
 .panel {
-    .center; .circle;
+    .center; .circle; .t-center;
     width: @panw; height:@panw; margin: @panw/-2 0 0 @panw/-2;
+    font-size: @panfz; line-height: @panw; color: @font-color;
     background-color: @white;
+    &:hover{cursor: pointer;}
+
+    input{
+        width: 100%; height: 100%; border-radius: 50%;
+        font-size: inherit; line-height: inherit; color: inherit;
+        background: none;
+        &:hover{cursor: pointer;}
+    }
 }

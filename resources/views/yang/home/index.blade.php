@@ -14,6 +14,7 @@
                     <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                 </ul>
             @else
+            <div class="form-box">
                 {{ csrf_field() }}
                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                 @if ($errors->has('email'))
@@ -27,7 +28,13 @@
                     <strong>{{ $errors->first('password') }}</strong>
                 </span>
                 @endif
-                <input type="checkbox" name="remember">
+                <div class="remember-box">
+                    <label for="remember">
+                        <input id="remember" type="checkbox" name="remember">
+                        <span>{{ trans('general.remember') }}</span>
+                    </label>
+                </div>
+            </div>
             @endif
         </div>
         {{--跳转到space--}}
@@ -38,12 +45,10 @@
         @if ($user)
         <div class="panel">
             <input type="submit" value="{{ trans('general.logout') }}">
-            {{--<a href="{{ url('/logout') }}"></a>--}}
         </div>
         @else
         <div class="panel">
             <input type="submit" value="{{ trans('general.login') }}">
-{{--            <a href="{{ url('/login') }}">{{ trans('general.login') }}</a>--}}
         </div>
         @endif
 
