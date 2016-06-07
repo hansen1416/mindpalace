@@ -1,9 +1,10 @@
 define([
        "../var/document",
+       "../func/ajax",
        "./func/configVar",
        "./func/annulus"
 
-       ], function(document, configVar, annulus){
+       ], function(document, ajax, configVar, annulus){
 
     /**
      * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -35,7 +36,15 @@ define([
 
         },//setup end
 
+        click: function() {
 
+            ajax('/', callback);
+
+            var callback = function() {
+                console.log('callback func');
+            }
+
+        },//click end
 
     };
 
