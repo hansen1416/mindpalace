@@ -38,11 +38,12 @@ define([
 
         click: function() {
 
-            ajax('/', callback);
-
-            var callback = function() {
-                console.log('callback func');
+            var callback = function(res) {
+                console.log(res);
             }
+
+            ajax('/public/auth/auth/authenticate', callback);
+
 
         },//click end
 

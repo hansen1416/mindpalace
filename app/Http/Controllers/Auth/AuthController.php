@@ -2,9 +2,12 @@
 namespace App\Http\Controllers\Auth;
 use App\User;
 use Validator;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+
 class AuthController extends Controller
 {
     /*
@@ -61,4 +64,26 @@ class AuthController extends Controller
                                 'password' => bcrypt($data['password']),
                             ]);
     }
+    /**
+     * 用户验证
+     * @param Request $request
+     */
+    public function authenticate(Request $request)
+    {
+
+        $email       = $request->email;
+        $password    = $request->password;
+        $credentials = ['email' => $email, 'password' => $password];
+
+        if (Auth::guard('web')->attempt($credentials)) {
+            echo '123123';
+
+        }else{
+            echo '456456';
+        }
+
+    }
+
+
+
 }

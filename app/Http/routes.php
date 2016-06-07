@@ -17,10 +17,11 @@ Route::get('/', function () {
 
 Route::get('/yang/home', ['as' => 'home', 'uses' => 'Yang\HomeController@index']);
 
-Route::controllers([
-                       'auth' => 'Auth\AuthController',
-                       'password' => 'Auth\PasswordController',
-                   ]);
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function()
+{
+    Route::post('auth/authenticate', ['as' => 'authenticate', 'uses' => 'AuthController@authenticate']);
+});
+
 Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth'], function()
 {
     Route::get('space',              ['as' => 'space',   'uses' => 'SpaceController@index']);
@@ -30,5 +31,4 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth']
     Route::post('space/updateItem',  ['as' => 'updateItem', 'uses' => 'SpaceController@updateItem']);
 });
 
-Route::auth();
 
