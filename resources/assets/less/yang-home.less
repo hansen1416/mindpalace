@@ -55,16 +55,11 @@ a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
 }//.portrait end
 //控制按钮
 .panel {
+
     .center; .circle; .t-center;
     width: @panw; height:@panw; margin: @panw/-2 0 0 @panw/-2;
     font-size: @panfz; line-height: @panw; color: @font-color;
     background-color: @white;
     &:hover{cursor: pointer;}
 
-    input{
-        width: 100%; height: 100%; border-radius: 50%;
-        font-size: inherit; line-height: inherit; color: inherit;
-        background: none;
-        &:hover{cursor: pointer;}
-    }
 }

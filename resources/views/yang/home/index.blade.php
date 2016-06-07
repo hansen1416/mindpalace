@@ -10,12 +10,12 @@
         </div>
         {{--根据登陆状态显示登陆或登出--}}
         @if ($user)
-            <div class="panel">
-                <input type="submit" value="{{ trans('general.logout') }}">
+            <div class="panel" id="logout">
+                {{ trans('general.logout') }}
             </div>
         @else
-            <div class="panel">
-                <input type="submit" value="{{ trans('general.login') }}">
+            <div class="panel" id="login">
+                {{ trans('general.login') }}
             </div>
         @endif
 
@@ -31,7 +31,6 @@
                 </ul>
             @else
             <div class="form-box">
-                {{ csrf_field() }}
                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                 @if ($errors->has('email'))
                 <span class="help-block">

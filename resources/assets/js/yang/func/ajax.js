@@ -1,11 +1,28 @@
 define([
             "../var/document"
        ], function(document) {
-
-    return function (url, callback, method, async){
+    /**
+     * url 地址
+     * callback 成功回调函数
+     * method 请求方式
+     * async 是否异步
+     */
+    return function (url, callback, dataObj, method, async){
 
         method = method || 'POST';
         async  = async === undefined ? true : async;
+
+        var p    = '',
+            i    = 0,
+            data = [];
+
+        for (var p in dataObj) {
+
+            data[i] = p+'='+encodeURIComponent(dataObj[p]);
+            i++;
+        }
+
+        data = data.join('&');
 
         R = new XMLHttpRequest();
 
@@ -23,7 +40,7 @@ define([
         R.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         // cross-site request forgery protection
         R.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf_token"]').getAttribute('content'));
-        R.send(null);
+        R.send(data);
 
     }
 

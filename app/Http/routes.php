@@ -31,4 +31,5 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth']
     Route::post('space/updateItem',  ['as' => 'updateItem', 'uses' => 'SpaceController@updateItem']);
 });
 
+Route::auth();
 

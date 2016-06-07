@@ -1,10 +1,11 @@
 define([
        "../var/document",
+       "../var/bindEvent",
        "../func/ajax",
        "./func/configVar",
        "./func/annulus"
 
-       ], function(document, ajax, configVar, annulus){
+       ], function(document, bindEvent, ajax, configVar, annulus){
 
     /**
      * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -38,11 +39,32 @@ define([
 
         click: function() {
 
-            var callback = function(res) {
-                console.log(res);
-            }
+            bindEvent(document, 'click', callback);
 
-            ajax('/public/auth/auth/authenticate', callback);
+            function callback(e){
+
+                var tid     = e.target.id,
+                    url     = '',
+                    data    = {},
+                    success;
+
+                switch (tid)
+                {
+                    case 'login':
+                        url = '/public/auth/auth/authenticate';
+                        data = {'email': 'hansen1416@163.com', 'password': 'hs198546'};
+                        success = function(res){
+                            console.log(res);
+                        }
+                        break;
+                    case 'logout':
+
+                        break;
+                }
+
+                ajax(url, success, data);
+
+            }
 
 
         },//click end

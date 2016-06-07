@@ -75,12 +75,15 @@ class AuthController extends Controller
         $password    = $request->password;
         $credentials = ['email' => $email, 'password' => $password];
 
-        if (Auth::guard('web')->attempt($credentials)) {
-            echo '123123';
+        $res = Auth::guard('web')->attempt($credentials);
+
+        if ($res) {
+            echo 'succ';
 
         }else{
-            echo '456456';
+            echo 'fail';
         }
+
 
     }
 
