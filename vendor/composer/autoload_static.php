@@ -238,6 +238,7 @@ class ComposerStaticInit0ca553741963eb3dbdf65e4ae2f30a8d
         'CreateCtgsTable' => __DIR__ . '/../..' . '/database/migrations/2015_11_19_072350_create_ctgs_table.php',
         'CreateItemsTable' => __DIR__ . '/../..' . '/database/migrations/2015_11_19_072455_create_items_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateProfilesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_08_065914_create_profiles_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
