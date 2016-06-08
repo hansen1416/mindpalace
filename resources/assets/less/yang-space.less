@@ -45,7 +45,7 @@ form{display: none;}
 @btnw2:     @btnw * -1 / 2;
 @btn:       rgb(62, 186, 248);
 @btn-hover: fade(@btn, 70%);
-@disable:  @black;
+@disable:   @black;
 
 //添加删除等操作
 #operation{
@@ -87,4 +87,18 @@ form{display: none;}
     .btn.sev{top: 50%; left: 0;}
 
     .btn.disable{background-color: @disable;}
+}
+
+@tlw: 60px;
+
+//左上角部分
+#top_left{
+    .abs; .circle; .t-center;
+    top: @tlw / 4; left: @tlw / 4; width: @tlw; height: @tlw;
+    font-size: 14px; color: #fff; line-height: @tlw;
+    background-color: lighten(@black, 50%);
+
+    a{
+        .brim; font-size: inherit; color: inherit;
+    }
 }

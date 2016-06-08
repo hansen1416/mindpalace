@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Ctg;
 use App\Item;
+use Auth;
 
 class SpaceController extends Controller
 {
@@ -27,7 +28,7 @@ class SpaceController extends Controller
 
         $html = $ctgModel->tagWrap($ctgs);
 
-		return view('yang.space.index', ['html' => $html]);
+		return view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
 	}
 
 	/**

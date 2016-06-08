@@ -240,8 +240,12 @@ define([
 
                     var target    = e.target,
                         classList = target.classList;
+                    //如果是submit 或 a 标签，则只执行默认行为
+                    if (target.type === 'submit' || target.nodeName === 'A') {
+                        return false;
+                    }
 
-                    if (target.type !== 'submit') {e.preventDefault();}
+                    e.preventDefault();
 
                     if(classList.contains('star')) {
 

@@ -52,6 +52,10 @@
 
     </div>
 
+    <div id="top_left">
+        <a href="{{ route('home') }}">{{ trans('general.home') }}</a>
+    </div>
+
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="{{ URL::asset('/js/require.js') }}"></script>
         <script type="text/javascript">

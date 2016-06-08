@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Yang;
 
-use App;
-use Auth;
+
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -18,7 +19,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        var_dump(Auth::user());die;
         return view('yang.home.index', ['user' => Auth::user()]);
     }
 }
