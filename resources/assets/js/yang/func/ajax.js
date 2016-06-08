@@ -12,18 +12,6 @@ define([
         method = method || 'POST';
         async  = async === undefined ? true : async;
 
-        var p    = '',
-            i    = 0,
-            data = [];
-
-        for (var p in dataObj) {
-
-            data[i] = p+'='+encodeURIComponent(dataObj[p]);
-            i++;
-        }
-
-        data = data.join('&');
-
         R = new XMLHttpRequest();
 
         R.onreadystatechange = function(){
@@ -37,10 +25,9 @@ define([
         };
 
         R.open(method, url, async);
-        R.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         // cross-site request forgery protection
         R.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf_token"]').getAttribute('content'));
-        R.send(data);
+        R.send(dataObj);
 
     }
 

@@ -1,11 +1,12 @@
 define([
        "../var/document",
        "../var/bindEvent",
+       "../var/urls",
        "../func/ajax",
        "./func/configVar",
        "./func/annulus"
 
-       ], function(document, bindEvent, ajax, configVar, annulus){
+       ], function(document, bindEvent, urls, ajax, configVar, annulus){
 
     /**
      * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -43,26 +44,36 @@ define([
 
             function callback(e){
 
-                var tid     = e.target.id,
-                    url     = '',
-                    data    = {},
-                    success;
+                if (e.target.classList.contains('panel')) {
 
-                switch (tid)
-                {
-                    case 'login':
-                        url = '/public/auth/auth/authenticate';
-                        data = {'email': 'hansen1416@163.com', 'password': 'hs198546'};
-                        success = function(res){
-                            console.log(res);
-                        }
-                        break;
-                    case 'logout':
+                    var tid  = e.target.id,
+                        url  = '',
+                        form = null,
+                        data = null,
+                        success;
 
-                        break;
+                    switch (tid)
+                    {
+                        case 'login':
+                            url     = urls.authenticate;
+                            form    = document.getElementById('portrait_form');
+                            data    = new FormData(form);
+                            success = function (res) {
+                                console.log(res);
+                            };
+
+                            break;
+                        case 'logout':
+
+                            break;
+                        default:
+                            return false;
+                    }
+
+                    ajax(url, success, data);
                 }
 
-                ajax(url, success, data);
+
 
             }
 
