@@ -97,8 +97,20 @@ form{display: none;}
     top: @tlw / 4; left: @tlw / 4; width: @tlw; height: @tlw;
     font-size: 14px; color: #fff; line-height: @tlw;
     background-color: lighten(@black, 50%);
+    &:hover{cursor:pointer;}
 
     a{
         .brim; font-size: inherit; color: inherit;
     }
+}
+
+@trw: 60px;
+
+//右上角用户信息部分
+#top_right{
+    .abs; .circle; .t-center;
+    top: @trw / 4; right: @trw / 4; width: @trw; height: @trw;
+    font-size: 14px; color: #fff; line-height: @trw;
+    background-color: lighten(@black, 50%);
+    &:hover{cursor:pointer;}
 }

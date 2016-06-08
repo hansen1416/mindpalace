@@ -252,6 +252,7 @@ define([
                         starClick(target);
 
                     }else if (classList.contains('btn')) {
+                        //处理不可用的按钮
                         if (classList.contains('disable')) {
                             return false;
                         }

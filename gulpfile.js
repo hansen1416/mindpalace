@@ -18,12 +18,12 @@ var gulp   = require('gulp'),
 gulp.task('requirejsBuild', function() {
     /**
      * optimize the requireJs project
-     * based on build-yang-universe.js
+     * based on build-yang-space.js
      */
     rjs({
             baseUrl:    './resources/assets/js/',
-            name:       "build-yang-universe",
-            out:        "universe.js",
+            name:       "build-yang-space",
+            out:        "space.js",
         })
     .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
@@ -47,7 +47,7 @@ elixir.config.sourcemaps = false;
 
 //compile less, optimize requireJs
 elixir(function(mix) {
-    mix.less('yang-universe.less', 'public/css/yang-universe.css');
+    mix.less('yang-space.less', 'public/css/yang-space.css');
     mix.less('yang-home.less', 'public/css/yang-home.css');
     mix.task('requirejsBuild', './resources/js/**/*.js');
 });
