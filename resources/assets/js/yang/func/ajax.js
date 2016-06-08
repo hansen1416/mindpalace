@@ -4,6 +4,7 @@ define([
     /**
      * url 地址
      * callback 成功回调函数
+     * dataObj FormData 对象
      * method 请求方式
      * async 是否异步
      */

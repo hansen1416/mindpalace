@@ -30,7 +30,7 @@ define([
                 }
 
                 var annu = configVar(annu, THIS.config.annu);
-
+                //环形排列按钮
                 annulus(annu);
 
 
@@ -43,30 +43,28 @@ define([
             bindEvent(document, 'click', callback);
 
             function callback(e){
-
+                //所有控制按钮的点击事件
                 if (e.target.classList.contains('panel')) {
 
-                    var tid  = e.target.id,
-                        url  = '',
-                        form = null,
-                        data = null,
-                        success;
+                    var tid  = e.target.id,     //按钮的id
+                        url  = '',              //请求地址
+                        data = null,            //传送的数据
+                        success;                //成功回调函数
 
                     switch (tid)
                     {
-                        case 'login':
+                        case 'login':   //登录
                             url     = urls.authenticate;
-                            form    = document.getElementById('portrait_form');
-                            data    = new FormData(form);
+                            data    = new FormData(document.getElementById('portrait_form'));
                             success = function (res) {
                                 console.log(res);
                             };
 
                             break;
-                        case 'logout':
+                        case 'logout':  //登出
 
                             break;
-                        default:
+                        default:        //非控制按钮直接停止
                             return false;
                     }
 
