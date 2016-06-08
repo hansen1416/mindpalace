@@ -59,7 +59,7 @@ define([
                             success = function (res) {
                                 //登陆成功
                                 if (res.status) {
-
+                                    window.location.reload(true);
                                 //登陆失败
                                 }else{
 

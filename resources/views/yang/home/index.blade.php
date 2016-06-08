@@ -9,7 +9,7 @@
     {{--根据登陆状态显示登陆或登出--}}
     @if ($user)
         <div class="panel" id="logout">
-            {{ trans('general.logout') }}
+            <a href="{{ url('/logout') }}">{{ trans('general.logout') }}</a>
         </div>
     @else
         <div class="panel" id="login">
@@ -18,16 +18,12 @@
     @endif
 
     {{--根据登陆状态显示用户头像或者是登陆输入框--}}
-    <div class="portrait">
+    <div class="portrait" id="portrait">
 
         @if ($user)
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 {{ $user->name }} <span class="caret"></span>
             </a>
-
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-            </ul>
         @else
         <form enctype="multipart/form-data" class="portrait-form" id="portrait_form">
 
