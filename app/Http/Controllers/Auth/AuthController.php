@@ -71,19 +71,13 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
 
-        $email       = $request->email;
-        $password    = $request->password;
-        $credentials = ['email' => $email, 'password' => $password];
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
 
-        $res = Auth::guard('web')->attempt($credentials);
-
-        if ($res) {
-            echo 'succ';
-
+            echo json_encode(['status' => 1]);
         }else{
-            echo 'fail';
-        }
 
+            echo json_encode(['status' => 0]);
+        }
 
     }
 

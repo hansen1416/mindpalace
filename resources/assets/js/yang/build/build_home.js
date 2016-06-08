@@ -57,7 +57,13 @@ define([
                             url     = urls.authenticate;
                             data    = new FormData(document.getElementById('portrait_form'));
                             success = function (res) {
-                                console.log(res);
+                                //登陆成功
+                                if (res.status) {
+
+                                //登陆失败
+                                }else{
+
+                                }
                             };
 
                             break;

@@ -18,7 +18,7 @@ define([
         R.onreadystatechange = function(){
             if (R.readyState === XMLHttpRequest.DONE) {
                 if (R.status === 200) {
-                    callback(R.responseText);
+                    callback(JSON.parse(R.responseText));
                 } else {
                     throw 'error occured during request';
                 }
