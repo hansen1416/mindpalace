@@ -57,7 +57,7 @@
     </div>
 
     <div id="top_right">
-        {{ $user->name }}
+        <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
     </div>
 
     @if(App::environment('development'))
