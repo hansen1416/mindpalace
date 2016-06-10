@@ -11,7 +11,7 @@ body{.over-hidden; background-color: @home; color: @font-color}
 a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
 //用户头像或登陆输入框
 .portrait{
-    .center; .circle; .t-center;
+    .center; .circle; .t-center; .over-hidden;
     width: @porw; height: @porw; margin: @porw/-2 0 0 @porw/-2;
     font-size: @profz;
     background-color: @white;
@@ -51,10 +51,15 @@ a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
 
     }//.form-box end
 
+    img{
+        .abs; .circle;
+        top: 0; left: 0;
+        display: block; width: 100%; height: 100%;
+    }
 
 }//.portrait end
 //控制按钮
-.panel {
+.panel{
 
     .center; .circle; .t-center;
     width: @panw; height:@panw; margin: @panw/-2 0 0 @panw/-2;

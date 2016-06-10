@@ -21,9 +21,7 @@
     <div class="portrait" id="portrait">
 
         @if ($user)
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                {{ $user->name }} <span class="caret"></span>
-            </a>
+            <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
         @else
         <form enctype="multipart/form-data" class="portrait-form" id="portrait_form">
 
