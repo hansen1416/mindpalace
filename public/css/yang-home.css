@@ -136,6 +136,7 @@ a:hover {
   left: 50%;
   border-radius: 50%;
   text-align: center;
+  overflow: hidden;
   width: 200px;
   height: 200px;
   margin: -100px 0 0 -100px;
@@ -179,6 +180,15 @@ a:hover {
 }
 .portrait .portrait-form .remember-box label span {
   float: left;
+}
+.portrait img {
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .panel {
   position: absolute;

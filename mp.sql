@@ -90,13 +90,17 @@ DROP TABLE IF EXISTS `mp_profile`;
 
 CREATE TABLE `mp_profile` (
   `profile_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户详情ID',
+  `id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `portrait` varchar(255) NOT NULL COMMENT '头像',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`profile_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`profile_id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `mp_profile` */
+
+insert  into `mp_profile`(`profile_id`,`id`,`portrait`,`updated_at`,`created_at`) values (1,1,'7.jpg','2016-06-10 23:33:02','0000-00-00 00:00:00');
 
 /*Table structure for table `mp_users` */
 
@@ -116,7 +120,7 @@ CREATE TABLE `mp_users` (
 
 /*Data for the table `mp_users` */
 
-insert  into `mp_users`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','qMPFFKYO2y3SRQOQtwWdF41WfxkikdesnmC4JWZbJsrRl9g27vQfrlQGqPdC','2016-05-30 06:37:00','2016-06-08 06:50:05');
+insert  into `mp_users`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','zCyep1x5LIA7EVbVCGSqItPavKAF4eWPZDpEqI30fmLPIzYIzLWXQoQ4Y0GY','2016-05-30 06:37:00','2016-06-10 15:41:35');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
