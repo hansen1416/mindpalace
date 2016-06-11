@@ -68,7 +68,7 @@
                            });
         </script>
     @else
-        <script src="{{ URL::asset('/js/space.js') }}"></script>
+        <script src="{{ URL::asset('/js/yang-space.js') }}"></script>
     @endif
 
 @endsection

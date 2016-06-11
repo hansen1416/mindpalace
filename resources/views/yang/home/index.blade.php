@@ -58,7 +58,7 @@
                            });
         </script>
     @else
-        <script src="{{ URL::asset('/js/home.js') }}"></script>
+        <script src="{{ URL::asset('/js/yang-home.js') }}"></script>
     @endif
 
 @endsection

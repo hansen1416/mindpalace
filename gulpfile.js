@@ -23,7 +23,7 @@ gulp.task('requirejsBuild', function() {
     rjs({
             baseUrl:    './resources/assets/js/',
             name:       "build-yang-space",
-            out:        "space.js",
+            out:        "yang-space.js",
         })
     .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
@@ -35,7 +35,7 @@ gulp.task('requirejsBuild', function() {
     rjs({
             baseUrl:    './resources/assets/js/',
             name:       "build-yang-home",
-            out:        "home.js",
+            out:        "yang-home.js",
         })
     .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
