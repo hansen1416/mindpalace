@@ -172,10 +172,10 @@ define([
 
 
             },//setup end
-
+            //控制面板部分布局
             setOperation : function(annu){
                 annulus(annu);
-            },
+            },//setOperation end
             //同心球的缩放
             zoom : function() {
 
@@ -236,9 +236,6 @@ define([
             //页面的所有点击事件
             click : function() {
 
-                var operation = document.getElementById('operation'),
-                    form      = operation.querySelector('form');
-
                 bindEvent(document, 'click', callback);
 
                 function callback(e){
@@ -253,15 +250,11 @@ define([
                     e.preventDefault();
 
                     if(classList.contains('star')) {
-
+                        //点击分类或者内容题目时的点击事件
                         starClick(target);
 
                     }else if (classList.contains('btn')) {
-                        //处理不可用的按钮
-                        if (classList.contains('disable')) {
-                            return false;
-                        }
-                        //#operation 包含的所有 .btn 的点击
+                        //.operation 包含的所有 .btn 的点击
                         btnClick(target);
 
                     }
@@ -271,53 +264,28 @@ define([
                 /**
                  * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
                  * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
-                 * 显示 operation
+                 * 显示对应的 operation
                  * @param target 点击的目标元素
                  */
                 function starClick(target){
 
-                    var ctg_id   = target.dataset.ctg_id ? target.dataset.ctg_id : 0,
-                        item_id  = target.dataset.item_id ? target.dataset.item_id : 0,
-                        disable  = item_id ? ['#addDesc', '#addSibl'] : ['#showItem'],               //不可点击的按钮
-                        disabled = operation.querySelectorAll('.disable'),
-                        i        = 0;
-                    /**
-                     * 给form表单写入参数
-                     */
-                    form.querySelector("input[name='ctg_id']").value  = ctg_id;
-                    form.querySelector("input[name='item_id']").value = item_id;
-                    form.querySelector("input[name='pid']").value     = target.dataset.pid;
-                    form.querySelector("input[name='tier']").value    = target.dataset.tier;
-                    form.querySelector('textarea').placeholder        = target.dataset.title;
-                    /**
-                     * 先取消所有 disabled 按钮
-                     */
-                    while (i < disabled.length) {
-                        disabled[i].classList.remove('disable');
-                        i++;
+                    var ctg_id   = target.dataset.ctg_id ? target.dataset.ctg_id : 0,       //分类的ID
+                        item_id  = target.dataset.item_id ? target.dataset.item_id : 0,     //内容的ID
+                        ctg_box  = document.getElementById('ctg_box'),                      //分类对应的操作面板
+                        item_box = document.getElementById('item_box');                     //内容对应的操作面板
+
+                    if (ctg_id) {
+                        reveal(ctg_box);
+                        conceal(item_box);
+                    }else if (item_id) {
+                        reveal(item_box);
+                        conceal(ctg_box);
                     }
-
-                    i = 0;
-                    /**
-                     * 给不可用的按钮加 class disable
-                     */
-                    while (i < disable.length) {
-                        var btn = operation.querySelector(disable[i]);
-
-                        if (btn) {
-                            btn.classList.add('disable');
-                        }
-
-                        i++;
-                    }
-
-                    conceal(form);
-                    reveal(operation);
 
                 }//starClick end
 
                 /**
-                 * #operation 中各个 .btn 的点击事件
+                 * .operation 中各个 .btn 的点击事件
                  * @param target
                  */
                 function btnClick(target) {

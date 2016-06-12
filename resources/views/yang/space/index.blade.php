@@ -32,10 +32,9 @@
 
     <div id="ctg_box" class="operation">
 
-        <form action="" method="post" id="addDescForm">
+        <form enctype="multipart/form-data">
             <textarea name="title"></textarea>
             <input type="hidden" name="ctg_id" value="0">
-            <input type="hidden" name="item_id" value="0">
             <input type="hidden" name="pid" value="0">
             <input type="hidden" name="tier" value="0">
             <input type="hidden" name="act">
@@ -43,33 +42,25 @@
         </form>
 
         <div class="btn ctg_btn" id="focus"     title="{{ trans('general.focus') }}" ></div>
-        <div class="btn ctg_btn" id="addDesc"   title="{{ trans('general.addDesc') }}"  data-ctg_action="{{ route('createCtg') }}"></div>
-        <div class="btn ctg_btn" id="addSibl"   title="{{ trans('general.addSibl') }}"  data-ctg_action="{{ route('createCtg') }}"></div>
-        <div class="btn ctg_btn" id="editSelf"  title="{{ trans('general.editSelf') }}" data-ctg_action="{{ route('updateCtg') }}" data-item_action="{{ route('updateItem') }}"></div>
+        <div class="btn ctg_btn" id="addDesc"   title="{{ trans('general.addDesc') }}"  data-action="{{ route('createCtg') }}"></div>
+        <div class="btn ctg_btn" id="addSibl"   title="{{ trans('general.addSibl') }}"  data-action="{{ route('createCtg') }}"></div>
+        <div class="btn ctg_btn" id="editSelf"  title="{{ trans('general.editSelf') }}" data-action="{{ route('updateCtg') }}"></div>
         <div class="btn ctg_btn" id="hideOper"  title="{{ trans('general.hideOper') }}" ></div>
-        <div class="btn ctg_btn" id="addItem"   title="{{ trans('general.addItem') }}"  data-ctg_action="{{ route('createItem') }}" data-item_action="{{ route('createItem') }}"></div>
-        <div class="btn ctg_btn" id="showItem"  title="{{ trans('general.showItem') }}" ></div>
+        <div class="btn ctg_btn" id="addItem"   title="{{ trans('general.addItem') }}"  data-action="{{ route('createItem') }}"></div>
 
     </div>
 
     <div id="item_box" class="operation">
 
-        <form action="" method="post" id="addDescForm">
+        <form enctype="multipart/form-data">
             <textarea name="title"></textarea>
-            <input type="hidden" name="ctg_id" value="0">
             <input type="hidden" name="item_id" value="0">
-            <input type="hidden" name="pid" value="0">
-            <input type="hidden" name="tier" value="0">
-            <input type="hidden" name="act">
             <input type="submit" value="ok">
         </form>
 
         <div class="btn item_btn" id="focus"     title="{{ trans('general.focus') }}" ></div>
-        <div class="btn item_btn" id="addDesc"   title="{{ trans('general.addDesc') }}"  data-ctg_action="{{ route('createCtg') }}"></div>
-        <div class="btn item_btn" id="addSibl"   title="{{ trans('general.addSibl') }}"  data-ctg_action="{{ route('createCtg') }}"></div>
-        <div class="btn item_btn" id="editSelf"  title="{{ trans('general.editSelf') }}" data-ctg_action="{{ route('updateCtg') }}" data-item_action="{{ route('updateItem') }}"></div>
+        <div class="btn item_btn" id="editSelf"  title="{{ trans('general.editSelf') }}" data-action="{{ route('updateItem') }}"></div>
         <div class="btn item_btn" id="hideOper"  title="{{ trans('general.hideOper') }}" ></div>
-        <div class="btn item_btn" id="addItem"   title="{{ trans('general.addItem') }}"  data-ctg_action="{{ route('createItem') }}" data-item_action="{{ route('createItem') }}"></div>
         <div class="btn item_btn" id="showItem"  title="{{ trans('general.showItem') }}" ></div>
 
     </div>
