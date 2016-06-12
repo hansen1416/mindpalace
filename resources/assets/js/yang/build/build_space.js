@@ -12,8 +12,9 @@ define([
         "./func/closestPoint",
         "./func/maxPoint",
         "./func/fibonacciSphere",
+        "./func/annulus",
 
-	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -171,6 +172,10 @@ define([
 
 
             },//setup end
+
+            setOperation : function(annu){
+                annulus(annu);
+            },
             //同心球的缩放
             zoom : function() {
 

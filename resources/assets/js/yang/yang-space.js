@@ -9,7 +9,7 @@ define([
     //给每一个 star 在空间中定位
     var B = new BuildSpace({
         radius: 140,
-        gap:    80,
+        gap:    120,
         unit:   'px',
     });
     //给 galaxy 绑定3d旋转鼠标事件 
@@ -22,6 +22,10 @@ define([
         lambda:         0.001,                              //阻力系数，越大阻力越大，默认0.01
     });
 
+    B.setOperation([
+                       {'selector': '.ctg_btn', 'radius': 75},
+                       {'selector': '.item_btn', 'radius': 75},
+                   ]);
     B.zoom();
     B.click();
 

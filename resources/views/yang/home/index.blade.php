@@ -49,7 +49,6 @@
 
     </div>
 
-
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-home.js" src="{{ URL::asset('/js/require.js') }}"></script>
         <script type="text/javascript">

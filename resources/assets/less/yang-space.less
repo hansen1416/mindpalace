@@ -42,15 +42,13 @@ form{display: none;}
 @ow:        150px;
 @ow2:       @ow * -1 / 2;
 @btnw:      30px;
-@btnw2:     @btnw * -1 / 2;
 @btn:       rgb(62, 186, 248);
 @btn-hover: fade(@btn, 70%);
-@disable:   @black;
 
 //添加删除等操作
-#operation{
+.operation{
     .abs; .hide;
-    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow2  0 0 @ow2;
+    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow2 0 0 @ow2;
     background-color: fade(@white, 10%); border-radius: 50%;
 
     form{
@@ -73,20 +71,12 @@ form{display: none;}
 
     .btn{
         .abs;
-        width: @btnw; height: @btnw; margin: @btnw2 0 0 @btnw2;
+        top: 50%; left: 50%;
+        width: @btnw; height: @btnw; margin: @btnw/-2 0 0 @btnw/-2;
         border-radius: 50%; background-color: @btn;
         &:hover{background-color: @btn-hover; cursor: pointer;}
     }
 
-    .btn.one{top: 0; left: 50%;}
-    .btn.two{top: 14.644661%; left: 85.355339%;}
-    .btn.thr{top: 50%; left: 100%;}
-    .btn.fou{top: 85.355339%; left: 85.355339%;}
-    .btn.fiv{top: 100%; left: 50%;}
-    .btn.six{top: 85.355339%; left: 14.644661%;}
-    .btn.sev{top: 50%; left: 0;}
-
-    .btn.disable{background-color: @disable;}
 }
 
 @tlw: 60px;
