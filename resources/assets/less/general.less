@@ -33,18 +33,31 @@ a{text-decoration: none;}
 /****3d 通用样式结束****/
 
 /****图标通用样式开始****/
+@icon-color: #c63e72;
 .btn-focus{
     &:before{
-        .abs;
-        top: 50%; left: 50%; content: '';
-        width: 10px; height: 2px; margin: -1px 0 0 -11px;
-        border: 6px solid @black; border-top-width: 0; border-bottom-width: 0;
+        .abs; top: 50%; left: 50%; content: '';
+        width: 10px; height: 2px; margin: -1px 0 0 -15px;
+        border: 10px solid @icon-color; border-top-width: 0; border-bottom-width: 0;
     }
     &:after{
-        .abs;
-        top: 50%; left: 50%; content: '';
-        width: 2px; height: 10px; margin: -11px 0 0 -1px;
-        border: 6px solid @black; border-left-width: 0; border-right-width: 0;
+        .abs; top: 50%; left: 50%; content: '';
+        width: 2px; height: 10px; margin: -15px 0 0 -1px;
+        border: 10px solid @icon-color; border-left-width: 0; border-right-width: 0;
+    }
+}
+.btn-hide{
+    &:before{
+        .abs; top: 50%; left: 50%; content: '';
+        width: 2px; height: 30px; margin: -15px 0 0 -1px;
+        background-color: @icon-color;
+        transform: rotate(45deg);
+    }
+    &:after{
+        .abs; top: 50%; left: 50%; content: '';
+        width: 2px; height: 30px; margin: -15px 0 0 -1px;
+        background-color: @icon-color;
+        transform: rotate(-45deg);
     }
 }
 /****图标通用样式开始****/
