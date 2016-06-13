@@ -340,7 +340,6 @@ define([
                         if (cList.contains('btn-focus')) {
 
                         }else if (cList.contains('btn-hide')) {
-                            form.action = '';
                             conceal(form);
                             conceal(form.parentNode);
                         }
