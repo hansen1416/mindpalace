@@ -29,7 +29,7 @@
         </div>
 
     </div>
-
+    {{--关于分类的操作--}}
     <div id="ctg_box" class="operation">
 
         <form enctype="multipart/form-data" id="ctg_form">
@@ -40,16 +40,22 @@
             <input type="hidden" name="tier" value="0">
             <input type="hidden" name="act">
         </form>
-
+        {{--聚焦选中 .star--}}
         <div class="btn ctg_btn btn-focus"  title="{{ trans('general.focus') }}" ></div>
+        {{--隐藏操作界面--}}
         <div class="btn ctg_btn btn-hide"   title="{{ trans('general.hideOper') }}" ></div>
+        {{--添加一个子级分类--}}
         <div class="btn ctg_btn"            title="{{ trans('general.addDesc') }}"  data-action="{{ route('createCtg') }}" data-act="desc"></div>
+        {{--添加一个同级分类--}}
         <div class="btn ctg_btn"            title="{{ trans('general.addSibl') }}"  data-action="{{ route('createCtg') }}" data-act="sibl"></div>
+        {{--编辑分类标题--}}
         <div class="btn ctg_btn"            title="{{ trans('general.editSelf') }}" data-action="{{ route('updateCtg') }}"></div>
+        {{--添加一个子内容--}}
         <div class="btn ctg_btn"            title="{{ trans('general.addItem') }}"  data-action="{{ route('createItem') }}"></div>
 
     </div>
 
+    {{--关于内容的操作--}}
     <div id="item_box" class="operation">
 
         <form enctype="multipart/form-data" id="item_form">
@@ -57,10 +63,13 @@
             <div class="submit">ok</div>
             <input type="hidden" name="item_id" value="0">
         </form>
-
+        {{--聚焦选中 .star--}}
         <div class="btn item_btn btn-focus" title="{{ trans('general.focus') }}" ></div>
+        {{--隐藏操作面板--}}
         <div class="btn item_btn btn-hide"  title="{{ trans('general.hideOper') }}" ></div>
+        {{--编辑内容标题--}}
         <div class="btn item_btn"           title="{{ trans('general.editSelf') }}" data-action="{{ route('updateItem') }}"></div>
+        {{--显示详细内容--}}
         <div class="btn item_btn"           title="{{ trans('general.showItem') }}" ></div>
 
     </div>
