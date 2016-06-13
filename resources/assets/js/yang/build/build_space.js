@@ -172,11 +172,11 @@ define([
                 }
 
 
-            },//setup end
+            },//setup ends
             //控制面板部分布局
             setOperation : function(annu){
                 annulus(annu);
-            },//setOperation end
+            },//setOperation ends
             //同心球的缩放
             zoom : function() {
 
@@ -233,7 +233,7 @@ define([
 
                 }
 
-            },//zoom end
+            },//zoom ends
 
             /**
              * 选中的.star元素
@@ -270,7 +270,7 @@ define([
                         submitClick(target);
                     }
 
-                }//callback end
+                }//callback ends
 
                 /**
                  * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
@@ -295,7 +295,7 @@ define([
 
                     BuildSpace.prototype.aimedStar = target;
 
-                }//starClick end
+                }//starClick ends
 
                 /**
                  * .operation 中各个 .btn 的点击事件
