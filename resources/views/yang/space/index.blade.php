@@ -34,18 +34,18 @@
 
         <form enctype="multipart/form-data" id="ctg_form">
             <textarea name="title"></textarea>
+            <div class="submit">ok</div>
             <input type="hidden" name="ctg_id" value="0">
             <input type="hidden" name="pid" value="0">
             <input type="hidden" name="tier" value="0">
             <input type="hidden" name="act">
-            <input type="submit" value="ok">
         </form>
 
         <div class="btn ctg_btn btn-focus"  title="{{ trans('general.focus') }}" ></div>
+        <div class="btn ctg_btn btn-hide"   title="{{ trans('general.hideOper') }}" ></div>
         <div class="btn ctg_btn"            title="{{ trans('general.addDesc') }}"  data-action="{{ route('createCtg') }}" data-act="desc"></div>
         <div class="btn ctg_btn"            title="{{ trans('general.addSibl') }}"  data-action="{{ route('createCtg') }}" data-act="sibl"></div>
         <div class="btn ctg_btn"            title="{{ trans('general.editSelf') }}" data-action="{{ route('updateCtg') }}"></div>
-        <div class="btn ctg_btn btn-hide"   title="{{ trans('general.hideOper') }}" ></div>
         <div class="btn ctg_btn"            title="{{ trans('general.addItem') }}"  data-action="{{ route('createItem') }}"></div>
 
     </div>
@@ -54,13 +54,13 @@
 
         <form enctype="multipart/form-data" id="item_form">
             <textarea name="title"></textarea>
+            <div class="submit">ok</div>
             <input type="hidden" name="item_id" value="0">
-            <input type="submit" value="ok">
         </form>
 
         <div class="btn item_btn btn-focus" title="{{ trans('general.focus') }}" ></div>
-        <div class="btn item_btn"           title="{{ trans('general.editSelf') }}" data-action="{{ route('updateItem') }}"></div>
         <div class="btn item_btn btn-hide"  title="{{ trans('general.hideOper') }}" ></div>
+        <div class="btn item_btn"           title="{{ trans('general.editSelf') }}" data-action="{{ route('updateItem') }}"></div>
         <div class="btn item_btn"           title="{{ trans('general.showItem') }}" ></div>
 
     </div>

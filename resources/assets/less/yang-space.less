@@ -39,8 +39,7 @@ form{display: none;}
 
 }
 
-@ow:        150px;
-@ow2:       @ow * -1 / 2;
+@ow:        0;
 @btnw:      30px;
 @btn:       rgb(62, 186, 248);
 @btn-hover: fade(@btn, 70%);
@@ -48,22 +47,25 @@ form{display: none;}
 //添加删除等操作
 .operation{
     .abs; .hide;
-    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow2 0 0 @ow2;
+    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow/-2 0 0 @ow/-2;
 
     form{
-        @fw: @ow*2/3;
-        @fw2: @fw * -1 / 2;
-        @fh: @ow/2;
-        @fh2: @fh * -1 / 2;
+        @fw: 200px;
+        @fh: 35px;
         .abs;
-        top: 50%; left: 50%; width: @fw; height: @fh; margin: @fh2 0 0 @fw2;
+        top: 50%; left: 50%; width: @fw; height: @fh; margin: @fh/-2 0 0 @fw/-2;
+        font-size: @fh/2.2; line-height: @fh;
+
         textarea{
-            .abs;
-            top: 0; left: 0; width: @fw; height: @fh*2/3;
+            .fl;
+            width: @fw - @fh; height: @fh;
+            font-size: inherit; line-height: inherit; text-indent: 10px;
         }
-        input[type='submit']{
-            .abs;
-            bottom: 0; left: 0; width: @fw; height: @fh/3;
+        .submit{
+            .fl; .t-center;
+            width: @fh; height: @fh;
+            background-color: #ccc;
+            font-size: inherit; line-height: inherit;
             &:hover{background-color: #00b3ee; cursor: pointer;}
         }
     }

@@ -6,6 +6,7 @@ define([
         "../var/bindEvent",
         "../var/unbindEvent",
         "../var/touchPos",
+        "../func/ajax",
         "./func/reveal",
         "./func/conceal",
         "./func/configVar",
@@ -14,7 +15,7 @@ define([
         "./func/fibonacciSphere",
         "./func/annulus",
 
-	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, ajax, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
 
 	    /**
 	     * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -264,6 +265,9 @@ define([
                         //.operation 包含的所有 .btn 的点击
                         btnClick(target);
 
+                    }else if (target.classList.contains('submit')) {
+                        //ajax提交表单
+                        submitClick(target);
                     }
 
                 }//callback end
@@ -324,77 +328,48 @@ define([
                         i++;
                     }
 
+                    /**
+                     * 如果按钮是操作表单的，会有 dataset.action
+                     * 其他是操作样式或动画
+                     */
+                    if (target.dataset.action) {
+                        form.action = target.dataset.action;
+                        reveal(form);
+                    }else{
+
+                        if (cList.contains('btn-focus')) {
+
+                        }else if (cList.contains('btn-hide')) {
+                            form.action = '';
+                            conceal(form);
+                            conceal(form.parentNode);
+                        }
+
+                    }
+
                     return false;
 
-                    //var url     = '',
-                    //    is_act  = false,
-                    //    tid     = target.id,
-                    //    act     = form.querySelector("input[name='act']"),
-                    //    ctg_id  = form.querySelector("input[name='ctg_id']").value,
-                    //    item_id = form.querySelector("input[name='item_id']").value;
-                    //
-                    ////首先将 act 和 form.action 置空
-                    //act.value   = '';
-                    //form.action = '';
-                    //
-                    ///**
-                    // * 根据按钮的 id ，加入相应的操作
-                    // */
-                    //switch (tid)
-                    //{
-                    //case 'focus':       //聚焦点击的元素
-                    //
-                    //    break;
-                    //case 'addDesc':     //添加一个子分类，只适用于分类元素
-                    //    act.value = 'desc';
-                    //    is_act = true;
-                    //
-                    //    break;
-                    //case 'addSibl':     //添加一个同级分类，只适用于分类元素
-                    //    act.value = 'sibl';
-                    //    is_act = true;
-                    //
-                    //    break;
-                    //case 'editSelf':    //编辑标题的内容，适用于分类和内容
-                    //    is_act = true;
-                    //
-                    //    break;
-                    //case 'hideOper':    //隐藏操作界面
-                    //    conceal(operation);
-                    //    break;
-                    //case 'addItem':     //添加一个内容，适用于分类和内容
-                    //    is_act = true;
-                    //
-                    //    break;
-                    //}
-                    ///**
-                    // * 如果是进行表单操作的
-                    // * 赋予相应的 url
-                    // */
-                    //if (is_act) {
-                    //    if (ctg_id != 0) {
-                    //        url = target.dataset.ctg_action;
-                    //    }else if (item_id != 0) {
-                    //        url = target.dataset.item_action;
-                    //    }
-                    //}
-                    //
-                    //form.action = url;
-                    ///**
-                    // * 如果form有url，则显示form
-                    // */
-                    //if (url) {
-                    //    reveal(form);
-                    //}else{
-                    //    conceal(form);
-                    //}
+                }//btnClick ends
 
-                }//btnClick end
+                /**
+                 * ajax 提交表单
+                 * @param target 提交按钮，是 form 的子元素
+                 */
+                function submitClick(target){
+                    var form = target.parentNode,
+                        success;
 
+                    success = function(res){
+                        console.log(res);
+                    }
 
-            },//click end
+                    ajax(form.action, success, new FormData(form));
 
-        };
+                }//submitClick ends
+
+            },//click ends
+
+        };//BuildSpace.prototype ends
 
 
         window.BuildSpace = BuildSpace;
