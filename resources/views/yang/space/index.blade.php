@@ -73,11 +73,11 @@
         <div class="btn item_btn"           title="{{ trans('general.showItem') }}" ></div>
 
     </div>
-
+    {{--左上角返回主页按钮--}}
     <div id="top_left">
         <a href="{{ route('home') }}">{{ trans('general.home') }}</a>
     </div>
-
+    {{--右上角用户信息--}}
     <div id="top_right">
         <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
     </div>
