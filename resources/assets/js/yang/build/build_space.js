@@ -358,6 +358,10 @@ define([
                     var form = target.parentNode,
                         success;
 
+                    /**
+                     * 请求成功的回调函数
+                     * @param res json对象 res.status == 1 成功, 0 失败
+                     */
                     success = function(res){
                         console.log(res);
                     }
