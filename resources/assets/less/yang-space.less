@@ -1,0 +1,112 @@
+@import "general";
+
+@space:  #002240;
+
+body{.over-hidden; background-color: @space;}
+form{display: none;}
+
+//舞台，等于窗口大小的元素
+#stage{
+	.perspective; .pers_origin; .trsf_origin; .abs;
+	width: 100vw; height: 100vw; top: 50%; margin: -50vw 0 0 0;
+    &:hover{.cursor-grab;}
+
+    //银河开始
+	#galaxy{
+		.trsf_style_3d; .abs;
+		width: 100px; height: 100px; top: 50%; left: 50%;
+        margin: -50px 0 0 -50px; color: #fff;
+
+        //分类
+		.star{
+            .back_face; .over-hidden; .abs;
+			top: 50%; left: 50%; padding: 0.2em; margin: -0.6em 0 0 -2.1em;
+            line-height: 1em; max-width: 4em; height: 1em; text-overflow:ellipsis; white-space:nowrap;
+            border-radius: 3px;
+            &:hover{border: 2px solid #fff;}
+		}
+
+        .star.ctg{
+            background-color: fade(@white, 20%);
+        }
+
+        .star.item{
+            background-color: fade(@white, 40%);
+        }
+
+	}
+    //银河结束
+
+}
+
+@ow:        150px;
+@ow2:       @ow * -1 / 2;
+@btnw:      30px;
+@btn:       rgb(62, 186, 248);
+@btn-hover: fade(@btn, 70%);
+
+//添加删除等操作
+.operation{
+    .abs; .hide;
+    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow2 0 0 @ow2;
+    background-color: fade(@white, 10%); border-radius: 50%;
+
+    form{
+        @fw: @ow*2/3;
+        @fw2: @fw * -1 / 2;
+        @fh: @ow/2;
+        @fh2: @fh * -1 / 2;
+        .abs;
+        top: 50%; left: 50%; width: @fw; height: @fh; margin: @fh2 0 0 @fw2;
+        textarea{
+            .abs;
+            top: 0; left: 0; width: @fw; height: @fh*2/3;
+        }
+        input[type='submit']{
+            .abs;
+            bottom: 0; left: 0; width: @fw; height: @fh/3;
+            &:hover{background-color: #00b3ee; cursor: pointer;}
+        }
+    }
+
+    .btn{
+        .abs;
+        top: 50%; left: 50%;
+        width: @btnw; height: @btnw; margin: @btnw/-2 0 0 @btnw/-2;
+        border-radius: 50%; background-color: @btn;
+        &:hover{background-color: @btn-hover; cursor: pointer;}
+    }
+
+}
+
+@tlw: 60px;
+
+//左上角部分
+#top_left{
+    .abs; .circle; .t-center;
+    top: @tlw / 4; left: @tlw / 4; width: @tlw; height: @tlw;
+    font-size: 14px; color: #fff; line-height: @tlw;
+    background-color: lighten(@black, 50%);
+    &:hover{cursor:pointer;}
+
+    a{
+        .brim; font-size: inherit; color: inherit;
+    }
+}
+
+@trw: 60px;
+
+//右上角用户信息部分
+#top_right{
+    .abs; .circle; .t-center; .over-hidden;
+    top: @trw / 4; right: @trw / 4; width: @trw; height: @trw;
+    font-size: 14px; color: #fff; line-height: @trw;
+    background-color: lighten(@black, 50%);
+    &:hover{cursor:pointer;}
+
+    img{
+        .abs; .circle;
+        top: 0; left: 0;
+        display: block; width: 100%; height: 100%;
+    }
+}

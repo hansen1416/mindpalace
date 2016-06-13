@@ -1,0 +1,72 @@
+@import "general";
+
+@home:        #37B8FC;
+@font-color:  lighten(@black, 40%);
+@porw:        200px;
+@profz:       14px;
+@panw:        60px;
+@panfz:       14px;
+
+body{.over-hidden; background-color: @home; color: @font-color}
+a{color: @font-color; &:hover{color: darken(@font-color, 30%);}}
+//用户头像或登陆输入框
+.portrait{
+    .center; .circle; .t-center; .over-hidden;
+    width: @porw; height: @porw; margin: @porw/-2 0 0 @porw/-2;
+    font-size: @profz;
+    background-color: @white;
+    white-space: nowrap;
+    //伪元素，用于垂直居中
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+    //包含登陆内容
+    .portrait-form{
+        display: inline-block; vertical-align: middle;
+        width: 80%;
+
+        input[type='email'], input[type='password']{
+            margin: 10px auto;
+            display:block; width: 100%; height:30px;
+            font-size: inherit; line-height: 30px;
+        }
+        //记住登陆状态的选项
+        .remember-box{
+            label{
+                display: inline-block; margin: 0 auto;
+                height: 20px; line-height: 20px; font-size: inherit;
+                input[type='checkbox']{
+                    .fl;
+                    display: inline-block; margin: 3px 3px 0 0;
+                    width: 14px; height: 14px;
+                }
+                span{
+                    .fl;
+                }
+            }
+        }
+
+    }//.form-box end
+
+    img{
+        .abs; .circle;
+        top: 0; left: 0;
+        display: block; width: 100%; height: 100%;
+    }
+
+}//.portrait end
+//控制按钮
+.panel{
+
+    .center; .circle; .t-center;
+    width: @panw; height:@panw; margin: @panw/-2 0 0 @panw/-2;
+    font-size: @panfz; line-height: @panw; color: @font-color;
+    background-color: @white;
+    &:hover{cursor: pointer;}
+
+    a{.brim;}
+
+}
