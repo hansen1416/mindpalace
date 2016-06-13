@@ -233,27 +233,34 @@ define([
                 }
 
             },//zoom end
-            //页面的所有点击事件
+
+            /**
+             * 选中的.star元素
+             */
+            aimedStar: null,
+
+            /**
+             * 页面的所有点击事件
+             */
             click : function() {
 
                 bindEvent(document, 'click', callback);
 
                 function callback(e){
 
-                    var target    = e.target,
-                        classList = target.classList;
+                    var target    = e.target;
                     //如果是submit 或 a 标签，则只执行默认行为
-                    if (target.type === 'submit' || target.nodeName === 'A') {
+                    if (target.nodeName === 'A') {
                         return false;
                     }
 
                     e.preventDefault();
 
-                    if(classList.contains('star')) {
+                    if(target.classList.contains('star')) {
                         //点击分类或者内容题目时的点击事件
                         starClick(target);
 
-                    }else if (classList.contains('btn')) {
+                    }else if (target.classList.contains('btn')) {
                         //.operation 包含的所有 .btn 的点击
                         btnClick(target);
 
@@ -282,76 +289,105 @@ define([
                         conceal(ctg_box);
                     }
 
+                    BuildSpace.prototype.aimedStar = target;
+
                 }//starClick end
 
                 /**
                  * .operation 中各个 .btn 的点击事件
-                 * @param target
+                 * @param target .btn 元素
                  */
                 function btnClick(target) {
-
-                    var url     = '',
-                        is_act  = false,
-                        tid     = target.id,
-                        act     = form.querySelector("input[name='act']"),
-                        ctg_id  = form.querySelector("input[name='ctg_id']").value,
-                        item_id = form.querySelector("input[name='item_id']").value;
-
-                    //首先将 act 和 form.action 置空
-                    act.value   = '';
-                    form.action = '';
-
                     /**
-                     * 根据按钮的 id ，加入相应的操作
+                     * star 选中的 .star 元素
+                     * cList target的classList
+                     * form 当前操作界面中的表单
                      */
-                    switch (tid)
-                    {
-                    case 'focus':       //聚焦点击的元素
+                    var star  = BuildSpace.prototype.aimedStar,
+                        cList = target.classList,
+                        i     = 0,
+                        form;
 
-                        break;
-                    case 'addDesc':     //添加一个子分类，只适用于分类元素
-                        act.value = 'desc';
-                        is_act = true;
-
-                        break;
-                    case 'addSibl':     //添加一个同级分类，只适用于分类元素
-                        act.value = 'sibl';
-                        is_act = true;
-
-                        break;
-                    case 'editSelf':    //编辑标题的内容，适用于分类和内容
-                        is_act = true;
-
-                        break;
-                    case 'hideOper':    //隐藏操作界面
-                        conceal(operation);
-                        break;
-                    case 'addItem':     //添加一个内容，适用于分类和内容
-                        is_act = true;
-
-                        break;
+                    if (cList.contains('ctg_btn')) {
+                        form = document.getElementById('ctg_form');
+                    }else if (cList.contains('item_btn')) {
+                        form = document.getElementById('item_form');
                     }
                     /**
-                     * 如果是进行表单操作的
-                     * 赋予相应的 url
+                     * 从 star 或 target 中取出 表单隐藏域需要的数据
+                     * @type {NodeList}
                      */
-                    if (is_act) {
-                        if (ctg_id != 0) {
-                            url = target.dataset.ctg_action;
-                        }else if (item_id != 0) {
-                            url = target.dataset.item_action;
-                        }
+                    var inputs = form.querySelectorAll("input[type='hidden']");
+
+                    while (i < inputs.length) {
+                        inputs[i].value = star.dataset[inputs[i].getAttribute('name')] || target.dataset[inputs[i].getAttribute('name')];
+                        i++;
                     }
 
-                    form.action = url;
-                    /**
-                     * 如果form有url，则显示form
-                     */
-                    if (url) {
-                        reveal(form);
-                    }else{
-                        conceal(form);
-                    }
+                    return false;
+
+                    //var url     = '',
+                    //    is_act  = false,
+                    //    tid     = target.id,
+                    //    act     = form.querySelector("input[name='act']"),
+                    //    ctg_id  = form.querySelector("input[name='ctg_id']").value,
+                    //    item_id = form.querySelector("input[name='item_id']").value;
+                    //
+                    ////首先将 act 和 form.action 置空
+                    //act.value   = '';
+                    //form.action = '';
+                    //
+                    ///**
+                    // * 根据按钮的 id ，加入相应的操作
+                    // */
+                    //switch (tid)
+                    //{
+                    //case 'focus':       //聚焦点击的元素
+                    //
+                    //    break;
+                    //case 'addDesc':     //添加一个子分类，只适用于分类元素
+                    //    act.value = 'desc';
+                    //    is_act = true;
+                    //
+                    //    break;
+                    //case 'addSibl':     //添加一个同级分类，只适用于分类元素
+                    //    act.value = 'sibl';
+                    //    is_act = true;
+                    //
+                    //    break;
+                    //case 'editSelf':    //编辑标题的内容，适用于分类和内容
+                    //    is_act = true;
+                    //
+                    //    break;
+                    //case 'hideOper':    //隐藏操作界面
+                    //    conceal(operation);
+                    //    break;
+                    //case 'addItem':     //添加一个内容，适用于分类和内容
+                    //    is_act = true;
+                    //
+                    //    break;
+                    //}
+                    ///**
+                    // * 如果是进行表单操作的
+                    // * 赋予相应的 url
+                    // */
+                    //if (is_act) {
+                    //    if (ctg_id != 0) {
+                    //        url = target.dataset.ctg_action;
+                    //    }else if (item_id != 0) {
+                    //        url = target.dataset.item_action;
+                    //    }
+                    //}
+                    //
+                    //form.action = url;
+                    ///**
+                    // * 如果form有url，则显示form
+                    // */
+                    //if (url) {
+                    //    reveal(form);
+                    //}else{
+                    //    conceal(form);
+                    //}
 
                 }//btnClick end
 

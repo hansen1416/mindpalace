@@ -23,8 +23,8 @@ define([
     });
     //赋予 operation 部分样式
     B.setOperation([
-                       {'selector': '.ctg_btn', 'radius': 75},
-                       {'selector': '.item_btn', 'radius': 75},
+                       {'selector': '.ctg_btn', 'radius': 100},
+                       {'selector': '.item_btn', 'radius': 100},
                    ]);
     //滚轮缩放事件
     B.zoom();
