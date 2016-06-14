@@ -7,6 +7,7 @@ define([
         "../var/unbindEvent",
         "../var/touchPos",
         "../func/ajax",
+        "../func/inverseMatrix",
         "./func/reveal",
         "./func/conceal",
         "./func/configVar",
@@ -15,7 +16,7 @@ define([
         "./func/fibonacciSphere",
         "./func/annulus",
 
-	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, ajax, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, ajax, inverseMatrix, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
 
     /**
      * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -389,7 +390,7 @@ define([
                      */
                     if (cList.contains('btn-focus')) {
 
-
+                        inverseMatrix(star.style[trsfm]);
 
                     //隐藏操作界面
                     }else if (cList.contains('btn-hide')) {
