@@ -1,15 +1,13 @@
 define([
-           "../build/func/matrixToArr",
-       ], function(matrixToArr) {
+
+       ], function() {
     /**
      * 求一个 transform: matrix3d 矩阵的逆矩阵
-     * 首先将 m 字符串转化为矩阵
+     * m 最好是一个 Float32Array
      */
 	return function (m, r){
 
-        m = matrixToArr(m)
-
-		r = r || [];
+		r = r || new Float32Array(16);
 
 		r[0]  = m[5]*m[10]*m[15] - m[5]*m[14]*m[11] - m[6]*m[9]*m[15] + m[6]*m[13]*m[11] + m[7]*m[9]*m[14] - m[7]*m[13]*m[10];
 		r[1]  = -m[1]*m[10]*m[15] + m[1]*m[14]*m[11] + m[2]*m[9]*m[15] - m[2]*m[13]*m[11] - m[3]*m[9]*m[14] + m[3]*m[13]*m[10];

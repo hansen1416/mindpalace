@@ -11,7 +11,7 @@ define(function() {
         arr[0]  = arr[0].replace(/(matrix3d\()/g, "");
         arr[15] = arr[15].replace(/\)/g, "");
 
-        return arr;
+        return Float32Array.from(arr);
     }
 
 });
