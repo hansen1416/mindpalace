@@ -7,7 +7,7 @@ define([
         "../var/unbindEvent",
         "../var/touchPos",
         "../func/ajax",
-        "../func/inverseMatrix",
+        "../func/inverseMatrix3d",
         "./func/reveal",
         "./func/conceal",
         "./func/configVar",
@@ -16,7 +16,7 @@ define([
         "./func/fibonacciSphere",
         "./func/annulus",
 
-	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, ajax, inverseMatrix, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
+	], function(document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, ajax, inverseMatrix3d, reveal, conceal, configVar, closestPoint, maxPoint, fibonacciSphere, annulus){
 
     /**
      * 将每一个分类或者内容元素 star，均匀的分布到3D空间当中，根据 tier 分层
@@ -390,7 +390,10 @@ define([
                      */
                     if (cList.contains('btn-focus')) {
 
-                        inverseMatrix(star.style[trsfm]);
+                        var m = inverseMatrix3d(star.style[trsfm]);
+
+                        console.log(star.style[trsfm]);
+                        console.log(m);
 
                     //隐藏操作界面
                     }else if (cList.contains('btn-hide')) {
@@ -419,7 +422,7 @@ define([
                 success = function(res){
                     //TODO
                     console.log(res);
-                }
+                };
 
                 ajax(form.action, success, new FormData(form));
 
