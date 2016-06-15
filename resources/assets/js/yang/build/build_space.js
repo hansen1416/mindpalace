@@ -392,7 +392,8 @@ define([
 
                         var m = focus(star.style[trsfm]);
 
-                        console.log(star.style[trsfm]);
+                        BuildSpace.prototype.rotateObj.style[trsfm] = m;
+
                         console.log(m);
 
                     //隐藏操作界面

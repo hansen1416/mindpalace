@@ -2,7 +2,7 @@ define([
            "../build/func/matrixToArr",
            "../build/func/arrToMatrix",
            "./inverseMatrix3d",
-       ], function  (matrixToArr, inverseMatrix3d, arrToMatrix) {
+       ], function  (matrixToArr, arrToMatrix, inverseMatrix3d) {
 
     return function (matrix3d) {
 
@@ -12,10 +12,7 @@ define([
         arr[13] = 0;
         arr[14] = 0;
 
-        var res = 123;
-
-        return res;
-
+        return arrToMatrix( inverseMatrix3d(arr) );
     }
 
 });
