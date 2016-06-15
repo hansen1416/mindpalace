@@ -49,6 +49,6 @@ elixir.config.sourcemaps = false;
 elixir(function(mix) {
     mix.less('yang-space.less', 'public/css/yang-space.css');
     mix.less('yang-home.less', 'public/css/yang-home.css');
-    mix.task('requirejsBuild', './resources/js/**/*.js');
+    mix.task('requirejsBuild');
 });
 
