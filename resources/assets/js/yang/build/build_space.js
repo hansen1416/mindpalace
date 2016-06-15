@@ -387,14 +387,13 @@ define([
                 }else{
                     /*
                      * 将选中的 .star 元素旋转到屏幕正中
+                     * 目前可以显示正确，但是缺少动画效果，并且需要和trackball兼容
+                     * 考虑将 trackball 加入到这个大类当中
                      */
+                    //TODO
                     if (cList.contains('btn-focus')) {
 
-                        var m = focus(star.style[trsfm]);
-
-                        BuildSpace.prototype.rotateObj.style[trsfm] = m;
-
-                        console.log(m);
+                        BuildSpace.prototype.rotateObj.style[trsfm] = focus(star.style[trsfm]);
 
                     //隐藏操作界面
                     }else if (cList.contains('btn-hide')) {
