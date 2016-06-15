@@ -1,7 +1,7 @@
 define(function() {
 
 	/**
-     * [matrixToArr 将matrix3d的字符串转化为数组]
+     * 将matrix3d的字符串转化为数组
      * @param  {[type]} matrix [description]
      * @return {[type]}        [description]
      */
