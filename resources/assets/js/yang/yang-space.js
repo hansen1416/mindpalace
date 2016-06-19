@@ -13,6 +13,19 @@ define([
 
     yangSpace.spheres();
 
+    yangSpace.zoom();
+
+    yangSpace.click();
+
+    /**
+     * 赋予 operation 部分样式
+     * 所有按钮环形排布
+     */
+    yangSpace.setOperation([
+        {'selector': '.ctg_btn', 'radius': 100},
+        {'selector': '.item_btn', 'radius': 100},
+    ]);
+
     console.log(yangSpace);
 
 });

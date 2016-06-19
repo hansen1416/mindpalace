@@ -3,19 +3,12 @@ define([
     "../var/trsfm",
     "../var/getStyle",
     "../var/colorCircle",
-    "../var/bindEvent",
-    "../var/unbindEvent",
-    "../var/touchPos",
-    "../func/ajax/ajax",
-    "../func/anim/focus",
-    "../func/anim/reveal",
-    "../func/anim/conceal",
     "../func/math/closestPoint",
     "../func/math/maxPoint",
     "../func/math/fibonacciSphere",
-    "../func/style/annulus",
 
-], function (document, trsfm, getStyle, colorCircle, bindEvent, unbindEvent, touchPos, ajax, focus, reveal, conceal, closestPoint, maxPoint, fibonacciSphere, annulus) {
+
+], function (document, trsfm, getStyle, colorCircle, closestPoint, maxPoint, fibonacciSphere) {
 
     class BuildSpace {
 
@@ -27,16 +20,22 @@ define([
             this.gap       = param.gap;     //每一层球面的间隔
             this.N         = 0;             //每一层球面上均匀分布的点的数量，不小于该层的元素数量
             this.prevTier  = 0;
+            this.tiers     = 0;
             this.allPos    = [];            //记录每一个 id 对应的空间位置的数据
             this.tierPos   = [];            //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
             this.savedPos  = [];            //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
         }
+        //constructor ends
 
         spheres() {
 
+            //给每一个区域赋予不同的颜色
+            this.section();
 
             //在空间中定位元素
             this.diffuse();
+
+            this.tiers = this.prevTier - 1;
 
             delete this.N;
             delete this.prevTier
@@ -44,8 +43,36 @@ define([
             delete this.tierPos
             delete this.savedPos;
         }
+        //spheres ends
 
+        /**
+         * 取最内层的元素，在 style_section 中给每一个相应的 section 添加不同的样式
+         */
+        section() {
 
+            var core  = this.stage.querySelectorAll('.tier-' + this.prevTier),
+                sheet = document.getElementById('style_section').sheet || document.getElementById('style_section').styleSheet,
+                i     = 0,
+                clr   = '';
+
+            while (i < core.length) {
+                clr = colorCircle[i % colorCircle.length];
+
+                sheet.insertRule('.sec-' + core[i].dataset.ctg_id + '{border: 2px solid ' +clr+ ';}', i);
+
+                i++;
+            }
+        }
+        //section ends
+
+        /**
+         * 将每一层的元素均匀分布到空间当中，
+         * 每一层都在同一个球面上，并且每一个面都朝向圆心
+         * 从第一层开始，递归的取到最后一层元素
+         * 通过 translate3d 定位偏离圆心的距离
+         * 通过 rotate3d 使得面和球面相切，并且转动到和纬线相平行的角度]
+         * @author Hanlongzhen 2016-04-19 10:39
+         */
         diffuse() {
             var stars = this.stage.querySelectorAll('.tier-' + this.prevTier);
             //如果没有下一层了，则停止
@@ -125,10 +152,7 @@ define([
 
             this.diffuse();
         }
-
-
-
-
+        //diffuse ends
 
     }
 
