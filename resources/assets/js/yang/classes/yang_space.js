@@ -1,10 +1,10 @@
 define([
     "../var/document",
-    "./m",
+    "./build_space",
 
-], function (document, m) {
+], function (document, build_space) {
 
-    class YangSpace extends M {
+    class YangSpace extends BuildSpace {
 
         constructor (stage) {
             super(stage);

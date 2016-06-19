@@ -3,11 +3,11 @@ define([
 
 ], function (document) {
 
-    class M {
+    class BuildSpace {
         constructor(stage) {
             this.stage = stage;
         }
     }
 
-    window.M = M;
+    window.BuildSpace = BuildSpace;
 });
