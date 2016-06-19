@@ -11,10 +11,11 @@ define([
         gap      : 120,
     });
 
+    //生成同心球面
     yangSpace.spheres();
-
+    //鼠标滚轮事件
     yangSpace.zoom();
-
+    //鼠标点击事件
     yangSpace.click();
 
     /**
@@ -26,7 +27,6 @@ define([
         {'selector': '.item_btn', 'radius': 100},
     ]);
 
-    console.log(yangSpace);
 
 });
 //define([
