@@ -11,7 +11,7 @@ define([
         }
 
         click() {
-            console.log(this.stage);
+
         }
 
 

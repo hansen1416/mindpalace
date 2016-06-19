@@ -7,9 +7,11 @@ define([
     var yangSpace = new YangSpace({
         stage    : document.getElementById('stage'),
         rotateObj: document.getElementById('galaxy'),
+        radius   : 140,
+        gap      : 120,
     });
 
-    yangSpace.click();
+    yangSpace.spheres();
 
     console.log(yangSpace);
 

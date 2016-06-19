@@ -1,5 +1,5 @@
 define([
-            "../var/document"
+            "../../var/document"
        ], function(document) {
     /**
      * url 地址
