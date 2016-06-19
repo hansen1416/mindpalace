@@ -183,13 +183,11 @@ define([
 
             var upper           = this,
                 impulse         = true,                     //true有惯性，false没有惯性
-                stagew          = 0,                        //half of stagewidth
-                stageh          = 0,                        //half of stageheight
                 radius          = 0,                        //visual trackball radius
                 pos             = 0,                        //top & left of the stage
                 mouseDownVector = [],                       //the vector of the cursor position when the mouse down
                 mouseMoveVector = [],                       //the vector of the cursor position during the mouse is moving
-                axis            = [1, 1, 1],                  //rotating axis, calculated by mouseDownVector & mouseMoveVector
+                axis            = [1, 1, 1],                //rotating axis, calculated by mouseDownVector & mouseMoveVector
                 oldAngle        = 0,                        //旋转实施之前的角度
                 angle           = 0,                        //rotate3d angle旋转的角度
                 oldTime         = 0,                        //鼠标点击时刻的时间
@@ -213,11 +211,8 @@ define([
             //旋转空间的top、left
             pos = findPos(this.stage);
 
-            stagew = this.stage.offsetWidth / 2;
-            stageh = this.stage.offsetHeight / 2;
-
             //取空间的宽高中大的一个作为trackball半径
-            radius = stagew < stageh ? stageh : stagew;
+            radius = this.stage.offsetWidth < this.stage.offsetHeight ? this.stage.offsetHeight / 2 : this.stage.offsetWidth / 2;
 
             //元素最初设置的transform值
             originTransform = getStyle(this.rotateObj, prefixCss + "transform");
