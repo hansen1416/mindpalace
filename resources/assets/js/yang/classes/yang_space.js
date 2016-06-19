@@ -6,8 +6,8 @@ define([
 
     class YangSpace extends BuildSpace {
 
-        constructor (stage) {
-            super(stage);
+        constructor (param) {
+            super(param);
         }
 
         click() {

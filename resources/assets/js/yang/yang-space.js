@@ -4,9 +4,14 @@ define([
 
 ], function (document, yang_space) {
 
-    var yangSpace = new YangSpace(document.getElementById('stage'));
+    var yangSpace = new YangSpace({
+        stage    : document.getElementById('stage'),
+        rotateObj: document.getElementById('galaxy'),
+    });
 
     yangSpace.click();
+
+    console.log(yangSpace);
 
 });
 //define([
