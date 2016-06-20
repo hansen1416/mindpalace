@@ -1,6 +1,6 @@
 define([
     "./var/document",
-    "./classes/yang_space",
+    "./class/yang_space",
 
 ], function (document, yang_space) {
 

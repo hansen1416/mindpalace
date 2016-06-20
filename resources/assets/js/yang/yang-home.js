@@ -1,6 +1,6 @@
 define([
            "./var/document",
-           './classes/yang_home',
+           './class/yang_home',
 
        ], function (document, yang_home) {
 
