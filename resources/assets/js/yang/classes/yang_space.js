@@ -1,14 +1,14 @@
 define([
-    "../var/document",
-    "../var/trsfm",
-    "../var/getStyle",
-    "../var/bindEvent",
-    "../func/ajax/ajax",
-    "../func/anim/focus",
-    "../func/anim/reveal",
-    "../func/anim/conceal",
-    "../func/style/annulus",
-    "./build_space",
+           "../var/document",
+           "../var/trsfm",
+           "../func/style/getStyle",
+           "../var/bindEvent",
+           "../func/ajax/ajax",
+           "../func/anim/focus",
+           "../func/anim/reveal",
+           "../func/anim/conceal",
+           "../func/style/annulus",
+           "./build_space",
 
 ], function (document, trsfm, getStyle, bindEvent, ajax, focus, reveal, conceal, annulus, build_space) {
 
