@@ -2,7 +2,7 @@ define([
        "../var/document",
        "../var/bindEvent",
        "../var/urls",
-       "../func/ajax",
+       "../func/ajax/ajax",
        "./func/configVar",
        "./func/annulus"
 
