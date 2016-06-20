@@ -1,8 +1,8 @@
 define([
            "../var/document",
-           "../var/trsfm",
+           "../func/style/trsfm",
            "../func/style/getStyle",
-           "../var/bindEvent",
+           "../func/event/bindEvent",
            "../func/ajax/ajax",
            "../func/anim/focus",
            "../func/anim/reveal",

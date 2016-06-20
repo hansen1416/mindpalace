@@ -1,6 +1,6 @@
 define([
            '../../var/document',
-           '../../var/trsfm',
+           './trsfm',
        ], function(document, trsfm) {
 
     /**

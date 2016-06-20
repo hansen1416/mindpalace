@@ -1,6 +1,6 @@
 define([
            "../var/document",
-           "../var/bindEvent",
+           "../func/event/bindEvent",
            "../var/urls",
            "../func/ajax/ajax",
            "../func/style/annulus",
