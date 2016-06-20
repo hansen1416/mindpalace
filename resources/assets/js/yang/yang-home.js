@@ -7,8 +7,8 @@ define([
     var yh = new YangHome();
 
     yh.setRings([
-            {'selector': '.panel', 'radius': 150},
-        ])
+                    {'selector': '.panel', 'radius': 150},
+                ]);
 
     yh.click();
 
