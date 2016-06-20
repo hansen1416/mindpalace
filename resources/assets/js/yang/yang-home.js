@@ -4,13 +4,13 @@ define([
 
        ], function (document, yang_home) {
 
-    var yangHome = new YangHome();
+    var yh = new YangHome();
 
-    yangHome.setRings([
+    yh.setRings([
             {'selector': '.panel', 'radius': 150},
         ])
 
-    yangHome.click();
+    yh.click();
 
 
 });
