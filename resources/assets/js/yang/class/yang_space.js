@@ -4,13 +4,14 @@ define([
            "../func/style/getStyle",
            "../func/event/bindEvent",
            "../func/ajax/ajax",
-           "../func/anim/focus",
+           "../func/anim/roll",
            "../func/anim/reveal",
            "../func/anim/conceal",
+           "../func/math/MatrixToarr",
            "../func/style/annulus",
            "./build_space",
 
-], function (document, trsfm, getStyle, bindEvent, ajax, focus, reveal, conceal, annulus, build_space) {
+], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, MatrixToarr, annulus, build_space) {
 
     class YangSpace extends BuildSpace {
 
@@ -198,7 +199,10 @@ define([
                     //TODO
                     if (cList.contains('btn-focus')) {
 
-                        upper.rotateObj.style[trsfm] = focus(star.style[trsfm]);
+                        var destiny = roll(star.style[trsfm]);
+                        upper.rotateObj.style[trsfm] = destiny;
+                        upper.setStartMatrix = MatrixToarr(destiny);
+
 
                         //隐藏操作界面
                     }else if (cList.contains('btn-hide')) {

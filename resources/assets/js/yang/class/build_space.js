@@ -27,18 +27,27 @@ define([
 
         constructor(param) {
 
-            this.stage     = param.stage;
-            this.rotateObj = param.rotateObj;
-            this.radius    = param.radius;       //每层球面实际半径
-            this.gap       = param.gap;     //每一层球面的间隔
-            this.N         = 0;             //每一层球面上均匀分布的点的数量，不小于该层的元素数量
-            this.prevTier  = 0;
-            this.tiers     = 0;
-            this.allPos    = [];            //记录每一个 id 对应的空间位置的数据
-            this.tierPos   = [];            //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
-            this.savedPos  = [];            //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
+            this.stage       = param.stage;
+            this.rotateObj   = param.rotateObj;
+            this.radius      = param.radius;            //每层球面实际半径
+            this.gap         = param.gap;               //每一层球面的间隔
+            this.N           = 0;                       //每一层球面上均匀分布的点的数量，不小于该层的元素数量
+            this.prevTier    = 0;
+            this.tiers       = 0;
+            this.allPos      = [];                      //记录每一个 id 对应的空间位置的数据
+            this.tierPos     = [];                      //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
+            this.savedPos    = [];                      //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
+            this.startMatrix = new Float32Array(16);    //starting matrix of every action
         }
         //constructor ends
+
+        set setStartMatrix(array) {
+            this.startMatrix = array;
+        }
+
+        get getStartMatrix() {
+            return this.startMatrix;
+        }
 
         spheres() {
 
@@ -192,7 +201,6 @@ define([
                 angle           = 0,                        //rotate3d angle旋转的角度
                 oldTime         = 0,                        //鼠标点击时刻的时间
                 time            = 0,                        //鼠标放开时刻的时间
-                startMatrix     = new Float32Array(16),     //starting matrix of every action
                 omega           = 0,                        //单位角速度
                 resetMotion     = true,                     //当鼠标点击目标元素时，是否停止当前运动
                 omegaCap        = 0.5,                      //单位角速度的cap,必须是大于0的数，默认为0.5
@@ -218,18 +226,18 @@ define([
             originTransform = getStyle(this.rotateObj, prefixCss + "transform");
 
             if(originTransform == "none"){
-                startMatrix[0]  = 1;
-                startMatrix[5]  = 1;
-                startMatrix[10] = 1;
-                startMatrix[15] = 1;
+                this.startMatrix[0]  = 1;
+                this.startMatrix[5]  = 1;
+                this.startMatrix[10] = 1;
+                this.startMatrix[15] = 1;
             }else{
                 //将字符串处理成数组
-                startMatrix     = originTransform.split(",");
+                this.startMatrix     = originTransform.split(",");
 
-                startMatrix[0]  = startMatrix[0].replace(/(matrix3d\()/g, "");
-                startMatrix[15] = startMatrix[15].replace(/\)/g, "");
+                this.startMatrix[0]  = this.startMatrix[0].replace(/(matrix3d\()/g, "");
+                this.startMatrix[15] = this.startMatrix[15].replace(/\)/g, "");
 
-                startMatrix     = new Float32Array(startMatrix);
+                this.startMatrix     = new Float32Array(this.startMatrix);
             }
             //目标元素绑定mousedown事件
             bindEvent(this.stage, "mousedown", rotateStart);
@@ -310,7 +318,7 @@ define([
             //使用动画
             function slide(){
 
-                upper.rotateObj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+startMatrix+")";
+                upper.rotateObj.style[prefixJs+"Transform"] = "rotate3d("+ axis+", "+angle+"rad) matrix3d("+upper.getStartMatrix+")";
 
                 rs = requestAnim(slide);
                 //如果标示为 true ，则取消动画
@@ -344,7 +352,7 @@ define([
                 angle += omega;
                 omega = omega > 0 ? omega - lambda * Math.sqrt(omega) : 0;
 
-                upper.rotateObj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
+                upper.rotateObj.style[prefixJs+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+upper.getStartMatrix+")";
                 //如果角速度为 0 了，则取消动画，并做结束处理
                 if(omega === 0){
                     cancelAnim(rd);
@@ -363,7 +371,7 @@ define([
 
                 //获得运动停止时的矩阵，并且赋值给startMatrix
                 var stopMatrix  = rotateMatrix(axis, angle);                //结束时的axis & angle
-                startMatrix = multiplyMatrix3d(startMatrix, stopMatrix);
+                upper.setStartMatrix = multiplyMatrix3d(upper.getStartMatrix, stopMatrix);
 
                 //次初始化步骤一定是在获得startMatrix之后，
                 //否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
