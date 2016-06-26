@@ -39,7 +39,7 @@ form{display: none;}
 }
 
 @ow:        0;
-@btnw:      40px;
+@btn_w:      40px;
 @btn:       rgba(255, 255, 255, 0.5);
 @btn-hover: fadein(@btn, 40%);
 
@@ -72,22 +72,28 @@ form{display: none;}
     .btn{
         .abs; .t-center;
         top: 50%; left: 50%;
-        width: @btnw; height: @btnw; margin: @btnw/-2 0 0 @btnw/-2;
+        width: @btn_w; height: @btn_w; margin: @btn_w/-2 0 0 @btn_w/-2;
         border-radius: 50%; background-color: @btn;
-        font-size: 14px;
+        font-size: @btn_w*0.35; line-height: @btn_w*0.35;
+
+        &:before{
+            content: '';
+            display: block;
+            height: 6px;
+        }
 
         &:hover{background-color: @btn-hover; cursor: pointer;}
     }
 
 }
 
-@tlw: 60px;
+@tl_w: 60px;
 
 //左上角部分
 #top_left{
     .abs; .circle; .t-center;
-    top: @tlw / 4; left: @tlw / 4; width: @tlw; height: @tlw;
-    font-size: 14px; color: #fff; line-height: @tlw;
+    top: @tl_w / 4; left: @tl_w / 4; width: @tl_w; height: @tl_w;
+    font-size: 14px; color: #fff; line-height: @tl_w;
     background-color: lighten(@black, 50%);
     &:hover{cursor:pointer;}
 
@@ -96,13 +102,13 @@ form{display: none;}
     }
 }
 
-@trw: 60px;
+@tr_w: 60px;
 
 //右上角用户信息部分
 #top_right{
     .abs; .circle; .t-center; .over-hidden;
-    top: @trw / 4; right: @trw / 4; width: @trw; height: @trw;
-    font-size: 14px; color: #fff; line-height: @trw;
+    top: @tr_w / 4; right: @tr_w / 4; width: @tr_w; height: @tr_w;
+    font-size: 14px; color: #fff; line-height: @tr_w;
     background-color: lighten(@black, 50%);
     &:hover{cursor:pointer;}
 
