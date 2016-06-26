@@ -41,17 +41,17 @@
             <input type="hidden" name="act">
         </form>
         {{--聚焦选中 .star--}}
-        <div class="btn ctg_btn btn-focus"  title="{{ trans('general.focus') }}" ></div>
+        <div class="btn ctg_btn"  title="{{ trans('general.focus') }}" >聚焦选中</div>
         {{--隐藏操作界面--}}
-        <div class="btn ctg_btn btn-hide"   title="{{ trans('general.hideOper') }}" ></div>
+        <div class="btn ctg_btn"  title="{{ trans('general.hideOper') }}" >关闭界面</div>
         {{--添加一个子级分类--}}
-        <div class="btn ctg_btn"            title="{{ trans('general.addDesc') }}"  data-action="{{ route('createCtg') }}" data-act="desc"></div>
+        <div class="btn ctg_btn"  title="{{ trans('general.addDesc') }}"  data-action="{{ route('createCtg') }}" data-act="desc">添加子类</div>
         {{--添加一个同级分类--}}
-        <div class="btn ctg_btn"            title="{{ trans('general.addSibl') }}"  data-action="{{ route('createCtg') }}" data-act="sibl"></div>
+        <div class="btn ctg_btn"  title="{{ trans('general.addSibl') }}"  data-action="{{ route('createCtg') }}" data-act="sibl">添加同类</div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn"            title="{{ trans('general.editSelf') }}" data-action="{{ route('updateCtg') }}"></div>
+        <div class="btn ctg_btn"  title="{{ trans('general.editSelf') }}" data-action="{{ route('updateCtg') }}">编辑名称</div>
         {{--添加一个子内容--}}
-        <div class="btn ctg_btn"            title="{{ trans('general.addItem') }}"  data-action="{{ route('createItem') }}"></div>
+        <div class="btn ctg_btn"  title="{{ trans('general.addItem') }}"  data-action="{{ route('createItem') }}">添加内容</div>
 
     </div>
 
