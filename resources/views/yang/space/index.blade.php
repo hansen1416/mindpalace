@@ -41,9 +41,9 @@
             <input type="hidden" name="act">
         </form>
         {{--聚焦选中 .star--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.focus') }}" >{{ trans('buttons.focus') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus" >{{ trans('buttons.focus') }}</div>
         {{--隐藏操作界面--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" >{{ trans('buttons.hideOper') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
         {{--添加一个子级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}"  data-action="{{ route('createCtg') }}" data-act="desc">{{ trans('buttons.addDesc') }}</div>
         {{--添加一个同级分类--}}

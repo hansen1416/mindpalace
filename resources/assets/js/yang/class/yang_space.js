@@ -197,17 +197,21 @@ define([
                      * 考虑将 trackball 加入到这个大类当中
                      */
                     //TODO
-                    if (cList.contains('btn-focus')) {
+                    switch (target.dataset.func)
+                    {
+                    case 'focus':
 
                         var destiny = roll(star.style[trsfm]);
                         upper.rotateObj.style[trsfm] = destiny;
                         upper.setStartMatrix = MatrixToarr(destiny);
 
+                        break;
+                    case 'hide':
 
-                        //隐藏操作界面
-                    }else if (cList.contains('btn-hide')) {
                         conceal(form);
                         conceal(form.parentNode);
+
+                        break;
                     }
 
                 }
