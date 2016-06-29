@@ -33,7 +33,7 @@
     <div id="ctg_box" class="operation">
 
         <form enctype="multipart/form-data" id="ctg_form">
-            <textarea name="title"></textarea>
+            <textarea title="" name="title"></textarea>
             <div class="submit">ok</div>
             <input type="hidden" name="ctg_id" value="0">
             <input type="hidden" name="pid" value="0">
@@ -45,11 +45,11 @@
         {{--隐藏操作界面--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
         {{--添加一个子级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}"  data-action="{{ route('createCtg') }}" data-act="desc">{{ trans('buttons.addDesc') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-action="{{ route('createCtg') }}" data-act="desc">{{ trans('buttons.addDesc') }}</div>
         {{--添加一个同级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}"  data-action="{{ route('createCtg') }}" data-act="sibl">{{ trans('buttons.addSibl') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-action="{{ route('createCtg') }}" data-act="sibl">{{ trans('buttons.addSibl') }}</div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtgName') }}" data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtgName') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtgName') }}" data-message="edit-self" data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtgName') }}</div>
         {{--添加一个子内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}"  data-action="{{ route('createItem') }}">{{ trans('buttons.addItem') }}</div>
 
@@ -64,9 +64,9 @@
             <input type="hidden" name="item_id" value="0">
         </form>
         {{--聚焦选中 .star--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}" >{{ trans('buttons.focus') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus" >{{ trans('buttons.focus') }}</div>
         {{--隐藏操作面板--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}" >{{ trans('buttons.hideOper') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
         {{--编辑内容标题--}}
         <div class="btn item_btn" title="{{ trans('buttons.title.editItemName') }}" data-action="{{ route('updateItem') }}">{{ trans('buttons.editItemName') }}</div>
         {{--显示详细内容--}}

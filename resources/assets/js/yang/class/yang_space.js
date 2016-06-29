@@ -166,9 +166,11 @@ define([
                  * cList target的classList
                  * form 当前操作界面中的表单
                  */
-                var star  = upper.aimedStar,
-                    cList = target.classList,
-                    i     = 0,
+                var star      = upper.aimedStar,
+                    s_dataset = star.dataset,
+                    b_dataset = target.dataset,
+                    cList     = target.classList,
+                    i         = 0,
                     form;
                 /**
                  * 分类元素和内容元素选择不同的表单
@@ -185,7 +187,7 @@ define([
                 var inputs = form.querySelectorAll("input[type='hidden']");
 
                 while (i < inputs.length) {
-                    inputs[i].value = star.dataset[inputs[i].getAttribute('name')] || target.dataset[inputs[i].getAttribute('name')];
+                    inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
                     i++;
                 }
 
@@ -193,9 +195,29 @@ define([
                  * 如果按钮是操作表单的，会有 dataset.action
                  * 其他是操作样式或动画
                  */
-                if (target.dataset.action) {
-                    form.action = target.dataset.action;
+                if (b_dataset.action) {
+
+                    form.action = b_dataset.action;
                     reveal(form);
+
+                    /**
+                     * 将按钮的 title 属性赋予 textarea
+                     * @type {Element}
+                     */
+                    var textarea = form.querySelector('textarea');
+
+                    textarea.setAttribute('title', target.getAttribute('title'));
+
+                    /**
+                     * 如果是编辑名称，将 star 的内容传递到 form 中
+                     * 其他的按钮，将 form.textarea 的内容清空
+                     */
+                    if (b_dataset.message == 'edit-self') {
+                        textarea.innerHTML = star.innerHTML;
+                    }else{
+                        textarea.innerHTML = '';
+                    }
+
                 }else{
                     /*
                      * 将选中的 .star 元素旋转到屏幕正中
