@@ -149,9 +149,6 @@ a {
 .over-hidden {
   overflow: hidden;
 }
-.in-block {
-  display: inline-block;
-}
 .t-center {
   text-align: center;
 }
@@ -185,6 +182,10 @@ a {
 }
 a:hover {
   color: #1a1a1a;
+}
+input {
+  background-color: #cccccc;
+  text-indent: 10px;
 }
 .portrait {
   position: absolute;
