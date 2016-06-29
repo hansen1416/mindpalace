@@ -149,9 +149,6 @@ a {
 .over-hidden {
   overflow: hidden;
 }
-.in-block {
-  display: inline-block;
-}
 .t-center {
   text-align: center;
 }
@@ -276,6 +273,7 @@ form {
 }
 .operation .btn {
   position: absolute;
+  text-align: center;
   top: 50%;
   left: 50%;
   width: 40px;
@@ -283,6 +281,13 @@ form {
   margin: -20px 0 0 -20px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  line-height: 14px;
+}
+.operation .btn:before {
+  content: '';
+  display: block;
+  height: 6px;
 }
 .operation .btn:hover {
   background-color: rgba(255, 255, 255, 0.9);
