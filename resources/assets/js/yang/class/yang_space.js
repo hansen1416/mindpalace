@@ -38,8 +38,9 @@ define([
 
             bindEvent(document, 'wheel', callback);
 
-            var upper = this,
-                sheet = document.getElementById('style_zoom').sheet || document.getElementById('style_zoom').styleSheet;
+            var upper      = this,
+                style_zoom = document.getElementById('style_zoom'),
+                sheet      = style_zoom['sheet'] || style_zoom['styleSheet'];
 
             /**
              * 滚轮向下转动一次隐藏一层，直到隐藏倒数第二层，同时所有显示的元素向球心移动一个 gap 的距离
