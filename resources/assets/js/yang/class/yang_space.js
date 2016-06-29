@@ -62,6 +62,10 @@ define([
                     return false;
                 }
 
+                /**
+                 * sign > 0 滚轮向下滚动，同心球收缩
+                 * sign < 0 滚轮向上滚动，同新求扩展
+                 */
                 if (sign > 0) {
                     sheet.insertRule('.tier-'+ tier +'{display:none;}', tier);
                 }else{
