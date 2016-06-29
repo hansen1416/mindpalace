@@ -9,7 +9,7 @@ define([
            "../func/anim/conceal",
            "../func/math/MatrixToarr",
            "../func/style/annulus",
-           "./build_space",
+           "./build_space"
 
 ], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, MatrixToarr, annulus, build_space) {
 
@@ -18,7 +18,7 @@ define([
         constructor (param) {
             super(param);
 
-            this.aimedStar;
+            this.aimedStar = null;
         }
 
 
@@ -132,10 +132,11 @@ define([
              */
             function starClick(target){
 
-                var ctg_id   = target.dataset.ctg_id ? target.dataset.ctg_id : 0,       //分类的ID
-                    item_id  = target.dataset.item_id ? target.dataset.item_id : 0,     //内容的ID
-                    ctg_box  = document.getElementById('ctg_box'),                      //分类对应的操作面板
-                    item_box = document.getElementById('item_box');                     //内容对应的操作面板
+                var dataset  = target.dataset,
+                    ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
+                    item_id  = dataset['item_id'] ? dataset['item_id'] : 0,     //内容的ID
+                    ctg_box  = document.getElementById('ctg_box'),              //分类对应的操作面板
+                    item_box = document.getElementById('item_box');             //内容对应的操作面板
 
                 if (ctg_id) {
                     reveal(ctg_box);
