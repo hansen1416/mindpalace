@@ -21,9 +21,10 @@ gulp.task('requirejsBuild', function() {
      * based on build-yang-space.js
      */
     rjs({
-            baseUrl:    './resources/assets/js/',
-            name:       "build-yang-space",
-            out:        "yang-space.js",
+            baseUrl  : './resources/assets/js/',
+            name     : "build-yang-space",
+            out      : "yang-space.js",
+            useStrict: true
         })
     .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
@@ -33,9 +34,10 @@ gulp.task('requirejsBuild', function() {
      * based on build-yang-home.js
      */
     rjs({
-            baseUrl:    './resources/assets/js/',
-            name:       "build-yang-home",
-            out:        "yang-home.js",
+            baseUrl  : './resources/assets/js/',
+            name     : "build-yang-home",
+            out      : "yang-home.js",
+            useStrict: true
         })
     .pipe(uglify())
     .pipe(gulp.dest('./public/js/'));
