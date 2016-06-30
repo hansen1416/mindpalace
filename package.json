@@ -7,5 +7,26 @@
   },
   "dependencies": {
     "gulp": "^3.9.1"
-  }
+  },
+  "name": "mindpalace",
+  "description": "# 斋心",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hansen1416/mindpalace.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hansen1416/mindpalace/issues"
+  },
+  "homepage": "https://github.com/hansen1416/mindpalace#readme"
 }
