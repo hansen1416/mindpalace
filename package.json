@@ -5,7 +5,25 @@
     "gulp-requirejs": "^0.1.3",
     "laravel-elixir": "*"
   },
-  "dependencies": {
-    "gulp": "^3.9.1"
-  }
+  "dependencies": {},
+  "name": "mindpalace",
+  "description": "\"The secret to building large apps is never build large apps. Break your applications into small pieces. Then, assemble those testable, bite-sized pieces into your big application\" -\r Justin Meyer, author JavaScriptMVC",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hansen1416/mindpalace.git"
+  },
+  "author": "Hanlongzhen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hansen1416/mindpalace/issues"
+  },
+  "homepage": "https://github.com/hansen1416/mindpalace#readme"
 }
