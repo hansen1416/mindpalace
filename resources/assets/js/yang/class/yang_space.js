@@ -19,6 +19,7 @@ define([
      */
     build_space = null;
 
+
     class YangSpace extends BuildSpace {
 
         constructor (param) {

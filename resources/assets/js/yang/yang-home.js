@@ -1,14 +1,19 @@
 define([
-           "./var/document",
-           './class/yang_home',
+           './class/yang_home'
 
-       ], function (document, yang_home) {
+       ], function (yang_home) {
+
+    /**
+     * 引入 class YangHome
+     * @type {null}
+     */
+    yang_home = null;
+
+    window.YangHome.setRings([
+                                 {'selector': '.panel', 'radius': 150}
+                             ]);
 
     var yh = new YangHome();
-
-    yh.setRings([
-                    {'selector': '.panel', 'radius': 150},
-                ]);
 
     yh.click();
 

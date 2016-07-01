@@ -3,7 +3,7 @@ define([
            "../func/event/bindEvent",
            "../var/urls",
            "../func/ajax/ajax",
-           "../func/style/annulus",
+           "../func/style/annulus"
 
        ], function(document, bindEvent, urls, ajax, annulus){
 
@@ -14,7 +14,7 @@ define([
 
         }
 
-        setRings(param) {
+        static setRings(param) {
             annulus(param);
         }
 
