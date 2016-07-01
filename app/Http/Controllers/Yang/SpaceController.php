@@ -122,7 +122,9 @@ class SpaceController extends Controller
 
         $itemModel = Item::find($request->item_id);
 
-        $this->ajaxReturn($itemModel, $itemModel->content);
+        $content = htmlspecialchars_decode($itemModel->content);
+
+        $this->ajaxReturn($itemModel, $content);
 
     }
 

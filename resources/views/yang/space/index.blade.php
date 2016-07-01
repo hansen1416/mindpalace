@@ -88,7 +88,7 @@
 
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
 
-    <textarea id="item_detail"></textarea>
+    <div id="item_detail"></div>
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="{{ URL::asset('/js/require.js') }}"></script>
