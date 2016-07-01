@@ -117,11 +117,12 @@ class SpaceController extends Controller
      * @param Request $request
      * @author Hanlongzhen 2016-07-01 17:15
      */
-    public function getItemDetail(Request $request) {
+    public function getItemDetail(Request $request)
+    {
 
+        $itemModel = Item::find($request->item_id);
 
-
-        $this->ajaxReturn($request->item_id);
+        $this->ajaxReturn($itemModel, $itemModel->content);
 
     }
 

@@ -226,14 +226,14 @@ define([
                     }
 
                 }else{
-                    /*
-                     * 将选中的 .star 元素旋转到屏幕正中
-                     * 目前可以显示正确，但是缺少动画效果，并且需要和trackball兼容
-                     * 考虑将 trackball 加入到这个大类当中
-                     */
-                    //TODO
+
                     switch (target.dataset.func)
                     {
+                    /*
+                     * 将选中的 .star 元素旋转到屏幕正中
+                     * 目前可以显示正确，但是缺少动画效果
+                     */
+                    //TODO
                     case 'focus':
 
                         var destiny = roll(star.style[trsfm]);
@@ -241,25 +241,30 @@ define([
                         upper.setStartMatrix = MatrixToarr(destiny);
 
                         break;
+                    /**
+                     * 隐藏当前的操作界面
+                     */
                     case 'hide':
 
                         conceal(form);
                         conceal(form.parentNode);
 
                         break;
+                    /**
+                     * 显示内容的详细内容
+                     */
                     case 'detail':
 
                         var item_detail = document.getElementById('item_detail'),
                             url         = document.getElementById('item_detail_url').value,
-                            data        = {item_id: s_dataset['item_id']},
+                            data        = new FormData(),
                             success     = function (res) {
-                                console.log(res);
+                                item_detail.innerHTML = res.message;
                             };
 
-
+                        data.append('item_id', s_dataset['item_id']);
 
                         ajax(url, success, data);
-
 
                         break;
                     }
