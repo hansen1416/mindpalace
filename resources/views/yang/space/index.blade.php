@@ -2,8 +2,11 @@
 
 @section('content')
 
+    {{--同心球的缩放，动态操纵的样式表--}}
     <style id="style_zoom"></style>
+    {{--分块的颜色，动态操纵的样式表--}}
     <style id="style_section"></style>
+
     <div id="stage">
 
         <div id="galaxy">
@@ -24,11 +27,12 @@
 
         {!!$html!!}
 
-        <!-- .star.tier-0{$$$}*200 -->
-
         </div>
+        {{--.galaxy ends--}}
 
     </div>
+    {{--.stage ends--}}
+
     {{--关于分类的操作--}}
     <div id="ctg_box" class="operation">
 
@@ -92,5 +96,9 @@
     @else
         <script src="{{ URL::asset('/js/yang-space.js') }}"></script>
     @endif
+
+    <iframe src="" frameborder="0">
+
+    </iframe>
 
 @endsection
