@@ -2,4 +2,6 @@
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
 node_modules/
+node_modules-b/
 vendor/
+*.log
