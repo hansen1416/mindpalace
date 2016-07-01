@@ -43,7 +43,7 @@ define([
          */
         zoom() {
 
-            bindEvent(document, 'wheel', callback);
+            bindEvent(this.stage, 'wheel', callback);
 
             var upper      = this,
                 style_zoom = document.getElementById('style_zoom'),
@@ -259,7 +259,11 @@ define([
                             url         = document.getElementById('item_detail_url').value,
                             data        = new FormData(),
                             success     = function (res) {
-                                item_detail.innerHTML = res.message;
+
+                                if (res.status) {
+                                    item_detail.style['display'] = 'block';
+                                    item_detail.innerHTML = res.message;
+                                }
                             };
 
                         data.append('item_id', s_dataset['item_id']);
