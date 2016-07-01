@@ -19,7 +19,7 @@ define([
            "../func/math/calcZ",
            "../func/math/normalize",
            "../func/math/crossVector",
-           "../func/math/rotateMatrix",
+           "../func/math/rotateMatrix"
 
 ], function (document, trsfm, getStyle, colorCircle, touchPos, findPos, prefixJs, prefixCss, bindEvent, unbindEvent, requestAnim, cancelAnim, closestPoint, maxPoint, fibonacciSphere, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
 
@@ -186,7 +186,7 @@ define([
          * step2 旋转运动开始时，判断元素是否还在运动，若还在运动则停止。更新元素的旋转角度。获取鼠标点击的坐标。解除目标元素的mousedown事件，给document绑定mousemove & mouseup。
          * step3 旋转过程中，根据鼠标移动轨迹计算出每一次的坐标，计算出旋转轴axis和旋转角度angle，通过axis和angle计算出matrix3d，做出动画。
          * step4 旋转结束后，将document上的两个绑定事件mousemove & mouseup解除，重新给目标元素绑定mousedown。判断是否设置了冲量，以及冲量是否大于0，若有冲量计算出角速度omega，角度参数使用1000/60，之后设置减速度。若没有冲量或者冲量耗尽，则去除动画，计算出当前的startmatrix，将angle和omega归0；]
-         * @param {[object]} confObj [stage, obj, impulse]
+         * @param trackballParam confObj [stage, obj, impulse]
          */
         trackball(trackballParam){
 
