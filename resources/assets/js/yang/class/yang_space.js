@@ -13,6 +13,12 @@ define([
 
 ], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, MatrixToarr, annulus, build_space) {
 
+    /**
+     * 引入 class BuildSpace
+     * @type {null}
+     */
+    build_space = null;
+
     class YangSpace extends BuildSpace {
 
         constructor (param) {
@@ -25,7 +31,7 @@ define([
         /**
          * 操作界面部分布局
          */
-        setOperation(annu) {
+        static setOperation(annu) {
             annulus(annu);
         }
         //setOperation ends
