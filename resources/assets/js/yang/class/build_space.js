@@ -19,9 +19,12 @@ define([
            "../func/math/calcZ",
            "../func/math/normalize",
            "../func/math/crossVector",
-           "../func/math/rotateMatrix"
+           "../func/math/rotateMatrix",
+           "../func/math/matrixToArr"
 
-], function (document, trsfm, getStyle, colorCircle, touchPos, findPos, prefixJs, prefixCss, bindEvent, unbindEvent, requestAnim, cancelAnim, closestPoint, maxPoint, fibonacciSphere, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix) {
+], function (document, trsfm, getStyle, colorCircle, touchPos, findPos, prefixJs, prefixCss, bindEvent,
+             unbindEvent, requestAnim, cancelAnim, closestPoint, maxPoint, fibonacciSphere, multiplyMatrix3d,
+             calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
 
     class BuildSpace {
 
@@ -41,8 +44,8 @@ define([
         }
         //constructor ends
 
-        set setStartMatrix(array) {
-            this.startMatrix = array;
+        set setStartMatrix(arr) {
+            this.startMatrix = arr;
         }
 
         get getStartMatrix() {
@@ -232,12 +235,7 @@ define([
                 this.startMatrix[15] = 1;
             }else{
                 //将字符串处理成数组
-                this.startMatrix     = originTransform.split(",");
-
-                this.startMatrix[0]  = this.startMatrix[0].replace(/(matrix3d\()/g, "");
-                this.startMatrix[15] = this.startMatrix[15].replace(/\)/g, "");
-
-                this.startMatrix     = new Float32Array(this.startMatrix);
+                this.startMatrix = matrixToArr(originTransform);
             }
             //目标元素绑定mousedown事件
             bindEvent(this.stage, "mousedown", rotateStart);
