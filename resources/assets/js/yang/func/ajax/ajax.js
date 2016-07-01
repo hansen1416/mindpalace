@@ -11,9 +11,9 @@ define([
     return function (url, callback, dataObj, method, async){
 
         method = method || 'POST';
-        async  = async === undefined ? true : async;
+        async  = async || true;
 
-        R = new XMLHttpRequest();
+        var R = new XMLHttpRequest();
 
         R.onreadystatechange = function(){
             if (R.readyState === XMLHttpRequest.DONE) {

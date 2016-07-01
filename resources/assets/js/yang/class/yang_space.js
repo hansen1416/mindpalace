@@ -249,7 +249,17 @@ define([
                         break;
                     case 'detail':
 
-                        console.log(star);
+                        var item_detail = document.getElementById('item_detail'),
+                            url         = document.getElementById('item_detail_url').value,
+                            data        = {item_id: s_dataset['item_id']},
+                            success     = function (res) {
+                                console.log(res);
+                            };
+
+
+
+                        ajax(url, success, data);
+
 
                         break;
                     }

@@ -112,4 +112,17 @@ class SpaceController extends Controller
 
     }
 
+    /**
+     * 获取内容详情
+     * @param Request $request
+     * @author Hanlongzhen 2016-07-01 17:15
+     */
+    public function getItemDetail(Request $request) {
+
+
+
+        $this->ajaxReturn($request->item_id);
+
+    }
+
 }

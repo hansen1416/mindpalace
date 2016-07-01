@@ -86,6 +86,10 @@
         <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
     </div>
 
+    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+
+    <textarea id="item_detail"></textarea>
+
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="{{ URL::asset('/js/require.js') }}"></script>
         <script type="text/javascript">
@@ -96,9 +100,5 @@
     @else
         <script src="{{ URL::asset('/js/yang-space.js') }}"></script>
     @endif
-
-    <iframe src="" frameborder="0">
-
-    </iframe>
 
 @endsection
