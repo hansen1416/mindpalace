@@ -28,10 +28,12 @@ define([
 
     //生成同心球面
     ys.spheres();
-    //鼠标滚轮事件
-    ys.zoom();
+
     //鼠标点击事件
     ys.click();
+
+    //鼠标滚轮事件
+    ys.zoom();
 
     ys.trackball({
                      //true有惯性，false没有惯性

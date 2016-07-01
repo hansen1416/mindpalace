@@ -247,6 +247,11 @@ define([
                         conceal(form.parentNode);
 
                         break;
+                    case 'detail':
+
+                        console.log(star);
+
+                        break;
                     }
 
                 }

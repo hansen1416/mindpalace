@@ -70,7 +70,7 @@
         {{--编辑内容标题--}}
         <div class="btn item_btn" title="{{ trans('buttons.title.editItemName') }}" data-action="{{ route('updateItem') }}">{{ trans('buttons.editItemName') }}</div>
         {{--显示详细内容--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}" >{{ trans('buttons.showItem') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}" data-func="detail" >{{ trans('buttons.showItem') }}</div>
 
     </div>
     {{--左上角返回主页按钮--}}
