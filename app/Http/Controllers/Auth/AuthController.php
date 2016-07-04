@@ -71,12 +71,14 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
 
-        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        $login_staus = Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember);
 
-            $this->ajaxReturn(true);
+        if ( !$login_staus ) {
+
+            return $this->ajaxOutput(false);
         }
 
-        $this->ajaxReturn(false);
+        $this->ajaxOutput(true);
 
     }
 

@@ -17,7 +17,7 @@ class Controller extends BaseController
      * @param bool $status  成功/失败状态
      * @param string $message   信息
      */
-    protected function ajaxReturn ($status = true, $message = '') {
+    protected function ajaxOutput ($status = true, $message = '') {
 
         $status = $status ? 1 : 0;
 
