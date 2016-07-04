@@ -30,4 +30,8 @@ return [
 
 	'compiled' => realpath(storage_path().'/framework/views'),
 
+    /**
+     * 默认主题名称
+     */
+    'default_theme' => 'nebula'
 ];
