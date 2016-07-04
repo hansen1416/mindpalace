@@ -73,11 +73,10 @@ class AuthController extends Controller
 
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
 
-            echo json_encode(['status' => 1]);
-        }else{
-
-            echo json_encode(['status' => 0]);
+            $this->ajaxReturn(true);
         }
+
+        $this->ajaxReturn(false);
 
     }
 
