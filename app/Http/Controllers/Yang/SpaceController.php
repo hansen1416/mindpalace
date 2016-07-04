@@ -60,7 +60,7 @@ class SpaceController extends Controller
             $ctgModel->path  = $parent ? $parent->path : '';
         }
 
-        $this->ajaxReturn($ctgModel->save());
+        $this->ajaxOutput($ctgModel->save());
 
 	}
 
@@ -76,7 +76,7 @@ class SpaceController extends Controller
 
 		$ctgModel->title = $request->title;
 
-        $this->ajaxReturn($ctgModel->save());
+        $this->ajaxOutput($ctgModel->save());
     }
 
     /**
@@ -92,7 +92,7 @@ class SpaceController extends Controller
         $itemModel->ctg_id = $request->item_id ? $request->pid : $request->ctg_id;
         $itemModel->title  = $request->title;
 
-        $this->ajaxReturn($itemModel->save());
+        $this->ajaxOutput($itemModel->save());
 
     }
 
@@ -108,7 +108,7 @@ class SpaceController extends Controller
 
         $itemModel->title = $request->title;
 
-        $this->ajaxReturn($itemModel->save());
+        $this->ajaxOutput($itemModel->save());
 
     }
 
@@ -124,7 +124,7 @@ class SpaceController extends Controller
 
         $content = htmlspecialchars_decode($itemModel->content);
 
-        $this->ajaxReturn($itemModel, $content);
+        $this->ajaxOutput($itemModel, $content);
 
     }
 

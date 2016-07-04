@@ -91,7 +91,7 @@
     <div id="item_detail"></div>
 
     @if(App::environment('development'))
-        <script data-main="/resources/assets/js/yang/yang-space.js" src="{{ URL::asset('/js/require.js') }}"></script>
+        <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>
         <script type="text/javascript">
             require.config({
                                urlArgs: "v=" + (new Date()).getTime()

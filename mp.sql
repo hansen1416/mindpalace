@@ -92,6 +92,7 @@ CREATE TABLE `mp_profile` (
   `profile_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户详情ID',
   `id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `portrait` varchar(255) NOT NULL COMMENT '头像',
+  `theme` varchar(255) NOT NULL COMMENT '用户自定义主题',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`profile_id`),
@@ -100,7 +101,7 @@ CREATE TABLE `mp_profile` (
 
 /*Data for the table `mp_profile` */
 
-insert  into `mp_profile`(`profile_id`,`id`,`portrait`,`updated_at`,`created_at`) values (1,1,'12.jpg','2016-06-12 14:02:19','0000-00-00 00:00:00');
+insert  into `mp_profile`(`profile_id`,`id`,`portrait`,`theme`,`updated_at`,`created_at`) values (1,1,'12.jpg','nebula','2016-07-04 15:12:06','0000-00-00 00:00:00');
 
 /*Table structure for table `mp_users` */
 
@@ -120,7 +121,7 @@ CREATE TABLE `mp_users` (
 
 /*Data for the table `mp_users` */
 
-insert  into `mp_users`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','4KqbWvcqVpUJacX2iQ5RbDLG0JUEOBPm2qUGNeoEG3O410FeXfPUDdvCO94c','2016-05-30 06:37:00','2016-06-12 01:50:04');
+insert  into `mp_users`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','7uzmIr7ldp6xk7nFmL33zqbdk6PxuueqopqrpWpmZD6PgXPqwvqcfSmP6TaZ','2016-05-30 06:37:00','2016-07-04 07:05:59');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -14,7 +14,6 @@
         <script src="/resources/assets/less/less.min.js"></script>
     @else
         <link href="{{ URL::asset('/css/yang-home.css') }}" rel="stylesheet">
-        <script src="{{ URL::asset('/js/require.js') }}"></script>
     @endif
 </head>
 <body>
