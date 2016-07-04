@@ -7,11 +7,11 @@ define([
            "../func/anim/roll",
            "../func/anim/reveal",
            "../func/anim/conceal",
-           "../func/math/MatrixToarr",
+           "../func/math/matrixToArr",
            "../func/style/annulus",
            "./build_space"
 
-], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, MatrixToarr, annulus, build_space) {
+], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus, build_space) {
 
     /**
      * 引入 class BuildSpace
@@ -238,7 +238,7 @@ define([
 
                         var destiny = roll(star.style[trsfm]);
                         upper.rotateObj.style[trsfm] = destiny;
-                        upper.setStartMatrix = MatrixToarr(destiny);
+                        upper.setStartMatrix = matrixToArr(destiny);
 
                         break;
                     /**

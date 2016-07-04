@@ -1,1 +1,307 @@
-define("yang/var/document",[],function(){return window.document}),define("yang/var/bindEvent",[],function(){return function(n,e,t,r){var a=arguments[3]||!1;n.addEventListener(e,t,a)}}),define("yang/var/urls",[],function(){var n="/public/";return{authenticate:n+"auth/auth/authenticate"}}),define("yang/func/ajax",["../var/document"],function(n){return function(e,t,r,a,i){a=a||"POST",i=void 0===i?!0:i,R=new XMLHttpRequest,R.onreadystatechange=function(){if(R.readyState===XMLHttpRequest.DONE){if(200!==R.status)throw"error occured during request";t(JSON.parse(R.responseText))}},R.open(a,e,i),R.setRequestHeader("X-CSRF-TOKEN",n.querySelector('meta[name="csrf_token"]').getAttribute("content")),R.send(r)}}),define("yang/build/func/configVar",[],function(){return function(n,e){return e||n}}),define("yang/var/prefixJs",[],function(){var n=navigator.userAgent.toLowerCase(),e="";return/webkit/gi.test(n)?e="Webkit":/msie | trident/gi.test(n)?e="ms":/mozilla/gi.test(n)?e="Moz":/opera/gi.test(n)&&(e="O"),e}),define("yang/var/trsfm",["./prefixJs"],function(n){return n+"Transform"in document.documentElement.style?n+"Transform":"transform"}),define("yang/build/func/annulus",["../../var/document","../../var/trsfm"],function(n,e){return function(t){for(var r=[],a=0,i=0,u=0,o=0,c=0,s=0,f=0;i<t.length;){for(r=n.body.querySelectorAll(t[i].selector),o=t[i].radius,a=r.length,f=2*Math.PI/a,u=c=s=0;u<r.length;)c=o*Math.sin(f*u),s=o*Math.cos(f*u)*-1,r[u].style[e]="translate("+c+"px,"+s+"px)",u++;i++}}}),define("yang/build/build_home",["../var/document","../var/bindEvent","../var/urls","../func/ajax","./func/configVar","./func/annulus"],function(n,e,t,r,a,i){var u=function(n){this.config={},this.setup(n)};u.prototype={setup:function(n){var e=this;!function(){for(var t in n)e.config[t]=n[t];var r=a(r,e.config.annu);i(r)}()},click:function(){function a(e){if(e.target.classList.contains("panel")){var a,i=e.target.id,u="",o=null;switch(i){case"login":u=t.authenticate,o=new FormData(n.getElementById("portrait_form")),a=function(n){n.status&&window.location.reload(!0)};break;case"logout":break;default:return!1}r(u,a,o)}}e(n,"click",a)}},window.BuildHome=u}),define("yang/yang-home",["./var/document","./build/build_home"],function(n,e){var t=new BuildHome({annu:[{selector:".panel",radius:150}]});t.click()}),requirejs.config({baseUrl:"public/js",paths:{app:"../js/yang"}}),requirejs(["yang/yang-home"]),define("build-yang-home",function(){});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(1)
+
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (yang_home) {
+
+	    /**
+	     * 引入 class YangHome
+	     * @type {null}
+	     */
+	    yang_home = null;
+
+	    window.YangHome.setRings([
+	                                 {'selector': '.panel', 'radius': 150}
+	                             ]);
+
+	    var yh = new YangHome();
+
+	    yh.click();
+
+
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(2),
+	           __webpack_require__(3),
+	           __webpack_require__(4),
+	           __webpack_require__(5),
+	           __webpack_require__(6)
+
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, bindEvent, urls, ajax, annulus){
+
+
+	    class YangHome {
+
+	        constructor() {
+
+	        }
+
+	        static setRings(param) {
+	            annulus(param);
+	        }
+
+	        click() {
+
+	            bindEvent(document, 'click', callback);
+
+	            function callback(e){
+	                //所有控制按钮的点击事件
+	                if (e.target.classList.contains('panel')) {
+
+	                    var tid  = e.target.id,     //按钮的id
+	                        url  = '',              //请求地址
+	                        data = null,            //传送的数据
+	                        success;                //成功回调函数
+
+	                    switch (tid)
+	                    {
+	                        case 'login':   //登录
+	                            url     = urls.authenticate;
+	                            data    = new FormData(document.getElementById('portrait_form'));
+	                            success = function (res) {
+	                                //登陆成功
+	                                if (res.status) {
+	                                    window.location.reload(true);
+	                                    //登陆失败
+	                                }else{
+
+	                                }
+	                            };
+
+	                            break;
+	                        case 'logout':  //登出
+
+	                            break;
+	                        default:        //非控制按钮直接停止
+	                            return false;
+	                    }
+
+	                    ajax(url, success, data);
+	                }
+
+	            }
+
+	        }
+	        //click ends
+
+	    }
+
+	    window.YangHome = YangHome;
+
+
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+		return window.document;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+
+	    return function (obj, type, callback, propa) {
+
+	        var propagation = arguments[3] || false;
+	        obj.addEventListener(type, callback, propagation);
+	    }
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+
+	    var prefix = '/public/';
+
+	    return {
+	        'authenticate': prefix + 'auth/auth/authenticate',
+	    }
+
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	            __webpack_require__(2)
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document) {
+	    /**
+	     * url 地址
+	     * callback 成功回调函数
+	     * dataObj FormData 对象
+	     * method 请求方式
+	     * async 是否异步
+	     */
+	    return function (url, callback, dataObj, method, async){
+
+	        method = method || 'POST';
+	        async  = async || true;
+
+	        var R = new XMLHttpRequest();
+
+	        R.onreadystatechange = function(){
+	            if (R.readyState === XMLHttpRequest.DONE) {
+	                if (R.status === 200) {
+	                    callback(JSON.parse(R.responseText));
+	                } else {
+	                    throw 'error occured during request';
+	                }
+	            }
+	        };
+
+	        R.open(method, url, async);
+	        // cross-site request forgery protection
+	        R.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf_token"]').getAttribute('content'));
+	        R.send(dataObj);
+
+	    }
+
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(2),
+	           __webpack_require__(7),
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, trsfm) {
+
+	    /**
+	     * 将若干个元素根据指定半径排成环形
+	     * 顺时针从12点方位开始
+	     * @param annulusOpt 选项
+	     * arr 传入元素选择器和半径 array 每一个键值如下 {'selector':'', 'radius':number}
+	     */
+	    return function (arr){
+
+	        var ele  = [],                                      //元素数组
+	            len  = 0,                                       //元素的个数
+	            i    = 0,                                       //annu 的键名
+	            j    = 0,                                       //ele 的键名
+	            r    = 0,                                       //半径
+	            x    = 0,                                       //元素的x方向位移
+	            y    = 0,                                       //元素的y方向位移
+	            a    = 0;                                       //元素的顺时针弧度角
+
+	        while (i < arr.length) {
+
+	            ele = document.body.querySelectorAll(arr[i].selector);
+	            r   = arr[i].radius;
+	            len = ele.length;
+	            a   = Math.PI * 2 / len;
+
+	            j = x = y = 0;
+
+	            while (j < ele.length) {
+
+	                x = r * Math.sin(a * j);
+	                y = r * Math.cos(a * j) * -1;
+
+	                ele[j].style[trsfm] = 'translate(' + x + 'px,' + y + 'px)';
+
+	                j++;
+	            }
+
+	            i++;
+	        }
+
+	    }
+
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(8),
+	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function(prefixJs) { //判断浏览器支持那种transform的写法;
+		return (prefixJs+"Transform" in document.documentElement.style) ? prefixJs+"Transform" : "transform";
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+
+	    var userAgent   = navigator.userAgent.toLowerCase(),
+	        prefixJs    = "";
+
+	    if(/webkit/gi.test(userAgent)){
+	        prefixJs = "Webkit";
+	    }else if(/msie | trident/gi.test(userAgent)){
+	        prefixJs = "ms";
+	    }else if(/mozilla/gi.test(userAgent)){
+	        prefixJs = "Moz";
+	    }else if(/opera/gi.test(userAgent)){
+	        prefixJs = "O";
+	    }
+
+	    return prefixJs;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ }
+/******/ ]);
