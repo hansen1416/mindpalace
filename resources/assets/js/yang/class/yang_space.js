@@ -9,9 +9,11 @@ define([
            "../func/anim/conceal",
            "../func/math/matrixToArr",
            "../func/style/annulus",
+           "../func/event/popClick",
            "./build_space"
 
-], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus, build_space) {
+], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus,
+             popClick, build_space) {
 
     /**
      * 引入 class BuildSpace
@@ -131,6 +133,9 @@ define([
                 }else if (target.classList.contains('submit')) {
                     //ajax提交表单
                     submitClick(target);
+                }else if (target.classList.contains('pop')) {
+                    //内容详情浮层的点击事件
+                    popClick(target);
                 }
 
             }

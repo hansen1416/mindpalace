@@ -89,7 +89,7 @@
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
 
     <div id="pop_item">
-        <div class="knob close"></div>
+        <div class="pop knob close"></div>
         <div class="content" contenteditable="true"></div>
     </div>
 
