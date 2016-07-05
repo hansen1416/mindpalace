@@ -15,6 +15,7 @@
     @else
         <link href="{{ URL::asset('/css/yang-home.css') }}" rel="stylesheet">
     @endif
+
 </head>
 <body>
 
