@@ -10,8 +10,8 @@
 	<title>{{ trans('general.pageTitle') }}</title>
 
     @if(App::environment('development'))
-        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/theme/{{$user->profile->theme}}.less">
-        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang-space.less">
+        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{$user->profile->theme}}.less">
+        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/yang-space.less">
         <script src="/resources/assets/less/less.min.js"></script>
     @else
         <link href="{{ URL::asset('/css/theme/' . $user->profile->theme . '.css') }}" rel="stylesheet">
@@ -19,7 +19,7 @@
     @endif
 
 </head>
-<body>
+<body id="yang-space">
 
 	@yield('content')
 

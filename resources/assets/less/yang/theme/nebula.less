@@ -1,0 +1,74 @@
+@white: #fff;
+@black: #000;
+
+
+//home
+@home: #37B8FC;
+@home-font: lighten(@black, 40%);
+
+#yang-home{
+    background-color: @home; color: @home-font;
+
+    a{
+        color: @home-font;
+        &:hover{color: darken(@home-font, 30%);}
+    }
+
+    input{
+        background-color: lighten(@black, 80%);
+    }
+
+    .yang-home-back{
+        color: darken(@home, 15%);
+    }
+
+    .portrait{
+        background-color: @white;
+    }
+
+    .panel{
+        background-color: @white;
+    }
+}
+
+
+//space
+@stage_back: #002240;
+@btn: rgba(255, 255, 255, 0.5);
+
+#yang-space{
+
+    #stage{
+        background-color: @stage_back; color: @white;
+
+        .star{
+            &:hover{border: 2px solid @white;}
+        }
+        .star.ctg{
+            background-color: fade(@white, 20%);
+        }
+        .star.item{
+            background-color: fade(@white, 40%);
+        }
+    }
+
+    .operation{
+        .btn{
+            background-color: @btn;
+            &:hover{background-color: fadein(@btn, 40%);}
+        }
+    }
+
+    #top_left{
+        background-color: lighten(@black, 50%);
+    }
+
+    #top_right{
+        background-color: lighten(@black, 50%);
+    }
+
+    #item_detail{
+        background-color: @white;
+    }
+
+}

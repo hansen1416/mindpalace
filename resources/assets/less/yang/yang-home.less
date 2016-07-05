@@ -1,24 +1,22 @@
 @import "general.less";
-@import "theme/nebula.less";
 
 @por_w:        200px;
 @pro_fz:       14px;
 @pan_w:        60px;
 @pan_fz:       14px;
 
-body{overflow: hidden; .theme-home-body-back; .theme-home-body-font;}
-a{.theme-a-font; &:hover{.theme-a-font-hover}}
-input{.theme-input-back; .theme-input-font; text-indent: 10px;}
+body{overflow: hidden;}
+input{text-indent: 10px;}
 
 .yang-home-back{
-    .abs; .theme-home-home-font;
+    .abs;
     width: 100vw; height: 100vh; line-height: 100vh;
     font-family: "KaiTi"; font-size: 20vw; letter-spacing: 20vw; text-indent: 20vw;
 }
 
 //用户头像或登陆输入框
 .portrait{
-    .center; .circle; .theme-home-portrait-back; .theme-home-portrait-font;
+    .center; .circle;
     width: @por_w; height: @por_w; margin: @por_w/-2 0 0 @por_w/-2; overflow: hidden;
     font-size: @pro_fz; text-align: center;
     white-space: nowrap;
@@ -67,7 +65,7 @@ input{.theme-input-back; .theme-input-font; text-indent: 10px;}
 //控制按钮
 .panel{
 
-    .center; .circle; .theme-home-panel-back; .theme-home-panel-font;
+    .center; .circle;
     width: @pan_w; height:@pan_w; margin: @pan_w/-2 0 0 @pan_w/-2;
     font-size: @pan_fz; line-height: @pan_w; text-align: center;
     &:hover{cursor: pointer;}

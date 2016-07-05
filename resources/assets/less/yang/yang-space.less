@@ -1,37 +1,26 @@
 @import "general.less";
-@import "theme/nebula.less";
-
 
 body{overflow: hidden;}
 form{display: none;}
 
 //舞台，等于窗口大小的元素
 #stage{
-	.perspective; .pers_origin; .trsf_origin; .abs; .theme-stage-back;
+	.perspective; .pers_origin; .trsf_origin; .abs;
 	width: 100vw; height: 100vw; top: 50%; margin: -50vw 0 0 0;
     &:hover{.cursor-grab;}
 
     //银河开始
 	#galaxy{
-		.trsf_style_3d; .abs; .theme-galaxy-font;
+		.trsf_style_3d; .abs;
 		width: 100px; height: 100px; top: 50%; left: 50%;
         margin: -50px 0 0 -50px;
 
         //分类
 		.star{
-            .back_face; .abs; .theme-star-border;
+            .back_face; .abs;
 			top: 50%; left: 50%; padding: 0.2em; margin: -0.6em 0 0 -2.1em; overflow: hidden;
             line-height: 1em; max-width: 4em; height: 1em; text-overflow:ellipsis; white-space:nowrap;
-            &:hover{.theme-star-border-hover;}
 		}
-
-        .star.ctg{
-            .theme-star-ctg-back;
-        }
-
-        .star.item{
-            .theme-star-item-back;
-        }
 
 	}
     //银河结束
@@ -68,7 +57,7 @@ form{display: none;}
     }
 
     .btn{
-        .abs; .theme-btn-back;
+        .abs;
         top: 50%; left: 50%;
         width: @btn_w; height: @btn_w; margin: @btn_w/-2 0 0 @btn_w/-2;
         border-radius: 50%;
@@ -80,7 +69,7 @@ form{display: none;}
             height: 6px;
         }
 
-        &:hover{.theme-btn-back-hover; cursor: pointer;}
+        &:hover{cursor: pointer;}
     }
 
 }
@@ -89,10 +78,10 @@ form{display: none;}
 
 //左上角部分
 #top_left{
-    .abs; .circle; .theme-top_left-back;
+    .abs; .circle;
     top: @tl_w / 4; left: @tl_w / 4; width: @tl_w; height: @tl_w;
     font-size: 14px; color: #fff; line-height: @tl_w; text-align: center;
-    &:hover{.theme-top_left-back-hover; cursor:pointer;}
+    &:hover{cursor:pointer;}
 
     a{
         .brim; font-size: inherit; color: inherit;
@@ -103,11 +92,11 @@ form{display: none;}
 
 //右上角用户信息部分
 #top_right{
-    .abs; .circle; .theme-top_right-back;
+    .abs; .circle;
     top: @tr_w / 4; right: @tr_w / 4; width: @tr_w; height: @tr_w; overflow: hidden;
     font-size: 14px; color: #fff; line-height: @tr_w; text-align: center;
 
-    &:hover{.theme-top_right-back-hover;cursor:pointer;}
+    &:hover{cursor:pointer;}
 
     img{
         .abs; .circle;
@@ -118,10 +107,8 @@ form{display: none;}
 
 //详细内容
 #item_detail{
-    .abs; .hide; .theme-item_detail-back;
+    .abs; .hide;
     z-index: 2; top: @tl_w*1.5; left: @tl_w/4;
     width: 30vw; height: 80vh;
     overflow-y: hidden; resize: both;
-
-    &:hover{.theme-item_detail-back-hover;}
 }
