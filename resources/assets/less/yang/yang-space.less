@@ -106,9 +106,20 @@ form{display: none;}
 }
 
 //详细内容
-#item_detail{
+#pop_item{
+
     .abs; .hide;
     z-index: 2; top: @tl_w*1.5; left: @tl_w/4;
-    width: 30vw; height: 80vh;
+    width: 64vh; height: 80vh;
     overflow-y: hidden; resize: both;
+
+    .knob{
+
+    }
+
+    .content{
+        overflow: hidden;
+        width: 60vh; height: 76vh; margin: 2vh;
+    }
 }
+

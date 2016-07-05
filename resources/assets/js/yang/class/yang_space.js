@@ -255,14 +255,15 @@ define([
                      */
                     case 'detail':
 
-                        var item_detail = document.getElementById('item_detail'),
-                            url         = document.getElementById('item_detail_url').value,
-                            data        = new FormData(),
-                            success     = function (res) {
+                        var pop_item = document.getElementById('pop_item'),
+                            content  = pop_item.querySelector('.content'),
+                            url      = document.getElementById('item_detail_url').value,
+                            data     = new FormData(),
+                            success  = function (res) {
 
                                 if (res.status) {
-                                    item_detail.style['display'] = 'block';
-                                    item_detail.innerHTML = res.message;
+                                    pop_item.style['display'] = 'block';
+                                    content.innerHTML         = res.message;
                                 }
                             };
 

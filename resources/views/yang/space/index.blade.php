@@ -88,7 +88,11 @@
 
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
 
-    <div id="item_detail"></div>
+    <div id="pop_item">
+        <div class="knob close"></div>
+        <div class="content" contenteditable="true"></div>
+    </div>
+
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>

@@ -29,6 +29,7 @@
     .panel{
         background-color: @white;
     }
+
 }
 
 
@@ -67,8 +68,19 @@
         background-color: lighten(@black, 50%);
     }
 
-    #item_detail{
-        background-color: @white;
+    @pop: #2598ff;
+
+    #pop_item{
+
+        background-color: fade(@pop, 30%);
+
+        .knob{
+
+        }
+        .content{
+            background-color: fade(@pop, 30%);
+        }
     }
+
 
 }
