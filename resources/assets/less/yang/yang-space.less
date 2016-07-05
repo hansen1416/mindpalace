@@ -111,10 +111,14 @@ form{display: none;}
     .abs; .hide;
     z-index: 2; top: @tl_w*1.5; left: @tl_w/4;
     width: 64vh; height: 80vh; box-sizing: border-box;
-    overflow-y: hidden; resize: both;
+    resize: both;
 
     .knob{
-
+        .abs; .circle;
+        top: 10px; right: -20px;
+        width: 15px; height: 15px;
+        background-color: red;
+        &:hover{cursor: pointer;}
     }
 
     .content{
