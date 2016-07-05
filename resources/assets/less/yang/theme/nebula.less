@@ -34,7 +34,7 @@
 
 
 //space
-@stage_back: #002240;
+@stage_back: #06266F;
 @btn: rgba(255, 255, 255, 0.5);
 
 #yang-space{
@@ -68,17 +68,18 @@
         background-color: lighten(@black, 50%);
     }
 
-    @pop: #2598ff;
+    @pop: #4962D6;
+    @pop_content: #4671D5;
 
     #pop_item{
 
-        background-color: fade(@pop, 30%);
+        border-left: 10px solid @pop; border-right: 20px solid @pop;
 
         .knob{
 
         }
         .content{
-            background-color: fade(@pop, 30%);
+            background-color: @pop_content; color: darken(@white, 20%);
         }
     }
 
