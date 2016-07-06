@@ -73,8 +73,8 @@ class Ctg extends Model {
     public function scopeUntilTier($query, $tier)
     {
         return $query->where('tier', '<=', $tier)
-                    ->orderBy('tier', 'asc')
-                    ->select('ctg_id', 'pid', 'tier', 'title', 'path');
+                     ->orderBy('tier', 'asc')
+                     ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
     /**
@@ -112,7 +112,10 @@ class Ctg extends Model {
         $start   = $array[0]->tier;
         $core_id = [];
 
-        //取第一层的所有id
+        /**
+         * 取出第一层所有的 ctg_id
+         * 装进数组 core_id
+         */
         foreach ($array as $value) {
 
             $core_id[] = $value->ctg_id;
@@ -120,15 +123,17 @@ class Ctg extends Model {
             if ($value->tier > $start) break;
         }
 
+        $core_id_flip = array_flip($core_id);
+
         foreach ($array as $value) {
 
             $tier = $value->tier - $start;
             //在其后的子元素中寻找他属于最内层的哪一个分类，咋把它归到哪一个 section 中
             if ($tier) {
                 preg_match('/^-('.join('|', $core_id).')-/', $value->path, $match);
-                if ($match && isset($match[1])) $section = 'sec-' . $match[1];
+                if ($match && isset($match[1])) $section = 'sec-' . $core_id_flip[$match[1]];
             }else{
-                $section = 'sec-' . $value->ctg_id;
+                $section = 'sec-' . $core_id_flip[$value->ctg_id];
             }
 
             $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}' data-sort='{$value->sort}'>" .

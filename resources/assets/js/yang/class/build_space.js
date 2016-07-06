@@ -2,7 +2,6 @@ define([
            "../var/document",
            "../func/style/trsfm",
            "../func/style/getStyle",
-           "../var/colorCircle",
            "../func/math/touchPos",
            "../func/math/findPos",
            "../var/prefixJs",
@@ -22,7 +21,7 @@ define([
            "../func/math/rotateMatrix",
            "../func/math/matrixToArr"
 
-], function (document, trsfm, getStyle, colorCircle, touchPos, findPos, prefixJs, prefixCss, bindEvent,
+], function (document, trsfm, getStyle, touchPos, findPos, prefixJs, prefixCss, bindEvent,
              unbindEvent, requestAnim, cancelAnim, closestPoint, maxPoint, fibonacciSphere, multiplyMatrix3d,
              calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
 
@@ -54,9 +53,6 @@ define([
 
         spheres() {
 
-            //给每一个区域赋予不同的颜色
-            this.section();
-
             //在空间中定位元素
             this.diffuse();
 
@@ -70,25 +66,6 @@ define([
         }
         //spheres ends
 
-        /**
-         * 取最内层的元素，在 style_section 中给每一个相应的 section 添加不同的样式
-         */
-        section() {
-
-            var core  = this.stage.querySelectorAll('.tier-' + this.prevTier),
-                sheet = document.getElementById('style_section').sheet || document.getElementById('style_section').styleSheet,
-                i     = 0,
-                clr   = '';
-
-            while (i < core.length) {
-                clr = colorCircle[i % colorCircle.length];
-
-                sheet.insertRule('.sec-' + core[i].dataset.ctg_id + '{border: 2px solid ' +clr+ ';}', i);
-
-                i++;
-            }
-        }
-        //section ends
 
         /**
          * 将每一层的元素均匀分布到空间当中，

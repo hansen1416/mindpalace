@@ -4,8 +4,6 @@
 
     {{--同心球的缩放，动态操纵的样式表--}}
     <style id="style_zoom"></style>
-    {{--分块的颜色，动态操纵的样式表--}}
-    <style id="style_section"></style>
 
     <div id="stage">
 
