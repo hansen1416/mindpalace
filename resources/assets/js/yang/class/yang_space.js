@@ -12,8 +12,8 @@ define([
            "../func/event/popClick",
            "./build_space"
 
-], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus,
-             popClick, build_space) {
+       ], function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus,
+                    popClick, build_space) {
 
     /**
      * 引入 class BuildSpace
@@ -24,7 +24,7 @@ define([
 
     class YangSpace extends BuildSpace {
 
-        constructor (param) {
+        constructor(param) {
             super(param);
 
             this.aimedStar = null;
@@ -37,6 +37,7 @@ define([
         static setOperation(annu) {
             annulus(annu);
         }
+
         //setOperation ends
 
 
@@ -76,8 +77,8 @@ define([
                  * sign < 0 滚轮向上滚动，同新求扩展
                  */
                 if (sign > 0) {
-                    sheet.insertRule('.tier-'+ tier +'{display:none;}', tier);
-                }else{
+                    sheet.insertRule('.tier-' + tier + '{display:none;}', tier);
+                } else {
                     sheet.deleteRule(tier);
                 }
 
@@ -85,7 +86,7 @@ define([
 
                 //获取已经隐藏掉的层，在其后不选择
                 do {
-                    not += ':not(.tier-'+ tier +')';
+                    not += ':not(.tier-' + tier + ')';
                     tier--;
                 } while (tier > -1);
 
@@ -94,13 +95,14 @@ define([
                     i     = 0;
                 //缩放所有显示的元素
                 do {
-                    stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ('+ str +')';
+                    stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ(' + str + ')';
                     i++;
                 } while (i < stars.length);
 
             }
 
         }
+
         //zoom ends
 
         /**
@@ -112,9 +114,9 @@ define([
 
             var upper = this;
 
-            function callback(e){
+            function callback(e) {
 
-                var target    = e.target;
+                var target = e.target;
                 //如果是submit 或 a 标签，则只执行默认行为
                 if (target.nodeName === 'A') {
                     return false;
@@ -122,23 +124,24 @@ define([
 
                 e.preventDefault();
 
-                if(target.classList.contains('star')) {
+                if (target.classList.contains('star')) {
                     //点击分类或者内容题目时的点击事件
                     starClick(target);
 
-                }else if (target.classList.contains('btn')) {
+                } else if (target.classList.contains('btn')) {
                     //.operation 包含的所有 .btn 的点击
                     btnClick(target);
 
-                }else if (target.classList.contains('submit')) {
+                } else if (target.classList.contains('submit')) {
                     //ajax提交表单
                     submitClick(target);
-                }else if (target.classList.contains('pop')) {
+                } else if (target.classList.contains('pop')) {
                     //内容详情浮层的点击事件
                     popClick(target);
                 }
 
             }
+
             //callback ends
 
             /**
@@ -147,7 +150,7 @@ define([
              * 显示对应的 operation
              * @param target 点击的目标元素
              */
-            function starClick(target){
+            function starClick(target) {
 
                 var dataset  = target.dataset,
                     ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
@@ -158,7 +161,7 @@ define([
                 if (ctg_id) {
                     reveal(ctg_box);
                     conceal(item_box);
-                }else if (item_id) {
+                } else if (item_id) {
                     reveal(item_box);
                     conceal(ctg_box);
                 }
@@ -166,6 +169,7 @@ define([
                 upper.aimedStar = target;
 
             }
+
             //starClick ends
 
             /**
@@ -189,7 +193,7 @@ define([
                  */
                 if (cList.contains('ctg_btn')) {
                     form = document.getElementById('ctg_form');
-                }else if (cList.contains('item_btn')) {
+                } else if (cList.contains('item_btn')) {
                     form = document.getElementById('item_form');
                 }
                 /**
@@ -226,57 +230,56 @@ define([
                      */
                     if (b_dataset.message == 'edit-self') {
                         textarea.innerHTML = star.innerHTML;
-                    }else{
+                    } else {
                         textarea.innerHTML = '';
                     }
 
-                }else{
+                } else {
 
-                    switch (target.dataset.func)
-                    {
-                    /*
-                     * 将选中的 .star 元素旋转到屏幕正中
-                     * 目前可以显示正确，但是缺少动画效果
-                     */
-                    //TODO
-                    case 'focus':
+                    switch (target.dataset.func) {
+                        /*
+                         * 将选中的 .star 元素旋转到屏幕正中
+                         * 目前可以显示正确，但是缺少动画效果
+                         */
+                        //TODO
+                        case 'focus':
 
-                        var destiny = roll(star.style[trsfm]);
-                        upper.rotateObj.style[trsfm] = destiny;
-                        upper.setStartMatrix = matrixToArr(destiny);
+                            var destiny                  = roll(star.style[trsfm]);
+                            upper.rotateObj.style[trsfm] = destiny;
+                            upper.setStartMatrix         = matrixToArr(destiny);
 
-                        break;
+                            break;
                     /**
                      * 隐藏当前的操作界面
                      */
-                    case 'hide':
+                        case 'hide':
 
-                        conceal(form);
-                        conceal(form.parentNode);
+                            conceal(form);
+                            conceal(form.parentNode);
 
-                        break;
+                            break;
                     /**
                      * 显示内容的详细内容
                      */
-                    case 'detail':
+                        case 'detail':
 
-                        var pop_item = document.getElementById('pop_item'),
-                            content  = pop_item.querySelector('.content'),
-                            url      = document.getElementById('item_detail_url').value,
-                            data     = new FormData(),
-                            success  = function (res) {
+                            var pop_item = document.getElementById('pop_item'),
+                                content  = pop_item.querySelector('.content'),
+                                url      = document.getElementById('item_detail_url').value,
+                                data     = new FormData(),
+                                success  = function (res) {
 
-                                if (res.status) {
-                                    pop_item.style['display'] = 'block';
-                                    content.innerHTML         = res.message;
-                                }
-                            };
+                                    if (res.status) {
+                                        pop_item.style['display'] = 'block';
+                                        content.innerHTML         = res.message;
+                                    }
+                                };
 
-                        data.append('item_id', s_dataset['item_id']);
+                            data.append('item_id', s_dataset['item_id']);
 
-                        ajax(url, success, data);
+                            ajax(url, success, data);
 
-                        break;
+                            break;
                     }
 
                 }
@@ -284,13 +287,14 @@ define([
                 return false;
 
             }
+
             //btnClick ends
 
             /**
              * ajax 提交表单
              * @param target 提交按钮，是 form 的子元素
              */
-            function submitClick(target){
+            function submitClick(target) {
                 var form = target.parentNode,
                     success;
 
@@ -298,7 +302,7 @@ define([
                  * 请求成功的回调函数
                  * @param res json对象 res.status == 1 成功, 0 失败
                  */
-                success = function(res){
+                success = function (res) {
                     //TODO
                     console.log(res);
                 };
@@ -306,9 +310,11 @@ define([
                 ajax(form.action, success, new FormData(form));
 
             }
+
             //submitClick ends
 
         }
+
         //click ends
 
 

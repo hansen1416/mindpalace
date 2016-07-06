@@ -83,7 +83,7 @@ class SpaceController extends Controller
      * 创建新的同级内容
      * @param Request $request
      * @author Hanlongzhen 2016-05-19 11:17
-     * @return \Illuminate\Http\RedirectResponse
+     * @return json
      */
     public function createItem(Request $request)
     {
@@ -100,7 +100,7 @@ class SpaceController extends Controller
      * 编辑内容的标题
      * @param Request $request
      * @author Hanlongzhen 2016-05-29 11:31
-     * @return \Illuminate\Http\RedirectResponse
+     * @return json
      */
     public function updateItem(Request $request)
     {
