@@ -34,13 +34,22 @@
 
 
 //space
-@stage_back: #06266F;
+@stage_back: #181C3D;
 @btn: rgba(255, 255, 255, 0.5);
 
 #yang-space{
 
+    background: radial-gradient(
+            ellipse farthest-corner at 50% 50%,
+            lighten(@stage_back, 14%) 0%,
+            lighten(@stage_back, 10%) 30%,
+            lighten(@stage_back, 6%) 60%,
+            lighten(@stage_back, 4%) 90%,
+            @stage_back 100%,
+    );
+
     #stage{
-        background-color: @stage_back; color: @white;
+        color: @white;
 
         .star{
             &:hover{border: 2px solid @white;}
