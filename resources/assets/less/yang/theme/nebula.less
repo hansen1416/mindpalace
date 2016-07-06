@@ -41,24 +41,24 @@
 
     background: radial-gradient(
             ellipse farthest-corner at 50% 50%,
-            lighten(@stage_back, 14%) 0%,
-            lighten(@stage_back, 10%) 30%,
-            lighten(@stage_back, 6%) 60%,
-            lighten(@stage_back, 4%) 90%,
+            lighten(@stage_back, 20%) 0%,
+            lighten(@stage_back, 16%) 30%,
+            lighten(@stage_back, 10%) 60%,
+            lighten(@stage_back, 6%) 90%,
             @stage_back 100%,
     );
 
     #stage{
-        color: @white;
+        color: #d1e2ff;
 
         .star{
             &:hover{border: 2px solid @white;}
         }
         .star.ctg{
-            background-color: fade(@white, 20%);
+            background-color: fade(#482755, 20%);
         }
         .star.item{
-            background-color: fade(@white, 40%);
+            background-color: fade(#638AE7, 20%);
         }
     }
 
