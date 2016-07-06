@@ -128,4 +128,18 @@ class SpaceController extends Controller
 
     }
 
+    /**
+     * 编辑内容详情
+     * @param Request $request
+     */
+    public function editItemDetail(Request $request)
+    {
+
+        $res = Item::where('item_id', $request->item_id)
+                ->where('ctg_id', $request->ctg_id)
+                ->update(['content' => $request->content]);
+
+        $this->ajaxOutput($res);
+    }
+
 }

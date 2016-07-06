@@ -264,14 +264,20 @@ define([
                         case 'detail':
 
                             var pop_item = document.getElementById('pop_item'),
-                                content  = pop_item.querySelector('.content'),
                                 url      = document.getElementById('item_detail_url').value,
                                 data     = new FormData(),
                                 success  = function (res) {
 
                                     if (res.status) {
+
+                                        var content  = pop_item.querySelector('.content'),
+                                            save = pop_item.querySelector('#pop_save');
+
+                                        content.innerHTML    = res.message;
+                                        save.dataset.ctg_id  = s_dataset.pid;
+                                        save.dataset.item_id = s_dataset.item_id;
+
                                         pop_item.style['display'] = 'block';
-                                        content.innerHTML         = res.message;
                                     }
                                 };
 
