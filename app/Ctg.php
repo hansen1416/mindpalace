@@ -23,7 +23,7 @@ class Ctg extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['pid', 'tier', 'sort', 'title', 'path', 'tags'];
+	protected $fillable = ['pid', 'tier', 'sort', 'title', 'path'];
 
 	/**
      * Scope a query to only top categories to be retrived.

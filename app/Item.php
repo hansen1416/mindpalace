@@ -23,7 +23,7 @@ class Item extends Model {
      *
      * @var array
      */
-    protected $fillable = ['ctg_id', 'sort', 'title', 'tags', 'content'];
+    protected $fillable = ['ctg_id', 'sort', 'title', 'content'];
 
     /**
      * belongsto, many to one relationship, with table mp_ctg
