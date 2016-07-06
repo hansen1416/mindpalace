@@ -21,9 +21,8 @@ define([
            "../func/math/rotateMatrix",
            "../func/math/matrixToArr"
 
-], function (document, trsfm, getStyle, touchPos, findPos, prefixJs, prefixCss, bindEvent,
-             unbindEvent, requestAnim, cancelAnim, closestPoint, maxPoint, fibonacciSphere, multiplyMatrix3d,
-             calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
+], function (document, trsfm, getStyle, touchPos, findPos, prefixJs, prefixCss, bindEvent, unbindEvent, requestAnim, cancelAnim, closestPoint,
+             maxPoint, fibonacciSphere, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
 
     class BuildSpace {
 
