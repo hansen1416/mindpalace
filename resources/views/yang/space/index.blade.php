@@ -84,6 +84,7 @@
         <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
     </div>
 
+    {{--内容详情的弹出层开始--}}
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
     <input type="hidden" id="edit_item_detail_url" value="{{ route('editItemDetail') }}">
 
@@ -92,7 +93,7 @@
         <div class="pop knob close" id="pop_close"></div>
         <div class="pop knob save" id="pop_save"></div>
     </div>
-
+    {{--内容详情的弹出层结束--}}
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>
