@@ -137,7 +137,7 @@ class SpaceController extends Controller
 
         $res = Item::where('item_id', $request->item_id)
                 ->where('ctg_id', $request->ctg_id)
-                ->update(['content' => $request->content]);
+                ->update(['content' => $request->item_content]);
 
         $this->ajaxOutput($res);
     }
