@@ -18,6 +18,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('yang.home.index', ['user' => Auth::user()]);
+        return response()->view('yang.home.index', ['user' => Auth::user()]);
     }
 }

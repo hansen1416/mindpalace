@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Yang;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Ctg;
 use App\Item;
 use Auth;
+
 
 class SpaceController extends Controller
 {
@@ -28,7 +29,7 @@ class SpaceController extends Controller
 
         $html = $ctgModel->tagWrap($ctgs);
 
-		return view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
+		return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
 	}
 
 	/**
@@ -60,7 +61,7 @@ class SpaceController extends Controller
             $ctgModel->path  = $parent ? $parent->path : '';
         }
 
-        $this->ajaxOutput($ctgModel->save());
+        return response()->json(['status' => $ctgModel->save()]);
 
 	}
 
@@ -76,14 +77,14 @@ class SpaceController extends Controller
 
 		$ctgModel->title = $request->title;
 
-        $this->ajaxOutput($ctgModel->save());
+        return response()->json(['status' => $ctgModel->save()]);
     }
 
     /**
      * 创建新的同级内容
      * @param Request $request
      * @author Hanlongzhen 2016-05-19 11:17
-     * @return json
+     * @return Response
      */
     public function createItem(Request $request)
     {
@@ -92,7 +93,7 @@ class SpaceController extends Controller
         $itemModel->ctg_id = $request->item_id ? $request->pid : $request->ctg_id;
         $itemModel->title  = $request->title;
 
-        $this->ajaxOutput($itemModel->save());
+        return response()->json(['status' => $itemModel->save()]);
 
     }
 
@@ -100,7 +101,7 @@ class SpaceController extends Controller
      * 编辑内容的标题
      * @param Request $request
      * @author Hanlongzhen 2016-05-29 11:31
-     * @return json
+     * @return Response
      */
     public function updateItem(Request $request)
     {
@@ -108,7 +109,7 @@ class SpaceController extends Controller
 
         $itemModel->title = $request->title;
 
-        $this->ajaxOutput($itemModel->save());
+        return response()->json(['status' => $itemModel->save()]);
 
     }
 
@@ -116,6 +117,7 @@ class SpaceController extends Controller
      * 获取内容详情
      * @param Request $request
      * @author Hanlongzhen 2016-07-01 17:15
+     * @return Response
      */
     public function getItemDetail(Request $request)
     {
@@ -124,22 +126,23 @@ class SpaceController extends Controller
 
         $content = htmlspecialchars_decode($itemModel->content);
 
-        $this->ajaxOutput($itemModel, $content);
+        return response()->json(['status' => $itemModel, 'message' => $content]);
 
     }
 
     /**
      * 编辑内容详情
      * @param Request $request
+     * @return Response
      */
     public function editItemDetail(Request $request)
     {
 
-        $res = Item::where('item_id', $request->item_id)
-                ->where('ctg_id', $request->ctg_id)
-                ->update(['content' => $request->item_content]);
+        $res = Item::where('item_id', $request->input('item_id'))
+                ->where('ctg_id', $request->input('ctg_id'))
+                ->update(['content' => $request->input('content')]);
 
-        $this->ajaxOutput($res);
+        return response()->json(['status' => $res]);
     }
 
 }

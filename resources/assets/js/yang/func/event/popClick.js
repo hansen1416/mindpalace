@@ -30,7 +30,7 @@ define([
 
                 data.append('item_id', target.dataset.item_id);
                 data.append('ctg_id', target.dataset.ctg_id);
-                data.append('item_content', content.innerHTML);
+                data.append('content', content.innerHTML);
 
 
                 ajax(url, success, data);
