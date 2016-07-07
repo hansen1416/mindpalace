@@ -13,6 +13,16 @@ use Auth;
 class SpaceController extends Controller
 {
 
+    /**
+     * @var UserRepository
+     */
+//    protected $user;
+//
+//    public function __construct(UserRepository $user)
+//    {
+//        $this->user = $user;
+//    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
