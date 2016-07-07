@@ -3,13 +3,12 @@
 body{overflow: hidden; width: 100vw; height: 100vh;}
 form{display: none;}
 
-//舞台，等于窗口大小的元素
+
 #stage{
 	.perspective; .pers_origin; .trsf_origin; .abs;
 	width: 100vw; height: 100vw; top: 50%; margin: -50vw 0 0 0;
     &:hover{.cursor-grab;}
 
-    //银河开始
 	#galaxy{
 		.trsf_style_3d; .abs;
 		width: 100px; height: 100px; top: 50%; left: 50%;
@@ -23,10 +22,10 @@ form{display: none;}
             &:hover{cursor: pointer;}
 		}
 
-	}
-    //银河结束
+	}//galaxy ends
 
-}
+
+}//#stage ends
 
 @ow:        0;
 @btn_w:     40px;
@@ -72,7 +71,7 @@ form{display: none;}
         &:hover{cursor: pointer;}
     }
 
-}
+}//.operation ends
 
 @tl_w: 60px;
 
@@ -132,5 +131,5 @@ form{display: none;}
     .knob.close{top: 10px;}
     .knob.save{top: 40px;}
 
-}
+}//#pop_item ends
 
