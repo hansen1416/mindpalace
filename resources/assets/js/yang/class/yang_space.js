@@ -271,11 +271,11 @@ define([
                                     if (res.status) {
 
                                         var content  = pop_item.querySelector('.content'),
-                                            save = pop_item.querySelector('#pop_save');
+                                            pop_save = pop_item.querySelector('#pop_save');
 
-                                        content.innerHTML    = res.message;
-                                        save.dataset.ctg_id  = s_dataset.pid;
-                                        save.dataset.item_id = s_dataset.item_id;
+                                        content.innerHTML        = res.message;
+                                        pop_save.dataset.ctg_id  = s_dataset.pid;
+                                        pop_save.dataset.item_id = s_dataset.item_id;
 
                                         pop_item.style['display'] = 'block';
                                     }
