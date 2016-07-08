@@ -25,7 +25,7 @@ class Profile extends Model
      *
      * @var array
      */
-    protected $fillable = ['portrait'];
+    protected $fillable = ['portrait', 'theme'];
 
     /**
      * belongs to User

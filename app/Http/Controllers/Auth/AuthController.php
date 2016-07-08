@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Auth;
+
 use App\User;
 use Illuminate\Http\Response;
 use Validator;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -28,6 +30,7 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -37,10 +40,11 @@ class AuthController extends Controller
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
+
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -51,20 +55,55 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
     }
+
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
+     * @param array $data
+     * @throws \Exception
+     * @return object
      */
     protected function create(array $data)
     {
-        return User::create([
-                                'name' => $data['name'],
-                                'email' => $data['email'],
-                                'password' => bcrypt($data['password']),
-                            ]);
+
+        /**
+         * 开启事务
+         * 创建用户信息
+         * 同时创建用户详情
+         */
+        DB::beginTransaction();
+
+        try {
+            // Validate, then create if valid
+            $user = User::create([
+                                     'name' => $data['name'],
+                                     'email' => $data['email'],
+                                     'password' => bcrypt($data['password']),
+                                 ]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+        try {
+
+            $user->profile()->create([
+                                         'portrait' => config('view.default_portrait'),
+                                         'theme' => config('view.default_theme')
+                                     ]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+
+        DB::commit();
+
+        return $user;
+
     }
+
     /**
      * 用户验证
      * @param Request $request
@@ -75,7 +114,7 @@ class AuthController extends Controller
 
         $login_staus = Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember);
 
-        if ( !$login_staus ) {
+        if (!$login_staus) {
 
             return response()->json(['status' => false]);
         }
@@ -94,7 +133,6 @@ class AuthController extends Controller
 
         return response()->json(['status' => true]);
     }
-
 
 
 }

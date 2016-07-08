@@ -1,4 +1,4 @@
-@extends('layouts.yang.home')
+@extends('layouts.yang.auth')
 
 @section('content')
 <div class="container">
