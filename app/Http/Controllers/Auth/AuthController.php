@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth;
 use App\User;
+use Illuminate\Http\Response;
 use Validator;
 use Auth;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,7 @@ class AuthController extends Controller
     /**
      * Create a new authentication controller instance.
      *
-     * @return void
+     * @return mixed
      */
     public function __construct()
     {
@@ -67,6 +68,7 @@ class AuthController extends Controller
     /**
      * 用户验证
      * @param Request $request
+     * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request)
     {
@@ -75,10 +77,10 @@ class AuthController extends Controller
 
         if ( !$login_staus ) {
 
-            return $this->ajaxOutput(false);
+            return response()->json(['status' => false]);
         }
 
-        $this->ajaxOutput(true);
+        return response()->json(['status' => true]);
 
     }
 
