@@ -125,8 +125,8 @@
 	           __webpack_require__(15),
 	           __webpack_require__(16)
 
-	], __WEBPACK_AMD_DEFINE_RESULT__ = function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus,
-	             popClick, build_space) {
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (document, trsfm, getStyle, bindEvent, ajax, roll, reveal, conceal, matrixToArr, annulus,
+	                    popClick, build_space) {
 
 	    /**
 	     * 引入 class BuildSpace
@@ -137,7 +137,7 @@
 
 	    class YangSpace extends BuildSpace {
 
-	        constructor (param) {
+	        constructor(param) {
 	            super(param);
 
 	            this.aimedStar = null;
@@ -150,6 +150,7 @@
 	        static setOperation(annu) {
 	            annulus(annu);
 	        }
+
 	        //setOperation ends
 
 
@@ -189,8 +190,8 @@
 	                 * sign < 0 滚轮向上滚动，同新求扩展
 	                 */
 	                if (sign > 0) {
-	                    sheet.insertRule('.tier-'+ tier +'{display:none;}', tier);
-	                }else{
+	                    sheet.insertRule('.tier-' + tier + '{display:none;}', tier);
+	                } else {
 	                    sheet.deleteRule(tier);
 	                }
 
@@ -198,7 +199,7 @@
 
 	                //获取已经隐藏掉的层，在其后不选择
 	                do {
-	                    not += ':not(.tier-'+ tier +')';
+	                    not += ':not(.tier-' + tier + ')';
 	                    tier--;
 	                } while (tier > -1);
 
@@ -207,13 +208,14 @@
 	                    i     = 0;
 	                //缩放所有显示的元素
 	                do {
-	                    stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ('+ str +')';
+	                    stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ(' + str + ')';
 	                    i++;
 	                } while (i < stars.length);
 
 	            }
 
 	        }
+
 	        //zoom ends
 
 	        /**
@@ -225,9 +227,9 @@
 
 	            var upper = this;
 
-	            function callback(e){
+	            function callback(e) {
 
-	                var target    = e.target;
+	                var target = e.target;
 	                //如果是submit 或 a 标签，则只执行默认行为
 	                if (target.nodeName === 'A') {
 	                    return false;
@@ -235,23 +237,24 @@
 
 	                e.preventDefault();
 
-	                if(target.classList.contains('star')) {
+	                if (target.classList.contains('star')) {
 	                    //点击分类或者内容题目时的点击事件
 	                    starClick(target);
 
-	                }else if (target.classList.contains('btn')) {
+	                } else if (target.classList.contains('btn')) {
 	                    //.operation 包含的所有 .btn 的点击
 	                    btnClick(target);
 
-	                }else if (target.classList.contains('submit')) {
+	                } else if (target.classList.contains('submit')) {
 	                    //ajax提交表单
 	                    submitClick(target);
-	                }else if (target.classList.contains('pop')) {
+	                } else if (target.classList.contains('pop')) {
 	                    //内容详情浮层的点击事件
 	                    popClick(target);
 	                }
 
 	            }
+
 	            //callback ends
 
 	            /**
@@ -260,7 +263,7 @@
 	             * 显示对应的 operation
 	             * @param target 点击的目标元素
 	             */
-	            function starClick(target){
+	            function starClick(target) {
 
 	                var dataset  = target.dataset,
 	                    ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
@@ -271,7 +274,7 @@
 	                if (ctg_id) {
 	                    reveal(ctg_box);
 	                    conceal(item_box);
-	                }else if (item_id) {
+	                } else if (item_id) {
 	                    reveal(item_box);
 	                    conceal(ctg_box);
 	                }
@@ -279,6 +282,7 @@
 	                upper.aimedStar = target;
 
 	            }
+
 	            //starClick ends
 
 	            /**
@@ -302,7 +306,7 @@
 	                 */
 	                if (cList.contains('ctg_btn')) {
 	                    form = document.getElementById('ctg_form');
-	                }else if (cList.contains('item_btn')) {
+	                } else if (cList.contains('item_btn')) {
 	                    form = document.getElementById('item_form');
 	                }
 	                /**
@@ -339,57 +343,62 @@
 	                     */
 	                    if (b_dataset.message == 'edit-self') {
 	                        textarea.innerHTML = star.innerHTML;
-	                    }else{
+	                    } else {
 	                        textarea.innerHTML = '';
 	                    }
 
-	                }else{
+	                } else {
 
-	                    switch (target.dataset.func)
-	                    {
-	                    /*
-	                     * 将选中的 .star 元素旋转到屏幕正中
-	                     * 目前可以显示正确，但是缺少动画效果
-	                     */
-	                    //TODO
-	                    case 'focus':
+	                    switch (target.dataset.func) {
+	                        /*
+	                         * 将选中的 .star 元素旋转到屏幕正中
+	                         * 目前可以显示正确，但是缺少动画效果
+	                         */
+	                        //TODO
+	                        case 'focus':
 
-	                        var destiny = roll(star.style[trsfm]);
-	                        upper.rotateObj.style[trsfm] = destiny;
-	                        upper.setStartMatrix = matrixToArr(destiny);
+	                            var destiny                  = roll(star.style[trsfm]);
+	                            upper.rotateObj.style[trsfm] = destiny;
+	                            upper.setStartMatrix         = matrixToArr(destiny);
 
-	                        break;
+	                            break;
 	                    /**
 	                     * 隐藏当前的操作界面
 	                     */
-	                    case 'hide':
+	                        case 'hide':
 
-	                        conceal(form);
-	                        conceal(form.parentNode);
+	                            conceal(form);
+	                            conceal(form.parentNode);
 
-	                        break;
+	                            break;
 	                    /**
 	                     * 显示内容的详细内容
 	                     */
-	                    case 'detail':
+	                        case 'detail':
 
-	                        var pop_item = document.getElementById('pop_item'),
-	                            content  = pop_item.querySelector('.content'),
-	                            url      = document.getElementById('item_detail_url').value,
-	                            data     = new FormData(),
-	                            success  = function (res) {
+	                            var pop_item = document.getElementById('pop_item'),
+	                                url      = document.getElementById('item_detail_url').value,
+	                                data     = new FormData(),
+	                                success  = function (res) {
 
-	                                if (res.status) {
-	                                    pop_item.style['display'] = 'block';
-	                                    content.innerHTML         = res.message;
-	                                }
-	                            };
+	                                    if (res.status) {
 
-	                        data.append('item_id', s_dataset['item_id']);
+	                                        var content  = pop_item.querySelector('.content'),
+	                                            pop_save = pop_item.querySelector('#pop_save');
 
-	                        ajax(url, success, data);
+	                                        content.innerHTML        = res.message;
+	                                        pop_save.dataset.ctg_id  = s_dataset.pid;
+	                                        pop_save.dataset.item_id = s_dataset.item_id;
 
-	                        break;
+	                                        pop_item.style['display'] = 'block';
+	                                    }
+	                                };
+
+	                            data.append('item_id', s_dataset['item_id']);
+
+	                            ajax(url, success, data);
+
+	                            break;
 	                    }
 
 	                }
@@ -397,13 +406,14 @@
 	                return false;
 
 	            }
+
 	            //btnClick ends
 
 	            /**
 	             * ajax 提交表单
 	             * @param target 提交按钮，是 form 的子元素
 	             */
-	            function submitClick(target){
+	            function submitClick(target) {
 	                var form = target.parentNode,
 	                    success;
 
@@ -411,7 +421,7 @@
 	                 * 请求成功的回调函数
 	                 * @param res json对象 res.status == 1 成功, 0 失败
 	                 */
-	                success = function(res){
+	                success = function (res) {
 	                    //TODO
 	                    console.log(res);
 	                };
@@ -419,9 +429,11 @@
 	                ajax(form.action, success, new FormData(form));
 
 	            }
+
 	            //submitClick ends
 
 	        }
+
 	        //click ends
 
 
@@ -715,15 +727,49 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(6),
+	           __webpack_require__(13),
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (ajax, conceal) {
 	    /**
 	     * 内容详情浮动层的点击事件
 	     */
-	    return function(e){
-	        console.log(e);
+	    return function (target) {
+
+	        var id       = target.id,
+	            pop_item = document.getElementById('pop_item'),
+	            content  = pop_item.querySelector('.content');
+
+	        switch (target.id) {
+
+	            case 'pop_close':
+
+	                conceal(pop_item);
+
+	                break;
+
+	            case 'pop_save':
+
+	                var url     = document.getElementById('edit_item_detail_url').value,
+	                    data    = new FormData(),
+	                    success = function (res) {
+
+	                        console.log(res);
+	                    };
+
+	                data.append('item_id', target.dataset.item_id);
+	                data.append('ctg_id', target.dataset.ctg_id);
+	                data.append('content', content.innerHTML);
+
+
+	                ajax(url, success, data);
+
+	                break;
+	        }
+
 	    }
 
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
 /* 16 */
@@ -735,10 +781,10 @@
 	           __webpack_require__(4),
 	           __webpack_require__(18),
 	           __webpack_require__(19),
-	           __webpack_require__(20),
 	           __webpack_require__(12),
-	           __webpack_require__(21),
+	           __webpack_require__(20),
 	           __webpack_require__(5),
+	           __webpack_require__(21),
 	           __webpack_require__(22),
 	           __webpack_require__(23),
 	           __webpack_require__(17),
@@ -750,12 +796,10 @@
 	           __webpack_require__(29),
 	           __webpack_require__(30),
 	           __webpack_require__(31),
-	           __webpack_require__(32),
 	           __webpack_require__(8)
 
-	], __WEBPACK_AMD_DEFINE_RESULT__ = function (document, trsfm, getStyle, colorCircle, touchPos, findPos, prefixJs, prefixCss, bindEvent,
-	             unbindEvent, requestAnim, cancelAnim, closestPoint, maxPoint, fibonacciSphere, multiplyMatrix3d,
-	             calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
+	], __WEBPACK_AMD_DEFINE_RESULT__ = function (document, trsfm, getStyle, touchPos, findPos, prefixJs, prefixCss, bindEvent, unbindEvent, requestAnim, cancelAnim, closestPoint,
+	             maxPoint, fibonacciSphere, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
 
 	    class BuildSpace {
 
@@ -785,9 +829,6 @@
 
 	        spheres() {
 
-	            //给每一个区域赋予不同的颜色
-	            this.section();
-
 	            //在空间中定位元素
 	            this.diffuse();
 
@@ -801,25 +842,6 @@
 	        }
 	        //spheres ends
 
-	        /**
-	         * 取最内层的元素，在 style_section 中给每一个相应的 section 添加不同的样式
-	         */
-	        section() {
-
-	            var core  = this.stage.querySelectorAll('.tier-' + this.prevTier),
-	                sheet = document.getElementById('style_section').sheet || document.getElementById('style_section').styleSheet,
-	                i     = 0,
-	                clr   = '';
-
-	            while (i < core.length) {
-	                clr = colorCircle[i % colorCircle.length];
-
-	                sheet.insertRule('.sec-' + core[i].dataset.ctg_id + '{border: 2px solid ' +clr+ ';}', i);
-
-	                i++;
-	            }
-	        }
-	        //section ends
 
 	        /**
 	         * 将每一层的元素均匀分布到空间当中，
@@ -1123,144 +1145,6 @@
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-	    return  window.cancelAnimationFrame            		||
-		        window.webkitCancelRequestAnimationFrame    ||
-		        window.mozCancelRequestAnimationFrame       ||
-		        window.oCancelRequestAnimationFrame        	||
-		        window.msCancelRequestAnimationFrame        ||
-		        clearTimeout;
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-	    /**
-	     * colorCircle
-	     */
-	    return [
-	            'rgb(255, 0 ,0)',
-	            'rgb(255, 128, 0)',
-	            'rgb(255, 255, 0)',
-	            'rgb(128, 255, 0)',
-	            'rgb(0, 255, 0)',
-	            'rgb(0, 255, 128)',
-	            'rgb(0, 255, 255)',
-	            'rgb(0, 128, 255)',
-	            'rgb(0, 0, 255)',
-	            'rgb(128, 0, 255)',
-	            'rgb(255, 0, 255)',
-	            'rgb(255, 0, 128)',
-	            ]
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-	    /**
-	     * touchPos [get the mouse/touch position]
-	     * @AuthorName Hanlongzhen
-	     * @DateTime   2016-04-06T13:46:34+0800
-	     * @param      object eventObj 事件对象
-	     * @return     array 平面上的点
-	     */
-		return function (eventObj){
-	        var x, y;
-	        if(eventObj.type.indexOf("mouse")>-1 || eventObj.type.indexOf("click")>-1){
-	            x = eventObj.pageX;
-	            y = eventObj.pageY;
-	        }else if(eventObj.type.indexOf("touch")>-1){
-	            if(eventObj.touches.length === 1 ){
-	                var touch = eventObj.touches[0];
-	                x = touch.pageX;
-	                y = touch.pageY;
-	            }
-	        }
-	        return [x,y];
-	    }
-
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-	    //findPos-script by www.quirksmode.org
-		return function (obj){
-	        var curleft = 0,
-	            curtop  = 0;
-	    
-	        if (obj.offsetParent) {
-	            do {
-	                curleft += obj.offsetLeft;
-	                curtop += obj.offsetTop;
-	            } while (obj = obj.offsetParent);
-	            
-	            return [curleft,curtop];
-	        }
-	    }
-
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-
-	    var userAgent   = navigator.userAgent.toLowerCase(),
-	        prefixCss    = "";
-
-	    if(/webkit/gi.test(userAgent)){
-	        prefixCss = "-webkit-";
-	    }else if(/msie | trident/gi.test(userAgent)){
-	        prefixCss = "-ms-";
-	    }else if(/mozilla/gi.test(userAgent)){
-	        // prefixCss = "-moz-";
-	    }else if(/opera/gi.test(userAgent)){
-	        prefixCss = "-o-";
-	    }
-
-	    return prefixCss;
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-
-	    return function (obj, type, callback, option ) {
-
-	        var useCapture  = arguments[3] || false;
-	        obj.removeEventListener(type, callback, useCapture);
-	    }
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-		return  window.requestAnimationFrame       || 
-		        window.webkitRequestAnimationFrame || 
-		        window.mozRequestAnimationFrame    || 
-		        window.oRequestAnimationFrame      || 
-		        window.msRequestAnimationFrame     || 
-		        function(/* function */ callback, /* DOMElement */ element){
-		            return window.setTimeout(callback, 1000 / 60);
-		        };
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
 	    /**
 	     * closestPoint 从位置数组中寻找离空间中指定点最近的点
@@ -1306,7 +1190,121 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 25 */
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	    /**
+	     * touchPos [get the mouse/touch position]
+	     * @AuthorName Hanlongzhen
+	     * @DateTime   2016-04-06T13:46:34+0800
+	     * @param      object eventObj 事件对象
+	     * @return     array 平面上的点
+	     */
+		return function (eventObj){
+	        var x, y;
+	        if(eventObj.type.indexOf("mouse")>-1 || eventObj.type.indexOf("click")>-1){
+	            x = eventObj.pageX;
+	            y = eventObj.pageY;
+	        }else if(eventObj.type.indexOf("touch")>-1){
+	            if(eventObj.touches.length === 1 ){
+	                var touch = eventObj.touches[0];
+	                x = touch.pageX;
+	                y = touch.pageY;
+	            }
+	        }
+	        return [x,y];
+	    }
+
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	    //findPos-script by www.quirksmode.org
+		return function (obj){
+	        var curleft = 0,
+	            curtop  = 0;
+	    
+	        if (obj.offsetParent) {
+	            do {
+	                curleft += obj.offsetLeft;
+	                curtop += obj.offsetTop;
+	            } while (obj = obj.offsetParent);
+	            
+	            return [curleft,curtop];
+	        }
+	    }
+
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+
+	    var userAgent   = navigator.userAgent.toLowerCase(),
+	        prefixCss    = "";
+
+	    if(/webkit/gi.test(userAgent)){
+	        prefixCss = "-webkit-";
+	    }else if(/msie | trident/gi.test(userAgent)){
+	        prefixCss = "-ms-";
+	    }else if(/mozilla/gi.test(userAgent)){
+	        // prefixCss = "-moz-";
+	    }else if(/opera/gi.test(userAgent)){
+	        prefixCss = "-o-";
+	    }
+
+	    return prefixCss;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+
+	    return function (obj, type, callback, option ) {
+
+	        var useCapture  = arguments[3] || false;
+	        obj.removeEventListener(type, callback, useCapture);
+	    }
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+		return  window.requestAnimationFrame       || 
+		        window.webkitRequestAnimationFrame || 
+		        window.mozRequestAnimationFrame    || 
+		        window.oRequestAnimationFrame      || 
+		        window.msRequestAnimationFrame     || 
+		        function(/* function */ callback, /* DOMElement */ element){
+		            return window.setTimeout(callback, 1000 / 60);
+		        };
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+	    return  window.cancelAnimationFrame            		||
+		        window.webkitCancelRequestAnimationFrame    ||
+		        window.mozCancelRequestAnimationFrame       ||
+		        window.oCancelRequestAnimationFrame        	||
+		        window.msCancelRequestAnimationFrame        ||
+		        clearTimeout;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
@@ -1356,7 +1354,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
@@ -1418,7 +1416,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1449,7 +1447,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1471,7 +1469,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1495,7 +1493,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1523,7 +1521,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1549,7 +1547,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {

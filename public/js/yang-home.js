@@ -75,10 +75,9 @@
 	           __webpack_require__(2),
 	           __webpack_require__(3),
 	           __webpack_require__(4),
-	           __webpack_require__(5),
-	           __webpack_require__(6)
+	           __webpack_require__(5)
 
-	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, bindEvent, urls, ajax, annulus){
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, bindEvent, ajax, annulus){
 
 
 	    class YangHome {
@@ -107,7 +106,7 @@
 	                    switch (tid)
 	                    {
 	                        case 'login':   //登录
-	                            url     = urls.authenticate;
+	                            url     = document.getElementById('login_url').value;
 	                            data    = new FormData(document.getElementById('portrait_form'));
 	                            success = function (res) {
 	                                //登陆成功
@@ -121,6 +120,16 @@
 
 	                            break;
 	                        case 'logout':  //登出
+	                            url     = document.getElementById('logout_url').value;
+	                            success = function (res) {
+	                                console.log(res);
+	                                if (res.status) {
+	                                    window.location.reload(true);
+	                                    //登陆失败
+	                                }else{
+
+	                                }
+	                            };
 
 	                            break;
 	                        default:        //非控制按钮直接停止
@@ -169,20 +178,6 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-
-	    var prefix = '/public/';
-
-	    return {
-	        'authenticate': prefix + 'auth/auth/authenticate',
-	    }
-
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 	            __webpack_require__(2)
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document) {
@@ -220,12 +215,12 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 	           __webpack_require__(2),
-	           __webpack_require__(7),
+	           __webpack_require__(6),
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, trsfm) {
 
 	    /**
@@ -272,17 +267,17 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	           __webpack_require__(8),
+	           __webpack_require__(7),
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function(prefixJs) { //判断浏览器支持那种transform的写法;
 		return (prefixJs+"Transform" in document.documentElement.style) ? prefixJs+"Transform" : "transform";
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){

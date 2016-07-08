@@ -10,10 +10,11 @@
     <title>{{ trans('general.pageTitle') }}</title>
 
     @if(App::environment('development'))
-        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/nebula.less">
+        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{$theme}}.less">
         <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/yang-home.less">
         <script src="/resources/assets/less/less.min.js"></script>
     @else
+        <link href="{{ URL::asset('/css/theme/' . $theme . '.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('/css/yang-home.css') }}" rel="stylesheet">
     @endif
 

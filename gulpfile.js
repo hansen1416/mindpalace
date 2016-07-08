@@ -1,9 +1,11 @@
 var gulp    = require('gulp'),
-    webpack = require('webpack-stream');
+    webpack = require('webpack-stream'),
+    less    = require('gulp-less'),
+    assets  = './resources/assets/';
 
-gulp.task('webpack', function() {
+gulp.task('webpack', function () {
 
-    gulp.src('./resources/assets/js/yang/yang-home.js')
+    gulp.src(assets + 'js/yang/yang-home.js')
         .pipe(webpack({
                           entry : './resources/assets/js/yang/yang-home.js',
                           output: {
@@ -13,7 +15,7 @@ gulp.task('webpack', function() {
         .pipe(gulp.dest('./public/js/'));
 
 
-    gulp.src('./resources/assets/js/yang/yang-space.js')
+    gulp.src(assets + 'js/yang/yang-space.js')
         .pipe(webpack({
                           entry : './resources/assets/js/yang/yang-space.js',
                           output: {
@@ -25,9 +27,23 @@ gulp.task('webpack', function() {
 });
 
 
+gulp.task('less', function () {
+    "use strict";
 
-gulp.task('default', function(){
+    gulp.src([assets + 'less/yang/yang-home.js', assets + 'less/yang/yang-space.js'])
+        .pipe(less())
+        .pipe(gulp.dest('./public/css/'));
+
+    gulp.src(assets + 'less/yang/theme/*.less')
+        .pipe(less())
+        .pipe(gulp.dest('./public/css/theme/'));
+
+});
+
+
+gulp.task('default', function () {
     gulp.run('webpack');
+    gulp.run('less');
 });
 
 

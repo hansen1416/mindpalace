@@ -34,6 +34,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return response()->view('yang.home.index', ['user' => Auth::user()]);
+        $user  = Auth::user();
+        $theme = $user ? $user->profile->theme : config('view.default_theme');
+
+        return response()->view('yang.home.index', ['user' => $user, 'theme' => $theme]);
     }
 }
