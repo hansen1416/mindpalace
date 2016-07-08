@@ -8,20 +8,26 @@ use App\Http\Controllers\Controller;
 use App\Ctg;
 use App\Item;
 use Auth;
+use App\Repositories\UsersRepository;
 
 
 class SpaceController extends Controller
 {
 
     /**
-     * @var UserRepository
+     * 用户仓库的实例
+     * @var UsersRepository
      */
-//    protected $user;
-//
-//    public function __construct(UserRepository $user)
-//    {
-//        $this->user = $user;
-//    }
+    protected $users;
+
+    /**
+     * HomeController constructor.
+     * @param UsersRepository $users
+     */
+    public function __construct(UsersRepository $users)
+    {
+        $this->users = $users;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -30,6 +36,7 @@ class SpaceController extends Controller
 	 */
 	public function index()
 	{
+
         $ctgModel = new Ctg();
         $ctgs     = $ctgModel::untilTier(99)->get();
         //加载 item 表的内容
@@ -149,8 +156,8 @@ class SpaceController extends Controller
     {
 
         $res = Item::where('item_id', $request->input('item_id'))
-                ->where('ctg_id', $request->input('ctg_id'))
-                ->update(['content' => $request->input('content')]);
+                   ->where('ctg_id', $request->input('ctg_id'))
+                   ->update(['content' => $request->input('content')]);
 
         return response()->json(['status' => $res]);
     }
