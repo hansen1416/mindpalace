@@ -70,7 +70,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
 
         $login_staus = Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember);
@@ -82,6 +82,17 @@ class AuthController extends Controller
 
         return response()->json(['status' => true]);
 
+    }
+
+    /**
+     * 登出
+     * @return mixed
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return response()->json(['status' => true]);
     }
 
 

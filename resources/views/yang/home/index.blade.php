@@ -13,7 +13,7 @@
     {{--根据登陆状态显示登陆或登出--}}
     @if ($user)
         <div class="panel" id="logout">
-            <a href="{{ url('/logout') }}">{{ trans('general.logout') }}</a>
+            {{ trans('general.logout') }}
         </div>
     @else
         <div class="panel" id="login">
@@ -51,7 +51,10 @@
         </form>
         @endif
 
-    </div>
+    </div><!-- #portrait.portrait ends -->
+
+    <input type="hidden" id="login_url" value="{{ route('login') }}">
+    <input type="hidden" id="logout_url" value="{{ route('logout') }}">
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-home.js" src="/resources/assets/js/require.js"></script>
