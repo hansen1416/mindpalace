@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.27 (32 bit)
+SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.7.12-log : Database - mindpalace
 *********************************************************************
 */
@@ -12,7 +12,7 @@ MySQL - 5.7.12-log : Database - mindpalace
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`mindpalace` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`mindpalace` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `mindpalace`;
 
@@ -107,11 +107,11 @@ CREATE TABLE `mp_profile` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`profile_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `mp_profile` */
 
-insert  into `mp_profile`(`profile_id`,`id`,`portrait`,`theme`,`updated_at`,`created_at`) values (1,1,'12.jpg','nebula','2016-07-04 15:12:06','0000-00-00 00:00:00');
+insert  into `mp_profile`(`profile_id`,`id`,`portrait`,`theme`,`updated_at`,`created_at`) values (1,1,'12.jpg','nebula','2016-07-04 15:12:06','0000-00-00 00:00:00'),(2,2,'1.jpg','nebula','2016-07-09 05:33:03','2016-07-09 05:33:03');
 
 /*Table structure for table `mp_tags` */
 
@@ -139,11 +139,11 @@ CREATE TABLE `mp_users` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `mp_users` */
 
-insert  into `mp_users`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','7uzmIr7ldp6xk7nFmL33zqbdk6PxuueqopqrpWpmZD6PgXPqwvqcfSmP6TaZ','2016-05-30 06:37:00','2016-07-04 07:05:59');
+insert  into `mp_users`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','VdWJjgvsU8i0e6UaGepxqCB00RpCbAcY5vH2YUrwSJwd0zRWu5tKfvppxCQg','2016-05-30 06:37:00','2016-07-09 05:28:38'),(2,'aaa','aaa@163.om','$2y$10$1a9ysC7m2pKQMiJgVokMVu.z7uMPS7gUbkoMSGahm1CZjgvW9X5v2',NULL,'2016-07-09 05:33:03','2016-07-09 05:33:03');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
