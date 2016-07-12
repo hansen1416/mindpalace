@@ -495,6 +495,32 @@ define([
                                         pop_save.dataset.ctg_id  = s_dataset['pid'];
                                         pop_save.dataset.item_id = s_dataset['item_id'];
 
+                                        var css = document.createElement('link'),
+                                            js  = document.createElement('script');
+
+                                        css.rel  = 'stylesheet';
+                                        css.href = '../content-tool/content-tools.min.css';
+
+                                        document.getElementsByTagName('head')[0].appendChild(css);
+
+                                        js.src = '../content-tool/content-tools.min.js';
+
+
+                                        js.onload = function(){
+                                            var editor;
+
+                                            ContentTools.StylePalette.add([
+                                                                              new ContentTools.Style('Author', 'author', ['p'])
+                                                                          ]);
+
+                                            editor = ContentTools.EditorApp.get();
+                                            editor.init('*[data-editable]', 'data-name');
+                                        }
+
+
+                                        document.body.appendChild(js);
+
+
                                         pop_item.style['display'] = 'block';
                                     }
                                 };
@@ -508,7 +534,6 @@ define([
 
                 }
 
-                return false;
 
             }//btnClick ends
 
