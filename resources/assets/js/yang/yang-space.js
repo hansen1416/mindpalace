@@ -19,7 +19,7 @@ define([
                                            {'selector': '.item_btn', 'radius': 100}
                                        ]);
 
-    var yse = new YangSpaceEvent({
+    var Y = new YangSpaceEvent({
         stage    : document.getElementById('stage'),
         rotateObj: document.getElementById('galaxy'),
         radius   : 140,
@@ -30,12 +30,12 @@ define([
     /**
      * 生成同心球面
      */
-    yse.spheres();
+    Y.spheres();
 
     /**
      * 3d 球体转动
      */
-    yse.trackball({
+    Y.trackball({
                       //true有惯性，false没有惯性
                       impulse    : true,
                       //当鼠标点击目标元素时，是否停止当前运动，true为停止
@@ -49,11 +49,11 @@ define([
     /**
      * 鼠标滚轮事件
      */
-    yse.zoom();
+    Y.zoom();
 
     /**
      * 鼠标点击事件
      */
-    yse.click();
+    Y.click();
 
 });
