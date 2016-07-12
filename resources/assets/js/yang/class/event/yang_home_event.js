@@ -1,10 +1,21 @@
 define([
            "../../func/event/bindEvent",
            "../../func/ajax/ajax",
+           "../layout/yang_home_layout"
 
-       ], function (bindEvent, ajax) {
+       ], function (bindEvent, ajax, yang_home_layout) {
 
-    class YangHomeEvent {
+    /**
+     * 引入 YangHomeLayout
+     * @type {null}
+     */
+    yang_home_layout = null;
+
+    class YangHomeEvent extends YangHomeLayout{
+
+        constructor(param) {
+            super(param);
+        }
 
         click() {
 

@@ -6,7 +6,7 @@ define([
 
     class YangHomeLayout {
 
-        constructor() {
+        constructor(param) {
 
         }
 
