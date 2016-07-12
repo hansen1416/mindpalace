@@ -3,15 +3,13 @@ define([
            "../../func/style/annulus",
            "../../func/style/trsfm",
            "../../func/style/getStyle",
-           "../../func/math/touchPos",
-           "../../func/math/findPos",
            "../../var/prefixJs",
            "../../var/prefixCss",
            "../../func/math/closestPoint",
            "../../func/math/maxPoint",
            "../../func/math/fibonacciSphere"
 
-       ], function (annulus, trsfm, getStyle, touchPos, findPos, prefixJs, prefixCss, closestPoint, maxPoint, fibonacciSphere) {
+       ], function (annulus, trsfm, getStyle, prefixJs, prefixCss, closestPoint, maxPoint, fibonacciSphere) {
 
     class YangSpaceLayout {
 

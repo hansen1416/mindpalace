@@ -1,19 +1,29 @@
 define([
 
+           "../../func/math/touchPos",
+           "../../func/math/findPos",
            "../../func/math/multiplyMatrix3d",
            "../../func/math/calcAngle",
            "../../func/math/calcZ",
            "../../func/math/normalize",
            "../../func/math/crossVector",
            "../../func/math/rotateMatrix",
-           "../../func/math/matrixToArr"
+           "../../func/math/matrixToArr",
+           "../layout/yang_space_layout"
 
-       ], function (multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr) {
+       ], function (multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr, yang_space_layout) {
+
+    /**
+     * 引入 class YangSpaceLayout
+     * @type {null}
+     */
+    yang_space_layout = null;
 
     class YangSpaceEvent extends YangSpaceLayout{
 
         constructor(param){
             super(param);
+
         }
 
         /**

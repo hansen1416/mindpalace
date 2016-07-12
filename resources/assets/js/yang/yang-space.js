@@ -1,28 +1,25 @@
 define([
 
-           "./class/layout/yang_space_layout",
            "./class/event/yang_space_event"
 
-       ], function (yang_space_layout, yang_space_event) {
+       ], function (yang_space_event) {
 
     /**
      * 引入 class YangSpaceLayout
-     * 引入 class YangSpaceEvent
      * @type {null}
      */
-    yang_space_layout = null;
     yang_space_event = null;
 
     /**
      * 赋予 operation 部分样式
      * 所有按钮环形排布
      */
-    window.YangSpaceLayout.setOperation([
+    window.YangSpaceEvent.setOperation([
                                             {'selector': '.ctg_btn', 'radius': 100},
                                             {'selector': '.item_btn', 'radius': 100}
                                         ]);
 
-    var ysl = new YangSpaceLayout({
+    var yse = new YangSpaceEvent({
         stage    : document.getElementById('stage'),
         rotateObj: document.getElementById('galaxy'),
         radius   : 140,
@@ -30,9 +27,7 @@ define([
     });
 
     //生成同心球面
-    ysl.spheres();
-
-    var yse = new YangSpaceEvent();
+    yse.spheres();
 
 
     yse.trackball({
