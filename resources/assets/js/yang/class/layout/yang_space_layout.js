@@ -3,13 +3,11 @@ define([
            "../../func/style/annulus",
            "../../func/style/trsfm",
            "../../func/style/getStyle",
-           "../../var/prefixJs",
-           "../../var/prefixCss",
            "../../func/math/closestPoint",
            "../../func/math/maxPoint",
            "../../func/math/fibonacciSphere"
 
-       ], function (annulus, trsfm, getStyle, prefixJs, prefixCss, closestPoint, maxPoint, fibonacciSphere) {
+       ], function (annulus, trsfm, getStyle, closestPoint, maxPoint, fibonacciSphere) {
 
     class YangSpaceLayout {
 

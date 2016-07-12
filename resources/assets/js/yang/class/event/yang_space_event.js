@@ -1,5 +1,8 @@
 define([
 
+           "../../var/prefixJs",
+           "../../var/prefixCss",
+           "../../func/style/getStyle",
            "../../func/math/touchPos",
            "../../func/math/findPos",
            "../../func/math/multiplyMatrix3d",
@@ -9,9 +12,14 @@ define([
            "../../func/math/crossVector",
            "../../func/math/rotateMatrix",
            "../../func/math/matrixToArr",
+           "../../func/event/bindEvent",
+           "../../func/event/unbindEvent",
+           "../../func/anim/requestAnim",
+           "../../func/anim/cancelAnim",
            "../layout/yang_space_layout"
 
-       ], function (multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr, yang_space_layout) {
+       ], function (prefixJs, prefixCss, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
+                    bindEvent, unbindEvent, requestAnim, cancelAnim, yang_space_layout) {
 
     /**
      * 引入 class YangSpaceLayout
@@ -19,9 +27,9 @@ define([
      */
     yang_space_layout = null;
 
-    class YangSpaceEvent extends YangSpaceLayout{
+    class YangSpaceEvent extends YangSpaceLayout {
 
-        constructor(param){
+        constructor(param) {
             super(param);
 
         }
