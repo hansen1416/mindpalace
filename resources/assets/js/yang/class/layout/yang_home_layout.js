@@ -4,7 +4,7 @@ define([
        ], function (annulus) {
 
 
-    class YangHome {
+    class YangHomeLayout {
 
         constructor() {
 
@@ -20,7 +20,7 @@ define([
 
     }
 
-    window.YangHome = YangHome;
+    window.YangHomeLayout = YangHomeLayout;
 
 
 });

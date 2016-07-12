@@ -12,7 +12,7 @@ define([
     yang_home_layout = null;
     yang_home_event = null;
 
-    window.YangHome.setRings([
+    window.YangHomeLayout.setRings([
                                  {'selector': '.panel', 'radius': 150}
                              ]);
 
