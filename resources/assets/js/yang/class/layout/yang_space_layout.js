@@ -100,14 +100,23 @@ define([
              * 如果不是最内层，则先把这一层所有元素的位置和旋转信息储存起来，
              * 再根据父分类的位置，计算元素所在位置，需要多一次循环
              */
-            var i   = 0,
-                pos = {};
+            var i      = 0,
+                pos    = null,
+                p      = null,
+                k      = null,
+                s_data = null,
+                pid    = 0,
+                ctg_id = 0;
 
             do {
                 //如果不是 DOM 对象，则跳出当前 for 循环
                 //if (!(stars[i] instanceof Object)) {
                 //    continue;
                 //}
+
+                s_data = stars[i].dataset;
+                pid    = s_data['pid'];
+                ctg_id = s_data['ctg_id'];
 
                 /**
                  * 外层球面通过父级分类的位置和当前球面的位置数组 tierPos，
@@ -116,8 +125,8 @@ define([
                  */
                 if (this.prevTier) {
 
-                    var p = this.allPos[stars[i].dataset.pid],
-                        k = closestPoint(p, this.tierPos);
+                    p = this.allPos[pid];
+                    k = closestPoint(p, this.tierPos);
 
                     pos = this.tierPos[k];
 
@@ -137,8 +146,8 @@ define([
                 stars[i].style[trsfm] = getStyle(stars[i], 'transform');
 
                 //记录每一个ctg_id对应的位置，他的子集分类依据此点计算空间中的位置
-                if (stars[i].dataset.ctg_id) {
-                    this.allPos[stars[i].dataset.ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz};
+                if (ctg_id) {
+                    this.allPos[ctg_id] = {x: pos.tx, y: pos.ty, z: pos.tz};
                 }
 
                 i++;
