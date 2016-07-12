@@ -320,9 +320,8 @@ define([
 
             }
 
-        }
+        }//zoom ends
 
-        //zoom ends
 
         /**
          * 页面的所有点击事件
@@ -559,7 +558,7 @@ define([
                         var url     = document.getElementById('edit_item_detail_url').value,
                             data    = new FormData(),
                             success = function (res) {
-
+                                //TODO
                                 console.log(res);
                             };
 

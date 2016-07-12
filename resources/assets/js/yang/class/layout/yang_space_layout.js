@@ -16,9 +16,9 @@ define([
             this.stage    = param.stage;
             this.radius   = param.radius;            //每层球面实际半径
             this.gap      = param.gap;               //每一层球面的间隔
+            this.tiers    = 0;                       //一共有多少层
             this.N        = 0;                       //每一层球面上均匀分布的点的数量，不小于该层的元素数量
             this.prevTier = 0;
-            this.tiers    = 0;
             this.allPos   = [];                      //记录每一个 id 对应的空间位置的数据
             this.tierPos  = [];                      //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
             this.savedPos = [];                      //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
