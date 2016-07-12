@@ -1,27 +1,16 @@
 define([
-           "../var/document",
-           "../func/event/bindEvent",
-           "../func/ajax/ajax",
-           "../func/style/annulus"
+           "../../func/event/bindEvent",
+           "../../func/ajax/ajax",
 
-       ], function(document, bindEvent, ajax, annulus){
+       ], function (bindEvent, ajax) {
 
-
-    class YangHome {
-
-        constructor() {
-
-        }
-
-        static setRings(param) {
-            annulus(param);
-        }
+    class YangHomeEvent {
 
         click() {
 
             bindEvent(document, 'click', callback);
 
-            function callback(e){
+            function callback(e) {
                 //所有控制按钮的点击事件
                 if (e.target.classList.contains('panel')) {
 
@@ -30,8 +19,7 @@ define([
                         data = null,            //传送的数据
                         success;                //成功回调函数
 
-                    switch (tid)
-                    {
+                    switch (tid) {
                         case 'login':   //登录
                             url     = document.getElementById('login_url').value;
                             data    = new FormData(document.getElementById('portrait_form'));
@@ -40,7 +28,7 @@ define([
                                 if (res.status) {
                                     window.location.reload(true);
                                     //登陆失败
-                                }else{
+                                } else {
 
                                 }
                             };
@@ -53,7 +41,7 @@ define([
                                 if (res.status) {
                                     window.location.reload(true);
                                     //登陆失败
-                                }else{
+                                } else {
 
                                 }
                             };
@@ -68,12 +56,11 @@ define([
 
             }
 
-        }
-        //click ends
+        }//click ends
 
-    }
 
-    window.YangHome = YangHome;
+    }//YangHomeEvent ends
 
+    window.YangHomeEvent = YangHomeEvent;
 
 });

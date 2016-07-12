@@ -1,21 +1,25 @@
 define([
-           './class/yang_home'
+           './class/layout/yang_home_layout',
+           './class/event/yang_home_event'
 
-       ], function (yang_home) {
+       ], function (yang_home_layout, yang_home_event) {
 
     /**
      * 引入 class YangHome
+     * 引入 class YangHomeEvent
      * @type {null}
      */
-    yang_home = null;
+    yang_home_layout = null;
+    yang_home_event = null;
 
     window.YangHome.setRings([
                                  {'selector': '.panel', 'radius': 150}
                              ]);
 
-    var yh = new YangHome();
 
-    yh.click();
+    var yhe = new YangHomeEvent();
+
+    yhe.click();
 
 
 });
