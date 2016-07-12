@@ -4,6 +4,10 @@ define([
            "../math/inverseMatrix3d",
        ], function  (matrixToArr, arrToMatrix, inverseMatrix3d) {
 
+    /**
+     * 计算一个旋转矩阵的逆矩阵
+     * 排除了 translate 部分
+     */
     return function (matrix3d) {
 
         var arr = matrixToArr(matrix3d);
