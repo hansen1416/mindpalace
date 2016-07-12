@@ -15,9 +15,9 @@ define([
                                   ]);
 
 
-    var yhe = new YangHomeEvent();
+    var Y = new YangHomeEvent();
 
-    yhe.click();
+    Y.click();
 
 
 });

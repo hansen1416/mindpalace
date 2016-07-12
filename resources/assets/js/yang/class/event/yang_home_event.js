@@ -1,4 +1,5 @@
 define([
+
            "../../func/event/bindEvent",
            "../../func/ajax/ajax",
            "../layout/yang_home_layout"
@@ -11,7 +12,7 @@ define([
      */
     yang_home_layout = null;
 
-    class YangHomeEvent extends YangHomeLayout{
+    class YangHomeEvent extends YangHomeLayout {
 
         constructor(param) {
             super(param);
@@ -19,7 +20,7 @@ define([
 
         click() {
 
-            bindEvent(document, 'click', callback);
+            bindEvent(window.document, 'click', callback);
 
             function callback(e) {
                 //所有控制按钮的点击事件

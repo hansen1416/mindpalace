@@ -1,4 +1,5 @@
 define([
+
            "../../func/style/annulus"
 
        ], function (annulus) {
@@ -12,7 +13,7 @@ define([
 
         /**
          * 元素环形布局
-         * @param param {'selector': '.panel', 'radius': 150}
+         * @param param //{'selector': '.panel', 'radius': 150}
          */
         static setRings(param) {
             annulus(param);
