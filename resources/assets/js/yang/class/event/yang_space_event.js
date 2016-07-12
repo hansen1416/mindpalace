@@ -2,6 +2,7 @@ define([
 
            "../../var/prefixJs",
            "../../var/prefixCss",
+           "../../func/style/trsfm",
            "../../func/style/getStyle",
            "../../func/math/touchPos",
            "../../func/math/findPos",
@@ -23,7 +24,7 @@ define([
            "../../func/event/popClick",
            "../layout/yang_space_layout"
 
-       ], function (prefixJs, prefixCss, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
+       ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
                     bindEvent, unbindEvent, requestAnim, cancelAnim, ajax, roll, reveal, conceal, popClick, yang_space_layout) {
 
     /**
