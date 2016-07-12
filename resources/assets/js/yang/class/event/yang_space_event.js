@@ -1,5 +1,6 @@
 define([
 
+           "../../var/document",
            "../../var/prefixJs",
            "../../var/prefixCss",
            "../../func/style/trsfm",
@@ -21,11 +22,10 @@ define([
            "../../func/anim/roll",
            "../../func/anim/reveal",
            "../../func/anim/conceal",
-           "../../func/event/popClick",
            "../layout/yang_space_layout"
 
-       ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
-                    bindEvent, unbindEvent, requestAnim, cancelAnim, ajax, roll, reveal, conceal, popClick, yang_space_layout) {
+       ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
+                    bindEvent, unbindEvent, requestAnim, cancelAnim, ajax, roll, reveal, conceal, yang_space_layout) {
 
     /**
      * 引入 class YangSpaceLayout
@@ -38,7 +38,21 @@ define([
         constructor(param) {
             super(param);
 
+            this.rotateObj   = param.rotateObj;
+            this.startMatrix = new Float32Array(16);    //starting matrix of every action
+
         }
+
+
+        set setStartMatrix(arr) {
+            this.startMatrix = arr;
+        }
+
+
+        get getStartMatrix() {
+            return this.startMatrix;
+        }
+
 
         /**
          * trackball 整体思路
@@ -322,7 +336,7 @@ define([
             function callback(e) {
 
                 var target = e.target;
-                //如果是submit 或 a 标签，则只执行默认行为
+                //如果是 a 标签，则只执行默认行为
                 if (target.nodeName === 'A') {
                     return false;
                 }
@@ -340,14 +354,15 @@ define([
                 } else if (target.classList.contains('submit')) {
                     //ajax提交表单
                     submitClick(target);
+
                 } else if (target.classList.contains('pop')) {
                     //内容详情浮层的点击事件
                     popClick(target);
+
                 }
 
-            }
+            }//callback ends
 
-            //callback ends
 
             /**
              * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
@@ -373,9 +388,8 @@ define([
 
                 upper.aimedStar = target;
 
-            }
+            }//starClick ends
 
-            //starClick ends
 
             /**
              * .operation 中各个 .btn 的点击事件
@@ -479,8 +493,8 @@ define([
                                             pop_save = pop_item.querySelector('#pop_save');
 
                                         content.innerHTML        = res.message;
-                                        pop_save.dataset.ctg_id  = s_dataset.pid;
-                                        pop_save.dataset.item_id = s_dataset.item_id;
+                                        pop_save.dataset.ctg_id  = s_dataset['pid'];
+                                        pop_save.dataset.item_id = s_dataset['item_id'];
 
                                         pop_item.style['display'] = 'block';
                                     }
@@ -497,9 +511,8 @@ define([
 
                 return false;
 
-            }
+            }//btnClick ends
 
-            //btnClick ends
 
             /**
              * ajax 提交表单
@@ -521,6 +534,46 @@ define([
                 ajax(form.action, success, new FormData(form));
 
             }//submitClick ends
+
+
+            /**
+             * 弹出框里的点击事件
+             * @param target
+             */
+            function popClick(target) {
+
+                var id       = target.id,
+                    pop_item = document.getElementById('pop_item'),
+                    content  = pop_item.querySelector('.content');
+
+                switch (id) {
+
+                    case 'pop_close':
+
+                        conceal(pop_item);
+
+                        break;
+
+                    case 'pop_save':
+
+                        var url     = document.getElementById('edit_item_detail_url').value,
+                            data    = new FormData(),
+                            success = function (res) {
+
+                                console.log(res);
+                            };
+
+                        data.append('item_id', target.dataset.item_id);
+                        data.append('ctg_id', target.dataset.ctg_id);
+                        data.append('content', content.innerHTML);
+
+
+                        ajax(url, success, data);
+
+                        break;
+                }
+
+            }//popClick ends
 
 
         }//click ends
