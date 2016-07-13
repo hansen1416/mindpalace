@@ -94,7 +94,7 @@
             <button class="ql-italic">Italic</button>
         </div>
 
-        <div class="content" id="editor"></div>
+        <div id="editor"></div>
         <div class="pop knob close" id="pop_close"></div>
         <div class="pop knob save" id="pop_save"></div>
     </div>

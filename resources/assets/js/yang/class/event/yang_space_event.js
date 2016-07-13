@@ -488,7 +488,7 @@ define([
 
                                     if (res.status) {
 
-                                        var content  = pop_item.querySelector('.content'),
+                                        var content  = pop_item.querySelector('#editor'),
                                             pop_save = pop_item.querySelector('#pop_save');
 
                                         content.innerHTML        = res.message;

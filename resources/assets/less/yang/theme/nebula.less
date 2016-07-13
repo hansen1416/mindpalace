@@ -120,12 +120,20 @@
         background-color: lighten(@black, 50%);
     }
 
-    @pop: #4962D6;
+    @pop: #F0F0F0;
     @pop_content: #4671D5;
 
     #pop_item{
 
-        border-left: 10px solid @pop; border-right: 20px solid @pop;
+        border-right: 20px solid @pop;
+
+        #toolbar{
+            background-color: @pop;
+        }
+
+        #editor{
+            background-color: @pop;
+        }
 
         .knob.close{
             background-color: red;
