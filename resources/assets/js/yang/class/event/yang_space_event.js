@@ -569,7 +569,7 @@ define([
 
                         data.append('item_id', target.dataset.item_id);
                         data.append('ctg_id', target.dataset.ctg_id);
-                        data.append('content', editor.getHtml());
+                        data.append('content', editor.getHTML());
 
 
                         ajax(url, success, data);
