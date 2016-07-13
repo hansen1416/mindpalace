@@ -89,7 +89,12 @@
     <input type="hidden" id="edit_item_detail_url" value="{{ route('editItemDetail') }}">
 
     <div id="pop_item">
-        <div class="content" data-editable data-name="main-content"></div>
+        <div id="toolbar">
+            <button class="ql-bold">Bold</button>
+            <button class="ql-italic">Italic</button>
+        </div>
+
+        <div class="content" id="editor"></div>
         <div class="pop knob close" id="pop_close"></div>
         <div class="pop knob save" id="pop_save"></div>
     </div>
