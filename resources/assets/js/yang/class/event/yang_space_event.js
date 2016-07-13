@@ -330,7 +330,9 @@ define([
 
             bindEvent(document, 'click', callback);
 
-            var upper = this;
+            var upper = this,
+                editor;
+
 
             function callback(e) {
 
@@ -488,17 +490,16 @@ define([
 
                                     if (res.status) {
 
-                                        var content  = pop_item.querySelector('#editor'),
-                                            pop_save = pop_item.querySelector('#pop_save');
+                                        var pop_save = pop_item.querySelector('#pop_save');
 
-                                        content.innerHTML        = res.message;
+                                        editor = new Quill('#editor', {
+                                            theme  : 'snow'
+                                        });
+
                                         pop_save.dataset.ctg_id  = s_dataset['pid'];
                                         pop_save.dataset.item_id = s_dataset['item_id'];
 
-                                        var editor = new Quill('#editor', {
-                                            modules: {toolbar: '#toolbar'},
-                                            theme  : 'snow'
-                                        });
+                                        editor.setHTML(res.message);
 
                                         pop_item.style['display'] = 'block';
                                     }
@@ -568,7 +569,7 @@ define([
 
                         data.append('item_id', target.dataset.item_id);
                         data.append('ctg_id', target.dataset.ctg_id);
-                        data.append('content', content.innerHTML);
+                        data.append('content', editor.getHtml());
 
 
                         ajax(url, success, data);
