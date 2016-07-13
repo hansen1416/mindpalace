@@ -135,7 +135,21 @@
             background-color: @pop;
         }
 
-        .knob.close{
+        #editor .ql-editor::-webkit-scrollbar-track{
+            background-color: darken(@pop, 10%);
+        }
+        #editor .ql-editor::-webkit-scrollbar-thumb{
+            background-color: fade(#5D6CEA, 30%);
+        }
+        #editor .ql-editor::-webkit-scrollbar-thumb:hover{
+            background-color: #5D6CEA;
+        }
+        #editor .ql-editor::-webkit-scrollbar-thumb:active{
+            background-color: #5D6CEA;
+        }
+
+
+      .knob.close{
             background-color: red;
         }
         .knob.save{
