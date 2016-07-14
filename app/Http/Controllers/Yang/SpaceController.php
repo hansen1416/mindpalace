@@ -40,9 +40,9 @@ class SpaceController extends Controller
         $ctgModel = new Ctg();
 
         if ($request->pid) {
-            $ctgs     = $ctgModel::sons($request->pid)->get();
-        }else{
-            $ctgs     = $ctgModel::untilTier(99)->get();
+            $ctgs = $ctgModel::sons($request->pid)->get();
+        } else {
+            $ctgs = $ctgModel::untilTier(99)->get();
         }
 
         //加载 item 表的内容
