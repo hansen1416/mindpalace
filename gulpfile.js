@@ -30,7 +30,7 @@ gulp.task('webpack', function () {
 gulp.task('less', function () {
     "use strict";
 
-    gulp.src([assets + 'less/yang/yang-home.js', assets + 'less/yang/yang-space.js'])
+    gulp.src([assets + 'less/yang/yang-home.less', assets + 'less/yang/yang-space.less'])
         .pipe(less())
         .pipe(gulp.dest('./public/css/'));
 
@@ -42,7 +42,7 @@ gulp.task('less', function () {
 
 
 gulp.task('default', function () {
-    gulp.run('webpack');
+    //gulp.run('webpack');
     gulp.run('less');
 });
 

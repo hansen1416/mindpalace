@@ -45,23 +45,25 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+
 	           __webpack_require__(1)
 
-	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (yang_home) {
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (yang_home_event) {
 
 	    /**
-	     * 引入 class YangHome
+	     * 引入 class YangHomeEvent
 	     * @type {null}
 	     */
-	    yang_home = null;
+	    yang_home_event = null;
 
-	    window.YangHome.setRings([
-	                                 {'selector': '.panel', 'radius': 150}
-	                             ]);
+	    window.YangHomeEvent.setRings([
+	                                      {'selector': '.panel', 'radius': 150}
+	                                  ]);
 
-	    var yh = new YangHome();
 
-	    yh.click();
+	    var Y = new YangHomeEvent();
+
+	    Y.click();
 
 
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -72,29 +74,30 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+
 	           __webpack_require__(2),
 	           __webpack_require__(3),
-	           __webpack_require__(4),
 	           __webpack_require__(5)
 
-	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, bindEvent, ajax, annulus){
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (bindEvent, ajax, yang_home_layout) {
 
+	    /**
+	     * 引入 YangHomeLayout
+	     * @type {null}
+	     */
+	    yang_home_layout = null;
 
-	    class YangHome {
+	    class YangHomeEvent extends YangHomeLayout {
 
-	        constructor() {
-
-	        }
-
-	        static setRings(param) {
-	            annulus(param);
+	        constructor(param) {
+	            super(param);
 	        }
 
 	        click() {
 
-	            bindEvent(document, 'click', callback);
+	            bindEvent(window.document, 'click', callback);
 
-	            function callback(e){
+	            function callback(e) {
 	                //所有控制按钮的点击事件
 	                if (e.target.classList.contains('panel')) {
 
@@ -103,8 +106,7 @@
 	                        data = null,            //传送的数据
 	                        success;                //成功回调函数
 
-	                    switch (tid)
-	                    {
+	                    switch (tid) {
 	                        case 'login':   //登录
 	                            url     = document.getElementById('login_url').value;
 	                            data    = new FormData(document.getElementById('portrait_form'));
@@ -113,7 +115,7 @@
 	                                if (res.status) {
 	                                    window.location.reload(true);
 	                                    //登陆失败
-	                                }else{
+	                                } else {
 
 	                                }
 	                            };
@@ -126,7 +128,7 @@
 	                                if (res.status) {
 	                                    window.location.reload(true);
 	                                    //登陆失败
-	                                }else{
+	                                } else {
 
 	                                }
 	                            };
@@ -141,28 +143,17 @@
 
 	            }
 
-	        }
-	        //click ends
+	        }//click ends
 
-	    }
 
-	    window.YangHome = YangHome;
+	    }//YangHomeEvent ends
 
+	    window.YangHomeEvent = YangHomeEvent;
 
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
-
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-		return window.document;
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ },
-/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
@@ -175,11 +166,11 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	            __webpack_require__(2)
+	            __webpack_require__(4)
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document) {
 	    /**
 	     * url 地址
@@ -215,12 +206,52 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+		return window.document;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	           __webpack_require__(2),
-	           __webpack_require__(6),
+
+	           __webpack_require__(6)
+
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (annulus) {
+
+
+	    class YangHomeLayout {
+
+	        constructor(param) {
+
+	        }
+
+	        /**
+	         * 元素环形布局
+	         * @param param //{'selector': '.panel', 'radius': 150}
+	         */
+	        static setRings(param) {
+	            annulus(param);
+	        }
+
+	    }
+
+	    window.YangHomeLayout = YangHomeLayout;
+
+
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(4),
+	           __webpack_require__(7),
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(document, trsfm) {
 
 	    /**
@@ -267,17 +298,17 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	           __webpack_require__(7),
+	           __webpack_require__(8),
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function(prefixJs) { //判断浏览器支持那种transform的写法;
 		return (prefixJs+"Transform" in document.documentElement.style) ? prefixJs+"Transform" : "transform";
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){

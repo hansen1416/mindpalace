@@ -65,6 +65,7 @@ a {
 }
 .trsf_origin {
   -webkit-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
 }
 .trsf_style_3d {
@@ -114,7 +115,6 @@ a {
   height: 30px;
   margin: -15px 0 0 -1px;
   background-color: #c63e72;
-  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 .btn-hide:after {
@@ -126,7 +126,6 @@ a {
   height: 30px;
   margin: -15px 0 0 -1px;
   background-color: #c63e72;
-  -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
 /****图标通用样式开始****/
@@ -148,6 +147,7 @@ a {
 }
 .cursor-grab {
   cursor: -webkit-grab;
+  cursor: -moz-grab;
   cursor: grab;
 }
 .circle {
@@ -164,78 +164,14 @@ a {
   height: 100%;
 }
 /****其它通用样式结束****/
-.theme-home-body-back {
-  background-color: #37B8FC;
-}
-.theme-home-body-font {
-  color: #666666;
-}
-.theme-home-home-font {
-  color: #0396e3;
-}
-.theme-a-font {
-  color: #666666;
-}
-.theme-a-font-hover {
-  color: #1a1a1a;
-}
-.theme-input-back {
-  background-color: #cccccc;
-}
-.theme-home-portrait-back {
-  background-color: #fff;
-}
-.theme-home-panel-back {
-  background-color: #fff;
-}
-.theme-stage-back {
-  background-color: #002240;
-}
-.theme-galaxy-font {
-  color: #fff;
-}
-.theme-star-border-hover {
-  border: 2px solid #fff;
-}
-.theme-star-ctg-back {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-.theme-star-item-back {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-.theme-btn-back {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-.theme-btn-back-hover {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-.theme-top_left-back {
-  background-color: #808080;
-}
-.theme-top_right-back {
-  background-color: #808080;
-}
-.theme-item_detail-back {
-  background-color: #fff;
-}
 body {
   overflow: hidden;
-  background-color: #37B8FC;
-  color: #666666;
-}
-a {
-  color: #666666;
-}
-a:hover {
-  color: #1a1a1a;
 }
 input {
-  background-color: #cccccc;
   text-indent: 10px;
 }
 .yang-home-back {
   position: absolute;
-  color: #0396e3;
   width: 100vw;
   height: 100vh;
   line-height: 100vh;
@@ -249,7 +185,6 @@ input {
   top: 50%;
   left: 50%;
   border-radius: 50%;
-  background-color: #fff;
   width: 200px;
   height: 200px;
   margin: -100px 0 0 -100px;
@@ -309,7 +244,6 @@ input {
   top: 50%;
   left: 50%;
   border-radius: 50%;
-  background-color: #fff;
   width: 60px;
   height: 60px;
   margin: -30px 0 0 -30px;
