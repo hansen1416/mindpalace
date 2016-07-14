@@ -29,13 +29,13 @@ class SpaceController extends Controller
         $this->users = $users;
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
 
         $ctgModel = new Ctg();
         $ctgs     = $ctgModel::untilTier(99)->get();
@@ -46,18 +46,20 @@ class SpaceController extends Controller
 
         $html = $ctgModel->tagWrap($ctgs);
 
-		return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
-	}
+        return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 * @param  Request  $request
-	 * @return Response
-	 */
-	public function createCtg(Request $request)
-	{
+    /**
+     * Show the form for creating a new resource.
+     * @param  Request $request
+     * @return Response
+     */
+    public function createCtg(Request $request)
+    {
         $act      = $request->act;
         $ctgModel = new Ctg();
+
+        $ctgModel->user_id = Auth::user()->user_id;
 
         if ($act == 'desc') {
 
@@ -68,7 +70,7 @@ class SpaceController extends Controller
             $ctgModel->title = $request->title;
             $ctgModel->path  = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
 
-        }elseif ($act == 'sibl') {
+        } elseif ($act == 'sibl') {
 
             $pid             = $request->pid;
             $parent          = $ctgModel::find($pid);
@@ -80,7 +82,7 @@ class SpaceController extends Controller
 
         return response()->json(['status' => $ctgModel->save()]);
 
-	}
+    }
 
     /**
      * Update the specified resource in storage.
@@ -90,9 +92,9 @@ class SpaceController extends Controller
      */
     public function updateCtg(Request $request)
     {
-		$ctgModel = Ctg::find($request->ctg_id);
+        $ctgModel = Ctg::find($request->ctg_id);
 
-		$ctgModel->title = $request->title;
+        $ctgModel->title = $request->title;
 
         return response()->json(['status' => $ctgModel->save()]);
     }
@@ -107,8 +109,9 @@ class SpaceController extends Controller
     {
         $itemModel = new Item();
 
-        $itemModel->ctg_id = $request->item_id ? $request->pid : $request->ctg_id;
-        $itemModel->title  = $request->title;
+        $itemModel->user_id = Auth::user()->user_id;
+        $itemModel->ctg_id  = $request->item_id ? $request->pid : $request->ctg_id;
+        $itemModel->title   = $request->title;
 
         return response()->json(['status' => $itemModel->save()]);
 
