@@ -53,7 +53,7 @@
         {{--添加一个同级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-action="{{ route('createCtg') }}" data-act="sibl">{{ trans('buttons.addSibl') }}</div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtgName') }}" data-message="edit-self" data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtgName') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtg') }}" data-message="edit-self" data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtg') }}</div>
         {{--添加一个子内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}"  data-action="{{ route('createItem') }}">{{ trans('buttons.addItem') }}</div>
 
@@ -72,7 +72,7 @@
         {{--隐藏操作面板--}}
         <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
         {{--编辑内容标题--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.editItemName') }}" data-action="{{ route('updateItem') }}">{{ trans('buttons.editItemName') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}" data-action="{{ route('updateItem') }}">{{ trans('buttons.editItem') }}</div>
         {{--显示详细内容--}}
         <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}" data-func="detail" >{{ trans('buttons.showItem') }}</div>
 
