@@ -1,6 +1,7 @@
 define([
 
            "../../var/document",
+           "../../var/location",
            "../../var/prefixJs",
            "../../var/prefixCss",
            "../../func/style/trsfm",
@@ -24,7 +25,7 @@ define([
            "../../func/anim/conceal",
            "../layout/yang_space_layout"
 
-       ], function (document, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
+       ], function (document, location, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
                     bindEvent, unbindEvent, requestAnim, cancelAnim, ajax, roll, reveal, conceal, yang_space_layout) {
 
     /**
@@ -457,13 +458,13 @@ define([
                 } else {
 
                     switch (target.dataset.func) {
+
                         /*
                          * 将选中的 .star 元素旋转到屏幕正中
                          * 目前可以显示正确，但是缺少动画效果
                          */
-                        //TODO
                         case 'focus':
-
+                            //TODO
                             var destiny                  = roll(star.style[trsfm]);
                             upper.rotateObj.style[trsfm] = destiny;
                             upper.setStartMatrix         = matrixToArr(destiny);
@@ -476,6 +477,12 @@ define([
 
                             conceal(form);
                             conceal(form.parentNode);
+
+                            break;
+
+                        case 'descendant':
+
+                            location.href = location.origin + location.pathname + '?pid='+s_dataset['ctg_id'];
 
                             break;
                     /**

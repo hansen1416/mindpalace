@@ -34,11 +34,17 @@ class SpaceController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $ctgModel = new Ctg();
-        $ctgs     = $ctgModel::untilTier(99)->get();
+
+        if ($request->pid) {
+            $ctgs     = $ctgModel::sons($request->pid)->get();
+        }else{
+            $ctgs     = $ctgModel::untilTier(99)->get();
+        }
+
         //加载 item 表的内容
         if (true) {
             $ctgs->load('item');

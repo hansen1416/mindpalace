@@ -2,14 +2,15 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ctg extends Model {
+class Ctg extends Model
+{
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'ctg';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'ctg';
 
     /**
      * The primary key used by the model.
@@ -18,14 +19,14 @@ class Ctg extends Model {
      */
     protected $primaryKey = 'ctg_id';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['pid', 'tier', 'sort', 'title', 'path'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['pid', 'tier', 'sort', 'title', 'path'];
 
-	/**
+    /**
      * Scope a query to only top categories to be retrived.
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -42,7 +43,9 @@ class Ctg extends Model {
      */
     public function scopeSons($query, $pid)
     {
-        return $query->where('pid', '=', $pid);
+        return $query->where('pid', '=', $pid)
+                     ->orderBy('tier', 'asc')
+                     ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
     /**
@@ -84,9 +87,9 @@ class Ctg extends Model {
      */
     public function scopeSubset($query, $path)
     {
-        return $query->where('path', 'like', '%-' .$path. '-%')
-                    ->orderBy('tier', 'asc')
-                    ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
+        return $query->where('path', 'like', '%-' . $path . '-%')
+                     ->orderBy('tier', 'asc')
+                     ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
     }
 
     /**
@@ -96,7 +99,7 @@ class Ctg extends Model {
     public function item()
     {
         return $this->hasMany('App\Item')
-            ->select('item_id', 'ctg_id', 'sort', 'title');
+                    ->select('item_id', 'ctg_id', 'sort', 'title');
     }
 
     /**
@@ -119,7 +122,8 @@ class Ctg extends Model {
 
             $core_id[] = $value->ctg_id;
 
-            if ($value->tier > $start) break;
+            if ($value->tier > $start)
+                break;
         }
 
         /**
@@ -143,9 +147,10 @@ class Ctg extends Model {
              * 继承最内层的 section
              */
             if ($tier) {
-                preg_match('/^-('.join('|', $core_id).')-/', $value->path, $match);
-                if ($match && isset($match[1])) $section = 'sec-' . $core_id_flip[$match[1]] % 10;
-            }else{
+                preg_match('/^-(' . join('|', $core_id) . ')-/', $value->path, $match);
+                if ($match && isset($match[1]))
+                    $section = 'sec-' . $core_id_flip[$match[1]] % 10;
+            } else {
                 $section = 'sec-' . $core_id_flip[$value->ctg_id] % 10;
             }
 
@@ -153,14 +158,14 @@ class Ctg extends Model {
              * 组合分类的 html
              */
             $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}' data-sort='{$value->sort}'>" .
-                    $value->title .
-                    "</div>";
+                     $value->title .
+                     "</div>";
 
             /**
              * 如果有内容元素
              * 拼接内容元素的 html
              */
-            if ( count($value->item) ) {
+            if (count($value->item)) {
                 $tier = $tier + 1;
                 foreach ($value->item as $item) {
                     $html .= "<div class='tier-{$tier} star {$section} item' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->item_id}' data-tier='{$tier}' data-sort='{$item->sort}'>" .
