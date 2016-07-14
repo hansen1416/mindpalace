@@ -7,6 +7,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
+     * The primary key used by the model.
+     *
+     * @var int
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -30,7 +44,7 @@ class User extends Authenticatable
      */
     public function profile()
     {
-        return $this->hasOne('App\Profile', 'id')
+        return $this->hasOne('App\Profile', 'user_id')
             ->select('portrait', 'theme');
     }
 }
