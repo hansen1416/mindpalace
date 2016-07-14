@@ -492,9 +492,7 @@ define([
 
                                         var pop_save = pop_item.querySelector('#pop_save');
 
-                                        editor = new Quill('#editor', {
-                                            theme  : 'snow'
-                                        });
+                                        editor = new Quill('#editor');
 
                                         pop_save.dataset.ctg_id  = s_dataset['pid'];
                                         pop_save.dataset.item_id = s_dataset['item_id'];
