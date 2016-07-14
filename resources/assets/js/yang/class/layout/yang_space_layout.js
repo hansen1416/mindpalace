@@ -60,6 +60,7 @@ define([
          */
         diffuse() {
             var stars = this.stage.querySelectorAll('.tier-' + this.prevTier);
+
             //如果没有下一层了，则停止
             if (!stars.length) {
                 return false;

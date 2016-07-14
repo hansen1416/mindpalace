@@ -27,13 +27,13 @@ class Ctg extends Model
     protected $fillable = ['pid', 'tier', 'sort', 'title', 'path'];
 
     /**
-     * Scope a query to only top categories to be retrived.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * one to many relationship, with table mp_item
+     * @return mixed
      */
-    public function scopeTop($query)
+    public function item()
     {
-        return $query->where('pid', '=', 0);
+        return $this->hasMany('App\Item')
+                    ->select('item_id', 'ctg_id', 'sort', 'title');
     }
 
     /**
@@ -41,7 +41,7 @@ class Ctg extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSons($query, $pid)
+    public function scopeSon($query, $pid)
     {
         return $query->where('pid', '=', $pid)
                      ->orderBy('tier', 'asc')
@@ -55,17 +55,9 @@ class Ctg extends Model
      */
     public function scopeTier($query, $tier)
     {
-        return $query->where('tier', '=', $tier);
-    }
-
-    /**
-     * Scope a query to retrive all categories order by tier ASC.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeTierOrder($query)
-    {
-        return $query->orderBy('tier', 'asc')->select('ctg_id', 'pid', 'tier', 'sort', 'title');
+        return $query->where('tier', '=', $tier)
+                     ->orderBy('tier', 'asc')
+                     ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
     /**
@@ -85,21 +77,11 @@ class Ctg extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSubset($query, $path)
+    public function scopeDescendant($query, $ctg_id)
     {
-        return $query->where('path', 'like', '%-' . $path . '-%')
+        return $query->where('path', 'like', '%-' . $ctg_id . '-%')
                      ->orderBy('tier', 'asc')
-                     ->select('ctg_id', 'pid', 'tier', 'sort', 'title', 'path');
-    }
-
-    /**
-     * one to many relationship, with table mp_item
-     * @return mixed
-     */
-    public function item()
-    {
-        return $this->hasMany('App\Item')
-                    ->select('item_id', 'ctg_id', 'sort', 'title');
+                     ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
     /**
@@ -157,7 +139,7 @@ class Ctg extends Model
             /**
              * 组合分类的 html
              */
-            $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}' data-sort='{$value->sort}'>" .
+            $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}'>" .
                      $value->title .
                      "</div>";
 
@@ -168,7 +150,7 @@ class Ctg extends Model
             if (count($value->item)) {
                 $tier = $tier + 1;
                 foreach ($value->item as $item) {
-                    $html .= "<div class='tier-{$tier} star {$section} item' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->item_id}' data-tier='{$tier}' data-sort='{$item->sort}'>" .
+                    $html .= "<div class='tier-{$tier} star {$section} item' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->item_id}' data-tier='{$tier}'>" .
                              $item->title .
                              "</div>";
                 }

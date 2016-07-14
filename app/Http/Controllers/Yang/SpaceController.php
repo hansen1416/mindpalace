@@ -37,9 +37,10 @@ class SpaceController extends Controller
     {
 
         $ctgModel = new Ctg();
+        $pid      = $request->input('pid');
 
-        if ($request->pid) {
-            $ctgs = $ctgModel::sons($request->pid)->get();
+        if ($pid) {
+            $ctgs = $ctgModel::descendant($pid)->get();
         } else {
             $ctgs = $ctgModel::untilTier(99)->get();
         }
@@ -61,27 +62,27 @@ class SpaceController extends Controller
      */
     public function createCtg(Request $request)
     {
-        $act      = $request->act;
+        $act      = $request->input('act');
         $ctgModel = new Ctg();
 
         $ctgModel->user_id = Auth::user()->user_id;
 
         if ($act == 'desc') {
 
-            $pid             = $request->ctg_id;
+            $pid             = $request->input('ctg_id');
             $parent          = $ctgModel::find($pid);
             $ctgModel->pid   = $pid;
-            $ctgModel->tier  = (int)($request->tier) + 1;
-            $ctgModel->title = $request->title;
+            $ctgModel->tier  = (int)($request->input('tier')) + 1;
+            $ctgModel->title = $request->input('title');
             $ctgModel->path  = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
 
         } elseif ($act == 'sibl') {
 
-            $pid             = $request->pid;
+            $pid             = $request->input('pid');
             $parent          = $ctgModel::find($pid);
             $ctgModel->pid   = $pid;
-            $ctgModel->tier  = $request->tier;
-            $ctgModel->title = $request->title;
+            $ctgModel->tier  = $request->input('tier');
+            $ctgModel->title = $request->input('title');
             $ctgModel->path  = $parent ? $parent->path : '';
         }
 
@@ -97,9 +98,9 @@ class SpaceController extends Controller
      */
     public function updateCtg(Request $request)
     {
-        $ctgModel = Ctg::find($request->ctg_id);
+        $ctgModel = Ctg::find($request->input('ctg_id'));
 
-        $ctgModel->title = $request->title;
+        $ctgModel->title = $request->input('title');
 
         return response()->json(['status' => $ctgModel->save()]);
     }
@@ -115,8 +116,8 @@ class SpaceController extends Controller
         $itemModel = new Item();
 
         $itemModel->user_id = Auth::user()->user_id;
-        $itemModel->ctg_id  = $request->item_id ? $request->pid : $request->ctg_id;
-        $itemModel->title   = $request->title;
+        $itemModel->ctg_id  = $request->input('item_id') ? $request->input('pid') : $request->input('ctg_id');
+        $itemModel->title   = $request->input('title');
 
         return response()->json(['status' => $itemModel->save()]);
 
@@ -130,9 +131,9 @@ class SpaceController extends Controller
      */
     public function updateItem(Request $request)
     {
-        $itemModel = Item::find($request->item_id);
+        $itemModel = Item::find($request->input('item_id'));
 
-        $itemModel->title = $request->title;
+        $itemModel->title = $request->input('title');
 
         return response()->json(['status' => $itemModel->save()]);
 
@@ -147,7 +148,7 @@ class SpaceController extends Controller
     public function getItemDetail(Request $request)
     {
 
-        $itemModel = Item::find($request->item_id);
+        $itemModel = Item::find($request->input('item_id'));
 
         $content = htmlspecialchars_decode($itemModel->content);
 
