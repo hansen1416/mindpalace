@@ -4,3 +4,4 @@ bootstrap/cache/*
 node_modules/
 vendor/
 *.log
+_ide_helper.php

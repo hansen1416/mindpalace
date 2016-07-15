@@ -33,3 +33,6 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth:w
 });
 
 Route::auth();
+
+
+
