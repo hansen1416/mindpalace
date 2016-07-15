@@ -405,7 +405,7 @@ define([
                  * form 当前操作界面中的表单
                  */
                 var star      = upper.aimedStar,
-                    s_dataset = star.dataset,
+                    s_dataset = star ? star.dataset : undefined,
                     b_dataset = target.dataset,
                     cList     = target.classList,
                     i         = 0,
@@ -422,7 +422,7 @@ define([
                  * 从 star 或 target 中取出 表单隐藏域需要的数据
                  * @type {NodeList}
                  */
-                var inputs = form.querySelectorAll("input[type='hidden']");
+                var inputs = form ? form.querySelectorAll("input[type='hidden']") : [];
 
                 while (i < inputs.length) {
                     inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
@@ -519,7 +519,8 @@ define([
 
                         case 'reset_trackball':
 
-                            resetTrackball(upper.rotateObj);
+                            upper.startMatrix = resetTrackball(upper.rotateObj);
+
                             break;
                     }
 
@@ -592,6 +593,7 @@ define([
 
 
         }//click ends
+
 
 
     }//YangHomeEvent ends

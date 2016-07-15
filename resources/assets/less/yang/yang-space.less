@@ -86,7 +86,7 @@ form{display: none;}
         width: @tl_w*3; height: @tl_w*3;
     }
 
-    a{
+    a, div{
         .center; .circle;
         &:hover{cursor: pointer;}
     }
@@ -98,7 +98,7 @@ form{display: none;}
 
     @bw: @tl_w/2;
 
-    a.btn{
+    a.btn, div.btn{
         display: block;
         width: @bw; height: @bw;
         font-size: inherit; line-height: 14px; text-align: center;
@@ -114,7 +114,7 @@ form{display: none;}
         margin: @tl_w/-2.2 0 0 @tl_w/1.1;
     }
 
-    a.reset{
+    div.reset{
         margin: @tl_w/2.8 0 0 @tl_w/1.4;
     }
 }

@@ -261,8 +261,10 @@
 #yang-space .operation .submit:hover {
   background-color: #00b3ee;
 }
-#yang-space #top_left {
+#yang-space #top_left a,
+#yang-space #top_left div {
   background-color: #808080;
+  color: inherit;
 }
 #yang-space #top_right {
   background-color: #808080;

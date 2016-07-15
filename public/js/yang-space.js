@@ -112,7 +112,7 @@
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 
 	           __webpack_require__(3),
-	           __webpack_require__(14),
+	           __webpack_require__(15),
 	           __webpack_require__(4),
 	           __webpack_require__(5),
 	           __webpack_require__(6),
@@ -123,8 +123,8 @@
 	           __webpack_require__(11),
 	           __webpack_require__(12),
 	           __webpack_require__(13),
+	           __webpack_require__(14),
 	           __webpack_require__(2),
-	           __webpack_require__(15),
 	           __webpack_require__(16),
 	           __webpack_require__(17),
 	           __webpack_require__(18),
@@ -132,12 +132,13 @@
 	           __webpack_require__(20),
 	           __webpack_require__(21),
 	           __webpack_require__(22),
-	           __webpack_require__(25),
+	           __webpack_require__(23),
 	           __webpack_require__(26),
-	           __webpack_require__(27)
+	           __webpack_require__(27),
+	           __webpack_require__(28)
 
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (document, location, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
-	                    bindEvent, unbindEvent, requestAnim, cancelAnim, ajax, roll, reveal, conceal, yang_space_layout) {
+	                    bindEvent, unbindEvent, resetTrackball, ajax, requestAnim, cancelAnim, roll, reveal, conceal, yang_space_layout) {
 
 	    /**
 	     * 引入 class YangSpaceLayout
@@ -515,7 +516,7 @@
 	                 * form 当前操作界面中的表单
 	                 */
 	                var star      = upper.aimedStar,
-	                    s_dataset = star.dataset,
+	                    s_dataset = star ? star.dataset : undefined,
 	                    b_dataset = target.dataset,
 	                    cList     = target.classList,
 	                    i         = 0,
@@ -532,7 +533,7 @@
 	                 * 从 star 或 target 中取出 表单隐藏域需要的数据
 	                 * @type {NodeList}
 	                 */
-	                var inputs = form.querySelectorAll("input[type='hidden']");
+	                var inputs = form ? form.querySelectorAll("input[type='hidden']") : [];
 
 	                while (i < inputs.length) {
 	                    inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
@@ -626,6 +627,12 @@
 	                            ajax(url, success, data);
 
 	                            break;
+
+	                        case 'reset_trackball':
+
+	                            upper.startMatrix = resetTrackball(upper.rotateObj);
+
+	                            break;
 	                    }
 
 	                }
@@ -699,6 +706,7 @@
 	        }//click ends
 
 
+
 	    }//YangHomeEvent ends
 
 	    window.YangSpaceEvent = YangSpaceEvent;
@@ -710,23 +718,28 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-		/**
-	     * crossVector [两个空间三维向量的叉积，既是计算出旋转轴
-	    // 如果两个向量长度不一致，则不可以进行运算]
-	     * @AuthorName Hanlongzhen
-	     * @DateTime   2016-04-06T13:47:13+0800
-	     * @param      {[array]} vec0 [三维向量]
-	     * @param      {[array]} vec1 [三维向量]
-	     * @return     {[array]} [三维向量，旋转轴]
-	     */
-	    return function (vec0, vec1){ 
-	        var res = [];
-	        
-	        res[0] = vec0[1]*vec1[2] - vec0[2]*vec1[1];
-	        res[1] = vec0[2]*vec1[0] - vec0[0]*vec1[2];
-	        res[2] = vec0[0]*vec1[1] - vec0[1]*vec1[0];
+	    // inerpolate rotate3d vector into a 3d matrix, information from w3 org
+		return function (axis, angle){
+	        var x  = axis[0],
+	            y  = axis[1],
+	            z  = axis[2],
+	            a  = angle,
+	            sc = Math.sin(a) / 2,
+	            sq = Math.sin(a/2)*Math.sin(a/2),
+	            m  = new Float32Array(16);
 
-	        return res;
+	        m[0]  = 1-2*(y*y + z*z)*sq;
+	        m[1]  = 2*(x*y*sq + z*sc);
+	        m[2]  = 2*(x*z*sq - y*sc);
+	        m[4]  = 2*(x*y*sq - z*sc);
+	        m[5]  = 1-2*(x*x+z*z)*sq;
+	        m[6]  = 2*(y*z*sq + x*sc);
+	        m[8]  = 2*(x*z*sq + y*sc);
+	        m[9]  = 2*(y*z*sq - x*sc);
+	        m[10] = 1-2*(x*x + y*y)*sq;
+	        m[15] = 1;
+
+	        return m;
 	    }
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -966,7 +979,25 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-	    return window.location;
+		/**
+	     * crossVector [两个空间三维向量的叉积，既是计算出旋转轴
+	    // 如果两个向量长度不一致，则不可以进行运算]
+	     * @AuthorName Hanlongzhen
+	     * @DateTime   2016-04-06T13:47:13+0800
+	     * @param      {[array]} vec0 [三维向量]
+	     * @param      {[array]} vec1 [三维向量]
+	     * @return     {[array]} [三维向量，旋转轴]
+	     */
+	    return function (vec0, vec1){ 
+	        var res = [];
+	        
+	        res[0] = vec0[1]*vec1[2] - vec0[2]*vec1[1];
+	        res[1] = vec0[2]*vec1[0] - vec0[0]*vec1[2];
+	        res[2] = vec0[0]*vec1[1] - vec0[1]*vec1[0];
+
+	        return res;
+	    }
+
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -974,30 +1005,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-	    // inerpolate rotate3d vector into a 3d matrix, information from w3 org
-		return function (axis, angle){
-	        var x  = axis[0],
-	            y  = axis[1],
-	            z  = axis[2],
-	            a  = angle,
-	            sc = Math.sin(a) / 2,
-	            sq = Math.sin(a/2)*Math.sin(a/2),
-	            m  = new Float32Array(16);
-
-	        m[0]  = 1-2*(y*y + z*z)*sq;
-	        m[1]  = 2*(x*y*sq + z*sc);
-	        m[2]  = 2*(x*z*sq - y*sc);
-	        m[4]  = 2*(x*y*sq - z*sc);
-	        m[5]  = 1-2*(x*x+z*z)*sq;
-	        m[6]  = 2*(y*z*sq + x*sc);
-	        m[8]  = 2*(x*z*sq + y*sc);
-	        m[9]  = 2*(y*z*sq - x*sc);
-	        m[10] = 1-2*(x*x + y*y)*sq;
-	        m[15] = 1;
-
-	        return m;
-	    }
-
+	    return window.location;
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
@@ -1052,32 +1060,18 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-		return  window.requestAnimationFrame       || 
-		        window.webkitRequestAnimationFrame || 
-		        window.mozRequestAnimationFrame    || 
-		        window.oRequestAnimationFrame      || 
-		        window.msRequestAnimationFrame     || 
-		        function(/* function */ callback, /* DOMElement */ element){
-		            return window.setTimeout(callback, 1000 / 60);
-		        };
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	           __webpack_require__(6)
+	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function(trsfm){
+
+	    return function (obj) {
+	        obj.style[trsfm] = "matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)";
+	        return new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+	    }
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
 /* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
-	    return  window.cancelAnimationFrame            		||
-		        window.webkitCancelRequestAnimationFrame    ||
-		        window.mozCancelRequestAnimationFrame       ||
-		        window.oCancelRequestAnimationFrame        	||
-		        window.msCancelRequestAnimationFrame        ||
-		        clearTimeout;
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-
-/***/ },
-/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -1117,13 +1111,41 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+		return  window.requestAnimationFrame       || 
+		        window.webkitRequestAnimationFrame || 
+		        window.mozRequestAnimationFrame    || 
+		        window.oRequestAnimationFrame      || 
+		        window.msRequestAnimationFrame     || 
+		        function(/* function */ callback, /* DOMElement */ element){
+		            return window.setTimeout(callback, 1000 / 60);
+		        };
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+/***/ },
 /* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+	    return  window.cancelAnimationFrame            		||
+		        window.webkitCancelRequestAnimationFrame    ||
+		        window.mozCancelRequestAnimationFrame       ||
+		        window.oCancelRequestAnimationFrame        	||
+		        window.msCancelRequestAnimationFrame        ||
+		        clearTimeout;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+/***/ },
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 	           __webpack_require__(16),
-	           __webpack_require__(23),
 	           __webpack_require__(24),
+	           __webpack_require__(25),
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function  (matrixToArr, arrToMatrix, inverseMatrix3d) {
 
 	    /**
@@ -1144,7 +1166,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1161,7 +1183,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -1203,7 +1225,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1217,7 +1239,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1231,17 +1253,17 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 
-	           __webpack_require__(28),
+	           __webpack_require__(29),
 	           __webpack_require__(6),
 	           __webpack_require__(7),
-	           __webpack_require__(29),
 	           __webpack_require__(30),
-	           __webpack_require__(31)
+	           __webpack_require__(31),
+	           __webpack_require__(32)
 
 	       ], __WEBPACK_AMD_DEFINE_RESULT__ = function (annulus, trsfm, getStyle, closestPoint, maxPoint, fibonacciSphere) {
 
@@ -1318,7 +1340,7 @@
 	             * 否则通过 fibonacciSphere 计算出球面点的位置和旋转角度
 	             * 并将返回值赋值给 savedPos 和 tierPos
 	             */
-	            this.tierPos = (this.N == this.savedPos.length) ? this.savedPos : this.savedPos = fibonacciSphere(this.N, this.radius);
+	            this.tierPos = (this.N == this.savedPos.length) ? this.savedPos : fibonacciSphere(this.N, this.radius);
 
 	            /**
 	             * 如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置
@@ -1394,7 +1416,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -1446,7 +1468,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1494,7 +1516,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
@@ -1544,10 +1566,10 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){
+	var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
 	    /**
 	     * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
 	     * positioning the points by spiral Fibonacci method
