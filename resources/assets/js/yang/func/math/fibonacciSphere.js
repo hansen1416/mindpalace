@@ -1,4 +1,4 @@
-define(function(){
+define(function () {
     /**
      * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
      * positioning the points by spiral Fibonacci method

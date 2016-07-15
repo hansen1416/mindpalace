@@ -82,7 +82,7 @@ define([
              * 否则通过 fibonacciSphere 计算出球面点的位置和旋转角度
              * 并将返回值赋值给 savedPos 和 tierPos
              */
-            this.tierPos = (this.N == this.savedPos.length) ? this.savedPos : this.savedPos = fibonacciSphere(this.N, this.radius);
+            this.tierPos = (this.N == this.savedPos.length) ? this.savedPos : fibonacciSphere(this.N, this.radius);
 
             /**
              * 如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置
