@@ -27,8 +27,8 @@ form{display: none;}
 
 }//#stage ends
 
-@ow:        0;
-@btn_w:     40px;
+@ow: 0;
+@btn_w: 40px;
 
 //操作面板
 .operation{
@@ -87,19 +87,35 @@ form{display: none;}
     }
 
     a{
+        .center; .circle;
         &:hover{cursor: pointer;}
     }
 
     a.home{
-        .center; .circle;
         width: @tl_w; height: @tl_w; margin: @tl_w*-1/2 0 0 @tl_w*-1/2;
         font-size: inherit; line-height: @tl_w; text-align: center;
     }
 
+    @bw: @tl_w/2;
+
+    a.btn{
+        display: block;
+        width: @bw; height: @bw;
+        font-size: inherit; line-height: 14px; text-align: center;
+
+        &:before{
+            content: '';
+            display: block;
+            height: 6px;
+        }
+    }
+
     a.space{
-        .center; .circle;
-        width: @tl_w/1.8; height: @tl_w/1.8; margin: @tl_w/-2.2 0 0 @tl_w/1.1;
-        font-size: inherit; line-height: @tl_w/1.8; text-align: center;
+        margin: @tl_w/-2.2 0 0 @tl_w/1.1;
+    }
+
+    a.reset{
+        margin: @tl_w/2.8 0 0 @tl_w/1.4;
     }
 }
 
