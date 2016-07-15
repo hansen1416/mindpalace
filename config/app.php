@@ -144,7 +144,7 @@ return [
         /**
          * IDE completion
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+//        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
 	],
 
