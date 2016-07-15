@@ -81,9 +81,9 @@
     <div id="top_left">
         <a class="home" href="{{ route('home') }}" title="{{ trans('general.title.home') }}" >{{ trans('general.home') }}</a>
 
-        <a class="btn" href="{{ route('space') }}" title="{{ trans('general.title.space') }}" >{{ trans('general.space') }}</a>
+        <a class="btn space" href="{{ route('space') }}" title="{{ trans('general.title.space') }}" >{{ trans('general.space') }}</a>
 
-        <a class="btn reset" title="{{ trans('buttons.title.resetTrackball') }}" >{{ trans('buttons.resetTrackball') }}</a>
+        <a class="btn reset" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}" >{{ trans('buttons.resetTrackball') }}</a>
     </div>
     {{--右上角用户信息--}}
     <div id="top_right">
