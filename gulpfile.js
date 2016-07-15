@@ -42,7 +42,7 @@ gulp.task('less', function () {
 
 
 gulp.task('default', function () {
-    //gulp.run('webpack');
+    gulp.run('webpack');
     gulp.run('less');
 });
 
