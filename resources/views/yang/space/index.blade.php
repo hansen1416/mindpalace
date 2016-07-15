@@ -46,7 +46,7 @@
         <div class="btn ctg_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus" >{{ trans('buttons.focus') }}</div>
         {{--隐藏操作界面--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
-
+        {{--显示分类的子类内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}" data-func="descendant" >{{ trans('buttons.showDesc') }}</div>
         {{--添加一个子级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-action="{{ route('createCtg') }}" data-act="desc">{{ trans('buttons.addDesc') }}</div>
@@ -79,7 +79,9 @@
     </div>
     {{--左上角返回主页按钮--}}
     <div id="top_left">
-        <a href="{{ route('home') }}">{{ trans('general.home') }}</a>
+        <a class="home" href="{{ route('home') }}" title="{{ trans('general.title.home') }}" >{{ trans('general.home') }}</a>
+
+        <a class="space" href="{{ route('space') }}" title="{{ trans('general.title.space') }}" >{{ trans('general.space') }}</a>
     </div>
     {{--右上角用户信息--}}
     <div id="top_right">

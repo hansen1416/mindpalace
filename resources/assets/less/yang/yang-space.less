@@ -73,17 +73,33 @@ form{display: none;}
 
 }//.operation ends
 
-@tl_w: 60px;
+@tl_w: 80px;
 
 //左上角部分
 #top_left{
     .abs; .circle;
     top: @tl_w / 4; left: @tl_w / 4; width: @tl_w; height: @tl_w;
     font-size: 14px; color: #fff; line-height: @tl_w; text-align: center;
-    &:hover{cursor:pointer;}
+    overflow: hidden;
+    &:hover{
+        top: @tl_w*-3/4; left: @tl_w*-3/4;
+        width: @tl_w*3; height: @tl_w*3;
+    }
 
     a{
-        .brim; font-size: inherit; color: inherit;
+        &:hover{cursor: pointer;}
+    }
+
+    a.home{
+        .center; .circle;
+        width: @tl_w; height: @tl_w; margin: @tl_w*-1/2 0 0 @tl_w*-1/2;
+        font-size: inherit; line-height: @tl_w; text-align: center;
+    }
+
+    a.space{
+        .center; .circle;
+        width: @tl_w/1.8; height: @tl_w/1.8; margin: @tl_w/-2.2 0 0 @tl_w/1.1;
+        font-size: inherit; line-height: @tl_w/1.8; text-align: center;
     }
 }
 
