@@ -1,9 +1,11 @@
 var gulp    = require('gulp'),
     webpack = require('webpack-stream'),
     less    = require('gulp-less'),
+    uglify  = require('gulp-uglify'),
     assets  = './resources/assets/';
 
 gulp.task('webpack', function () {
+    "use strict";
 
     gulp.src(assets + 'js/yang/yang-home.js')
         .pipe(webpack({
@@ -40,10 +42,24 @@ gulp.task('less', function () {
 
 });
 
+gulp.task('mini', function() {
+    "use strict";
+
+    gulp.src('./public/js/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./public/js/'));
+
+    gulp.src('./public/css/*.css')
+        .pipe(uglify())
+        .pipe(gulp.dest('./public/css/'));
+
+});
+
 
 gulp.task('default', function () {
     gulp.run('webpack');
     gulp.run('less');
+    //gulp.run('mini');
 });
 
 
