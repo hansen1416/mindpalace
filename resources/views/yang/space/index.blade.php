@@ -7,7 +7,7 @@
 
     <div id="stage">
 
-        <div id="galaxy">
+        <div class="rotate_animation" id="galaxy">
 
         {{--坐标系开始--}}
         {{--<style>--}}

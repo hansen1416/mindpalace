@@ -119,6 +119,11 @@ define([
             //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------开始
             //旋转开始阶段，计算出鼠标点击时刻的坐标，并由此计算出点击时的空间三维向量，初始化时间和角度，在目标元素上移除事件，在document上绑定事件
             function rotateStart(e) {
+
+
+                upper.rotateObj.classList.remove('rotate_animation');
+
+
                 if (resetMotion && omega !== 0) {
                     stopMotion()
                 }    //如果之前的惯性没有耗尽，停止运动
