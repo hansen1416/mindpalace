@@ -16,8 +16,8 @@
         <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/yang-space.less">
         <script src="/resources/assets/less/less.min.js"></script>
     @else
-        <link href="{{ URL::asset('/css/theme/' . $user->profile->theme . '.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('/css/yang-space.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('/css/theme/' . $user->profile->theme . '.css') }}" rel="stylesheet">
     @endif
 
 </head>

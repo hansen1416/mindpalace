@@ -5,7 +5,7 @@ var gulp     = require('gulp'),
     harmony  = require('uglify-js-harmony'),
     options  = {},
     less     = require('gulp-less'),
-    cleanCSS = require('gulp-clean-css'),
+    cssnano  = require('gulp-cssnano'),
     assets   = './resources/assets/';
 
 gulp.task('webpack_home', function (cb) {
@@ -56,13 +56,13 @@ gulp.task('less', function () {
     gulp.src([assets + 'less/yang/yang-home.less', assets + 'less/yang/yang-space.less'])
         .pipe(less())
         .pipe(gulp.dest('public/css'))
-        .pipe(cleanCSS())
+        .pipe(cssnano())
         .pipe(gulp.dest('public/css'));
 
     gulp.src(assets + 'less/yang/theme/*.less')
         .pipe(less())
         .pipe(gulp.dest('public/css/theme'))
-        .pipe(cleanCSS())
+        .pipe(cssnano())
         .pipe(gulp.dest('public/css/theme'));
 
 });

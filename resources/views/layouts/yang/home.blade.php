@@ -14,8 +14,8 @@
         <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/yang-home.less">
         <script src="/resources/assets/less/less.min.js"></script>
     @else
-        <link href="{{ URL::asset('/css/theme/' . $theme . '.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('/css/yang-home.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('/css/theme/' . $theme . '.css') }}" rel="stylesheet">
     @endif
 
 </head>
