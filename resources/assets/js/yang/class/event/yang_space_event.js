@@ -136,7 +136,6 @@ define([
              */
             function rotateStart(e) {
 
-
                 /**
                  * 如果初始动画正在运行
                  * 获取当前的 transform 位置
@@ -277,7 +276,7 @@ define([
                 angle += omega;
                 omega = omega > 0 ? omega - lambda * Math.sqrt(omega) : 0;
 
-                upper.rotateObj.style[prefixJs + "Transform"] = "rotate3d(" + axis + "," + angle + "rad) matrix3d(" + upper.getStartMatrix + ")";
+                upper.rotateObj.style[trsfm] = "rotate3d(" + axis + "," + angle + "rad) matrix3d(" + upper.getStartMatrix + ")";
                 //如果角速度为 0 了，则取消动画，并做结束处理
                 if (omega === 0) {
                     cancelAnim(rd);
