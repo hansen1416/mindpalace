@@ -9,7 +9,13 @@ use App\Http\Controllers\Controller;
 use App;
 use Auth;
 use App\Repositories\UserRepository;
+use App\Repositories\CtgRepository;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers\Yang
+ * @author  Hanlongzhen ${DATE}
+ */
 class HomeController extends Controller
 {
 
@@ -20,12 +26,19 @@ class HomeController extends Controller
     protected $user;
 
     /**
-     * HomeController constructor.
-     * @param UserRepository $user
+     * @var CtgRepository
      */
-    public function __construct(UserRepository $user)
+    protected $ctg;
+
+    /**
+     * HomeController constructor.
+     * @param UserRepository                 $user
+     * @param CtgRepository $ctg
+     */
+    public function __construct(UserRepository $user, CtgRepository $ctg)
     {
         $this->user = $user;
+        $this->ctg  = $ctg;
     }
 
     /**
