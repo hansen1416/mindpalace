@@ -11,7 +11,10 @@ use App\Item;
 use Auth;
 use App\Repositories\UserRepository;
 
-
+/**
+ * Class SpaceController
+ * @package App\Http\Controllers\Yang
+ */
 class SpaceController extends Controller
 {
 

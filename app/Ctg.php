@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg untilTier($tier)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg descendant($ctg_id)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\Ctg allCtg()
  */
 class Ctg extends Model
 {
