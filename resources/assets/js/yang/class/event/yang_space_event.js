@@ -116,8 +116,24 @@ define([
             bindEvent(this.stage, "mousedown", rotateStart);
 
 
-            //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------开始
-            //旋转开始阶段，计算出鼠标点击时刻的坐标，并由此计算出点击时的空间三维向量，初始化时间和角度，在目标元素上移除事件，在document上绑定事件
+            /**
+             * 跟随鼠标3d转动部分需要用到的函数
+             * rotateStart
+             * rotate
+             * rotateFinish
+             * slide
+             * angularDeceleration
+             * deceleration
+             * stopMotion
+             */
+
+            /**
+             * 旋转开始阶段，计算出鼠标点击时刻的坐标，
+             * 并由此计算出点击时的空间三维向量，
+             * 初始化时间和角度，在目标元素上移除事件，
+             * 在document上绑定事件
+             * @param e
+             */
             function rotateStart(e) {
 
 
@@ -141,7 +157,13 @@ define([
 
             }
 
-            // 旋转函数，计算鼠标经过位置的向量，计算旋转轴，旋转的角度，请求动画，更新每一帧的时间
+            /**
+             * 旋转函数，
+             * 计算鼠标经过位置的向量，计算旋转轴，旋转的角度，
+             * 请求动画，更新每一帧的时间
+             * @param e
+             * @returns {boolean}
+             */
             function rotate(e) {
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 e.preventDefault();
@@ -165,8 +187,11 @@ define([
             }
 
             /**
-             * rotateFinish 旋转结束，移除document上的两个绑定事件mousemove & mouseup，重新给目标元素绑定事件mousedown，计算初始矩阵，取消动画
-             * @param  e object
+             * 旋转结束，
+             * 移除document上的两个绑定事件mousemove & mouseup，
+             * 重新给目标元素绑定事件mousedown，
+             * 计算初始矩阵，取消动画
+             * @param e
              */
             function rotateFinish(e) {
                 e.preventDefault();
@@ -197,7 +222,9 @@ define([
                 // }
             }
 
-            //使用动画
+            /**
+             * 使用动画
+             */
             function slide() {
 
                 upper.rotateObj.style[prefixJs + "Transform"] = "rotate3d(" + axis + ", " + angle + "rad) matrix3d(" + upper.getStartMatrix + ")";
@@ -210,8 +237,7 @@ define([
             }
 
             /**
-             * angularDeceleration 计算鼠标抬起后的单位角速度
-             * @return number omega
+             * 计算鼠标抬起后的单位角速度
              */
             function angularDeceleration() {
                 var da = angle - oldAngle,      //鼠标点下到放开转动的角度
@@ -228,7 +254,7 @@ define([
             }
 
             /**
-             * deceleration 计算鼠标抬起后的角减速运动
+             * 计算鼠标抬起后的角减速运动
              */
             function deceleration() {
                 angle += omega;
@@ -245,7 +271,8 @@ define([
             }
 
             /**
-             * stopMotion 运动停止后的一系列动作,获得开始矩阵，并且将角度和omega设为0
+             * 运动停止后的一系列动作,获得开始矩阵，
+             * 并且将角度和omega设为0
              */
             function stopMotion() {
                 //将 slide 标示置为 true，表示取消 slide animation
@@ -260,8 +287,6 @@ define([
                 //将开始、结束角度和角速度置为 0
                 oldAngle = angle = omega = 0;
             }
-
-            //跟随鼠标3d转动部分需要用到的函数--------------------------------------------------------结束
 
 
         }//trackball ends
@@ -488,7 +513,7 @@ define([
 
                         case 'descendant':
 
-                            location.href = location.origin + location.pathname + '?pid='+s_dataset['ctg_id'];
+                            location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
 
                             break;
                     /**
@@ -598,7 +623,6 @@ define([
 
 
         }//click ends
-
 
 
     }//YangHomeEvent ends
