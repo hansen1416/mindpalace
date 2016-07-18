@@ -91,7 +91,7 @@ define([
 
             impulse     = trackballParam.impulse;
             resetMotion = trackballParam.resetMotion;
-            omegaCap    = trackballParam.omegaCap;
+            omegaCap    = trackballParam.omegaGap;
             lambda      = trackballParam.lambda;
 
             //旋转空间的top、left
@@ -402,7 +402,7 @@ define([
 
                 } else if (target.classList.contains('submit')) {
                     //ajax提交表单
-                    submitClick(target);
+                    submitForm(target);
 
                 } else if (target.classList.contains('pop')) {
                     //内容详情浮层的点击事件
@@ -580,7 +580,7 @@ define([
              * ajax 提交表单
              * @param target 提交按钮，是 form 的子元素
              */
-            function submitClick(target) {
+            function submitForm(target) {
                 var form = target.parentNode,
                     success;
 
@@ -595,7 +595,7 @@ define([
 
                 ajax(form.action, success, new FormData(form));
 
-            }//submitClick ends
+            }//submitForm ends
 
 
             /**

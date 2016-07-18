@@ -5,15 +5,15 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Ctg
  *
- * @property integer $ctg_id 分类ID
- * @property integer $pid 父分类ID
- * @property integer $user_id 用户ID
- * @property integer $tier 层序号
- * @property integer $sort 排序
- * @property string $path 分类的族谱
- * @property string $title 分类名
- * @property \Carbon\Carbon $updated_at 更新时间
- * @property \Carbon\Carbon $created_at 创建时间
+ * @property integer                                                   $ctg_id     分类ID
+ * @property integer                                                   $pid        父分类ID
+ * @property integer                                                   $user_id    用户ID
+ * @property integer                                                   $tier       层序号
+ * @property integer                                                   $sort       排序
+ * @property string                                                    $path       分类的族谱
+ * @property string                                                    $title      分类名
+ * @property \Carbon\Carbon                                            $updated_at 更新时间
+ * @property \Carbon\Carbon                                            $created_at 创建时间
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $item
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereCtgId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg wherePid($value)
@@ -97,6 +97,7 @@ class Ctg extends Model
     {
         return $query->where('tier', '<=', $tier)
                      ->orderBy('tier', 'asc')
+                     ->orderBy('sort', 'asc')
                      ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
@@ -109,6 +110,7 @@ class Ctg extends Model
     {
         return $query->where('path', 'like', '%-' . $ctg_id . '-%')
                      ->orderBy('tier', 'asc')
+                     ->orderBy('sort', 'asc')
                      ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 
