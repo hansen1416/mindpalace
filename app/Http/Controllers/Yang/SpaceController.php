@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Yang;
 
+use App\Repositories\CtgRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Ctg;
 use App\Item;
 use Auth;
-use App\Repositories\UsersRepository;
+use App\Repositories\UserRepository;
 
 
 class SpaceController extends Controller
@@ -21,12 +22,19 @@ class SpaceController extends Controller
     protected $users;
 
     /**
-     * HomeController constructor.
-     * @param UsersRepository $users
+     * @var CtgRepository
      */
-    public function __construct(UsersRepository $users)
+    protected $ctg;
+
+    /**
+     * SpaceController constructor.
+     * @param UserRepository $user
+     * @param CtgRepository  $ctg
+     */
+    public function __construct(UserRepository $user, CtgRepository $ctg)
     {
-        $this->users = $users;
+        $this->user = $user;
+        $this->ctg  = $ctg;
     }
 
     /**
@@ -40,17 +48,10 @@ class SpaceController extends Controller
         $pid      = $request->input('pid');
 
         if ($pid) {
-            $ctgs = $ctgModel::descendant($pid)->get();
+            $html = $this->ctg->getDescCtg(true, $pid);
         } else {
-            $ctgs = $ctgModel::untilTier(99)->get();
+            $html = $this->ctg->getAllCtg();
         }
-
-        //加载 item 表的内容
-        if (true) {
-            $ctgs->load('item');
-        }
-
-        $html = $ctgModel->tagWrap($ctgs);
 
         return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
     }
