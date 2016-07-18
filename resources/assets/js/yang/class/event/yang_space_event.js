@@ -137,14 +137,31 @@ define([
             function rotateStart(e) {
 
 
-                upper.rotateObj.classList.remove('rotate_animation');
+                /**
+                 * 如果初始动画正在运行
+                 * 获取当前的 transform 位置
+                 * 移除动画样式
+                 * 设置 startMatrix 和 旋转元素的位置 = 当前的 transform 位置
+                 */
+                if (upper.rotateObj.classList.contains('rotate_animation')) {
 
+                    var rotateObj    = upper.rotateObj,
+                        currentStyle = getStyle(rotateObj, prefixCss + "transform");
 
+                    rotateObj.classList.remove('rotate_animation');
+
+                    upper.startMatrix      = matrixToArr(currentStyle);
+                    rotateObj.style[trsfm] = currentStyle;
+                }
+
+                //如果之前的惯性没有耗尽，停止运动
                 if (resetMotion && omega !== 0) {
                     stopMotion()
-                }    //如果之前的惯性没有耗尽，停止运动
+                }
+
                 //非常重要，如果没有这一句，会出现鼠标点击抬起无效
                 //e.preventDefault();
+
                 mouseDownVector = calcZ(touchPos(e), pos, radius);
                 //获得当前已旋转的角度
                 oldAngle        = angle;
@@ -227,7 +244,7 @@ define([
              */
             function slide() {
 
-                upper.rotateObj.style[prefixJs + "Transform"] = "rotate3d(" + axis + ", " + angle + "rad) matrix3d(" + upper.getStartMatrix + ")";
+                upper.rotateObj.style[trsfm] = "rotate3d(" + axis + ", " + angle + "rad) matrix3d(" + upper.getStartMatrix + ")";
 
                 rs = requestAnim(slide);
                 //如果标示为 true ，则取消动画
