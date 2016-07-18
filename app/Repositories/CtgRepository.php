@@ -6,7 +6,6 @@ use App\Ctg;
 /**
  * Class CtgRepository
  * @package App\Repositories
- * @author  Hanlongzhen ${DATE}
  */
 class CtgRepository
 {

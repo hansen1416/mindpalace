@@ -17,9 +17,9 @@ class SpaceController extends Controller
 
     /**
      * 用户仓库的实例
-     * @var UsersRepository
+     * @var UserRepository
      */
-    protected $users;
+    protected $user;
 
     /**
      * @var CtgRepository
