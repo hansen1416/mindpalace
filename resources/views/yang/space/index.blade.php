@@ -35,8 +35,24 @@
     <div id="ctg_box" class="operation">
 
         <form enctype="multipart/form-data" id="ctg_form">
-            <textarea title="" name="title"></textarea>
-            <div class="submit">ok</div>
+
+            <label for="ctg_title">
+                {{ trans('general.ctgTitle') }}
+                <input type="text" id="ctg_title" name="title">
+            </label>
+
+            <label for="ctg_sort">
+                {{ trans('general.ctgSort') }}
+                <input type="text" id="ctg_sort" name="sort">
+            </label>
+
+            <label for="ctg_tags">
+                {{ trans('general.ctgTags') }}
+                <input type="text" id="ctg_tags" name="tags">
+            </label>
+
+
+            <div class="submit">{{ trans('general.save') }}</div>
             <input type="hidden" name="ctg_id" value="0">
             <input type="hidden" name="pid" value="0">
             <input type="hidden" name="tier" value="0">
@@ -63,11 +79,6 @@
         {{--添加一个子内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}"
              data-action="{{ route('createItem') }}">{{ trans('buttons.addItem') }}</div>
-
-
-        <div id="pop_ctg">
-
-        </div>
 
     </div>
 

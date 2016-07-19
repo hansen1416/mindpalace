@@ -82,11 +82,12 @@ form {
         transform: rotateY(360deg);
     }
 }
+//@keyframes ends
 
+//操作面板
 @ow: 0;
 @btn_w: 40px;
 
-//操作面板
 .operation {
     .abs;
     .hide;
@@ -96,32 +97,39 @@ form {
     height: @ow;
     margin: @ow/-2 0 0 @ow/-2;
 
-    form {
-        @fw: 200px;
-        @fh: 35px;
-        .abs;
-        top: 50%;
-        left: 50%;
-        width: @fw;
-        height: @fh;
-        margin: @fh/-2 0 0 @fw/-2;
-        font-size: @fh/2.2;
-        line-height: @fh;
+    #ctg_form {
 
-        textarea {
-            .fl;
-            width: @fw - @fh;
-            height: @fh;
-            font-size: inherit;
-            line-height: inherit;
-            text-indent: 10px;
+        .abs;
+        .hide;
+        z-index: 2;
+        top: -250px;
+        left: 160px;
+        width: 400px;
+        height: 500px;
+
+        label{
+
+            font-size: 15px;
+
+            &:after{
+                content: '';
+                display: block;
+            }
+
+            input{
+                height: 30px;
+                text-indent: 10px;
+            }
         }
+
         .submit {
-            .fl;
-            width: @fh;
-            height: @fh;
-            font-size: inherit;
-            line-height: inherit;
+            .abs;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 30px;
+            font-size: 15px;
+            line-height: 30px;
             text-align: center;
             &:hover {
                 cursor: pointer;
@@ -195,18 +203,7 @@ form {
     }
     //#pop_item ends
 
-    #pop_ctg{
-        .abs;
-        //.hide;
-        z-index: 2;
-        top: -250px;
-        left: 160px;
-        width: 400px;
-        height: 500px;
-    }
-
 }
-
 //.operation ends
 
 @tl_w: 80px;
@@ -273,10 +270,11 @@ form {
         margin: @tl_w/2.8 0 0 @tl_w/1.4;
     }
 }
-
-@tr_w: 60px;
+//#top_left ends
 
 //右上角用户信息部分
+@tr_w: 60px;
+
 #top_right {
     .abs;
     .circle;
@@ -304,4 +302,5 @@ form {
         height: 100%;
     }
 }
+//#top_right ends
 
