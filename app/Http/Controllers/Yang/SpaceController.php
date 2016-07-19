@@ -42,70 +42,53 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
 
-        $pid      = $request->input('pid');
+        $pid = $request->input('pid');
 
         if ($pid) {
-            $html = $this->ctg->getDescCtg(true, $pid);
+            $html = $this->ctg->getDescCtg($pid, true);
         } else {
-            $html = $this->ctg->getAllCtg();
+            $html = $this->ctg->getAllCtg(true);
         }
 
         return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @param  Request $request
-     * @return Response
+     * @param Request $request
+     * @return mixed
      */
     public function createCtg(Request $request)
     {
-        $act      = $request->input('act');
-        $ctgModel = new Ctg();
 
-        $ctgModel->user_id = Auth::user()->user_id;
+        $param = [
+            ($request->input('act') == 'desc') ? $request->input('ctg_id') : $request->input('pid'),
+            Auth::user()->user_id,
+            0,
+            $request->input('title'),
+        ];
 
-        if ($act == 'desc') {
-
-            $pid             = $request->input('ctg_id');
-            $parent          = $ctgModel::find($pid);
-            $ctgModel->pid   = $pid;
-            $ctgModel->tier  = (int)($request->input('tier')) + 1;
-            $ctgModel->title = $request->input('title');
-            $ctgModel->path  = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
-
-        } elseif ($act == 'sibl') {
-
-            $pid             = $request->input('pid');
-            $parent          = $ctgModel::find($pid);
-            $ctgModel->pid   = $pid;
-            $ctgModel->tier  = $request->input('tier');
-            $ctgModel->title = $request->input('title');
-            $ctgModel->path  = $parent ? $parent->path : '';
-        }
-
-        return response()->json(['status' => $ctgModel->save()]);
+        return response()->json(['status' => call_user_func_array([$this->ctg, 'createCtg'], $param)]);
 
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
+     * @param Request $request
+     * @return mixed
      */
     public function updateCtg(Request $request)
     {
-        $ctgModel = Ctg::find($request->input('ctg_id'));
 
-        $ctgModel->title = $request->input('title');
+        $param = [
+            $request->input('ctg_id'),
+            $request->input('title'),
+        ];
 
-        return response()->json(['status' => $ctgModel->save()]);
+        return response()->json(['status' => call_user_func_array([$this->ctg, 'updateCtg'], $param)]);
     }
 
     /**

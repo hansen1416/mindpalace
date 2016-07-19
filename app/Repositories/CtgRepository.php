@@ -23,49 +23,58 @@ class CtgRepository
         $this->ctg = $ctg;
     }
 
-
     /**
-     * @param bool $item
-     * @return string
-     */
-    public function getAllCtg($item = true)
-    {
-        $data = $this->ctg->allCtg()->get();
-
-        if ($item) {
-            $data->load('item');
-        }
-
-        return $this->tagWrap($data);
-    }
-
-    /**
-     * @param bool $item
      * @param      $ctg_id
-     * @return string
+     * @param bool $item
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
      */
-    public function getDescCtg($item = true, $ctg_id)
+    public function findCtg($ctg_id, $item = false)
     {
-
-        $data = $this->ctg->descendant($ctg_id)->get();
-
-        if ($item) {
-            $data->load('item');
-        }
-
-        return $this->tagWrap($data);
-
+        return $item ? $this->ctg->with('item')->find($ctg_id) : $this->ctg->find($ctg_id);
     }
 
     /**
-     * @param $array
+     * @param bool $item
      * @return string
      */
-    protected function tagWrap($array)
+    public function getAllCtg($item = false)
+    {
+
+        if ($item) {
+            $data = $this->ctg->with('item')->allCtg()->get();
+        } else {
+            $data = $this->ctg->allCtg()->get();
+        }
+
+        return $this->tagWrap($data, $item);
+    }
+
+    /**
+     * @param      $ctg_id
+     * @param bool $item
+     * @return string
+     */
+    public function getDescCtg($ctg_id, $item = false)
+    {
+
+        if ($item) {
+            $data = $this->ctg->with('item')->descendant($ctg_id)->get();
+        } else {
+            $data = $this->ctg->descendant($ctg_id)->get();
+        }
+
+        return $this->tagWrap($data, $item);
+    }
+
+    /**
+     * @param      $array
+     * @param bool $item
+     * @return string
+     */
+    protected function tagWrap($array, $item = false)
     {
 
         $html    = '';
-        $section = '';
         $start   = $array[0]->tier;
         $core_id = [];
 
@@ -75,10 +84,12 @@ class CtgRepository
          */
         foreach ($array as $value) {
 
+            if ($value->tier > $start) {
+                break;
+            }
+
             $core_id[] = $value->ctg_id;
 
-            if ($value->tier > $start)
-                break;
         }
 
         /**
@@ -102,9 +113,14 @@ class CtgRepository
              * 继承最内层的 section
              */
             if ($tier) {
-                preg_match('/^-(' . join('|', $core_id) . ')-/', $value->path, $match);
-                if ($match && isset($match[1]))
+
+                preg_match('/-(' . join('|', $core_id) . ')-/', $value->path, $match);
+
+                if ($match && isset($match[1])) {
                     $section = 'sec-' . $core_id_flip[$match[1]] % 10;
+                } else {
+                    $section = '';
+                }
             } else {
                 $section = 'sec-' . $core_id_flip[$value->ctg_id] % 10;
             }
@@ -120,7 +136,7 @@ class CtgRepository
              * 如果有内容元素
              * 拼接内容元素的 html
              */
-            if (count($value->item)) {
+            if ($item && count($value->item)) {
                 $tier = $tier + 1;
                 foreach ($value->item as $item) {
                     $html .= "<div class='tier-{$tier} star {$section} item' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->item_id}' data-tier='{$tier}'>" .
@@ -132,6 +148,51 @@ class CtgRepository
         }
 
         return $html;
+    }
+
+    /**
+     * @param $pid
+     * @param $user_id
+     * @param $sort
+     * @param $title
+     * @return bool
+     */
+    public function createCtg($pid, $user_id, $sort, $title)
+    {
+
+        $parent = $pid ? $this->findCtg($pid) : null;
+        $path   = '';
+        $tier   = 0;
+
+        if ($parent) {
+            $path = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
+            $tier = $parent->tier + 1;
+        }
+
+        $this->ctg->pid     = $pid;
+        $this->ctg->user_id = $user_id;
+        $this->ctg->tier    = $tier;
+        $this->ctg->sort    = $sort;
+        $this->ctg->path    = $path;
+        $this->ctg->title   = $title;
+
+        return $this->ctg->save();
+    }
+
+    /**
+     * @param $ctg_id
+     * @param $title
+     * @return bool
+     */
+    public function updateCtg($ctg_id, $title)
+    {
+
+        $ctg = $this->findCtg($ctg_id);
+
+        $ctg->title = $title;
+
+        return $ctg->save();
+
     }
 
 
