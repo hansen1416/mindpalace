@@ -6,7 +6,6 @@ use App\Item;
 /**
  * Class ItemRepository
  * @package App\Repositories
- * @author  Hanlongzhen ${DATE}
  */
 class ItemRepository
 {

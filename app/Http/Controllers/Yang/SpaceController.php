@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Yang;
 
-use App\Repositories\CtgRepository;
-use App\Repositories\ItemRepository;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use App\Item;
 use Auth;
 use App\Repositories\UserRepository;
+use App\Repositories\CtgRepository;
+use App\Repositories\ItemRepository;
 
 /**
  * Class SpaceController
@@ -19,7 +17,6 @@ class SpaceController extends Controller
 {
 
     /**
-     * 用户仓库的实例
      * @var UserRepository
      */
     protected $user;
