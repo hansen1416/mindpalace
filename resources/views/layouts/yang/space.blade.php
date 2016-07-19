@@ -9,7 +9,7 @@
 	<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
 	<title>{{ trans('general.pageTitle') }}</title>
 
-    <script src="http://cdn.quilljs.com/0.20.1/quill.js"></script>
+    <script src="{{ URL::asset('js/plugins/quill.js') }}"></script>
 
     @if(App::environment('development'))
         <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{$user->profile->theme}}.less">
