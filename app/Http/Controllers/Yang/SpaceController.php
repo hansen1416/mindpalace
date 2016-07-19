@@ -47,7 +47,6 @@ class SpaceController extends Controller
     public function index(Request $request)
     {
 
-        $ctgModel = new Ctg();
         $pid      = $request->input('pid');
 
         if ($pid) {
