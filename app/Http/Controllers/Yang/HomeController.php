@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Yang;
 
 
 //use Illuminate\Http\Request;
-use App\Http\Requests;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App;
+//use App;
 use Auth;
 use App\Repositories\UserRepository;
 use App\Repositories\CtgRepository;
