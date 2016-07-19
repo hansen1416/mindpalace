@@ -1,15 +1,29 @@
 @import "general.less";
 
-body{overflow: hidden; width: 100vw; height: 100vh;}
-form{display: none;}
+body {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
 
+form {
+    display: none;
+}
 
-#stage{
-	.perspective; .pers_origin; .trsf_origin; .abs;
-	width: 100vw; height: 100vw; top: 50%; margin: -50vw 0 0 0;
-    &:hover{.cursor-grab;}
+#stage {
+    .perspective;
+    .pers_origin;
+    .trsf_origin;
+    .abs;
+    width: 100vw;
+    height: 100vw;
+    top: 50%;
+    margin: -50vw 0 0 0;
+    &:hover {
+        .cursor-grab;
+    }
 
-    .rotate_animation{
+    .rotate_animation {
         animation-duration: 120s;
         animation-iteration-count: infinite;
         animation-name: rotation;
@@ -17,122 +31,245 @@ form{display: none;}
         animation-timing-function: linear;
     }
 
-	#galaxy{
-		.trsf_style_3d; .abs;
-		width: 100px; height: 100px; top: 50%; left: 50%;
+    #galaxy {
+        .trsf_style_3d;
+        .abs;
+        width: 100px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
         margin: -50px 0 0 -50px;
 
         //分类
-		.star{
-            .back_face; .abs;
-			top: 50%; left: 50%; padding: 0.2em; margin: -0.6em 0 0 -2.1em; overflow: hidden;
-            line-height: 1em; max-width: 4em; height: 1em; text-overflow:ellipsis; white-space:nowrap;
-            &:hover{cursor: pointer;}
-		}
+        .star {
+            .back_face;
+            .abs;
+            top: 50%;
+            left: 50%;
+            padding: 0.2em;
+            margin: -0.6em 0 0 -2.1em;
+            overflow: hidden;
+            line-height: 1em;
+            max-width: 4em;
+            height: 1em;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &:hover {
+                cursor: pointer;
+            }
+        }
 
-	}//galaxy ends
+    }
+    //galaxy ends
 
-
-}//#stage ends
-
+}
+//#stage ends
 
 @keyframes rotation {
-    0% {transform: rotateY(0);}
-    25% {transform: rotateY(90deg);}
-    50% {transform: rotateY(180deg);}
-    75% {transform: rotateY(270deg);}
-    100% {transform: rotateY(360deg);}
+    0% {
+        transform: rotateY(0);
+    }
+    25% {
+        transform: rotateY(90deg);
+    }
+    50% {
+        transform: rotateY(180deg);
+    }
+    75% {
+        transform: rotateY(270deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
 }
-
 
 @ow: 0;
 @btn_w: 40px;
 
 //操作面板
-.operation{
-    .abs; .hide;
-    top: 50%; left: 50%; width: @ow; height: @ow; margin: @ow/-2 0 0 @ow/-2;
+.operation {
+    .abs;
+    .hide;
+    top: 50%;
+    left: 50%;
+    width: @ow;
+    height: @ow;
+    margin: @ow/-2 0 0 @ow/-2;
 
-    form{
+    form {
         @fw: 200px;
         @fh: 35px;
         .abs;
-        top: 50%; left: 50%; width: @fw; height: @fh; margin: @fh/-2 0 0 @fw/-2;
-        font-size: @fh/2.2; line-height: @fh;
+        top: 50%;
+        left: 50%;
+        width: @fw;
+        height: @fh;
+        margin: @fh/-2 0 0 @fw/-2;
+        font-size: @fh/2.2;
+        line-height: @fh;
 
-        textarea{
+        textarea {
             .fl;
-            width: @fw - @fh; height: @fh;
-            font-size: inherit; line-height: inherit; text-indent: 10px;
+            width: @fw - @fh;
+            height: @fh;
+            font-size: inherit;
+            line-height: inherit;
+            text-indent: 10px;
         }
-        .submit{
+        .submit {
             .fl;
-            width: @fh; height: @fh;
-            font-size: inherit; line-height: inherit; text-align: center;
-            &:hover{cursor: pointer;}
+            width: @fh;
+            height: @fh;
+            font-size: inherit;
+            line-height: inherit;
+            text-align: center;
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
-    .btn{
+    .btn {
         .abs;
-        top: 50%; left: 50%;
-        width: @btn_w; height: @btn_w; margin: @btn_w/-2 0 0 @btn_w/-2;
+        top: 50%;
+        left: 50%;
+        width: @btn_w;
+        height: @btn_w;
+        margin: @btn_w/-2 0 0 @btn_w/-2;
         border-radius: 50%;
-        font-size: @btn_w*0.35; line-height: @btn_w*0.35; text-align: center;
+        font-size: @btn_w*0.35;
+        line-height: @btn_w*0.35;
+        text-align: center;
 
-        &:before{
+        &:before {
             content: '';
             display: block;
             height: 6px;
         }
 
-        &:hover{cursor: pointer;}
+        &:hover {
+            cursor: pointer;
+        }
     }
 
-}//.operation ends
+    @knob_w: 15px;
+
+    //详细内容
+    #pop_item {
+
+        .abs;
+        .hide;
+        z-index: 2;
+        top: -250px;
+        left: -560px;
+        width: 400px;
+        height: 500px;
+
+        #editor {
+            width: 100%;
+            height: 100%;
+        }
+
+        #editor::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .knob {
+            .abs;
+            .circle;
+            right: -20px;
+            width: @knob_w;
+            height: @knob_w;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .knob.close {
+            top: 10px;
+        }
+        .knob.save {
+            top: 40px;
+        }
+
+    }
+    //#pop_item ends
+
+    #pop_ctg{
+        .abs;
+        //.hide;
+        z-index: 2;
+        top: -250px;
+        left: 160px;
+        width: 400px;
+        height: 500px;
+    }
+
+}
+
+//.operation ends
 
 @tl_w: 80px;
 
 //左上角部分
-#top_left{
-    .abs; .circle;
-    top: @tl_w / 4; left: @tl_w / 4; width: @tl_w; height: @tl_w;
-    font-size: 14px; color: #fff; line-height: @tl_w; text-align: center;
+#top_left {
+    .abs;
+    .circle;
+    top: @tl_w / 4;
+    left: @tl_w / 4;
+    width: @tl_w;
+    height: @tl_w;
+    font-size: 14px;
+    color: #fff;
+    line-height: @tl_w;
+    text-align: center;
     overflow: hidden;
-    &:hover{
-        top: @tl_w*-3/4; left: @tl_w*-3/4;
-        width: @tl_w*3; height: @tl_w*3;
+    &:hover {
+        top: @tl_w*-3/4;
+        left: @tl_w*-3/4;
+        width: @tl_w*3;
+        height: @tl_w*3;
     }
 
-    a, div{
-        .center; .circle;
-        &:hover{cursor: pointer;}
+    a, div {
+        .center;
+        .circle;
+        &:hover {
+            cursor: pointer;
+        }
     }
 
-    a.home{
-        width: @tl_w; height: @tl_w; margin: @tl_w*-1/2 0 0 @tl_w*-1/2;
-        font-size: inherit; line-height: @tl_w; text-align: center;
+    a.home {
+        width: @tl_w;
+        height: @tl_w;
+        margin: @tl_w*-1/2 0 0 @tl_w*-1/2;
+        font-size: inherit;
+        line-height: @tl_w;
+        text-align: center;
     }
 
     @bw: @tl_w/2;
 
-    a.btn, div.btn{
+    a.btn, div.btn {
         display: block;
-        width: @bw; height: @bw;
-        font-size: inherit; line-height: 14px; text-align: center;
+        width: @bw;
+        height: @bw;
+        font-size: inherit;
+        line-height: 14px;
+        text-align: center;
 
-        &:before{
+        &:before {
             content: '';
             display: block;
             height: 6px;
         }
     }
 
-    a.space{
+    a.space {
         margin: @tl_w/-2.2 0 0 @tl_w/1.1;
     }
 
-    div.reset{
+    div.reset {
         margin: @tl_w/2.8 0 0 @tl_w/1.4;
     }
 }
@@ -140,46 +277,31 @@ form{display: none;}
 @tr_w: 60px;
 
 //右上角用户信息部分
-#top_right{
-    .abs; .circle;
-    top: @tr_w / 4; right: @tr_w / 4; width: @tr_w; height: @tr_w; overflow: hidden;
-    font-size: 14px; color: #fff; line-height: @tr_w; text-align: center;
+#top_right {
+    .abs;
+    .circle;
+    top: @tr_w / 4;
+    right: @tr_w / 4;
+    width: @tr_w;
+    height: @tr_w;
+    overflow: hidden;
+    font-size: 14px;
+    color: #fff;
+    line-height: @tr_w;
+    text-align: center;
 
-    &:hover{cursor:pointer;}
+    &:hover {
+        cursor: pointer;
+    }
 
-    img{
-        .abs; .circle;
-        top: 0; left: 0;
-        display: block; width: 100%; height: 100%;
+    img {
+        .abs;
+        .circle;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 }
-
-@knob_w: 15px;
-
-//详细内容
-#pop_item{
-
-    .abs; .hide;
-    z-index: 2; top: @tl_w*1.5; left: @tl_w/4;
-    width: 64vh; height: 80vh;
-
-    #editor{
-        width: 100%; height: 100%;
-    }
-
-    #editor::-webkit-scrollbar{
-        width: 10px;
-    }
-
-    .knob{
-        .abs; .circle;
-        right: -20px;
-        width: @knob_w; height: @knob_w;
-        &:hover{cursor: pointer;}
-    }
-
-    .knob.close{top: 10px;}
-    .knob.save{top: 40px;}
-
-}//#pop_item ends
 

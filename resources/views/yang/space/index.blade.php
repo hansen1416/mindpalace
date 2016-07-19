@@ -9,21 +9,21 @@
 
         <div class="rotate_animation" id="galaxy">
 
-        {{--坐标系开始--}}
-        {{--<style>--}}
+            {{--坐标系开始--}}
+            {{--<style>--}}
             {{--.axis {position: absolute; width: 300px; height: 1px; top: 50%; left: 50%; margin: 0 0 0 -150px; background-color: #fff;}--}}
             {{--.axis.y {transform: rotateZ(90deg);}--}}
             {{--.axis.z {transform: rotateY(-90deg);}--}}
             {{--.axis .d {float: right; width: 0; height: 0; margin-top: -10px; color: #ff0000; border: 10px solid #ff0000; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;}--}}
             {{--.axis .d.y{color: #00ff00; border: 10px solid #00ff00; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;}--}}
             {{--.axis .d.z{color: #0000ff; border: 10px solid #0000ff; border-top-color: transparent; border-bottom-color: transparent; border-right-width: 0;}--}}
-        {{--</style>--}}
-        {{--坐标系结束--}}
-        {{--<div class="axis x"><span class="d x">x</span></div>--}}
-        {{--<div class="axis y"><span class="d y">y</span></div>--}}
-        {{--<div class="axis z"><span class="d z">z</span></div>--}}
+            {{--</style>--}}
+            {{--坐标系结束--}}
+            {{--<div class="axis x"><span class="d x">x</span></div>--}}
+            {{--<div class="axis y"><span class="d y">y</span></div>--}}
+            {{--<div class="axis z"><span class="d z">z</span></div>--}}
 
-        {!!$html!!}
+            {!!$html!!}
 
         </div>
         {{--.galaxy ends--}}
@@ -43,19 +43,31 @@
             <input type="hidden" name="act">
         </form>
         {{--聚焦选中 .star--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus" >{{ trans('buttons.focus') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.focus') }}"
+             data-func="focus">{{ trans('buttons.focus') }}</div>
         {{--隐藏操作界面--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}"
+             data-func="hide">{{ trans('buttons.hideOper') }}</div>
         {{--显示分类的子类内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}" data-func="descendant" >{{ trans('buttons.showDesc') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}"
+             data-func="descendant">{{ trans('buttons.showDesc') }}</div>
         {{--添加一个子级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-action="{{ route('createCtg') }}" data-act="desc">{{ trans('buttons.addDesc') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-action="{{ route('createCtg') }}"
+             data-act="desc">{{ trans('buttons.addDesc') }}</div>
         {{--添加一个同级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-action="{{ route('createCtg') }}" data-act="sibl">{{ trans('buttons.addSibl') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-action="{{ route('createCtg') }}"
+             data-act="sibl">{{ trans('buttons.addSibl') }}</div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtg') }}" data-message="edit-self" data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtg') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtg') }}" data-message="edit-self"
+             data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtg') }}</div>
         {{--添加一个子内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}"  data-action="{{ route('createItem') }}">{{ trans('buttons.addItem') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}"
+             data-action="{{ route('createItem') }}">{{ trans('buttons.addItem') }}</div>
+
+
+        <div id="pop_ctg">
+
+        </div>
 
     </div>
 
@@ -68,38 +80,47 @@
             <input type="hidden" name="item_id" value="0">
         </form>
         {{--聚焦选中 .star--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus" >{{ trans('buttons.focus') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}"
+             data-func="focus">{{ trans('buttons.focus') }}</div>
         {{--隐藏操作面板--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide" >{{ trans('buttons.hideOper') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}"
+             data-func="hide">{{ trans('buttons.hideOper') }}</div>
         {{--编辑内容标题--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}" data-action="{{ route('updateItem') }}">{{ trans('buttons.editItem') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}"
+             data-action="{{ route('updateItem') }}">{{ trans('buttons.editItem') }}</div>
         {{--显示详细内容--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}" data-func="detail" >{{ trans('buttons.showItem') }}</div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}"
+             data-func="detail">{{ trans('buttons.showItem') }}</div>
+
+
+        {{--内容详情的弹出层开始--}}
+        <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+        <input type="hidden" id="edit_item_detail_url" value="{{ route('editItemDetail') }}">
+
+        <div id="pop_item">
+            <div id="editor"></div>
+            <div class="pop knob close" id="pop_close"></div>
+            <div class="pop knob save" id="pop_save"></div>
+        </div>
+        {{--内容详情的弹出层结束--}}
 
     </div>
     {{--左上角返回主页按钮--}}
     <div id="top_left">
-        <a class="home" href="{{ route('home') }}" title="{{ trans('general.title.home') }}" >{{ trans('general.home') }}</a>
+        <a class="home" href="{{ route('home') }}"
+           title="{{ trans('general.title.home') }}">{{ trans('general.home') }}</a>
 
-        <a class="btn space" href="{{ route('space') }}" title="{{ trans('general.title.space') }}" >{{ trans('general.space') }}</a>
+        <a class="btn space" href="{{ route('space') }}"
+           title="{{ trans('general.title.space') }}">{{ trans('general.space') }}</a>
 
-        <div class="btn reset" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}" >{{ trans('buttons.resetTrackball') }}</div>
+        <div class="btn reset" data-func="reset_trackball"
+             title="{{ trans('buttons.title.resetTrackball') }}">{{ trans('buttons.resetTrackball') }}</div>
     </div>
     {{--右上角用户信息--}}
     <div id="top_right">
         <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
     </div>
 
-    {{--内容详情的弹出层开始--}}
-    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
-    <input type="hidden" id="edit_item_detail_url" value="{{ route('editItemDetail') }}">
-
-    <div id="pop_item">
-        <div id="editor"></div>
-        <div class="pop knob close" id="pop_close"></div>
-        <div class="pop knob save" id="pop_save"></div>
-    </div>
-    {{--内容详情的弹出层结束--}}
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>
