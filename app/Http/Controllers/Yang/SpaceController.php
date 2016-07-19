@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Yang;
 
-use App\Repositories\CtgRepository;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use App\Ctg;
-use App\Item;
 use Auth;
 use App\Repositories\UserRepository;
+use App\Repositories\CtgRepository;
+use App\Repositories\ItemRepository;
 
 /**
  * Class SpaceController
@@ -19,7 +17,6 @@ class SpaceController extends Controller
 {
 
     /**
-     * 用户仓库的实例
      * @var UserRepository
      */
     protected $user;
@@ -30,149 +27,139 @@ class SpaceController extends Controller
     protected $ctg;
 
     /**
+     * @var ItemRepository
+     */
+    protected $item;
+
+    /**
      * SpaceController constructor.
      * @param UserRepository $user
      * @param CtgRepository  $ctg
+     * @param ItemRepository $item
      */
-    public function __construct(UserRepository $user, CtgRepository $ctg)
+    public function __construct(UserRepository $user, CtgRepository $ctg, ItemRepository $item)
     {
         $this->user = $user;
         $this->ctg  = $ctg;
+        $this->item = $item;
     }
 
     /**
      * @param Request $request
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
 
-        $ctgModel = new Ctg();
-        $pid      = $request->input('pid');
+        $pid = $request->input('pid');
 
         if ($pid) {
-            $html = $this->ctg->getDescCtg(true, $pid);
+            $html = $this->ctg->getDescCtg($pid, true);
         } else {
-            $html = $this->ctg->getAllCtg();
+            $html = $this->ctg->getAllCtg(true);
         }
 
         return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @param  Request $request
-     * @return Response
+     * @param Request $request
+     * @return mixed
      */
     public function createCtg(Request $request)
     {
-        $act      = $request->input('act');
-        $ctgModel = new Ctg();
 
-        $ctgModel->user_id = Auth::user()->user_id;
+        $param = [
+            ($request->input('act') == 'desc') ? $request->input('ctg_id') : $request->input('pid'),
+            Auth::user()->user_id,
+            0,
+            $request->input('title'),
+        ];
 
-        if ($act == 'desc') {
-
-            $pid             = $request->input('ctg_id');
-            $parent          = $ctgModel::find($pid);
-            $ctgModel->pid   = $pid;
-            $ctgModel->tier  = (int)($request->input('tier')) + 1;
-            $ctgModel->title = $request->input('title');
-            $ctgModel->path  = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
-
-        } elseif ($act == 'sibl') {
-
-            $pid             = $request->input('pid');
-            $parent          = $ctgModel::find($pid);
-            $ctgModel->pid   = $pid;
-            $ctgModel->tier  = $request->input('tier');
-            $ctgModel->title = $request->input('title');
-            $ctgModel->path  = $parent ? $parent->path : '';
-        }
-
-        return response()->json(['status' => $ctgModel->save()]);
+        return response()->json(['status' => call_user_func_array([$this->ctg, 'createCtg'], $param)]);
 
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
+     * @param Request $request
+     * @return mixed
      */
     public function updateCtg(Request $request)
     {
-        $ctgModel = Ctg::find($request->input('ctg_id'));
 
-        $ctgModel->title = $request->input('title');
+        $param = [
+            $request->input('ctg_id'),
+            $request->input('sort'),
+            $request->input('title'),
+        ];
 
-        return response()->json(['status' => $ctgModel->save()]);
+        return response()->json(['status' => call_user_func_array([$this->ctg, 'updateCtg'], $param)]);
     }
 
     /**
-     * 创建新的同级内容
      * @param Request $request
-     * @author Hanlongzhen 2016-05-19 11:17
-     * @return Response
+     * @return mixed
      */
     public function createItem(Request $request)
     {
-        $itemModel = new Item();
 
-        $itemModel->user_id = Auth::user()->user_id;
-        $itemModel->ctg_id  = $request->input('item_id') ? $request->input('pid') : $request->input('ctg_id');
-        $itemModel->title   = $request->input('title');
+        $param = [
+            $request->input('ctg_id'),
+            Auth::user()->user_id,
+            0,
+            $request->input('title'),
+        ];
 
-        return response()->json(['status' => $itemModel->save()]);
+        return response()->json(['status' => call_user_func_array([$this->item, 'createItem'], $param)]);
 
     }
 
     /**
-     * 编辑内容的标题
      * @param Request $request
-     * @author Hanlongzhen 2016-05-29 11:31
-     * @return Response
+     * @return mixed
      */
     public function updateItem(Request $request)
     {
-        $itemModel = Item::find($request->input('item_id'));
 
-        $itemModel->title = $request->input('title');
+        $param = [
+            $request->input('item_id'),
+            0,
+            0,
+            $request->input('title'),
+        ];
 
-        return response()->json(['status' => $itemModel->save()]);
+        return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);
 
     }
 
     /**
-     * 获取内容详情
      * @param Request $request
-     * @author Hanlongzhen 2016-07-01 17:15
-     * @return Response
+     * @return mixed
      */
     public function getItemDetail(Request $request)
     {
 
-        $itemModel = Item::find($request->input('item_id'));
+        $item = $this->item->getItemWithContent($request->input('item_id'));
 
-        $content = htmlspecialchars_decode($itemModel->content);
-
-        return response()->json(['status' => $itemModel, 'message' => $content]);
-
+        return response()->json(['status' => $item, 'message' => $item->content]);
     }
 
     /**
-     * 编辑内容详情
      * @param Request $request
-     * @return Response
+     * @return mixed
      */
     public function editItemDetail(Request $request)
     {
 
-        $res = Item::where('item_id', $request->input('item_id'))
-                   ->where('ctg_id', $request->input('ctg_id'))
-                   ->update(['content' => $request->input('content')]);
+        $param = [
+            $request->input('item_id'),
+            0,
+            0,
+            '',
+            $request->input('content'),
+        ];
 
-        return response()->json(['status' => $res]);
+        return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);
     }
 
 }

@@ -484,24 +484,6 @@ define([
                     form.action = b_dataset.action;
                     reveal(form);
 
-                    /**
-                     * 将按钮的 title 属性赋予 textarea
-                     * @type {Element}
-                     */
-                    var textarea = form.querySelector('textarea');
-
-                    textarea.setAttribute('title', target.getAttribute('title'));
-
-                    /**
-                     * 如果是编辑名称，将 star 的内容传递到 form 中
-                     * 其他的按钮，将 form.textarea 的内容清空
-                     */
-                    if (b_dataset.message == 'edit-self') {
-                        textarea.innerHTML = star.innerHTML;
-                    } else {
-                        textarea.innerHTML = '';
-                    }
-
                 } else {
 
                     switch (target.dataset.func) {
