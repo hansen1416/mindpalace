@@ -17,17 +17,17 @@ define([
            "../../func/math/matrixToArr",
            "../../func/event/bindEvent",
            "../../func/event/unbindEvent",
-           "../../func/event/resetTrackball",
            "../../func/ajax/ajax",
            "../../func/anim/requestAnim",
            "../../func/anim/cancelAnim",
            "../../func/anim/roll",
            "../../func/anim/reveal",
            "../../func/anim/conceal",
+           "../../func/anim/resetTrackball",
            "../layout/yang_space_layout"
 
        ], function (document, location, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
-                    bindEvent, unbindEvent, resetTrackball, ajax, requestAnim, cancelAnim, roll, reveal, conceal, yang_space_layout) {
+                    bindEvent, unbindEvent, ajax, requestAnim, cancelAnim, roll, reveal, conceal, resetTrackball, yang_space_layout) {
 
     /**
      * 引入 class YangSpaceLayout
