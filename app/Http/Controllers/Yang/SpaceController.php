@@ -89,6 +89,7 @@ class SpaceController extends Controller
 
         $param = [
             $request->input('ctg_id'),
+            $request->input('sort'),
             $request->input('title'),
         ];
 

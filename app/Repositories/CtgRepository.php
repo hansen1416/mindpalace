@@ -181,14 +181,16 @@ class CtgRepository
 
     /**
      * @param $ctg_id
+     * @param $sort
      * @param $title
      * @return bool
      */
-    public function updateCtg($ctg_id, $title)
+    public function updateCtg($ctg_id, $sort, $title)
     {
 
         $ctg = $this->findCtg($ctg_id);
 
+        $ctg->sort  = $sort;
         $ctg->title = $title;
 
         return $ctg->save();
