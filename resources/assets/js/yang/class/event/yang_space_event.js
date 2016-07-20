@@ -404,10 +404,6 @@ define([
                     //ajax提交表单
                     submitForm(target);
 
-                } else if (target.classList.contains('pop')) {
-                    //内容详情浮层的点击事件
-                    popClick(target);
-
                 }
 
             }//callback ends
@@ -441,6 +437,33 @@ define([
 
 
             /**
+             * ajax 提交表单
+             * @param target 提交按钮，是 form 的子元素
+             */
+            function submitForm(target) {
+                var form = target.parentNode,
+                    data = new FormData(form),
+                    success;
+
+                if (form.id == 'item_content') {
+                    data.append('content', editor.getHTML());
+                }
+
+                /**
+                 * 请求成功的回调函数
+                 * @param res json对象 res.status == 1 成功, 0 失败
+                 */
+                success = function (res) {
+                    //TODO
+                    console.log(res);
+                };
+
+                ajax(form.action, success, data);
+
+            }//submitForm ends
+
+
+            /**
              * .operation 中各个 .btn 的点击事件
              * @param target .btn 元素
              */
@@ -453,171 +476,122 @@ define([
                 var star      = upper.aimedStar,
                     s_dataset = star ? star.dataset : undefined,
                     b_dataset = target.dataset,
-                    cList     = target.classList,
-                    i         = 0,
-                    form;
-                /**
-                 * 分类元素和内容元素选择不同的表单
-                 */
-                if (cList.contains('ctg_btn')) {
-                    form = document.getElementById('ctg_form');
-                } else if (cList.contains('item_btn')) {
-                    form = document.getElementById('item_form');
+                    form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
+                    inputs    = [],
+                    i         = 0;
+
+                if (form && b_dataset['action']) {
+
+                    form.action = b_dataset['action'];
+                    inputs      = form.querySelectorAll("input[type='hidden']");
                 }
+
                 /**
                  * 从 star 或 target 中取出 表单隐藏域需要的数据
                  * @type {NodeList}
                  */
-                var inputs = form ? form.querySelectorAll("input[type='hidden']") : [];
-
                 while (i < inputs.length) {
                     inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
                     i++;
                 }
 
+
+                switch (b_dataset.func) {
+
+                    /*
+                     * 将选中的 .star 元素旋转到屏幕正中
+                     * 目前可以显示正确，但是缺少动画效果
+                     */
+                    case 'focus':
+                        //TODO
+                        var destiny                  = roll(star.style[trsfm]);
+                        upper.rotateObj.style[trsfm] = destiny;
+                        upper.setStartMatrix         = matrixToArr(destiny);
+                        break;
                 /**
-                 * 如果按钮是操作表单的，会有 dataset.action
-                 * 其他是操作样式或动画
+                 * 隐藏当前的操作界面
                  */
-                if (b_dataset.action) {
+                    case 'hide':
 
-                    form.action = b_dataset.action;
-                    reveal(form);
+                        conceal(target.parentNode);
+                        break;
+                /**
+                 * 查看某一个分类的子分类
+                 */
+                    case 'descendant':
 
-                } else {
+                        location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
+                        break;
 
-                    switch (target.dataset.func) {
+                    case 'add_desc':
 
-                        /*
-                         * 将选中的 .star 元素旋转到屏幕正中
-                         * 目前可以显示正确，但是缺少动画效果
+                        reveal(form);
+                        break;
+
+                    case 'add_sibl':
+
+                        reveal(form);
+                        break;
+
+                    case 'ctg_edit':
+
+                        reveal(form);
+                        break;
+
+                    case 'add_item':
+
+                        reveal(form);
+                        break;
+                /**
+                 * 编辑内容的标题、排序和标签信息
+                 */
+                    case 'item_edit':
+                        reveal(form);
+                        break;
+                /**
+                 * 显示内容的详细内容
+                 */
+                    case 'item_content':
+
+                        /**
+                         * 如果详情表单已经显示
+                         * 那么隐藏详情表单
                          */
-                        case 'focus':
-                            //TODO
-                            var destiny                  = roll(star.style[trsfm]);
-                            upper.rotateObj.style[trsfm] = destiny;
-                            upper.setStartMatrix         = matrixToArr(destiny);
-
-                            break;
-                    /**
-                     * 隐藏当前的操作界面
-                     */
-                        case 'hide':
-
+                        if (form.style['display'] == 'block') {
                             conceal(form);
-                            conceal(form.parentNode);
+                            return false;
+                        }
 
-                            break;
+                        /**
+                         * 请求详情数据
+                         * 并显示详情表单
+                         */
+                        var url     = document.getElementById('item_detail_url').value,
+                            success = function (res) {
 
-                        case 'descendant':
+                                if (res.status) {
 
-                            location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
+                                    editor = new Quill('#editor');
 
-                            break;
-                    /**
-                     * 显示内容的详细内容
-                     */
-                        case 'detail':
+                                    editor.setHTML(res.message);
 
-                            var pop_item = document.getElementById('pop_item'),
-                                url      = document.getElementById('item_detail_url').value,
-                                data     = new FormData(),
-                                success  = function (res) {
+                                    reveal(form);
+                                }
+                            };
 
-                                    if (res.status) {
+                        ajax(url, success, new FormData(form));
+                        break;
+                /**
+                 * 将 Trackball 重置到初始视角
+                 */
+                    case 'reset_trackball':
 
-                                        var pop_save = pop_item.querySelector('#pop_save');
-
-                                        editor = new Quill('#editor');
-
-                                        pop_save.dataset.ctg_id  = s_dataset['pid'];
-                                        pop_save.dataset.item_id = s_dataset['item_id'];
-
-                                        editor.setHTML(res.message);
-
-                                        pop_item.style['display'] = 'block';
-                                    }
-                                };
-
-                            data.append('item_id', s_dataset['item_id']);
-
-                            ajax(url, success, data);
-
-                            break;
-
-                        case 'reset_trackball':
-
-                            upper.startMatrix = resetTrackball(upper.rotateObj);
-
-                            break;
-                    }
-
-                }
+                        upper.startMatrix = resetTrackball(upper.rotateObj);
+                        break;
+                }//switch ends
 
 
             }//btnClick ends
-
-
-            /**
-             * ajax 提交表单
-             * @param target 提交按钮，是 form 的子元素
-             */
-            function submitForm(target) {
-                var form = target.parentNode,
-                    success;
-
-                /**
-                 * 请求成功的回调函数
-                 * @param res json对象 res.status == 1 成功, 0 失败
-                 */
-                success = function (res) {
-                    //TODO
-                    console.log(res);
-                };
-
-                ajax(form.action, success, new FormData(form));
-
-            }//submitForm ends
-
-
-            /**
-             * 弹出框里的点击事件
-             * @param target
-             */
-            function popClick(target) {
-
-                var id       = target.id,
-                    pop_item = document.getElementById('pop_item'),
-                    content  = pop_item.querySelector('.content');
-
-                switch (id) {
-
-                    case 'pop_close':
-
-                        conceal(pop_item);
-
-                        break;
-
-                    case 'pop_save':
-
-                        var url     = document.getElementById('edit_item_detail_url').value,
-                            data    = new FormData(),
-                            success = function (res) {
-                                //TODO
-                                console.log(res);
-                            };
-
-                        data.append('item_id', target.dataset.item_id);
-                        data.append('ctg_id', target.dataset.ctg_id);
-                        data.append('content', editor.getHTML());
-
-
-                        ajax(url, success, data);
-
-                        break;
-                }
-
-            }//popClick ends
 
 
         }//click ends

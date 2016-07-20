@@ -1,76 +1,215 @@
 @charset "utf-8";
-html, body, div, p, hr, pre, h1, h2, h3, h4, h5, h6, table, tr, td, th, tfoot, tbody, thead, form, fieldset, input, textarea, label, ul, ol, dl, li, dt, dd{border: 0; outline: 0; list-style: none;}
-header,nav,article,section,aside,footer{display:block;}
-img,input,textarea,button{border: 0;}
-*{margin: 0; padding: 0;}
-a{text-decoration: none;}
+html, body, div, p, hr, pre, h1, h2, h3, h4, h5, h6, table, tr, td, th, tfoot, tbody, thead, form, fieldset, input, textarea, label, ul, ol, dl, li, dt, dd {
+    border: 0;
+    outline: 0;
+    list-style: none;
+}
+
+header, nav, article, section, aside, footer {
+    display: block;
+}
+
+img, input, textarea, button {
+    border: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/****基本通用样式开始****/
+.hide {
+    display: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.abs {
+    position: absolute;
+}
+
+.rel {
+    position: relative;
+}
+
+.cursor-grab {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.center {
+    .abs;
+    top: 50%;
+    left: 50%;
+}
+
+.brim {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/****基本通用样式结束****/
+
 /****3d 通用样式开始****/
-.perspective{
-  -webkit-perspective: 700px;
-  perspective:700px;
+.perspective {
+    -webkit-perspective: 700px;
+    perspective: 700px;
 }
-.pers_origin{
-  -webkit-perspective-origin: 50% 50%;
-  perspective-origin: 50% 50%;
+
+.pers_origin {
+    -webkit-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
 }
-.trsf_origin{
-  -webkit-transform-origin: 50% 50%;
-  -o-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
+
+.trsf_origin {
+    -webkit-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
 }
-.trsf_style_3d{
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
+
+.trsf_style_3d {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
-.trsf_style_flat{
-  -webkit-transform-style: flat;
-  transform-style: flat;
+
+.trsf_style_flat {
+    -webkit-transform-style: flat;
+    transform-style: flat;
 }
-.back_face{
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+
+.back_face {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
+
 /****3d 通用样式结束****/
 
-/****图标通用样式开始****/
+/****按钮通用样式开始****/
 @icon-color: #c63e72;
-.btn-focus{
-    &:before{
-        .abs; top: 50%; left: 50%; content: '';
-        width: 10px; height: 2px; margin: -1px 0 0 -15px;
-        border: 10px solid @icon-color; border-top-width: 0; border-bottom-width: 0;
+
+.btn-focus {
+    &:before {
+        .abs;
+        top: 50%;
+        left: 50%;
+        content: '';
+        width: 10px;
+        height: 2px;
+        margin: -1px 0 0 -15px;
+        border: 10px solid @icon-color;
+        border-top-width: 0;
+        border-bottom-width: 0;
     }
-    &:after{
-        .abs; top: 50%; left: 50%; content: '';
-        width: 2px; height: 10px; margin: -15px 0 0 -1px;
-        border: 10px solid @icon-color; border-left-width: 0; border-right-width: 0;
+    &:after {
+        .abs;
+        top: 50%;
+        left: 50%;
+        content: '';
+        width: 2px;
+        height: 10px;
+        margin: -15px 0 0 -1px;
+        border: 10px solid @icon-color;
+        border-left-width: 0;
+        border-right-width: 0;
     }
 }
-.btn-hide{
-    &:before{
-        .abs; top: 50%; left: 50%; content: '';
-        width: 2px; height: 30px; margin: -15px 0 0 -1px;
+
+.btn-hide {
+    &:before {
+        .abs;
+        top: 50%;
+        left: 50%;
+        content: '';
+        width: 2px;
+        height: 30px;
+        margin: -15px 0 0 -1px;
         background-color: @icon-color;
         transform: rotate(45deg);
     }
-    &:after{
-        .abs; top: 50%; left: 50%; content: '';
-        width: 2px; height: 30px; margin: -15px 0 0 -1px;
+    &:after {
+        .abs;
+        top: 50%;
+        left: 50%;
+        content: '';
+        width: 2px;
+        height: 30px;
+        margin: -15px 0 0 -1px;
         background-color: @icon-color;
         transform: rotate(-45deg);
     }
 }
-/****图标通用样式开始****/
 
-/****其它通用样式开始****/
-.hide{display: none;}
-.fl{float: left;}
-.fr{float: right;}
-.abs{position: absolute;}
-.rel{position: relative;}
-.cursor-grab{cursor: -webkit-grab; cursor: -moz-grab; cursor: grab;}
-.circle{border-radius: 50%;}
-.center{.abs; top: 50%; left: 50%;}
-.brim{display: block; width: 100%; height: 100%;}
-/****其它通用样式结束****/
+@btn_w: 40px;
 
+.btn {
+    .abs;
+    width: @btn_w;
+    height: @btn_w;
+    margin: @btn_w/-2 0 0 @btn_w/-2;
+    border-radius: 50%;
+    font-size: @btn_w*0.35;
+    line-height: @btn_w*0.35;
+    text-align: center;
+
+    &:before {
+        content: '';
+        display: block;
+        height: 6px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+/****按钮通用样式开始****/
+
+/****表单通用样式开始****/
+
+.submit {
+    .abs;
+    width: 50px;
+    height: 30px;
+    font-size: 15px;
+    line-height: 30px;
+    text-align: center;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+form {
+    label {
+
+        font-size: 15px;
+
+        &:after {
+            content: '';
+            display: block;
+        }
+
+        input {
+            height: 30px;
+            text-indent: 10px;
+        }
+    }
+}
+
+/****表单通用样式开始****/

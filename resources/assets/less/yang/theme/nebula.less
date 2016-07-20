@@ -1,6 +1,23 @@
 @white: #fff;
 @black: #000;
 
+@btn: rgba(255, 255, 255, 0.5);
+@submit: #ccc;
+
+.btn {
+    background-color: @btn;
+    &:hover {
+        background-color: fadein(@btn, 40%);
+    }
+}
+
+.submit {
+    background-color: @submit;
+    &:hover {
+        background-color: darken(@submit, 20%);
+    }
+}
+
 //home
 @home: #37B8FC;
 @home-font: lighten(@black, 40%);
@@ -38,7 +55,6 @@
 
 //space
 @stage_back: #181C3D;
-@btn: rgba(255, 255, 255, 0.5);
 
 #yang-space {
 
@@ -67,34 +83,34 @@
     }
 
     .sec-0 {
-        .star-glow(#FA000A)
+        .star-glow(#FA000A);
     }
     .sec-1 {
-        .star-glow(#00CC00)
+        .star-glow(#00CC00);
     }
     .sec-2 {
-        .star-glow(#FFA500)
+        .star-glow(#FFA500);
     }
     .sec-3 {
-        .star-glow(#086FA1)
+        .star-glow(#086FA1);
     }
     .sec-4 {
-        .star-glow(#FEE500)
+        .star-glow(#FEE500);
     }
     .sec-5 {
-        .star-glow(#4512AE)
+        .star-glow(#4512AE);
     }
     .sec-6 {
-        .star-glow(#D8F801)
+        .star-glow(#D8F801);
     }
     .sec-7 {
-        .star-glow(#8506A8)
+        .star-glow(#8506A8);
     }
     .sec-8 {
-        .star-glow(#A1EE01)
+        .star-glow(#A1EE01);
     }
     .sec-9 {
-        .star-glow(#CC0174)
+        .star-glow(#CC0174);
     }
 
     background: radial-gradient(
@@ -126,62 +142,34 @@
     }
     //#stage ends
 
-    .operation {
+    @pop: #F0F0F0;
 
-        @pop: #F0F0F0;
+    form {
+        box-shadow: 0 0 4px 2px #808080;
+        background-color: @pop;
 
-        #ctg_form {
-
-            box-shadow: 0 0 4px 2px #808080;
-            background-color: @pop;
-
+        #editor::-webkit-scrollbar-track {
+            background-color: darken(@pop, 10%);
         }
-
-        .btn {
-            background-color: @btn;
-            &:hover {
-                background-color: fadein(@btn, 40%);
-            }
+        #editor::-webkit-scrollbar-thumb {
+            background-color: fade(#5D6CEA, 30%);
         }
-
-        .submit {
-            background-color: #ccc;
-            &:hover {
-                background-color: #00b3ee;
-            }
+        #editor::-webkit-scrollbar-thumb:hover {
+            background-color: #5D6CEA;
         }
-
-        #pop_item {
-
-            box-shadow: 0 0 4px 2px #808080;
-
-            #editor {
-                background-color: @pop;
-            }
-
-            #editor::-webkit-scrollbar-track {
-                background-color: darken(@pop, 10%);
-            }
-            #editor::-webkit-scrollbar-thumb {
-                background-color: fade(#5D6CEA, 30%);
-            }
-            #editor::-webkit-scrollbar-thumb:hover {
-                background-color: #5D6CEA;
-            }
-            #editor::-webkit-scrollbar-thumb:active {
-                background-color: #5D6CEA;
-            }
-
-            .knob.close {
-                background-color: red;
-            }
-            .knob.save {
-                background-color: blue;
-            }
+        #editor::-webkit-scrollbar-thumb:active {
+            background-color: #5D6CEA;
         }
-        //#pop_item ends
+    }
+
+    #ctg_form {
 
     }
+
+    #item_form {
+
+    }
+    //#item_content ends
 
     #top_left {
 

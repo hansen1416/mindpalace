@@ -34,88 +34,104 @@
     {{--关于分类的操作--}}
     <div id="ctg_box" class="operation">
 
-        <form enctype="multipart/form-data" id="ctg_form">
-
-            <label for="ctg_title">
-                {{ trans('general.ctgTitle') }}
-                <input type="text" id="ctg_title" name="title">
-            </label>
-
-            <label for="ctg_sort">
-                {{ trans('general.ctgSort') }}
-                <input type="text" id="ctg_sort" name="sort">
-            </label>
-
-            <label for="ctg_tags">
-                {{ trans('general.ctgTags') }}
-                <input type="text" id="ctg_tags" name="tags">
-            </label>
-
-
-            <div class="submit">{{ trans('general.save') }}</div>
-            <input type="hidden" name="ctg_id" value="0">
-            <input type="hidden" name="pid" value="0">
-            <input type="hidden" name="tier" value="0">
-            <input type="hidden" name="act">
-        </form>
         {{--聚焦选中 .star--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.focus') }}"
-             data-func="focus">{{ trans('buttons.focus') }}</div>
+        <div class="btn ctg_btn" id="focus" title="{{ trans('buttons.title.focus') }}" data-func="focus">
+            {{ trans('buttons.focus') }}
+        </div>
         {{--隐藏操作界面--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}"
-             data-func="hide">{{ trans('buttons.hideOper') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide">
+            {{ trans('buttons.hideOper') }}
+        </div>
         {{--显示分类的子类内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}"
-             data-func="descendant">{{ trans('buttons.showDesc') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}" data-func="descendant">
+            {{ trans('buttons.showDesc') }}
+        </div>
         {{--添加一个子级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-action="{{ route('createCtg') }}"
-             data-act="desc">{{ trans('buttons.addDesc') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-func="add_desc"
+             data-action="{{ route('createCtg') }}" data-form="ctg_form"
+             data-act="desc">
+            {{ trans('buttons.addDesc') }}
+        </div>
         {{--添加一个同级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-action="{{ route('createCtg') }}"
-             data-act="sibl">{{ trans('buttons.addSibl') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-func="add_sibl"
+             data-action="{{ route('createCtg') }}" data-form="ctg_form"
+             data-act="sibl">
+            {{ trans('buttons.addSibl') }}
+        </div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtg') }}" data-message="edit-self"
-             data-action="{{ route('updateCtg') }}">{{ trans('buttons.editCtg') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtg') }}" data-func="ctg_edit"
+             data-action="{{ route('updateCtg') }}" data-form="ctg_form">
+            {{ trans('buttons.editCtg') }}
+        </div>
         {{--添加一个子内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}"
-             data-action="{{ route('createItem') }}">{{ trans('buttons.addItem') }}</div>
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}" data-func="add_item"
+             data-action="{{ route('createItem') }}" data-form="item_form">
+            {{ trans('buttons.addItem') }}
+        </div>
 
     </div>
 
     {{--关于内容的操作--}}
     <div id="item_box" class="operation">
 
-        <form enctype="multipart/form-data" id="item_form">
-            <textarea name="title"></textarea>
-            <div class="submit">ok</div>
-            <input type="hidden" name="item_id" value="0">
-        </form>
         {{--聚焦选中 .star--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}"
-             data-func="focus">{{ trans('buttons.focus') }}</div>
-        {{--隐藏操作面板--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}"
-             data-func="hide">{{ trans('buttons.hideOper') }}</div>
-        {{--编辑内容标题--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}"
-             data-action="{{ route('updateItem') }}">{{ trans('buttons.editItem') }}</div>
-        {{--显示详细内容--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}"
-             data-func="detail">{{ trans('buttons.showItem') }}</div>
-
-
-        {{--内容详情的弹出层开始--}}
-        <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
-        <input type="hidden" id="edit_item_detail_url" value="{{ route('editItemDetail') }}">
-
-        <div id="pop_item">
-            <div id="editor"></div>
-            <div class="pop knob close" id="pop_close"></div>
-            <div class="pop knob save" id="pop_save"></div>
+        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus">
+            {{ trans('buttons.focus') }}
         </div>
-        {{--内容详情的弹出层结束--}}
+        {{--隐藏操作面板--}}
+        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide">
+            {{ trans('buttons.hideOper') }}
+        </div>
+        {{--编辑内容标题--}}
+        <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}" data-func="item_edit"
+             data-action="{{ route('updateItem') }}" data-form="item_form">
+            {{ trans('buttons.editItem') }}
+        </div>
+        {{--显示详细内容--}}
+        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}" data-func="item_content"
+             data-action="{{ route('editItemDetail') }}" data-form="item_form">
+            {{ trans('buttons.showItem') }}
+        </div>
 
     </div>
+
+    {{--分类表单--}}
+    <form enctype="multipart/form-data" id="ctg_form">
+
+        <label for="ctg_title">
+            {{ trans('general.ctgTitle') }}
+            <input type="text" id="ctg_title" name="title">
+        </label>
+
+        <label for="ctg_sort">
+            {{ trans('general.ctgSort') }}
+            <input type="text" id="ctg_sort" name="sort">
+        </label>
+
+        <label for="ctg_tags">
+            {{ trans('general.ctgTags') }}
+            <input type="text" id="ctg_tags" name="tags">
+        </label>
+
+        <div class="submit">{{ trans('general.save') }}</div>
+        <input type="hidden" name="ctg_id" value="0">
+        <input type="hidden" name="pid" value="0">
+        <input type="hidden" name="tier" value="0">
+        <input type="hidden" name="act">
+    </form>
+    {{--分类表单--}}
+
+    {{--内容表单--}}
+    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+
+    <form enctype="multipart/form-data" id="item_form">
+        <textarea name="title"></textarea>
+        <div id="editor"></div>
+        <div class="submit">{{ trans('general.save') }}</div>
+        <input type="hidden" name="item_id" value="0">
+    </form>
+    {{--内容表单--}}
+
     {{--左上角返回主页按钮--}}
     <div id="top_left">
         <a class="home" href="{{ route('home') }}"
@@ -127,6 +143,7 @@
         <div class="btn reset" data-func="reset_trackball"
              title="{{ trans('buttons.title.resetTrackball') }}">{{ trans('buttons.resetTrackball') }}</div>
     </div>
+
     {{--右上角用户信息--}}
     <div id="top_right">
         <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
