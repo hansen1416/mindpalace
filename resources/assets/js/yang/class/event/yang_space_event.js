@@ -528,12 +528,12 @@ define([
                         reveal(form);
                         break;
 
-                    case 'add_sibl':
+                    case 'add_peer':
 
                         reveal(form);
                         break;
 
-                    case 'ctg_edit':
+                    case 'edit_ctg':
 
                         reveal(form);
                         break;

@@ -39,34 +39,34 @@
             {{ trans('buttons.focus') }}
         </div>
         {{--隐藏操作界面--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.hidePlate') }}" data-func="hide">
-            {{ trans('buttons.hidePlate') }}
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.hide_plate') }}" data-func="hide">
+            {{ trans('buttons.hide_plate') }}
         </div>
         {{--显示分类的子类内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}" data-func="descendant">
-            {{ trans('buttons.showDesc') }}
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.show_desc') }}" data-func="descendant">
+            {{ trans('buttons.show_desc') }}
         </div>
         {{--添加一个子级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addDesc') }}" data-func="add_desc"
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_desc') }}" data-func="add_desc"
              data-action="{{ route('createCtg') }}" data-form="ctg_form"
              data-act="desc">
-            {{ trans('buttons.addDesc') }}
+            {{ trans('buttons.add_desc') }}
         </div>
         {{--添加一个同级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addSibl') }}" data-func="add_sibl"
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_peer') }}" data-func="add_peer"
              data-action="{{ route('createCtg') }}" data-form="ctg_form"
              data-act="sibl">
-            {{ trans('buttons.addSibl') }}
+            {{ trans('buttons.add_peer') }}
         </div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.editCtg') }}" data-func="ctg_edit"
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_ctg') }}" data-func="edit_ctg"
              data-action="{{ route('updateCtg') }}" data-form="ctg_form">
-            {{ trans('buttons.editCtg') }}
+            {{ trans('buttons.edit_ctg') }}
         </div>
         {{--添加一个子内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.addItem') }}" data-func="add_item"
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_item') }}" data-func="add_item"
              data-action="{{ route('createItem') }}" data-form="item_form">
-            {{ trans('buttons.addItem') }}
+            {{ trans('buttons.add_item') }}
         </div>
 
     </div>
@@ -79,18 +79,13 @@
             {{ trans('buttons.focus') }}
         </div>
         {{--隐藏操作面板--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.hidePlate') }}" data-func="hide">
-            {{ trans('buttons.hidePlate') }}
+        <div class="btn item_btn" title="{{ trans('buttons.title.hide_plate') }}" data-func="hide">
+            {{ trans('buttons.hide_plate') }}
         </div>
         {{--编辑内容标题--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}" data-func="item_edit"
+        <div class="btn item_btn" title="{{ trans('buttons.title.edit_item') }}" data-func="item_edit"
              data-action="{{ route('updateItem') }}" data-form="item_form">
-            {{ trans('buttons.editItem') }}
-        </div>
-        {{--显示详细内容--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.showItem') }}" data-func="item_content"
-             data-action="{{ route('editItemDetail') }}" data-form="item_form">
-            {{ trans('buttons.showItem') }}
+            {{ trans('buttons.edit_item') }}
         </div>
 
     </div>
@@ -113,7 +108,7 @@
             <input type="text" id="ctg_tags" name="tags">
         </label>
 
-        <div class="btn" data-func="hide">{{ trans('buttons.hidePlate') }}</div>
+        <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
         <div class="submit">{{ trans('general.save') }}</div>
         <input type="hidden" name="ctg_id" value="0">
         <input type="hidden" name="pid" value="0">
@@ -144,7 +139,7 @@
 
         <div id="editor"></div>
 
-        <div class="btn" data-func="hide">{{ trans('buttons.hidePlate') }}</div>
+        <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
         <div class="submit">{{ trans('general.save') }}</div>
         <input type="hidden" name="item_id" value="0">
     </form>
