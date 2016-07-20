@@ -126,6 +126,7 @@ class SpaceController extends Controller
             0,
             0,
             $request->input('title'),
+            $request->input('content'),
         ];
 
         return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);
@@ -142,24 +143,6 @@ class SpaceController extends Controller
         $item = $this->item->getItemWithContent($request->input('item_id'));
 
         return response()->json(['status' => $item, 'message' => $item->content]);
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function editItemDetail(Request $request)
-    {
-
-        $param = [
-            $request->input('item_id'),
-            0,
-            0,
-            '',
-            $request->input('content'),
-        ];
-
-        return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);
     }
 
 }

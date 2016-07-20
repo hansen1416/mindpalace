@@ -41,7 +41,8 @@ define([
             super(param);
 
             this.rotateObj   = param.rotateObj;
-            this.startMatrix = new Float32Array(16);    //starting matrix of every action
+            //starting matrix of every action
+            this.startMatrix = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
 
         }
 
@@ -103,14 +104,9 @@ define([
             //元素最初设置的transform值
             originTransform = getStyle(this.rotateObj, prefixCss + "transform");
 
-            if (originTransform == "none") {
-                this.startMatrix[0]  = 1;
-                this.startMatrix[5]  = 1;
-                this.startMatrix[10] = 1;
-                this.startMatrix[15] = 1;
-            } else {
-                //将字符串处理成数组
-                this.startMatrix = matrixToArr(originTransform);
+            if (originTransform != "none") {
+
+                this.setStartMatrix = matrixToArr(originTransform);
             }
             //目标元素绑定mousedown事件
             bindEvent(this.stage, "mousedown", rotateStart);
@@ -149,7 +145,7 @@ define([
 
                     rotateObj.classList.remove('rotate_animation');
 
-                    upper.startMatrix      = matrixToArr(currentStyle);
+                    upper.setStartMatrix      = matrixToArr(currentStyle);
                     rotateObj.style[trsfm] = currentStyle;
                 }
 
@@ -445,7 +441,7 @@ define([
                     data = new FormData(form),
                     success;
 
-                if (form.id == 'item_content') {
+                if (form.id == 'item_form') {
                     data.append('content', editor.getHTML());
                 }
 
@@ -546,12 +542,6 @@ define([
                  * 编辑内容的标题、排序和标签信息
                  */
                     case 'item_edit':
-                        reveal(form);
-                        break;
-                /**
-                 * 显示内容的详细内容
-                 */
-                    case 'item_content':
 
                         /**
                          * 请求详情数据
@@ -575,7 +565,7 @@ define([
                  */
                     case 'reset_trackball':
 
-                        upper.startMatrix = resetTrackball(upper.rotateObj);
+                        upper.setStartMatrix = resetTrackball(upper.rotateObj);
                         break;
                 }//switch ends
 
