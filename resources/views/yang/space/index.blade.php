@@ -39,8 +39,8 @@
             {{ trans('buttons.focus') }}
         </div>
         {{--隐藏操作界面--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide">
-            {{ trans('buttons.hideOper') }}
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.hidePlate') }}" data-func="hide">
+            {{ trans('buttons.hidePlate') }}
         </div>
         {{--显示分类的子类内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.showDesc') }}" data-func="descendant">
@@ -79,8 +79,8 @@
             {{ trans('buttons.focus') }}
         </div>
         {{--隐藏操作面板--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.hideOper') }}" data-func="hide">
-            {{ trans('buttons.hideOper') }}
+        <div class="btn item_btn" title="{{ trans('buttons.title.hidePlate') }}" data-func="hide">
+            {{ trans('buttons.hidePlate') }}
         </div>
         {{--编辑内容标题--}}
         <div class="btn item_btn" title="{{ trans('buttons.title.editItem') }}" data-func="item_edit"
@@ -113,6 +113,7 @@
             <input type="text" id="ctg_tags" name="tags">
         </label>
 
+        <div class="btn" data-func="hide">{{ trans('buttons.hidePlate') }}</div>
         <div class="submit">{{ trans('general.save') }}</div>
         <input type="hidden" name="ctg_id" value="0">
         <input type="hidden" name="pid" value="0">
@@ -125,8 +126,12 @@
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
 
     <form enctype="multipart/form-data" id="item_form">
+
         <textarea name="title"></textarea>
+
         <div id="editor"></div>
+
+        <div class="btn" data-func="hide">{{ trans('buttons.hidePlate') }}</div>
         <div class="submit">{{ trans('general.save') }}</div>
         <input type="hidden" name="item_id" value="0">
     </form>
@@ -134,14 +139,17 @@
 
     {{--左上角返回主页按钮--}}
     <div id="top_left">
-        <a class="home" href="{{ route('home') }}"
-           title="{{ trans('general.title.home') }}">{{ trans('general.home') }}</a>
+        <a class="home" href="{{ route('home') }}" title="{{ trans('general.title.home') }}">
+            {{ trans('general.home') }}
+        </a>
 
-        <a class="btn space" href="{{ route('space') }}"
-           title="{{ trans('general.title.space') }}">{{ trans('general.space') }}</a>
+        <a class="btn space" href="{{ route('space') }}" title="{{ trans('general.title.space') }}">
+            {{ trans('general.space') }}
+        </a>
 
-        <div class="btn reset" data-func="reset_trackball"
-             title="{{ trans('buttons.title.resetTrackball') }}">{{ trans('buttons.resetTrackball') }}</div>
+        <div class="btn reset" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}">
+            {{ trans('buttons.resetTrackball') }}
+        </div>
     </div>
 
     {{--右上角用户信息--}}

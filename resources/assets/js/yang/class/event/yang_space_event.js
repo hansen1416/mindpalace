@@ -503,7 +503,7 @@ define([
                      * 目前可以显示正确，但是缺少动画效果
                      */
                     case 'focus':
-                        //TODO
+
                         var destiny                  = roll(star.style[trsfm]);
                         upper.rotateObj.style[trsfm] = destiny;
                         upper.setStartMatrix         = matrixToArr(destiny);
@@ -552,15 +552,6 @@ define([
                  * 显示内容的详细内容
                  */
                     case 'item_content':
-
-                        /**
-                         * 如果详情表单已经显示
-                         * 那么隐藏详情表单
-                         */
-                        if (form.style['display'] == 'block') {
-                            conceal(form);
-                            return false;
-                        }
 
                         /**
                          * 请求详情数据
