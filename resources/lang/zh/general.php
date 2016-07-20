@@ -7,11 +7,14 @@ return [
     'login'     => 'Login',
     'logout'    => 'Logout',
     'remember'  => 'Remember Me',
+    'save'      => '保存',
+    'close'     => '关闭',
     'ctgTitle'  => '分类名称',
     'ctgSort'   => '分类排序',
     'ctgTags'   => '分类标签',
-    'save'      => '保存',
-    'close'     => '关闭',
+    'itemTitle' => '内容名称',
+    'itemSort'  => '内容排序',
+    'itemTags'  => '内容标签',
 
     'title' => [
         'home'  => '回到首页',

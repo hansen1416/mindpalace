@@ -378,8 +378,8 @@ define([
 
             bindEvent(document, 'click', callback);
 
-            var upper = this,
-                editor;
+            var upper  = this,
+                editor = new Quill('#editor');
 
 
             function callback(e) {
@@ -561,8 +561,6 @@ define([
                             success = function (res) {
 
                                 if (res.status) {
-
-                                    editor = new Quill('#editor');
 
                                     editor.setHTML(res.message);
 

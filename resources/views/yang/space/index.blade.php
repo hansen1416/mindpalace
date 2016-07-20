@@ -127,7 +127,20 @@
 
     <form enctype="multipart/form-data" id="item_form">
 
-        <textarea name="title"></textarea>
+        <label for="item_title">
+            {{ trans('general.itemTitle') }}
+            <input type="text" id="item_title" name="title">
+        </label>
+
+        <label for="item_sort">
+            {{ trans('general.itemSort') }}
+            <input type="text" id="item_sort" name="sort">
+        </label>
+
+        <label for="item_tags">
+            {{ trans('general.itemTags') }}
+            <input type="text" id="item_tags" name="tags">
+        </label>
 
         <div id="editor"></div>
 
