@@ -59,7 +59,7 @@ define([
          * @author Hanlongzhen 2016-04-19 10:39
          */
         diffuse() {
-            var stars = this.stage.querySelectorAll('.tier-' + this.prevTier);
+            let stars = this.stage.querySelectorAll('.tier-' + this.prevTier);
 
             //如果没有下一层了，则停止
             if (!stars.length) {
@@ -89,7 +89,7 @@ define([
              * 如果不是最内层，则先把这一层所有元素的位置和旋转信息储存起来，
              * 再根据父分类的位置，计算元素所在位置，需要多一次循环
              */
-            var i      = 0,
+            let i      = 0,
                 pos    = null,
                 p      = null,
                 k      = null,

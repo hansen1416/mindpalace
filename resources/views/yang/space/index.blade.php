@@ -83,7 +83,7 @@
             {{ trans('buttons.hide_plate') }}
         </div>
         {{--编辑内容标题--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.edit_item') }}" data-func="item_edit"
+        <div class="btn item_btn" title="{{ trans('buttons.title.edit_item') }}" data-func="edit_item"
              data-action="{{ route('updateItem') }}" data-form="item_form">
             {{ trans('buttons.edit_item') }}
         </div>

@@ -26,7 +26,7 @@ define([
                 //所有控制按钮的点击事件
                 if (e.target.classList.contains('panel')) {
 
-                    var tid  = e.target.id,     //按钮的id
+                    let tid  = e.target.id,     //按钮的id
                         url  = '',              //请求地址
                         data = null,            //传送的数据
                         success;                //成功回调函数

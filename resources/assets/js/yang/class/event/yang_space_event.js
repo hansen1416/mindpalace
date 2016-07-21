@@ -35,6 +35,9 @@ define([
      */
     yang_space_layout = null;
 
+    let editor = new WeakMap();
+
+
     class YangSpaceEvent extends YangSpaceLayout {
 
         constructor(param) {
@@ -69,7 +72,7 @@ define([
          */
         trackball(trackballParam) {
 
-            var upper           = this,
+            let upper           = this,
                 impulse         = true,                     //true有惯性，false没有惯性
                 radius          = 0,                        //visual trackball radius
                 pos             = 0,                        //top & left of the stage
@@ -140,12 +143,12 @@ define([
                  */
                 if (upper.rotateObj.classList.contains('rotate_animation')) {
 
-                    var rotateObj    = upper.rotateObj,
+                    let rotateObj    = upper.rotateObj,
                         currentStyle = getStyle(rotateObj, prefixCss + "transform");
 
                     rotateObj.classList.remove('rotate_animation');
 
-                    upper.setStartMatrix      = matrixToArr(currentStyle);
+                    upper.setStartMatrix   = matrixToArr(currentStyle);
                     rotateObj.style[trsfm] = currentStyle;
                 }
 
@@ -252,7 +255,7 @@ define([
              * 计算鼠标抬起后的单位角速度
              */
             function angularDeceleration() {
-                var da = angle - oldAngle,      //鼠标点下到放开转动的角度
+                let da = angle - oldAngle,      //鼠标点下到放开转动的角度
                     dt = time - oldTime;        //鼠标点下到放开经过的时间
 
                 omega = Math.abs(da * (1000 / 60) / dt);  //算出单位单位角速度，参数1000/60
@@ -290,9 +293,11 @@ define([
                 //将 slide 标示置为 true，表示取消 slide animation
                 rsf = true;
 
-                //获得运动停止时的矩阵，并且赋值给startMatrix
-                var stopMatrix       = rotateMatrix(axis, angle);                //结束时的axis & angle
-                upper.setStartMatrix = multiplyMatrix3d(upper.getStartMatrix, stopMatrix);
+                /**
+                 * 获得运动停止时的矩阵，并且赋值给startMatrix
+                 * rotateMatrix(axis, angle) 是结束时的axis & angle
+                 */
+                upper.setStartMatrix = multiplyMatrix3d(upper.getStartMatrix, rotateMatrix(axis, angle));
 
                 //次初始化步骤一定是在获得startMatrix之后，
                 //否则运动停止之后元素会回到ratate3d(x,y,x,0)的位置
@@ -311,7 +316,7 @@ define([
 
             bindEvent(this.stage, 'wheel', callback);
 
-            var upper      = this,
+            let upper      = this,
                 style_zoom = document.getElementById('style_zoom'),
                 sheet      = style_zoom['sheet'] || style_zoom['styleSheet'];
 
@@ -325,7 +330,7 @@ define([
             function callback(e) {
                 e.preventDefault();
 
-                var sign = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
+                let sign = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
                     lens = sheet.cssRules.length,
                     tier = sign > 0 ? lens : lens - 1;
 
@@ -345,7 +350,7 @@ define([
                     sheet.deleteRule(tier);
                 }
 
-                var not = '';
+                let not = '';
 
                 //获取已经隐藏掉的层，在其后不选择
                 do {
@@ -353,7 +358,7 @@ define([
                     tier--;
                 } while (tier > -1);
 
-                var stars = upper.stage.querySelectorAll('.star' + not),
+                let stars = upper.stage.querySelectorAll('.star' + not),
                     str   = upper.gap * sign + 'px',
                     i     = 0;
                 //缩放所有显示的元素
@@ -374,13 +379,13 @@ define([
 
             bindEvent(document, 'click', callback);
 
-            var upper  = this,
-                editor = new Quill('#editor');
+            let upper = this;
 
+            editor.set(this, new Quill('#editor'));
 
             function callback(e) {
 
-                var target = e.target;
+                let target = e.target;
                 //如果是 a 标签，则只执行默认行为
                 if (target.nodeName === 'A') {
                     return false;
@@ -413,7 +418,7 @@ define([
              */
             function starClick(target) {
 
-                var dataset  = target.dataset,
+                let dataset  = target.dataset,
                     ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
                     item_id  = dataset['item_id'] ? dataset['item_id'] : 0,     //内容的ID
                     ctg_box  = document.getElementById('ctg_box'),              //分类对应的操作面板
@@ -437,12 +442,13 @@ define([
              * @param target 提交按钮，是 form 的子元素
              */
             function submitForm(target) {
-                var form = target.parentNode,
+
+                let form = target.parentNode,
                     data = new FormData(form),
                     success;
 
                 if (form.id == 'item_form') {
-                    data.append('content', editor.getHTML());
+                    data.append('content', editor.get(upper).getHTML());
                 }
 
                 /**
@@ -469,7 +475,7 @@ define([
                  * cList target的classList
                  * form 当前操作界面中的表单
                  */
-                var star      = upper.aimedStar,
+                let star      = upper.aimedStar,
                     s_dataset = star ? star.dataset : undefined,
                     b_dataset = target.dataset,
                     form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
@@ -500,9 +506,9 @@ define([
                      */
                     case 'focus':
 
-                        var destiny                  = roll(star.style[trsfm]);
-                        upper.rotateObj.style[trsfm] = destiny;
+                        let destiny                  = roll(star.style[trsfm]);
                         upper.setStartMatrix         = matrixToArr(destiny);
+                        upper.rotateObj.style[trsfm] = destiny;
                         break;
                 /**
                  * 隐藏当前的操作界面
@@ -516,10 +522,24 @@ define([
                  */
                     case 'descendant':
 
-                        location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
+                        let d_ctg_id = s_dataset['ctg_id'];
+
+                        /**
+                         * 如果有子分类，则跳转
+                         */
+                        if (upper.rotateObj.querySelector(".ctg[data-pid='" + d_ctg_id + "']")) {
+                            location.href = location.origin + location.pathname + '?pid=' + d_ctg_id;
+                        } else {
+                            console.warn('no descendant found');
+                        }
+
                         break;
 
                     case 'add_desc':
+
+                        let a_d_input = form.querySelectorAll('input');
+
+                        console.log(a_d_input);
 
                         reveal(form);
                         break;
@@ -541,24 +561,24 @@ define([
                 /**
                  * 编辑内容的标题、排序和标签信息
                  */
-                    case 'item_edit':
+                    case 'edit_item':
 
                         /**
                          * 请求详情数据
                          * 并显示详情表单
                          */
-                        var url     = document.getElementById('item_detail_url').value,
-                            success = function (res) {
+                        let e_i_url     = document.getElementById('item_detail_url').value,
+                            e_i_success = function (res) {
 
                                 if (res.status) {
 
-                                    editor.setHTML(res.message);
+                                    editor.get(upper).setHTML(res.message);
 
                                     reveal(form);
                                 }
                             };
 
-                        ajax(url, success, new FormData(form));
+                        ajax(e_i_url, e_i_success, new FormData(form));
                         break;
                 /**
                  * 将 Trackball 重置到初始视角

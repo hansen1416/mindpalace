@@ -19,7 +19,7 @@ define([
                                            {'selector': '.item_btn', 'radius': 100}
                                        ]);
 
-    var Y = new YangSpaceEvent({
+    let Y = new YangSpaceEvent({
         stage    : document.getElementById('stage'),
         rotateObj: document.getElementById('galaxy'),
         radius   : 140,
