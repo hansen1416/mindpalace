@@ -212,4 +212,49 @@ form {
     }
 }
 
-/****表单通用样式开始****/
+/****表单通用样式结束****/
+
+
+/****动画通用样式开始****/
+.taiji{
+
+    background: radial-gradient(circle at 50% 25%, @taiji_yin 8%, @taiji_yang 11%, @taiji_yang 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle at 50% 75%, @taiji_yang 8%, @taiji_yin 11%, @taiji_yin 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle at 0% 0%, @taiji_yin 0%, @taiji_yin 100%) @pr_w/2 0 no-repeat;
+    background-color: @taiji_yang;
+    background-size: @pr_w @pr_w;
+
+    box-shadow: 1px 0 1px @taiji_yang, -1px 0 1px @taiji_yin;
+
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-name: taiji;
+    animation-play-state: running;
+    animation-timing-function: linear;
+
+    &:hover {
+        animation-play-state: paused;
+    }
+}
+
+@keyframes taiji {
+    0% {
+        transform: rotate(0);
+    }
+    25% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    75% {
+        transform: rotate(270deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+
+}
+
+//@keyframes ends
+/****动画通用样式结束****/

@@ -165,7 +165,7 @@
     </div>
 
     {{--显示处理状态--}}
-    <div id="progress">
+    <div id="progress" class="taiji">
 
     </div>
 
