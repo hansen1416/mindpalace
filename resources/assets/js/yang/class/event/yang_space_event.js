@@ -35,10 +35,11 @@ define([
      */
     yang_space_layout = null;
 
-    let editor = new WeakMap();
+    let editor    = new WeakMap(),      //富文本编辑器
+        aimedStar = new WeakMap();      //选中的分类或内容
 
-    const ctgDetailUrl  = document.getElementById('ctg_detail_url').value;
-    const itemDetailUrl = document.getElementById('item_detail_url').value;
+    const ctgDetailUrl  = document.getElementById('ctg_detail_url').value;      //获取分类详情的URL
+    const itemDetailUrl = document.getElementById('item_detail_url').value;     //获取内容详情的URL
 
     class YangSpaceEvent extends YangSpaceLayout {
 
@@ -434,7 +435,7 @@ define([
                     conceal(ctg_box);
                 }
 
-                upper.aimedStar = target;
+                aimedStar.set(upper, target);
 
             }//starClick ends
 
@@ -477,7 +478,7 @@ define([
                  * cList target的classList
                  * form 当前操作界面中的表单
                  */
-                let star      = upper.aimedStar,
+                let star      = aimedStar.get(upper),
                     s_dataset = star ? star.dataset : undefined,
                     b_dataset = target.dataset,
                     form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
@@ -614,7 +615,7 @@ define([
             if (form.querySelector('#editor')) {
                 editor.get(this).setHTML('');
             }
-        }
+        }//clearForm ends
 
 
     }//YangHomeEvent ends
