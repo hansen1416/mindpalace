@@ -70,7 +70,7 @@ class SpaceController extends Controller
     {
 
         $param = [
-            ($request->input('act') == 'desc') ? $request->input('ctg_id') : $request->input('pid'),
+            $request->input($request->input('act')),
             Auth::user()->user_id,
             0,
             $request->input('title'),

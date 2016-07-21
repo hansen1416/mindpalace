@@ -534,19 +534,23 @@ define([
                         }
 
                         break;
-
+                /**
+                 * 给指定分类添加一个子分类
+                 */
                     case 'add_desc':
 
-                        let a_d_input = form.querySelectorAll('input');
-
-                        console.log(a_d_input);
-
+                        upper.clearForm(form);
                         reveal(form);
-                        break;
 
+                        break;
+                /**
+                 * 给指定分类添加一个同级分类
+                 */
                     case 'add_peer':
 
+                        upper.clearForm(form);
                         reveal(form);
+
                         break;
 
                     case 'edit_ctg':
@@ -594,6 +598,15 @@ define([
 
 
         }//click ends
+
+        clearForm(form){
+
+            form.reset();
+
+            if (form.querySelector('#editor')) {
+               editor.get(this).setHTML('');
+            }
+        }
 
 
     }//YangHomeEvent ends

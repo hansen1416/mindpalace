@@ -56,4 +56,6 @@ define([
      */
     Y.click();
 
+    Y = null;
+
 });

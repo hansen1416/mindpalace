@@ -48,14 +48,12 @@
         </div>
         {{--添加一个子级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.add_desc') }}" data-func="add_desc"
-             data-action="{{ route('createCtg') }}" data-form="ctg_form"
-             data-act="desc">
+             data-action="{{ route('createCtg') }}" data-form="ctg_form" data-act="ctg_id">
             {{ trans('buttons.add_desc') }}
         </div>
         {{--添加一个同级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.add_peer') }}" data-func="add_peer"
-             data-action="{{ route('createCtg') }}" data-form="ctg_form"
-             data-act="sibl">
+             data-action="{{ route('createCtg') }}" data-form="ctg_form" data-act="pid">
             {{ trans('buttons.add_peer') }}
         </div>
         {{--编辑分类标题--}}
