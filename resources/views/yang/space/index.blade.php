@@ -5,6 +5,9 @@
     {{--同心球的缩放，动态操纵的样式表--}}
     <style id="style_zoom"></style>
 
+    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+    <input type="hidden" id="ctg_detail_url" value="{{ route('ctgDetail') }}">
+
     <div id="stage">
 
         <div class="rotate_animation" id="galaxy">
@@ -116,8 +119,6 @@
     {{--分类表单--}}
 
     {{--内容表单--}}
-    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
-
     <form enctype="multipart/form-data" id="item_form">
 
         <label for="item_title">

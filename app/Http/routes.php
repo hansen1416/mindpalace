@@ -29,6 +29,7 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth:w
     Route::post('space/createItem', ['as' => 'createItem', 'uses' => 'SpaceController@createItem']);
     Route::post('space/updateItem', ['as' => 'updateItem', 'uses' => 'SpaceController@updateItem']);
     Route::post('space/getItemDetail', ['as' => 'itemDetail', 'uses' => 'SpaceController@getItemDetail']);
+    Route::post('space/getCtgDetail', ['as' => 'ctgDetail', 'uses' => 'SpaceController@getCtgDetail']);
 });
 
 Route::auth();

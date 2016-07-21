@@ -37,6 +37,8 @@ define([
 
     let editor = new WeakMap();
 
+    const ctgDetailUrl  = document.getElementById('ctg_detail_url').value;
+    const itemDetailUrl = document.getElementById('item_detail_url').value;
 
     class YangSpaceEvent extends YangSpaceLayout {
 
@@ -555,12 +557,22 @@ define([
 
                     case 'edit_ctg':
 
-                        reveal(form);
+                        ajax(ctgDetailUrl, function (res) {
+
+                            form.querySelector('#ctg_title').value = res.message['title'];
+                            form.querySelector('#ctg_sort').value  = res.message['sort'];
+
+                            reveal(form);
+
+                        }, new FormData(form));
+
                         break;
 
                     case 'add_item':
 
+                        upper.clearForm(form);
                         reveal(form);
+
                         break;
                 /**
                  * 编辑内容的标题、排序和标签信息
@@ -571,18 +583,14 @@ define([
                          * 请求详情数据
                          * 并显示详情表单
                          */
-                        let e_i_url     = document.getElementById('item_detail_url').value,
-                            e_i_success = function (res) {
+                        ajax(itemDetailUrl, function (res) {
 
-                                if (res.status) {
+                            editor.get(upper).setHTML(res.message);
 
-                                    editor.get(upper).setHTML(res.message);
+                            reveal(form);
 
-                                    reveal(form);
-                                }
-                            };
+                        }, new FormData(form));
 
-                        ajax(e_i_url, e_i_success, new FormData(form));
                         break;
                 /**
                  * 将 Trackball 重置到初始视角
@@ -599,12 +607,12 @@ define([
 
         }//click ends
 
-        clearForm(form){
+        clearForm(form) {
 
             form.reset();
 
             if (form.querySelector('#editor')) {
-               editor.get(this).setHTML('');
+                editor.get(this).setHTML('');
             }
         }
 

@@ -46,7 +46,7 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -64,7 +64,7 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function createCtg(Request $request)
     {
@@ -82,7 +82,7 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateCtg(Request $request)
     {
@@ -98,7 +98,24 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCtgDetail(Request $request)
+    {
+
+        $param = [
+            $request->input('ctg_id'),
+            false,
+        ];
+
+        $data = call_user_func_array([$this->ctg, 'findCtg'], $param);
+
+        return response()->json(['status' => boolval($data), 'message' => $data]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function createItem(Request $request)
     {
@@ -116,7 +133,7 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateItem(Request $request)
     {
@@ -135,14 +152,14 @@ class SpaceController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getItemDetail(Request $request)
     {
 
         $item = $this->item->getItemWithContent($request->input('item_id'));
 
-        return response()->json(['status' => $item, 'message' => $item->content]);
+        return response()->json(['status' => boolval($item), 'message' => $item->content]);
     }
 
 }
