@@ -214,12 +214,14 @@ form {
 
 /****表单通用样式结束****/
 
-
 /****动画通用样式开始****/
-.taiji{
+@taiji_yang: rgb(255, 255, 255);
+@taiji_yin: rgb(0, 0, 0,);
 
-    background: radial-gradient(circle at 50% 25%, @taiji_yin 8%, @taiji_yang 11%, @taiji_yang 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
-    radial-gradient(circle at 50% 75%, @taiji_yang 8%, @taiji_yin 11%, @taiji_yin 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
+.taiji {
+
+    background: radial-gradient(circle at 50% 25%, @taiji_yin 8%, @taiji_yang 9%, @taiji_yang 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle at 50% 75%, @taiji_yang 8%, @taiji_yin 9%, @taiji_yin 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
     radial-gradient(circle at 0% 0%, @taiji_yin 0%, @taiji_yin 100%) @pr_w/2 0 no-repeat;
     background-color: @taiji_yang;
     background-size: @pr_w @pr_w;

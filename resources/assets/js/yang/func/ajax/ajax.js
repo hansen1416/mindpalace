@@ -1,6 +1,6 @@
 define([
-            "../../var/document"
-       ], function(document) {
+           "../../var/document"
+       ], function (document) {
     /**
      * url 地址
      * callback 成功回调函数
@@ -8,14 +8,23 @@ define([
      * method 请求方式
      * async 是否异步
      */
-    return function (url, callback, dataObj, method, async){
+    return function (url, callback, dataObj, method, async, beforeSend) {
 
-        method = method || 'POST';
-        async  = async || true;
+        method     = method || 'POST';
+        async      = async || true;
+        beforeSend = beforeSend || function () {
 
-        var R = new XMLHttpRequest();
+                let progress = document.getElementById('progress');
 
-        R.onreadystatechange = function(){
+                progress.style['display'] = 'block';
+
+            }
+
+        beforeSend();
+
+        let R = new XMLHttpRequest();
+
+        R.onreadystatechange = function () {
             if (R.readyState === XMLHttpRequest.DONE) {
                 if (R.status === 200) {
                     callback(JSON.parse(R.responseText));
@@ -32,4 +41,4 @@ define([
 
     }
 
-} );
+});

@@ -28,6 +28,7 @@ define([
 
        ], function (document, location, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
                     bindEvent, unbindEvent, ajax, requestAnim, cancelAnim, roll, reveal, conceal, resetTrackball, yang_space_layout) {
+    "use strict";
 
     /**
      * 引入 class YangSpaceLayout
