@@ -164,6 +164,10 @@
         <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
     </div>
 
+    {{--显示处理状态--}}
+    <div id="progress">
+
+    </div>
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>
