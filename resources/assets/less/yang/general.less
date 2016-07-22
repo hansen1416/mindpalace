@@ -103,7 +103,7 @@ a {
 
 /****按钮通用样式开始****/
 @btn_w: 3vw;
-@med_w: 70px;
+@med_w: 3.75rem;
 
 .btn {
     .abs;
@@ -166,18 +166,15 @@ form {
 
 .taiji {
 
-    background:
-            radial-gradient(circle at 50% 76%, @taiji_yin 0%, @taiji_yin 26%, fade(@taiji_yin, 50%) 28.75%, fade(@taiji_yin, 0) 29.25%, rgba(0, 0, 0, 0) 100%),
-            radial-gradient(circle at 0% 0%, @taiji_yang 0%, @taiji_yang 100%) @med_w/-2 0 no-repeat,
-            radial-gradient(circle at 50% 24%, @taiji_yang 0%, @taiji_yang 26%, fade(@taiji_yang, 50%) 28.75%, fade(@taiji_yang, 0) 29.25%, rgba(0, 0, 0, 0) 100%),
-            radial-gradient(circle at 0% 0%, @taiji_yin 0%, @taiji_yin 100%) @med_w/2 0 no-repeat;
-
-
+    background: radial-gradient(circle at 50% 76%, @taiji_yin 0%, @taiji_yin 26%, fade(@taiji_yin, 50%) 28.75%, fade(@taiji_yin, 0) 29.25%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle at 0% 0%, @taiji_yang 0%, @taiji_yang 100%) @med_w/-2 0 no-repeat,
+    radial-gradient(circle at 50% 24%, @taiji_yang 0%, @taiji_yang 26%, fade(@taiji_yang, 50%) 28.75%, fade(@taiji_yang, 0) 29.25%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle at 0% 0%, @taiji_yin 0%, @taiji_yin 100%) @med_w/2 0 no-repeat;
 
     background-color: @taiji_yang;
     background-size: @med_w @med_w;
 
-    box-shadow: inset 1px 0 @med_w*0.45 fade(@taiji_yin, 70%), inset -1px 0 @med_w*0.45 fade(@taiji_yang, 70%);
+    box-shadow: inset 1px 0 @med_w*0.45 fade(@taiji_yin, 70%), inset -1px 0 @med_w*0.45 fade(@taiji_yang, 70%), 1px 0 @med_w*0.1 fade(@taiji_yin, 50%), -1px 0 @med_w*0.1 fade(@taiji_yang, 50%);
 
     animation-duration: 5s;
     animation-iteration-count: infinite;
@@ -185,7 +182,7 @@ form {
     animation-play-state: running;
     animation-timing-function: linear;
 
-    &:before{
+    &:before {
         .abs;
         .circle;
         content: '';
@@ -199,7 +196,7 @@ form {
         box-shadow: inset 1px 1px @med_w*0.08 fade(@taiji_yang, 50%);
     }
 
-    &:after{
+    &:after {
         .abs;
         .circle;
         content: '';
