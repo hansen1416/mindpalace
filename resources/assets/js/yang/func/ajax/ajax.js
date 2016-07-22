@@ -3,22 +3,23 @@ define([
        ], function (document) {
     /**
      * url 地址
-     * callback 成功回调函数
+     * success 成功回调函数
      * dataObj FormData 对象
      * method 请求方式
      * async 是否异步
+     * beforeSend 发送前的
      */
-    return function (url, callback, dataObj, method, async, beforeSend) {
+    return function (url, success, dataObj, method, async, beforeSend) {
+
+        let progress = document.getElementById('progress');
 
         method     = method || 'POST';
         async      = async || true;
         beforeSend = beforeSend || function () {
 
-                let progress = document.getElementById('progress');
-
                 progress.style['display'] = 'block';
 
-            }
+            };
 
         beforeSend();
 
@@ -27,7 +28,26 @@ define([
         R.onreadystatechange = function () {
             if (R.readyState === XMLHttpRequest.DONE) {
                 if (R.status === 200) {
-                    callback(JSON.parse(R.responseText));
+
+                    function callback(r) {
+
+                        if (r.status) {
+
+                            success(r);
+
+                            //progress.sud
+
+                            console.log(b);
+
+                        } else {
+
+                            //TODO
+                        }
+
+                    }
+
+                    callback(JSON.parse(R.responseText))
+
                 } else {
                     throw 'error occured during request';
                 }

@@ -561,10 +561,12 @@ define([
 
                         ajax(ctgDetailUrl, function (res) {
 
-                            form.querySelector('#ctg_title').value = res.message['title'];
-                            form.querySelector('#ctg_sort').value  = res.message['sort'];
+                            if (res.status) {
+                                form.querySelector('#ctg_title').value = res.message['title'];
+                                form.querySelector('#ctg_sort').value  = res.message['sort'];
 
-                            reveal(form);
+                                reveal(form);
+                            }
 
                         }, new FormData(form));
 
