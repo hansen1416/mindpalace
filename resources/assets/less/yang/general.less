@@ -102,61 +102,8 @@ a {
 /****3d 通用样式结束****/
 
 /****按钮通用样式开始****/
-@icon-color: #c63e72;
-
-.btn-focus {
-    &:before {
-        .abs;
-        top: 50%;
-        left: 50%;
-        content: '';
-        width: 10px;
-        height: 2px;
-        margin: -1px 0 0 -15px;
-        border: 10px solid @icon-color;
-        border-top-width: 0;
-        border-bottom-width: 0;
-    }
-    &:after {
-        .abs;
-        top: 50%;
-        left: 50%;
-        content: '';
-        width: 2px;
-        height: 10px;
-        margin: -15px 0 0 -1px;
-        border: 10px solid @icon-color;
-        border-left-width: 0;
-        border-right-width: 0;
-    }
-}
-
-.btn-hide {
-    &:before {
-        .abs;
-        top: 50%;
-        left: 50%;
-        content: '';
-        width: 2px;
-        height: 30px;
-        margin: -15px 0 0 -1px;
-        background-color: @icon-color;
-        transform: rotate(45deg);
-    }
-    &:after {
-        .abs;
-        top: 50%;
-        left: 50%;
-        content: '';
-        width: 2px;
-        height: 30px;
-        margin: -15px 0 0 -1px;
-        background-color: @icon-color;
-        transform: rotate(-45deg);
-    }
-}
-
-@btn_w: 40px;
+@btn_w: 3vw;
+@med_w: 70px;
 
 .btn {
     .abs;
@@ -182,7 +129,6 @@ a {
 /****按钮通用样式开始****/
 
 /****表单通用样式开始****/
-
 .submit {
     .abs;
     width: 50px;
@@ -220,13 +166,18 @@ form {
 
 .taiji {
 
-    background: radial-gradient(circle at 50% 25%, @taiji_yang 0%, @taiji_yang 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
-    radial-gradient(circle at 50% 75%, @taiji_yin 0%, @taiji_yin 27%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 100%),
-    radial-gradient(circle at 0% 0%, @taiji_yin 0%, @taiji_yin 100%) @pr_w/2 0 no-repeat;
-    background-color: @taiji_yang;
-    background-size: @pr_w @pr_w;
+    background:
+            radial-gradient(circle at 50% 76%, @taiji_yin 0%, @taiji_yin 26%, fade(@taiji_yin, 50%) 28.75%, fade(@taiji_yin, 0) 29.25%, rgba(0, 0, 0, 0) 100%),
+            radial-gradient(circle at 0% 0%, @taiji_yang 0%, @taiji_yang 100%) @med_w/-2 0 no-repeat,
+            radial-gradient(circle at 50% 24%, @taiji_yang 0%, @taiji_yang 26%, fade(@taiji_yang, 50%) 28.75%, fade(@taiji_yang, 0) 29.25%, rgba(0, 0, 0, 0) 100%),
+            radial-gradient(circle at 0% 0%, @taiji_yin 0%, @taiji_yin 100%) @med_w/2 0 no-repeat;
 
-    box-shadow: inset 1px 0 6px fade(@taiji_yin, 70%), inset -1px 0 6px fade(@taiji_yang, 70%);
+
+
+    background-color: @taiji_yang;
+    background-size: @med_w @med_w;
+
+    box-shadow: inset 1px 0 @med_w*0.45 fade(@taiji_yin, 70%), inset -1px 0 @med_w*0.45 fade(@taiji_yang, 70%);
 
     animation-duration: 5s;
     animation-iteration-count: infinite;
@@ -239,13 +190,13 @@ form {
         .circle;
         content: '';
         display: block;
-        top: (@pr_w/4)-@pr_w*0.08;
-        left: (@pr_w/2)-@pr_w*0.08;
-        width: @pr_w*0.16;
-        height: @pr_w*0.16;
+        top: (@med_w/4)-@med_w*0.08;
+        left: (@med_w/2)-@med_w*0.08;
+        width: @med_w*0.16;
+        height: @med_w*0.16;
         background-color: @taiji_yin;
 
-        box-shadow: inset -1px -1px 4px fade(@taiji_yang, 50%);
+        box-shadow: inset 1px 1px @med_w*0.08 fade(@taiji_yang, 50%);
     }
 
     &:after{
@@ -253,13 +204,13 @@ form {
         .circle;
         content: '';
         display: block;
-        bottom: (@pr_w/4)-@pr_w*0.08;
-        left: (@pr_w/2)-@pr_w*0.08;
-        width: @pr_w*0.16;
-        height: @pr_w*0.16;
+        bottom: (@med_w/4)-@med_w*0.08;
+        left: (@med_w/2)-@med_w*0.08;
+        width: @med_w*0.16;
+        height: @med_w*0.16;
         background-color: @taiji_yang;
 
-        box-shadow: inset -1px -1px 4px fade(@taiji_yin, 50%);
+        box-shadow: inset -1px -1px @med_w*0.08 fade(@taiji_yin, 50%);
     }
 
     &:hover {

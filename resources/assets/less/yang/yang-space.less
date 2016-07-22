@@ -88,17 +88,14 @@ form {
 //@keyframes ends
 
 //操作面板
-@ow: 0;
-
 .operation {
 
     .abs;
     .hide;
     top: 50%;
     left: 50%;
-    width: @ow;
-    height: @ow;
-    margin: @ow/-2 0 0 @ow/-2;
+    width: 0;
+    height: 0;
 
     .btn {
         top: 50%;
@@ -109,6 +106,7 @@ form {
 
 //.operation ends
 
+//分类表单
 #ctg_form {
 
     .center;
@@ -133,7 +131,7 @@ form {
 
 //#ctg_form ends
 
-//详细内容
+//内容表单
 #item_form {
 
     .center;
@@ -168,26 +166,24 @@ form {
 
 //#item_form ends
 
-@tl_w: 80px;
-
 //左上角部分
 #top_left {
     .abs;
     .circle;
-    top: @tl_w / 4;
-    left: @tl_w / 4;
-    width: @tl_w;
-    height: @tl_w;
+    top: @med_w / 4;
+    left: @med_w / 4;
+    width: @med_w;
+    height: @med_w;
     font-size: 14px;
     color: #fff;
-    line-height: @tl_w;
+    line-height: @med_w;
     text-align: center;
     overflow: hidden;
     &:hover {
-        top: @tl_w*-3/4;
-        left: @tl_w*-3/4;
-        width: @tl_w*3;
-        height: @tl_w*3;
+        top: @med_w*-3/4;
+        left: @med_w*-3/4;
+        width: @med_w*3;
+        height: @med_w*3;
     }
 
     a, div {
@@ -199,39 +195,37 @@ form {
     }
 
     a.home {
-        width: @tl_w;
-        height: @tl_w;
-        margin: @tl_w*-1/2 0 0 @tl_w*-1/2;
+        width: @med_w;
+        height: @med_w;
+        margin: @med_w*-1/2 0 0 @med_w*-1/2;
         font-size: inherit;
-        line-height: @tl_w;
+        line-height: @med_w;
         text-align: center;
     }
 
     a.space {
-        margin: @tl_w/-2.2 0 0 @tl_w/1.1;
+        margin: @med_w/-2.2 0 0 @med_w/1.1;
     }
 
     div.reset {
-        margin: @tl_w/2.8 0 0 @tl_w/1.4;
+        margin: @med_w/2.8 0 0 @med_w/1.4;
     }
 }
 
 //#top_left ends
 
 //右上角用户信息部分
-@tr_w: 60px;
-
 #top_right {
     .abs;
     .circle;
-    top: @tr_w / 4;
-    right: @tr_w / 4;
-    width: @tr_w;
-    height: @tr_w;
+    top: @med_w / 4;
+    right: @med_w / 4;
+    width: @med_w;
+    height: @med_w;
     overflow: hidden;
     font-size: 14px;
     color: #fff;
-    line-height: @tr_w;
+    line-height: @med_w;
     text-align: center;
 
     &:hover {
@@ -250,15 +244,13 @@ form {
 }
 
 //#top_right ends
-@pr_w: 100px;
-
 #progress {
-    .hide;
+    //.hide;
     .center;
     .circle;
-    width: @pr_w;
-    height: 100px;
-    margin: @pr_w/-2 0 0 @pr_w/-2;
+    width: @med_w;
+    height: @med_w;
+    margin: @med_w/-2 0 0 @med_w/-2;
     overflow: hidden;
 
 }
