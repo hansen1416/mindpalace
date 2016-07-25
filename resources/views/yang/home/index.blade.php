@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="yang-home-back">
-        斋心
+        {{--斋心--}}
     </div>
 
     {{--跳转到space--}}
