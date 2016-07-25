@@ -19,7 +19,9 @@ define([
         async      = async || true;
         beforeSend = beforeSend || function () {
 
-                reveal(progress);
+                if (progress) {
+                    reveal(progress);
+                }
 
             };
 
@@ -37,15 +39,17 @@ define([
 
                             success(r);
 
-                            progress.classList.remove('taiji');
-                            progress.classList.add('correct');
+                            if (progress) {
+                                progress.classList.remove('taiji');
+                                progress.classList.add('correct');
 
-                            setTimeout(function(){
-                                conceal(progress);
+                                setTimeout(function () {
+                                    conceal(progress);
 
-                                progress.classList.remove('correct');
-                                progress.classList.add('taiji');
-                            }, 2000);
+                                    progress.classList.remove('correct');
+                                    progress.classList.add('taiji');
+                                }, 2000);
+                            }
 
                         } else {
 
