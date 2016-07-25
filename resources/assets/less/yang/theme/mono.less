@@ -59,59 +59,42 @@
 
 #yang-space {
 
-    .star-glow (@color: @white, @slice: 30%, @repeat: stretch, @width: 4px) {
+    .star-glow (@color: @white, @width: 2px, @repeat: stretch) {
 
-        border: @width dashed @color;
+        border: @width solid @color;
 
-        -webkit-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        -webkit-border-image-slice: @slice;
-        -webkit-border-image-repeat: @repeat;
-        -webkit-border-image-width: @width;
-        -moz-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        -moz-border-image-slice: @slice;
-        -moz-border-image-repeat: @repeat;
-        -moz-border-image-width: @width;
-        -o-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        -o-border-image-slice: @slice;
-        -o-border-image-repeat: @repeat;
-        -o-border-image-width: @width;
-        border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        border-image-slice: @slice;
-        border-image-repeat: @repeat;
-        border-image-width: @width;
-
-        background-color: fade(@color, 13%);
+        background-color: fade(@color, 20%);
     }
 
     .sec-0 {
         .star-glow(lighten(@black, 10%));
     }
     .sec-1 {
-        .star-glow(lighten(@black, 20%));
+        .star-glow(lighten(@black, 15%));
     }
     .sec-2 {
-        .star-glow(lighten(@black, 30%));
+        .star-glow(lighten(@black, 20%));
     }
     .sec-3 {
-        .star-glow(lighten(@black, 40%));
+        .star-glow(lighten(@black, 25%));
     }
     .sec-4 {
-        .star-glow(lighten(@black, 50%));
+        .star-glow(lighten(@black, 30%));
     }
     .sec-5 {
-        .star-glow(lighten(@black, 60%));
+        .star-glow(lighten(@black, 35%));
     }
     .sec-6 {
-        .star-glow(lighten(@black, 70%));
+        .star-glow(lighten(@black, 40%));
     }
     .sec-7 {
-        .star-glow(lighten(@black, 80%));
+        .star-glow(lighten(@black, 45%));
     }
     .sec-8 {
-        .star-glow(lighten(@black, 90%));
+        .star-glow(lighten(@black, 50%));
     }
     .sec-9 {
-        .star-glow(lighten(@black, 100%));
+        .star-glow(lighten(@black, 55%));
     }
 
     background: radial-gradient(
@@ -134,11 +117,10 @@
             }
         }
         .star.ctg {
-
-
+            border-style: solid;
         }
         .star.item {
-
+            border-style: dashed;
         }
     }
     //#stage ends
