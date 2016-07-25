@@ -1,6 +1,8 @@
 define([
-           "../../var/document"
-       ], function (document) {
+           "../../var/document",
+           "../anim/conceal",
+           "../anim/reveal"
+       ], function (document, conceal, reveal) {
     /**
      * url 地址
      * success 成功回调函数
@@ -17,7 +19,7 @@ define([
         async      = async || true;
         beforeSend = beforeSend || function () {
 
-                progress.style['display'] = 'block';
+                reveal(progress);
 
             };
 
@@ -35,13 +37,15 @@ define([
 
                             success(r);
 
-                            //progress.sud
+                            progress.classList.remove('taiji')
+                            progress.classList.add('correct');
 
-                            console.log(b);
+                            //conceal(progress);
 
                         } else {
 
                             //TODO
+                            console.log('fan hui zhi cuo wu');
                         }
 
                     }

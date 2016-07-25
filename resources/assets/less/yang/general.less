@@ -126,6 +126,27 @@ a {
     }
 }
 
+@status_color: #000000;
+
+.correct {
+    &:before{
+        .center;
+        content: '';
+        width: 10%;
+        height: 40%;
+        transform: rotate(-45deg);
+        background-color: @status_color;
+    }
+    &:after{
+        .center;
+        content: '';
+        width: 10%;
+        height: 80%;
+        transform: rotate(45deg);
+        background-color: @status_color;
+    }
+}
+
 /****按钮通用样式开始****/
 
 /****表单通用样式开始****/
@@ -193,7 +214,7 @@ form {
         height: @med_w*0.16;
         background-color: @taiji_yin;
 
-        box-shadow: inset 1px 1px @med_w*0.08 fade(@taiji_yang, 50%);
+        box-shadow: inset 1px 1px @med_w*0.05 fade(@taiji_yang, 50%);
     }
 
     &:after {
@@ -207,7 +228,7 @@ form {
         height: @med_w*0.16;
         background-color: @taiji_yang;
 
-        box-shadow: inset -1px -1px @med_w*0.08 fade(@taiji_yin, 50%);
+        box-shadow: inset -1px -1px @med_w*0.05 fade(@taiji_yin, 50%);
     }
 
     &:hover {
