@@ -33,7 +33,7 @@ return [
     /**
      * 默认主题名称
      */
-    'default_theme' => 'nebula',
+    'default_theme' => 'mono',
     /**
      *
      */
