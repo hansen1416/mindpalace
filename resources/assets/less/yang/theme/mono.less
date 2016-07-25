@@ -2,11 +2,12 @@
 @black: #000;
 @blue: #37B8FC;
 
-@btn: fade(@white, 50%);
+@btn: fade(@blue, 80%);
 @submit: lighten(@black, 70%);
 
 .btn {
     background-color: @btn;
+    color: @white;
     &:hover {
         background-color: fadein(@btn, 40%);
     }
@@ -156,7 +157,7 @@
     #top_left {
 
         a, div {
-            background-color: lighten(@black, 50%);
+            background-color: @btn;
             color: inherit;
         }
 
