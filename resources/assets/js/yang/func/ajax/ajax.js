@@ -42,6 +42,9 @@ define([
 
                             setTimeout(function(){
                                 conceal(progress);
+
+                                progress.classList.remove('correct');
+                                progress.classList.add('taiji');
                             }, 2000);
 
                         } else {
