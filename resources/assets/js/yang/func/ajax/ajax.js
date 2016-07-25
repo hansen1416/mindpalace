@@ -37,10 +37,12 @@ define([
 
                             success(r);
 
-                            progress.classList.remove('taiji')
+                            progress.classList.remove('taiji');
                             progress.classList.add('correct');
 
-                            //conceal(progress);
+                            setTimeout(function(){
+                                conceal(progress);
+                            }, 2000);
 
                         } else {
 
