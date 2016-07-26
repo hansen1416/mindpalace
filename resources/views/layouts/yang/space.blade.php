@@ -12,12 +12,12 @@
     <script src="{{ URL::asset('js/plugins/quill.js') }}"></script>
 
     @if(App::environment('development'))
-        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{$user->profile->theme}}.less">
+        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{$user->profile->theme->name}}.less">
         <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/yang-space.less">
         <script src="/resources/assets/less/less.min.js"></script>
     @else
         <link href="{{ URL::asset('/css/yang-space.css') }}" rel="stylesheet">
-        <link href="{{ URL::asset('/css/theme/' . $user->profile->theme . '.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('/css/theme/' . $user->profile->theme->name . '.css') }}" rel="stylesheet">
     @endif
 
 </head>

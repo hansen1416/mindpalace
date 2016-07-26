@@ -2,10 +2,6 @@
 
 @section('content')
 
-    <div class="yang-home-back">
-        {{--斋心--}}
-    </div>
-
     {{--跳转到space--}}
     <div class="panel">
         <a href="{{ route('space') }}">{{ trans('general.space') }}</a>

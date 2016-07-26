@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereCreatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\Item noContent()
  */
 class Item extends Model
 {

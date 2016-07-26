@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Yang;
 //use Illuminate\Http\Request;
 //use App\Http\Requests;
 use App\Http\Controllers\Controller;
-//use App;
-use Auth;
 use App\Repositories\UserRepository;
 use App\Repositories\CtgRepository;
 
@@ -47,9 +45,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user  = Auth::user();
-        $theme = $user ? $user->profile->theme : config('view.default_theme');
 
-        return response()->view('yang.home.index', ['user' => $user, 'theme' => $theme]);
+        return response()->view('yang.home.index', ['user' => $this->user->userInfo()]);
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\User;
+use Auth;
 
 /**
  * 用于从模型获取所有的用户相关信息
@@ -12,8 +13,8 @@ use App\User;
 class UserRepository
 {
 
-    public function complete() {
-        return 'here is user full info';
+    public function userInfo() {
+        return Auth::user();
     }
 
 }

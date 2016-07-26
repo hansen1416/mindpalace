@@ -89,7 +89,6 @@ class AuthController extends Controller
 
             $user->profile()->create([
                                          'portrait' => config('view.default_portrait'),
-                                         'theme' => config('view.default_theme')
                                      ]);
 
         } catch (\Exception $e) {

@@ -65,6 +65,6 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne('App\Profile', 'user_id')
-                    ->select('portrait', 'theme');
+                    ->select('portrait', 'theme_id');
     }
 }

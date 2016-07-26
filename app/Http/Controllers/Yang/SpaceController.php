@@ -59,7 +59,7 @@ class SpaceController extends Controller
             $html = $this->ctg->getAllCtg(true);
         }
 
-        return response()->view('yang.space.index', ['html' => $html, 'user' => Auth::user()]);
+        return response()->view('yang.space.index', ['html' => $html, 'user' => $this->user->userInfo()]);
     }
 
     /**
@@ -71,7 +71,7 @@ class SpaceController extends Controller
 
         $param = [
             $request->input($request->input('act')),
-            Auth::user()->user_id,
+            $this->user->userInfo()->user_id,
             0,
             $request->input('title'),
         ];
@@ -122,7 +122,7 @@ class SpaceController extends Controller
 
         $param = [
             $request->input('ctg_id'),
-            Auth::user()->user_id,
+            $this->user->userInfo()->user_id,
             0,
             $request->input('title'),
         ];
