@@ -34,6 +34,13 @@
     </div>
     {{--.stage ends--}}
 
+    @if ($html == '')
+        <div class="btn" id="new_ctg" title="{{ trans('buttons.title.add_desc') }}" data-func="add_desc"
+             data-action="{{ route('createCtg') }}" data-form="ctg_form" data-act="pid" data-pid="{{$pid}}">
+            {{ trans('buttons.add_desc') }}
+        </div>
+    @endif
+
     {{--关于分类的操作--}}
     <div id="ctg_box" class="operation">
 
@@ -63,6 +70,10 @@
         <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_ctg') }}" data-func="edit_ctg"
              data-action="{{ route('updateCtg') }}" data-form="ctg_form">
             {{ trans('buttons.edit_ctg') }}
+        </div>
+        {{--改变父级分类--}}
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_pid') }}">
+            {{ trans('buttons.edit_pid') }}
         </div>
         {{--添加一个子内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.add_item') }}" data-func="add_item"
@@ -104,10 +115,10 @@
             <input type="text" id="ctg_sort" name="sort">
         </label>
 
-        <label for="ctg_tags">
-            {{ trans('general.ctgTags') }}
-            <input type="text" id="ctg_tags" name="tags">
-        </label>
+        {{--<label for="ctg_tags">--}}
+            {{--{{ trans('general.ctgTags') }}--}}
+            {{--<input type="text" id="ctg_tags" name="tags">--}}
+        {{--</label>--}}
 
         <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
         <div class="submit">{{ trans('general.save') }}</div>
@@ -131,10 +142,10 @@
             <input type="text" id="item_sort" name="sort">
         </label>
 
-        <label for="item_tags">
-            {{ trans('general.itemTags') }}
-            <input type="text" id="item_tags" name="tags">
-        </label>
+        {{--<label for="item_tags">--}}
+            {{--{{ trans('general.itemTags') }}--}}
+            {{--<input type="text" id="item_tags" name="tags">--}}
+        {{--</label>--}}
 
         <div id="editor"></div>
 
@@ -161,8 +172,16 @@
 
     {{--右上角用户信息--}}
     <div id="top_right">
-        <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
+        <div class="portrait">
+            <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
+        </div>
+
+        <div class="btn theme" data-func="theme" data-action="{{ route('themes') }}" title="{{ trans('buttons.title.theme') }}">
+            {{ trans('buttons.theme') }}
+        </div>
     </div>
+
+    <div id="themes"></div>
 
     {{--显示处理状态--}}
     <div id="progress" class="taiji">

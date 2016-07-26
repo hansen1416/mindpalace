@@ -74,6 +74,10 @@ class CtgRepository
     protected function tagWrap($array, $item = false)
     {
 
+        if (count($array) == 0) {
+            return '';
+        }
+
         $html    = '';
         $start   = $array[0]->tier;
         $core_id = [];

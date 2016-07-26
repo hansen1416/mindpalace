@@ -51,7 +51,7 @@ class SpaceController extends Controller
     public function index(Request $request)
     {
 
-        $pid = $request->input('pid');
+        $pid = $request->input('pid', 0);
 
         if ($pid) {
             $html = $this->ctg->getDescCtg($pid, true);
@@ -59,7 +59,7 @@ class SpaceController extends Controller
             $html = $this->ctg->getAllCtg(true);
         }
 
-        return response()->view('yang.space.index', ['html' => $html, 'user' => $this->user->userInfo()]);
+        return response()->view('yang.space.index', ['html' => $html, 'user' => $this->user->userInfo(), 'pid' => $pid]);
     }
 
     /**
@@ -160,6 +160,27 @@ class SpaceController extends Controller
         $item = $this->item->getItemWithContent($request->input('item_id'));
 
         return response()->json(['status' => boolval($item), 'message' => $item->content]);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllTheme()
+    {
+
+        $themes = $this->user->allThemes();
+
+        return response()->json(['status' => '1', 'message' => $themes]);
+    }
+
+
+    public function changeTheme(Request $request)
+    {
+//        var_dump($request->input('theme_id'));die;
+
+        $url = url()->previous();
+
+
     }
 
 }

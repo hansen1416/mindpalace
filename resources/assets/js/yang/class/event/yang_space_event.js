@@ -480,7 +480,7 @@ define([
                  * form 当前操作界面中的表单
                  */
                 let star      = aimedStar.get(upper),
-                    s_dataset = star ? star.dataset : undefined,
+                    s_dataset = star ? star.dataset : [],
                     b_dataset = target.dataset,
                     form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
                     inputs    = [],
@@ -526,17 +526,7 @@ define([
                  */
                     case 'descendant':
 
-                        let d_ctg_id = s_dataset['ctg_id'];
-
-                        /**
-                         * 如果有子分类，则跳转
-                         */
-                        if (upper.rotateObj.querySelector(".ctg[data-pid='" + d_ctg_id + "']")) {
-                            location.href = location.origin + location.pathname + '?pid=' + d_ctg_id;
-                        } else {
-                            console.warn('no descendant found');
-                        }
-
+                        location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
                         break;
                 /**
                  * 给指定分类添加一个子分类
@@ -602,6 +592,32 @@ define([
                     case 'reset_trackball':
 
                         upper.setStartMatrix = resetTrackball(upper.rotateObj);
+                        break;
+
+                    case 'theme':
+
+                        ajax(b_dataset.action, function (res) {
+
+                            let themes   = document.getElementById('themes'),
+                                fragment = document.createDocumentFragment();
+
+                            for (let theme in res.message) {
+
+                                if (res.message.hasOwnProperty(theme)) {
+                                    let a = document.createElement('a');
+
+                                    a.setAttribute('href', res.message[theme]);
+                                    a.appendChild(document.createTextNode(theme));
+
+                                    fragment.appendChild(a);
+                                }
+                            }
+
+                            themes.appendChild(fragment);
+
+                            reveal(themes);
+                        });
+
                         break;
                 }//switch ends
 

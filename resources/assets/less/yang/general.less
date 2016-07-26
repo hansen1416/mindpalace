@@ -65,6 +65,15 @@ a {
     height: 100%;
 }
 
+.center(@width, @height) {
+    .abs;
+    top: 50%;
+    left: 50%;
+    width: @width;
+    height: @height;
+    margin: @height/-2 0 0 @width/-2;
+}
+
 /****基本通用样式结束****/
 
 /****3d 通用样式开始****/
@@ -114,6 +123,7 @@ a {
     font-size: @btn_w*0.35;
     line-height: @btn_w*0.35;
     text-align: center;
+    overflow: hidden;
 
     &:before {
         content: '';
@@ -129,7 +139,7 @@ a {
 @status_color: #000000;
 
 .correct {
-    &:before{
+    &:before {
         .center;
         content: '';
         width: 10px;
@@ -138,7 +148,7 @@ a {
         transform: translateX(-19px) rotate(-45deg);
         background-color: @status_color;
     }
-    &:after{
+    &:after {
         .center;
         content: '';
         width: 10px;

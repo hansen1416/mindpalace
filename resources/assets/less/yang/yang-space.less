@@ -85,6 +85,10 @@ form {
 
 }
 
+#new_ctg {
+    .center(@med_w, @med_w);
+}
+
 //@keyframes ends
 
 //操作面板
@@ -228,18 +232,29 @@ form {
     text-align: center;
 
     &:hover {
-        cursor: pointer;
+        top: @med_w*-3/4;
+        right: @med_w*-3/4;
+        width: @med_w*3;
+        height: @med_w*3;
     }
 
-    img {
-        .abs;
+    .portrait {
+        .center(@med_w, @med_w);
         .circle;
-        top: 0;
-        left: 0;
-        display: block;
-        width: 100%;
-        height: 100%;
+        img {
+            .brim;
+            .circle;
+        }
     }
+
+    .btn {
+        .center;
+    }
+
+    .btn.theme {
+        margin: @med_w 0 0 0;
+    }
+
 }
 
 //#top_right ends
@@ -252,5 +267,20 @@ form {
     margin: @med_w/-2 0 0 @med_w/-2;
     overflow: hidden;
 
+}
+
+//主题列表
+#themes {
+    .abs;
+    top: @med_w*2.3;
+    right: @med_w/4;
+
+    a {
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+    }
 }
 

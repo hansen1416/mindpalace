@@ -32,6 +32,8 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth:w
     Route::post('space/updateItem', ['as' => 'updateItem', 'uses' => 'SpaceController@updateItem']);
     Route::post('space/getItemDetail', ['as' => 'itemDetail', 'uses' => 'SpaceController@getItemDetail']);
     Route::post('space/getCtgDetail', ['as' => 'ctgDetail', 'uses' => 'SpaceController@getCtgDetail']);
+    Route::post('space/getAllTheme', ['as' => 'themes', 'uses' => 'SpaceController@getAllTheme']);
+    Route::get('space/changeTheme', ['as' => 'changeTheme', 'uses' => 'SpaceController@changeTheme']);
 });
 
 //Route::auth();

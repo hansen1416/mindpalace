@@ -1,8 +1,9 @@
 <?php
 namespace App\Repositories;
 
-use App\User;
 use Auth;
+use App\User;
+use App\theme;
 
 /**
  * 用于从模型获取所有的用户相关信息
@@ -13,8 +14,48 @@ use Auth;
 class UserRepository
 {
 
-    public function userInfo() {
+    /**
+     * @var User
+     */
+    protected $user;
+
+    /**
+     * @var theme
+     */
+    protected $theme;
+
+    /**
+     * UserRepository constructor.
+     * @param User  $user
+     * @param theme $theme
+     */
+    public function __construct(User $user, Theme $theme)
+    {
+        $this->user  = $user;
+        $this->theme = $theme;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function userInfo()
+    {
         return Auth::user();
+    }
+
+    /**
+     * @return array
+     */
+    public function allThemes()
+    {
+        $data = $this->theme->allTheme()->get();
+        $res  = [];
+
+        foreach ($data as $value) {
+            $res[$value->name] = route('changeTheme', ['theme_id' => $value->theme_id]);
+        }
+
+        return $res;
     }
 
 }
