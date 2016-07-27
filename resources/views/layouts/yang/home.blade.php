@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf_token" content="{{ csrf_token() }}"/>
 
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <title>{{ trans('general.pageTitle') }}</title>
 
     @if(App::environment('development'))
-        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{$user->profile->theme->name}}.less">
+        <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/theme/{{ $theme }}.less">
         <link rel="stylesheet/less" type="text/css" href="/resources/assets/less/yang/yang-home.less">
         <script src="/resources/assets/less/less.min.js"></script>
     @else
         <link href="{{ URL::asset('/css/yang-home.css') }}" rel="stylesheet">
-        <link href="{{ URL::asset('/css/theme/' . $user->profile->theme->name . '.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('/css/theme/' . $theme . '.css') }}" rel="stylesheet">
     @endif
 
 </head>
 <body id="yang-home">
 
-    @yield('content')
+@yield('content')
 
 </body>
 </html>

@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property integer        $theme_id   主题ID
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereThemeId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Profile getProfileByUserId()
+ * @method static \Illuminate\Database\Query\Builder|\App\Profile getProfileByUserId($user_id)
  */
 class Profile extends Model
 {

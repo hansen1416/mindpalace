@@ -561,6 +561,11 @@ define([
                         }, new FormData(form));
 
                         break;
+                /**
+                 * 改变一个分类的父级分类
+                 */
+                    case 'edit_pid':
+                        break;
 
                     case 'add_item':
 

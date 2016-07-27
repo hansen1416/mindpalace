@@ -52,6 +52,14 @@ class UserRepository
     }
 
     /**
+     * @return string
+     */
+    public function getDefaultTheme()
+    {
+        return $this->userInfo() ? $this->userInfo()->profile->theme->name : 'mono';
+    }
+
+    /**
      * @return array
      */
     public function allThemes()

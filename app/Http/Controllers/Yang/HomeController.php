@@ -30,8 +30,8 @@ class HomeController extends Controller
 
     /**
      * HomeController constructor.
-     * @param UserRepository                 $user
-     * @param CtgRepository $ctg
+     * @param UserRepository $user
+     * @param CtgRepository  $ctg
      */
     public function __construct(UserRepository $user, CtgRepository $ctg)
     {
@@ -46,6 +46,6 @@ class HomeController extends Controller
     public function index()
     {
 
-        return response()->view('yang.home.index', ['user' => $this->user->userInfo()]);
+        return response()->view('yang.home.index', ['user' => $this->user->userInfo(), 'theme' => $this->user->getDefaultTheme()]);
     }
 }

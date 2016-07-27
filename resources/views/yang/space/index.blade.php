@@ -72,7 +72,7 @@
             {{ trans('buttons.edit_ctg') }}
         </div>
         {{--改变父级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_pid') }}">
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_pid') }}" data-func="edit-pid">
             {{ trans('buttons.edit_pid') }}
         </div>
         {{--添加一个子内容--}}
@@ -116,8 +116,8 @@
         </label>
 
         {{--<label for="ctg_tags">--}}
-            {{--{{ trans('general.ctgTags') }}--}}
-            {{--<input type="text" id="ctg_tags" name="tags">--}}
+        {{--{{ trans('general.ctgTags') }}--}}
+        {{--<input type="text" id="ctg_tags" name="tags">--}}
         {{--</label>--}}
 
         <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
@@ -143,8 +143,8 @@
         </label>
 
         {{--<label for="item_tags">--}}
-            {{--{{ trans('general.itemTags') }}--}}
-            {{--<input type="text" id="item_tags" name="tags">--}}
+        {{--{{ trans('general.itemTags') }}--}}
+        {{--<input type="text" id="item_tags" name="tags">--}}
         {{--</label>--}}
 
         <div id="editor"></div>
@@ -176,7 +176,8 @@
             <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
         </div>
 
-        <div class="btn theme" data-func="theme" data-action="{{ route('themes') }}" title="{{ trans('buttons.title.theme') }}">
+        <div class="btn theme" data-func="theme" data-action="{{ route('themes') }}"
+             title="{{ trans('buttons.title.theme') }}">
             {{ trans('buttons.theme') }}
         </div>
     </div>

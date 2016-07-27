@@ -23,28 +23,28 @@
         @if ($user)
             <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
         @else
-        <form enctype="multipart/form-data" class="portrait-form" id="portrait_form">
+            <form enctype="multipart/form-data" class="portrait-form" id="portrait_form">
 
-            <input type="email" name="email" value="{{ old('email') }}">
-            @if ($errors->has('email'))
-            <span class="help-block">
+                <input type="email" name="email" value="{{ old('email') }}">
+                @if ($errors->has('email'))
+                    <span class="help-block">
                 <strong>{{ $errors->first('email') }}</strong>
             </span>
-            @endif
-            <input type="password" name="password">
-            @if ($errors->has('password'))
-            <span class="help-block">
+                @endif
+                <input type="password" name="password">
+                @if ($errors->has('password'))
+                    <span class="help-block">
                 <strong>{{ $errors->first('password') }}</strong>
             </span>
-            @endif
-            <div class="remember-box">
-                <label for="remember">
-                    <input id="remember" type="checkbox" name="remember">
-                    <span>{{ trans('general.remember') }}</span>
-                </label>
-            </div>
+                @endif
+                <div class="remember-box">
+                    <label for="remember">
+                        <input id="remember" type="checkbox" name="remember">
+                        <span>{{ trans('general.remember') }}</span>
+                    </label>
+                </div>
 
-        </form>
+            </form>
         @endif
 
     </div><!-- #portrait.portrait ends -->
