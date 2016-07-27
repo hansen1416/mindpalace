@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use Auth;
 use App\User;
+use App\Profile;
 use App\theme;
 
 /**
@@ -20,19 +21,26 @@ class UserRepository
     protected $user;
 
     /**
+     * @var Profile
+     */
+    protected $profile;
+
+    /**
      * @var theme
      */
     protected $theme;
 
     /**
      * UserRepository constructor.
-     * @param User  $user
-     * @param theme $theme
+     * @param User    $user
+     * @param Profile $profile
+     * @param theme   $theme
      */
-    public function __construct(User $user, Theme $theme)
+    public function __construct(User $user, Profile $profile, Theme $theme)
     {
-        $this->user  = $user;
-        $this->theme = $theme;
+        $this->user    = $user;
+        $this->profile = $profile;
+        $this->theme   = $theme;
     }
 
     /**
@@ -56,6 +64,18 @@ class UserRepository
         }
 
         return $res;
+    }
+
+    /**
+     * @param $theme_id
+     * @return bool|int
+     */
+    public function updateTheme($theme_id)
+    {
+
+        return $this->profile
+            ->getProfileByUserId($this->userInfo()->user_id)
+            ->update(['theme_id' => $theme_id]);
     }
 
 }

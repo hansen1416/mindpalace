@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Yang;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth;
 use App\Repositories\UserRepository;
 use App\Repositories\CtgRepository;
 use App\Repositories\ItemRepository;
@@ -50,6 +49,12 @@ class SpaceController extends Controller
      */
     public function index(Request $request)
     {
+
+//        $status = $request->session()->get('status');
+//
+//        if ($status) {
+//            var_dump($status);die;
+//        }
 
         $pid = $request->input('pid', 0);
 
@@ -173,14 +178,20 @@ class SpaceController extends Controller
         return response()->json(['status' => '1', 'message' => $themes]);
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function changeTheme(Request $request)
     {
-//        var_dump($request->input('theme_id'));die;
 
-        $url = url()->previous();
+        $message = 'theme update failed';
 
+        if ( $this->user->updateTheme($request->input('theme_id')) ) {
+            $message = 'theme updated';
+        }
 
+        return redirect()->back()->with('status', $message);
     }
 
 }

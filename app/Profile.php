@@ -21,8 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereCreatedAt($value)
  * @mixin \Eloquent
- * @property integer $theme_id 主题ID
+ * @property integer        $theme_id   主题ID
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereThemeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Profile getProfileByUserId()
  */
 class Profile extends Model
 {
@@ -45,7 +46,7 @@ class Profile extends Model
      *
      * @var array
      */
-    protected $fillable = ['portrait'];
+    protected $fillable = ['portrait', 'theme_id'];
 
     /**
      * belongs to User
@@ -62,5 +63,15 @@ class Profile extends Model
     public function theme()
     {
         return $this->belongsTo('App\Theme', 'theme_id');
+    }
+
+    /**
+     * @param $query
+     * @param $user_id
+     * @return mixed
+     */
+    public function scopeGetProfileByUserId($query, $user_id)
+    {
+        return $query->where('user_id', '=', $user_id);
     }
 }
