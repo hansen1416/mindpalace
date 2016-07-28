@@ -115,7 +115,7 @@ class AuthController extends Controller
 
         if (!$login_staus) {
 
-            return response()->json(['status' => false]);
+            return response()->json(['status' => false, 'message' => $request->email . '-' .$request->password]);
         }
 
         return response()->json(['status' => true]);
