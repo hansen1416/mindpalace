@@ -236,7 +236,7 @@ class CtgRepository
         }
 
         try {
-
+            //TODO
             $update['path'] = $ctg->path . $ctg->ctg_id . '-';
             $update['tier'] = $ctg->tier + 1;
 
