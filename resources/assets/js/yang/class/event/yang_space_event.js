@@ -36,7 +36,8 @@ define([
      */
     yang_space_layout = null;
 
-    let editor          = new WeakMap(),
+    let o               = null,
+        editor          = new WeakMap(),
         aimedStar       = new WeakMap(),
         radius          = Symbol(),
         pos             = Symbol(),
@@ -104,6 +105,8 @@ define([
             this[rsf]             = false;
             //最初的变换样式
             this[originTransform] = null;
+
+            o = this;
         }
 
 
@@ -178,34 +181,34 @@ define([
              * 移除动画样式
              * 设置 startMatrix 和 旋转元素的位置 = 当前的 transform 位置
              */
-            if (this.rotateObj.classList.contains('rotate_animation')) {
+            if (o.rotateObj.classList.contains('rotate_animation')) {
 
-                let rotateObj    = this.rotateObj,
+                let rotateObj    = o.rotateObj,
                     currentStyle = getStyle(rotateObj, prefixCss + "transform");
 
                 rotateObj.classList.remove('rotate_animation');
 
-                this.setStartMatrix    = matrixToArr(currentStyle);
+                o.setStartMatrix       = matrixToArr(currentStyle);
                 rotateObj.style[trsfm] = currentStyle;
             }
 
             //如果之前的惯性没有耗尽，停止运动
-            if (this[resetMotion] && this[omega] !== 0) {
-                this.stopMotion()
+            if (o[resetMotion] && o[omega] !== 0) {
+                o.stopMotion()
             }
 
             //非常重要，如果没有这一句，会出现鼠标点击抬起无效
             //e.preventDefault();
 
-            this[mouseDownVector] = calcZ(touchPos(e), this[pos], this[radius]);
+            o[mouseDownVector] = calcZ(touchPos(e), o[pos], o[radius]);
             //获得当前已旋转的角度
-            this[oldAngle]        = this[angle];
+            o[oldAngle]        = o[angle];
 
-            this[oldTime] = new Date().getTime();
+            o[oldTime] = new Date().getTime();
             //绑定三个事件
-            unbindEvent(this.stage, "mousedown", this.rotateStart);
-            bindEvent(document, "mousemove", this.rotate);
-            bindEvent(document, "mouseup", this.rotateFinish);
+            unbindEvent(o.stage, "mousedown", o.rotateStart);
+            bindEvent(document, "mousemove", o.rotate);
+            bindEvent(document, "mouseup", o.rotateFinish);
 
         }//rotateStart ends
 
@@ -220,22 +223,22 @@ define([
             //非常重要，如果没有这一句，会出现鼠标点击抬起无效
             e.preventDefault();
             //计算鼠标经过轨迹的空间坐标
-            this[mouseMoveVector] = calcZ(touchPos(e), this[pos], this[radius]);
+            o[mouseMoveVector] = calcZ(touchPos(e), o[pos], o[radius]);
 
             //当mouseMoveVector == mouseDownVector时（点击事件，有时候不是点击事件也会出现这种情况，有待进一步调查），向量单位化会出现分母为0的状况，这样便可以避免出现axis里面有NaN的情况，解决了卡死问题。
-            if (this[mouseMoveVector][0] == this[mouseDownVector][0] && this[mouseMoveVector][1] == this[mouseDownVector][1] && this[mouseMoveVector][2] == this[mouseDownVector][2]) {
+            if (o[mouseMoveVector][0] == o[mouseDownVector][0] && o[mouseMoveVector][1] == o[mouseDownVector][1] && o[mouseMoveVector][2] == o[mouseDownVector][2]) {
                 return false;
             }
 
             //以下这段会使在计算惯性运动时，只计算最后一个转动帧里的角度变化，而不是从鼠标点下起的角度变化，比较符合实际的运动模型。
-            this[oldAngle] = this[angle];
+            o[oldAngle] = o[angle];
             //旋转轴为空间向量的叉积
-            this[axis]     = normalize(crossVector(this[mouseDownVector], this[mouseMoveVector]));
+            o[axis]     = normalize(crossVector(o[mouseDownVector], o[mouseMoveVector]));
             //旋转的角度
-            this[angle]    = calcAngle(this[mouseDownVector], this[mouseMoveVector]);
+            o[angle]    = calcAngle(o[mouseDownVector], o[mouseMoveVector]);
             //将 slide animation 标示置为 false，表示动画运行
-            this[rsf]      = false;
-            this.slide();
+            o[rsf]      = false;
+            o.slide();
         }//rotate ends
 
         /**
@@ -248,24 +251,24 @@ define([
         rotateFinish(e) {
             e.preventDefault();
             //解除 document 上的 mousemove 和 mouseup 事件
-            unbindEvent(document, 'mousemove', this.rotate);
-            unbindEvent(document, 'mouseup', this.rotateFinish);
-            bindEvent(this.stage, 'mousedown', this.rotateStart);
+            unbindEvent(document, 'mousemove', o.rotate);
+            unbindEvent(document, 'mouseup', o.rotateFinish);
+            bindEvent(o.stage, 'mousedown', o.rotateStart);
             //当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
-            if (this[axis] == [] || isNaN(this[axis][0]) || isNaN(this[axis][1]) || isNaN(this[axis][2])) {
+            if (o[axis] == [] || isNaN(o[axis][0]) || isNaN(o[axis][1]) || isNaN(o[axis][2])) {
                 return false;
             }
 
-            this[time] = new Date().getTime();
+            o[time] = new Date().getTime();
             //计算单位角速度，这里不能在 下面的 if 条件里面，否则会没有惯性
-            this.angularDeceleration();
+            o.angularDeceleration();
 
-            if (this[impulse] && this[omega] > 0) {
+            if (o[impulse] && o[omega] > 0) {
 
-                this[rsf] = true;
-                requestAnim(this.deceleration);     //有单位角速度做惯性运动
+                o[rsf] = true;
+                requestAnim(o.deceleration);     //有单位角速度做惯性运动
             } else {
-                this.stopMotion();
+                o.stopMotion();
             }
 
             //what's the condition mean? to be found out..
@@ -279,12 +282,12 @@ define([
          */
         slide() {
 
-            this.rotateObj.style[trsfm] = "rotate3d(" + this[axis] + ", " + this[angle] + "rad) matrix3d(" + this.getStartMatrix + ")";
+            o.rotateObj.style[trsfm] = "rotate3d(" + o[axis] + ", " + o[angle] + "rad) matrix3d(" + o.getStartMatrix + ")";
 
-            this[rs] = requestAnim(this.slide);
+            o[rs] = requestAnim(o.slide);
             //如果标示为 true ，则取消动画
-            if (this[rsf]) {
-                cancelAnim(this[rs]);
+            if (o[rsf]) {
+                cancelAnim(o[rs]);
             }
         }//slide ends
 
@@ -309,16 +312,16 @@ define([
          * 计算鼠标抬起后的角减速运动
          */
         deceleration() {
-            this[angle] += this[omega];
-            this[omega] = this[omega] > 0 ? this[omega] - this[lambda] * Math.sqrt(this[omega]) : 0;
+            o[angle] += o[omega];
+            o[omega] = o[omega] > 0 ? o[omega] - o[lambda] * Math.sqrt(o[omega]) : 0;
 
-            this.rotateObj.style[trsfm] = "rotate3d(" + this[axis] + "," + this[angle] + "rad) matrix3d(" + this.getStartMatrix + ")";
+            o.rotateObj.style[trsfm] = "rotate3d(" + o[axis] + "," + o[angle] + "rad) matrix3d(" + o.getStartMatrix + ")";
             //如果角速度为 0 了，则取消动画，并做结束处理
-            if (this[omega] === 0) {
-                cancelAnim(this[rd]);
-                this.stopMotion();
+            if (o[omega] === 0) {
+                cancelAnim(o[rd]);
+                o.stopMotion();
             } else {
-                this[rd] = requestAnim(this.deceleration);
+                o[rd] = requestAnim(o.deceleration);
             }
         }//deceleration ends
 
@@ -347,62 +350,60 @@ define([
          */
         zoom() {
 
-            bindEvent(this.stage, 'wheel', callback);
-
-            let upper      = this,
-                style_zoom = document.getElementById('style_zoom'),
-                sheet      = style_zoom['sheet'] || style_zoom['styleSheet'];
-
-            /**
-             * 滚轮向下转动一次隐藏一层，直到隐藏倒数第二层，同时所有显示的元素向球心移动一个 gap 的距离
-             * 滚轮向上转动一次显示一层，直到显示出最内层，同时所有显示的元素背向球心移动一个 gap 的距离
-             * 通过向页面中的 style[id='style_zoom'] 添加和删除规则来显示和隐藏元素
-             * styleSheet 中的规则条数应该和隐藏的层数相同
-             * @param e
-             */
-            function callback(e) {
-                e.preventDefault();
-
-                let sign = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
-                    lens = sheet.cssRules.length,
-                    tier = sign > 0 ? lens : lens - 1;
-
-                //如果当前需要隐藏的层大于等于最外层，则不可以再扩展
-                //如果当前需要隐藏的层小于等于最外层，则不可以再收缩
-                if ((tier >= upper.tiers && sign > 0) || (tier < 0 && sign < 0)) {
-                    return false;
-                }
-
-                /**
-                 * sign > 0 滚轮向下滚动，同心球收缩
-                 * sign < 0 滚轮向上滚动，同新求扩展
-                 */
-                if (sign > 0) {
-                    sheet.insertRule('.tier-' + tier + '{display:none;}', tier);
-                } else {
-                    sheet.deleteRule(tier);
-                }
-
-                let not = '';
-
-                //获取已经隐藏掉的层，在其后不选择
-                do {
-                    not += ':not(.tier-' + tier + ')';
-                    tier--;
-                } while (tier > -1);
-
-                let stars = upper.stage.querySelectorAll('.star' + not),
-                    str   = upper.gap * sign + 'px',
-                    i     = 0;
-                //缩放所有显示的元素
-                do {
-                    stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ(' + str + ')';
-                    i++;
-                } while (i < stars.length);
-
-            }
+            bindEvent(this.stage, 'wheel', this.zoomCallback);
 
         }//zoom ends
+
+        /**
+         * 滚轮向下转动一次隐藏一层，直到隐藏倒数第二层，同时所有显示的元素向球心移动一个 gap 的距离
+         * 滚轮向上转动一次显示一层，直到显示出最内层，同时所有显示的元素背向球心移动一个 gap 的距离
+         * 通过向页面中的 style[id='style_zoom'] 添加和删除规则来显示和隐藏元素
+         * styleSheet 中的规则条数应该和隐藏的层数相同
+         * @param e
+         */
+        zoomCallback(e) {
+            e.preventDefault();
+
+            let style_zoom = document.getElementById('style_zoom'),
+                sheet      = style_zoom['sheet'] || style_zoom['styleSheet'],
+                sign       = e.deltaY / Math.abs(e.deltaY),           //sign > 0收缩，sign < 0 扩展
+                lens       = sheet.cssRules.length,
+                tier       = sign > 0 ? lens : lens - 1;
+
+            //如果当前需要隐藏的层大于等于最外层，则不可以再扩展
+            //如果当前需要隐藏的层小于等于最外层，则不可以再收缩
+            if ((tier >= o.tiers && sign > 0) || (tier < 0 && sign < 0)) {
+                return false;
+            }
+
+            /**
+             * sign > 0 滚轮向下滚动，同心球收缩
+             * sign < 0 滚轮向上滚动，同新求扩展
+             */
+            if (sign > 0) {
+                sheet.insertRule('.tier-' + tier + '{display:none;}', tier);
+            } else {
+                sheet.deleteRule(tier);
+            }
+
+            let not = '';
+
+            //获取已经隐藏掉的层，在其后不选择
+            do {
+                not += ':not(.tier-' + tier + ')';
+                tier--;
+            } while (tier > -1);
+
+            let stars = o.stage.querySelectorAll('.star' + not),
+                str   = o.gap * sign + 'px',
+                i     = 0;
+            //缩放所有显示的元素
+            do {
+                stars[i].style[trsfm] = getStyle(stars[i], 'transform') + 'translateZ(' + str + ')';
+                i++;
+            } while (i < stars.length);
+
+        }//zoomCallback ends
 
 
         /**
@@ -410,258 +411,263 @@ define([
          */
         click() {
 
-            bindEvent(document, 'click', callback);
-
-            let upper = this;
-
             editor.set(this, new Quill('#editor'));
 
-            function callback(e) {
-
-                let target = e.target;
-                //如果是 a 标签，则只执行默认行为
-                if (target.nodeName === 'A') {
-                    return false;
-                }
-
-                e.preventDefault();
-
-                if (target.classList.contains('star')) {
-                    //点击分类或者内容题目时的点击事件
-                    starClick(target);
-
-                } else if (target.classList.contains('btn')) {
-                    //.operation 包含的所有 .btn 的点击
-                    btnClick(target);
-
-                } else if (target.classList.contains('submit')) {
-                    //ajax提交表单
-                    submitForm(target);
-
-                }
-
-            }//callback ends
-
-
-            /**
-             * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
-             * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
-             * 显示对应的 operation
-             * @param target 点击的目标元素
-             */
-            function starClick(target) {
-
-                let dataset  = target.dataset,
-                    ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
-                    item_id  = dataset['item_id'] ? dataset['item_id'] : 0,     //内容的ID
-                    ctg_box  = document.getElementById('ctg_box'),              //分类对应的操作面板
-                    item_box = document.getElementById('item_box');             //内容对应的操作面板
-
-                if (ctg_id) {
-                    reveal(ctg_box);
-                    conceal(item_box);
-                } else if (item_id) {
-                    reveal(item_box);
-                    conceal(ctg_box);
-                }
-
-                aimedStar.set(upper, target);
-
-            }//starClick ends
-
-
-            /**
-             * ajax 提交表单
-             * @param target 提交按钮，是 form 的子元素
-             */
-            function submitForm(target) {
-
-                let form = target.parentNode,
-                    data = new FormData(form),
-                    success;
-
-                if (form.id == 'item_form') {
-                    data.append('content', editor.get(upper).getHTML());
-                }
-
-                /**
-                 * 请求成功的回调函数
-                 * @param res json对象 res.status == 1 成功, 0 失败
-                 */
-                success = function (res) {
-                    //TODO
-                    console.log(res);
-                };
-
-                ajax(form.action, success, data);
-
-            }//submitForm ends
-
-
-            /**
-             * .operation 中各个 .btn 的点击事件
-             * @param target .btn 元素
-             */
-            function btnClick(target) {
-                /**
-                 * star 选中的 .star 元素
-                 * cList target的classList
-                 * form 当前操作界面中的表单
-                 */
-                let star      = aimedStar.get(upper),
-                    s_dataset = star ? star.dataset : [],
-                    b_dataset = target.dataset,
-                    form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
-                    inputs    = [],
-                    i         = 0;
-
-                if (form && b_dataset['action']) {
-
-                    form.action = b_dataset['action'];
-                    inputs      = form.querySelectorAll("input[type='hidden']");
-                }
-
-                /**
-                 * 从 star 或 target 中取出 表单隐藏域需要的数据
-                 * @type {NodeList}
-                 */
-                while (i < inputs.length) {
-                    inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
-                    i++;
-                }
-
-
-                switch (b_dataset.func) {
-
-                    /*
-                     * 将选中的 .star 元素旋转到屏幕正中
-                     * 目前可以显示正确，但是缺少动画效果
-                     */
-                    case 'focus':
-
-                        let destiny                  = roll(star.style[trsfm]);
-                        upper.setStartMatrix         = matrixToArr(destiny);
-                        upper.rotateObj.style[trsfm] = destiny;
-                        break;
-                /**
-                 * 隐藏当前的操作界面
-                 */
-                    case 'hide':
-
-                        conceal(target.parentNode);
-                        break;
-                /**
-                 * 查看某一个分类的子分类
-                 */
-                    case 'descendant':
-
-                        location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
-                        break;
-                /**
-                 * 给指定分类添加一个子分类
-                 */
-                    case 'add_desc':
-
-                        upper.clearForm(form);
-                        reveal(form);
-
-                        break;
-                /**
-                 * 给指定分类添加一个同级分类
-                 */
-                    case 'add_peer':
-
-                        upper.clearForm(form);
-                        reveal(form);
-
-                        break;
-
-                    case 'edit_ctg':
-
-                        ajax(ctgDetailUrl, function (res) {
-
-                            if (res.status) {
-                                form.querySelector('#ctg_title').value = res.message['title'];
-                                form.querySelector('#ctg_sort').value  = res.message['sort'];
-
-                                reveal(form);
-                            }
-
-                        }, new FormData(form));
-
-                        break;
-                /**
-                 * 改变一个分类的父级分类
-                 */
-                    case 'edit_pid':
-
-
-                        break;
-
-                    case 'add_item':
-
-                        upper.clearForm(form);
-                        reveal(form);
-
-                        break;
-                /**
-                 * 编辑内容的标题、排序和标签信息
-                 */
-                    case 'edit_item':
-
-                        /**
-                         * 请求详情数据
-                         * 并显示详情表单
-                         */
-                        ajax(itemDetailUrl, function (res) {
-
-                            editor.get(upper).setHTML(res.message);
-
-                            reveal(form);
-
-                        }, new FormData(form));
-
-                        break;
-                /**
-                 * 将 Trackball 重置到初始视角
-                 */
-                    case 'reset_trackball':
-
-                        upper.setStartMatrix = resetTrackball(upper.rotateObj);
-                        break;
-
-                    case 'theme':
-
-                        ajax(b_dataset.action, function (res) {
-
-                            let themes   = document.getElementById('themes'),
-                                fragment = document.createDocumentFragment();
-
-                            for (let theme in res.message) {
-
-                                if (res.message.hasOwnProperty(theme)) {
-                                    let a = document.createElement('a');
-
-                                    a.setAttribute('href', res.message[theme]);
-                                    a.appendChild(document.createTextNode(theme));
-
-                                    fragment.appendChild(a);
-                                }
-                            }
-
-                            themes.appendChild(fragment);
-
-                            reveal(themes);
-                        });
-
-                        break;
-                }//switch ends
-
-
-            }//btnClick ends
-
+            bindEvent(document, 'click', this.clickCallback);
 
         }//click ends
+
+
+        clickCallback(e) {
+
+            let target = e.target;
+            //如果是 a 标签，则只执行默认行为
+            if (target.nodeName === 'A') {
+                return false;
+            }
+
+            e.preventDefault();
+
+            if (target.classList.contains('star')) {
+                //点击分类或者内容题目时的点击事件
+                o.starClick(target);
+
+            } else if (target.classList.contains('btn')) {
+                //.operation 包含的所有 .btn 的点击
+                o.btnClick(target);
+
+            } else if (target.classList.contains('submit')) {
+                //ajax提交表单
+                o.submitForm(target);
+
+            }
+
+        }//clickCallback ends
+
+
+        /**
+         * 所有 .star 元素，点击后环绕其出现一圈按钮，可以增删改查
+         * 并且给所有.btn 的 dataset 中添加该 star 的 id,pid,tier
+         * 显示对应的 operation
+         * @param target 点击的目标元素
+         */
+        starClick(target) {
+
+            let dataset  = target.dataset,
+                ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
+                item_id  = dataset['item_id'] ? dataset['item_id'] : 0,     //内容的ID
+                ctg_box  = document.getElementById('ctg_box'),              //分类对应的操作面板
+                item_box = document.getElementById('item_box');             //内容对应的操作面板
+
+            if (ctg_id) {
+                reveal(ctg_box);
+                conceal(item_box);
+            } else if (item_id) {
+                reveal(item_box);
+                conceal(ctg_box);
+            }
+
+            aimedStar.set(this, target);
+
+        }//starClick ends
+
+
+        /**
+         * ajax 提交表单
+         * @param target 提交按钮，是 form 的子元素
+         */
+        submitForm(target) {
+
+            let form = target.parentNode,
+                data = new FormData(form),
+                success;
+
+            if (form.id == 'item_form') {
+                data.append('content', editor.get(this).getHTML());
+            }
+
+            /**
+             * 请求成功的回调函数
+             * @param res json对象 res.status == 1 成功, 0 失败
+             */
+            success = function (res) {
+                //TODO
+                console.log(res);
+            };
+
+            ajax(form.action, success, data);
+
+        }//submitForm ends
+
+
+        /**
+         * .operation 中各个 .btn 的点击事件
+         * @param target .btn 元素
+         */
+        btnClick(target) {
+            /**
+             * star 选中的 .star 元素
+             * cList target的classList
+             * form 当前操作界面中的表单
+             */
+            let star      = aimedStar.get(this),
+                s_dataset = star ? star.dataset : [],
+                b_dataset = target.dataset,
+                form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
+                inputs    = [],
+                i         = 0;
+
+            if (form && b_dataset['action']) {
+
+                form.action = b_dataset['action'];
+                inputs      = form.querySelectorAll("input[type='hidden']");
+            }
+
+            /**
+             * 从 star 或 target 中取出 表单隐藏域需要的数据
+             * @type {NodeList}
+             */
+            while (i < inputs.length) {
+                inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
+                i++;
+            }
+
+
+            switch (b_dataset.func) {
+
+                /*
+                 * 将选中的 .star 元素旋转到屏幕正中
+                 * 目前可以显示正确，但是缺少动画效果
+                 */
+                case 'focus':
+
+                    let destiny                 = roll(star.style[trsfm]);
+                    this.setStartMatrix         = matrixToArr(destiny);
+                    this.rotateObj.style[trsfm] = destiny;
+                    break;
+            /**
+             * 隐藏当前的操作界面
+             */
+                case 'hide':
+
+                    conceal(target.parentNode);
+                    break;
+            /**
+             * 查看某一个分类的子分类
+             */
+                case 'descendant':
+
+                    location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
+                    break;
+            /**
+             * 给指定分类添加一个子分类
+             */
+                case 'add_desc':
+
+                    this.clearForm(form);
+                    reveal(form);
+
+                    break;
+            /**
+             * 给指定分类添加一个同级分类
+             */
+                case 'add_peer':
+
+                    this.clearForm(form);
+                    reveal(form);
+
+                    break;
+
+                case 'edit_ctg':
+
+                    ajax(ctgDetailUrl, function (res) {
+
+                        if (res.status) {
+                            form.querySelector('#ctg_title').value = res.message['title'];
+                            form.querySelector('#ctg_sort').value  = res.message['sort'];
+
+                            reveal(form);
+                        }
+
+                    }, new FormData(form));
+
+                    break;
+            /**
+             * 改变一个分类的父级分类
+             */
+                case 'edit_pid':
+
+
+                    break;
+
+                case 'add_item':
+
+                    this.clearForm(form);
+                    reveal(form);
+
+                    break;
+            /**
+             * 编辑内容的标题、排序和标签信息
+             */
+                case 'edit_item':
+
+                    /**
+                     * 请求详情数据
+                     * 并显示详情表单
+                     */
+                    ajax(itemDetailUrl, function (res) {
+
+                        editor.get(o).setHTML(res.message);
+
+                        reveal(form);
+
+                    }, new FormData(form));
+
+                    break;
+            /**
+             * 将 Trackball 重置到初始视角
+             */
+                case 'reset_trackball':
+
+                    this.setStartMatrix = resetTrackball(this.rotateObj);
+                    break;
+
+                case 'theme':
+
+                    let themes = document.getElementById('themes');
+
+                    if (themes.childElementCount) {
+                        reveal(themes);
+                        return false;
+                    }
+
+                    ajax(b_dataset.action, function (res) {
+
+                        let fragment = document.createDocumentFragment();
+
+                        for (let theme in res.message) {
+
+                            if (res.message.hasOwnProperty(theme)) {
+                                let a = document.createElement('a');
+
+                                a.setAttribute('href', res.message[theme]);
+                                a.appendChild(document.createTextNode(theme));
+
+                                fragment.appendChild(a);
+                            }
+                        }
+
+                        themes.appendChild(fragment);
+
+                        reveal(themes);
+                    });
+
+                    break;
+            }//switch ends
+
+
+        }//btnClick ends
+
 
         clearForm(form) {
 
