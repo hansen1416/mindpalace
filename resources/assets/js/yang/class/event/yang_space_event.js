@@ -457,9 +457,9 @@ define([
          */
         starClick(target) {
 
-            let dataset  = target.dataset,
-                ctg_id   = dataset['ctg_id'] ? dataset['ctg_id'] : 0,       //分类的ID
-                item_id  = dataset['item_id'] ? dataset['item_id'] : 0,     //内容的ID
+            let data     = target.dataset,
+                ctg_id   = data['ctg_id'] ? data['ctg_id'] : 0,       //分类的ID
+                item_id  = data['item_id'] ? data['item_id'] : 0,     //内容的ID
                 ctg_box  = document.getElementById('ctg_box'),              //分类对应的操作面板
                 item_box = document.getElementById('item_box');             //内容对应的操作面板
 
@@ -514,12 +514,12 @@ define([
              * cList target的classList
              * form 当前操作界面中的表单
              */
-            let star      = aimedStar.get(this),
-                s_dataset = star ? star.dataset : [],
-                b_dataset = target.dataset,
-                form      = b_dataset['form'] ? document.getElementById(b_dataset['form']) : null,
-                inputs    = [],
-                i         = 0;
+            let star   = aimedStar.get(this),
+                sData  = star ? star.dataset : [],
+                bData  = target.dataset,
+                form   = bData['form'] ? document.getElementById(bData['form']) : null,
+                inputs = [],
+                i      = 0;
 
             if (form) {
 
@@ -530,13 +530,13 @@ define([
                  * @type {NodeList}
                  */
                 while (i < inputs.length) {
-                    inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
+                    inputs[i].value = sData[inputs[i].getAttribute('name')] || bData[inputs[i].getAttribute('name')];
                     i++;
                 }
             }
 
 
-            switch (b_dataset.func) {
+            switch (bData.func) {
 
                 /*
                  * 将选中的 .star 元素旋转到屏幕正中
@@ -560,7 +560,7 @@ define([
              */
                 case 'descendant':
 
-                    location.href = location.origin + location.pathname + '?pid=' + s_dataset['ctg_id'];
+                    location.href = location.origin + location.pathname + '?pid=' + sData['ctg_id'];
                     break;
             /**
              * 给指定分类添加一个子分类
@@ -652,7 +652,7 @@ define([
                         return false;
                     }
 
-                    ajax(b_dataset.action, function (res) {
+                    ajax(bData.action, function (res) {
 
                         let fragment = document.createDocumentFragment();
 
@@ -698,7 +698,27 @@ define([
                 return false;
             }
 
-            console.log(aimedStar.get(o));
+            let sData = aimedStar.get(o).dataset,
+                tData = target.dataset,
+                data  = new FormData(),
+                url   = '';
+
+            if (sData['ctg_id']) {
+                url = updateCtgUrl;
+                data.append('ctg_id', sData['ctg_id']);
+                data.append('pid', tData['ctg_id']);
+            } else {
+                url = updateItemUrl;
+                data.append('item_id', sData['item_id']);
+                data.append('ctg_id', tData['ctg_id']);
+            }
+
+            ajax(url, function (res) {
+
+                console.log(res);
+
+            }, data);
+
         }
 
 

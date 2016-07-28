@@ -96,6 +96,10 @@
              data-form="item_form">
             {{ trans('buttons.edit_item') }}
         </div>
+        {{--改变父级分类--}}
+        <div class="btn item_btn" title="{{ trans('buttons.title.edit_pid') }}" data-func="edit_pid">
+            {{ trans('buttons.edit_pid') }}
+        </div>
 
     </div>
 

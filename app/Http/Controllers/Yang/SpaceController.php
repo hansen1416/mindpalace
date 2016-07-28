@@ -95,8 +95,9 @@ class SpaceController extends Controller
 
         $param = [
             $request->input('ctg_id'),
-            $request->input('sort'),
-            $request->input('title'),
+            $request->input('pid', null),
+            $request->input('sort', 0),
+            $request->input('title', ''),
         ];
 
         return response()->json(['status' => call_user_func_array([$this->ctg, 'updateCtg'], $param)]);
@@ -129,9 +130,9 @@ class SpaceController extends Controller
         $param = [
             $request->input('ctg_id'),
             $this->user->userInfo()->user_id,
-            0,
-            $request->input('title'),
-            '',
+            $request->input('sort', 0),
+            $request->input('title', ''),
+            $request->input('content', ''),
         ];
 
         return response()->json(['status' => call_user_func_array([$this->item, 'createItem'], $param)]);
@@ -147,10 +148,10 @@ class SpaceController extends Controller
 
         $param = [
             $request->input('item_id'),
-            0,
-            0,
-            $request->input('title'),
-            $request->input('content'),
+            $request->input('ctg_id', 0),
+            $request->input('sort', 0),
+            $request->input('title', ''),
+            $request->input('content', ''),
         ];
 
         return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);

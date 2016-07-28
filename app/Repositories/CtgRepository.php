@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Ctg;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CtgRepository
@@ -165,11 +166,11 @@ class CtgRepository
     {
 
         $parent = $pid ? $this->findCtg($pid) : null;
-        $path   = '';
+        $path   = '-0-';
         $tier   = 0;
 
         if ($parent) {
-            $path = $parent->path ? $parent->path . $pid . '-' : '-' . $pid . '-';
+            $path = $parent->path . $pid . '-';
             $tier = $parent->tier + 1;
         }
 
@@ -185,19 +186,71 @@ class CtgRepository
 
     /**
      * @param $ctg_id
+     * @param $pid
      * @param $sort
      * @param $title
      * @return bool
+     * @throws \Exception
      */
-    public function updateCtg($ctg_id, $sort, $title)
+    public function updateCtg($ctg_id, $pid, $sort, $title)
     {
 
         $ctg = $this->findCtg($ctg_id);
 
-        $ctg->sort  = $sort;
-        $ctg->title = $title;
+        if (is_null($pid) || $ctg->pid == $pid) {
 
-        return $ctg->save();
+            $ctg->sort = $sort;
+
+            if ($title) {
+                $ctg->title = $title;
+            }
+
+            return $ctg->save();
+        }
+
+
+        DB::beginTransaction();
+
+        try {
+
+            if ($pid) {
+
+                $parent = $this->findCtg($pid);
+                $path   = $parent->path . $pid . '-';
+                $tier   = $parent->tier + 1;
+
+            } else {
+
+                $path = '-0-';
+                $tier = 0;
+            }
+
+            $ctg->pid  = $pid;
+            $ctg->path = $path;
+            $ctg->tier = $tier;
+            $ctg->save();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+        try {
+
+            $update['path'] = $ctg->path . $ctg->ctg_id . '-';
+            $update['tier'] = $ctg->tier + 1;
+
+            $res = $this->ctg->where('path', 'like', '%-' . $ctg->ctg_id . '-%')
+                             ->update($update);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+        DB::commit();
+
+        return $res;
 
     }
 
