@@ -4,7 +4,7 @@ namespace App\Repositories;
 use Auth;
 use App\User;
 use App\Profile;
-use App\theme;
+use App\Theme;
 
 /**
  * 用于从模型获取所有的用户相关信息
