@@ -54,7 +54,7 @@ define([
                         } else {
 
                             //TODO
-                            console.log('fan hui zhi cuo wu');
+                            console.log(r.message);
                         }
 
                     }
