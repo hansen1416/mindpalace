@@ -50,14 +50,16 @@ class ItemRepository
      * @param $user_id
      * @param $sort
      * @param $title
+     * @param $content
      * @return bool
      */
-    public function createItem($ctg_id, $user_id, $sort, $title)
+    public function createItem($ctg_id, $user_id, $sort, $title, $content)
     {
         $this->item->ctg_id  = $ctg_id;
         $this->item->user_id = $user_id;
         $this->item->sort    = $sort;
         $this->item->title   = $title;
+        $this->item->content = $content;
 
         return $this->item->save();
     }

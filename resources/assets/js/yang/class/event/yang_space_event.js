@@ -58,7 +58,11 @@ define([
         rsf             = Symbol(),
         originTransform = Symbol();
 
+    const createCtgUrl  = document.getElementById('create_ctg_url').value;     //创建分类的URL
+    const updateCtgUrl  = document.getElementById('update_ctg_url').value;     //编辑分类的URL
     const ctgDetailUrl  = document.getElementById('ctg_detail_url').value;      //获取分类详情的URL
+    const createItemUrl = document.getElementById('create_item_url').value;     //创建内容的URL
+    const updateItemUrl = document.getElementById('update_item_url').value;     //编辑内容的URL
     const itemDetailUrl = document.getElementById('item_detail_url').value;     //获取内容详情的URL
 
     class YangSpaceEvent extends YangSpaceLayout {
@@ -517,19 +521,18 @@ define([
                 inputs    = [],
                 i         = 0;
 
-            if (form && b_dataset['action']) {
+            if (form) {
 
-                form.action = b_dataset['action'];
-                inputs      = form.querySelectorAll("input[type='hidden']");
-            }
+                inputs = form.querySelectorAll("input[type='hidden']");
 
-            /**
-             * 从 star 或 target 中取出 表单隐藏域需要的数据
-             * @type {NodeList}
-             */
-            while (i < inputs.length) {
-                inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
-                i++;
+                /**
+                 * 从 star 或 target 中取出 表单隐藏域需要的数据
+                 * @type {NodeList}
+                 */
+                while (i < inputs.length) {
+                    inputs[i].value = s_dataset[inputs[i].getAttribute('name')] || b_dataset[inputs[i].getAttribute('name')];
+                    i++;
+                }
             }
 
 
@@ -565,6 +568,7 @@ define([
                 case 'add_desc':
 
                     this.clearForm(form);
+                    form.action = createCtgUrl;
                     reveal(form);
 
                     break;
@@ -574,6 +578,7 @@ define([
                 case 'add_peer':
 
                     this.clearForm(form);
+                    form.action = createCtgUrl;
                     reveal(form);
 
                     break;
@@ -586,6 +591,7 @@ define([
                             form.querySelector('#ctg_title').value = res.message['title'];
                             form.querySelector('#ctg_sort').value  = res.message['sort'];
 
+                            form.action = updateCtgUrl;
                             reveal(form);
                         }
 
@@ -597,12 +603,17 @@ define([
              */
                 case 'edit_pid':
 
+                    unbindEvent(document, 'click', this.clickCallback);
 
+                    bindEvent(document, 'click', this.editPid);
                     break;
-
+            /**
+             * 给分类添加一个内容
+             */
                 case 'add_item':
 
                     this.clearForm(form);
+                    form.action = createItemUrl;
                     reveal(form);
 
                     break;
@@ -618,7 +629,7 @@ define([
                     ajax(itemDetailUrl, function (res) {
 
                         editor.get(o).setHTML(res.message);
-
+                        form.action = updateItemUrl;
                         reveal(form);
 
                     }, new FormData(form));
@@ -677,6 +688,18 @@ define([
                 editor.get(this).setHTML('');
             }
         }//clearForm ends
+
+
+        editPid(e) {
+
+            let target = e.target;
+
+            if (!target.classList.contains('star') || !target.classList.contains('ctg')) {
+                return false;
+            }
+
+            console.log(aimedStar.get(o));
+        }
 
 
     }//YangHomeEvent ends

@@ -5,9 +5,6 @@
     {{--同心球的缩放，动态操纵的样式表--}}
     <style id="style_zoom"></style>
 
-    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
-    <input type="hidden" id="ctg_detail_url" value="{{ route('ctgDetail') }}">
-
     <div id="stage">
 
         <div class="rotate_animation" id="galaxy">
@@ -58,26 +55,26 @@
         </div>
         {{--添加一个子级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.add_desc') }}" data-func="add_desc"
-             data-action="{{ route('createCtg') }}" data-form="ctg_form" data-act="ctg_id">
+             data-form="ctg_form" data-act="ctg_id">
             {{ trans('buttons.add_desc') }}
         </div>
         {{--添加一个同级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.add_peer') }}" data-func="add_peer"
-             data-action="{{ route('createCtg') }}" data-form="ctg_form" data-act="pid">
+             data-form="ctg_form" data-act="pid">
             {{ trans('buttons.add_peer') }}
         </div>
         {{--编辑分类标题--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_ctg') }}" data-func="edit_ctg"
-             data-action="{{ route('updateCtg') }}" data-form="ctg_form">
+             data-form="ctg_form">
             {{ trans('buttons.edit_ctg') }}
         </div>
         {{--改变父级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_pid') }}" data-func="edit-pid">
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_pid') }}" data-func="edit_pid">
             {{ trans('buttons.edit_pid') }}
         </div>
         {{--添加一个子内容--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.add_item') }}" data-func="add_item"
-             data-action="{{ route('createItem') }}" data-form="item_form">
+             data-form="item_form">
             {{ trans('buttons.add_item') }}
         </div>
 
@@ -96,7 +93,7 @@
         </div>
         {{--编辑内容标题--}}
         <div class="btn item_btn" title="{{ trans('buttons.title.edit_item') }}" data-func="edit_item"
-             data-action="{{ route('updateItem') }}" data-form="item_form">
+             data-form="item_form">
             {{ trans('buttons.edit_item') }}
         </div>
 
@@ -151,6 +148,7 @@
 
         <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
         <div class="submit">{{ trans('general.save') }}</div>
+        <input type="hidden" name="ctg_id" value="0">
         <input type="hidden" name="item_id" value="0">
     </form>
     {{--内容表单--}}
@@ -189,9 +187,16 @@
 
     </div>
 
+    <input type="hidden" id="create_ctg_url" value="{{ route('createCtg') }}">
+    <input type="hidden" id="update_ctg_url" value="{{ route('updateCtg') }}">
+    <input type="hidden" id="ctg_detail_url" value="{{ route('ctgDetail') }}">
+    <input type="hidden" id="create_item_url" value="{{ route('createItem') }}">
+    <input type="hidden" id="update_item_url" value="{{ route('updateItem') }}">
+    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>
-        <script type="text/javascript">
+        <script>
             require.config({
                                urlArgs: "v=" + (new Date()).getTime()
                            });

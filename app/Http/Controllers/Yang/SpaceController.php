@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Repositories\CtgRepository;
 use App\Repositories\ItemRepository;
+use Mockery\CountValidator\Exception;
 
 /**
  * Class SpaceController
@@ -130,6 +131,7 @@ class SpaceController extends Controller
             $this->user->userInfo()->user_id,
             0,
             $request->input('title'),
+            '',
         ];
 
         return response()->json(['status' => call_user_func_array([$this->item, 'createItem'], $param)]);
@@ -187,7 +189,7 @@ class SpaceController extends Controller
 
         $message = 'theme update failed';
 
-        if ( $this->user->updateTheme($request->input('theme_id')) ) {
+        if ($this->user->updateTheme($request->input('theme_id'))) {
             $message = 'theme updated';
         }
 
