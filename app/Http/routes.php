@@ -36,7 +36,7 @@ Route::group(['prefix' => 'yang', 'namespace' => 'Yang', 'middleware' => 'auth:w
     Route::get('space/changeTheme', ['as' => 'changeTheme', 'uses' => 'SpaceController@changeTheme']);
 });
 
-//Route::auth();
+Route::auth();
 
 
 
