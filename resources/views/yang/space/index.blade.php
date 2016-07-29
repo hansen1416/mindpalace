@@ -1,5 +1,7 @@
 @extends('layouts.yang.space')
 
+@include('errors.error')
+
 @section('content')
 
     {{--同心球的缩放，动态操纵的样式表--}}

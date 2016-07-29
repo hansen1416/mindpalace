@@ -223,7 +223,7 @@ class CtgRepository
                  */
                 $pattern = '/\-'.$ctg->ctg_id.'\-/';
                 if (preg_match($pattern, $parent->path)) {
-                    throw new \Exception('不能是自己的子类');
+                    return ['status' => 0, 'message' => trans('errors.invalid_ctg_pid')];
                 }
 
 

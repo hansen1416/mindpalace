@@ -12,4 +12,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
+
+    protected function jsonResponse($res){
+
+        if (!is_array($res)) {
+            $res = ['status' => boolval($res)];
+        }
+
+        return response()->json($res);
+    }
 }

@@ -90,21 +90,15 @@ class SpaceController extends Controller
      */
     public function updateCtg(Request $request)
     {
-        try {
 
-            $param = [
-                $request->input('ctg_id'),
-                $request->input('pid', null),
-                $request->input('sort', 0),
-                $request->input('title', ''),
-            ];
+        $param = [
+            $request->input('ctg_id'),
+            $request->input('pid', null),
+            $request->input('sort', 0),
+            $request->input('title', ''),
+        ];
 
-            return response()->json(['status' => call_user_func_array([$this->ctg, 'updateCtg'], $param)]);
-
-        } catch (\Exception $e) {
-
-            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
-        }
+        return $this->jsonResponse(call_user_func_array([$this->ctg, 'updateCtg'], $param));
     }
 
     /**

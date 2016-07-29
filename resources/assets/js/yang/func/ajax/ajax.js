@@ -1,8 +1,9 @@
 define([
            "../../var/document",
-           "../anim/conceal",
+           "./normalResult",
+           "./errorResult",
            "../anim/reveal"
-       ], function (document, conceal, reveal) {
+       ], function (document, normalResult, errorResult, reveal) {
     /**
      * url 地址
      * success 成功回调函数
@@ -39,22 +40,12 @@ define([
 
                             success(r);
 
-                            if (progress) {
-                                progress.classList.remove('taiji');
-                                progress.classList.add('correct');
-
-                                setTimeout(function () {
-                                    conceal(progress);
-
-                                    progress.classList.remove('correct');
-                                    progress.classList.add('taiji');
-                                }, 2000);
-                            }
+                            normalResult();
 
                         } else {
 
-                            //TODO
-                            console.log(r.message);
+
+                            errorResult(r.message);
                         }
 
                     }
