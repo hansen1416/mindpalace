@@ -33,5 +33,5 @@ return [
     /**
      * 默认头像
      */
-    'default_portrait' => '1.jpg'
+    'default_portrait' => '1.png'
 ];
