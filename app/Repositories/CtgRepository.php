@@ -216,6 +216,17 @@ class CtgRepository
             if ($pid) {
 
                 $parent = $this->findCtg($pid);
+
+                /**
+                 * 如果目标父级分类是自己的子类，
+                 * 那么就抛出错误
+                 */
+                $pattern = '/\-'.$ctg->ctg_id.'\-/';
+                if (preg_match($pattern, $parent->path)) {
+                    throw new \Exception('不能是自己的子类');
+                }
+
+
                 $path   = $parent->path . $pid . '-';
                 $tier   = $parent->tier + 1;
 
@@ -224,6 +235,8 @@ class CtgRepository
                 $path = '-0-';
                 $tier = 0;
             }
+
+            $oldPath = $ctg->path . $ctg->ctg_id . '-';
 
             $ctg->pid  = $pid;
             $ctg->path = $path;
@@ -236,11 +249,15 @@ class CtgRepository
         }
 
         try {
-            //TODO
-            $update['path'] = $ctg->path . $ctg->ctg_id . '-';
-            $update['tier'] = $ctg->tier + 1;
 
-            $res = $this->ctg->where('path', 'like', '%-' . $ctg->ctg_id . '-%')
+            $newPath = $ctg->path . $ctg->ctg_id . '-';
+            $a       = count(explode('-', $oldPath)) - 3;
+            $b       = count(explode('-', $newPath)) - 3;
+
+            $update['path'] = DB::raw("REPLACE(path, '" . $oldPath . "', '" . $newPath . "')");
+            $update['tier'] = DB::raw("(tier-{$a}+{$b})");
+
+            $res = $this->ctg->where('path', 'like', $oldPath . '%')
                              ->update($update);
 
         } catch (\Exception $e) {
@@ -250,7 +267,7 @@ class CtgRepository
 
         DB::commit();
 
-        return $res;
+        return ($res !== false);
 
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Yang;
 
 use Illuminate\Http\Request;
@@ -7,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Repositories\CtgRepository;
 use App\Repositories\ItemRepository;
-use Mockery\CountValidator\Exception;
 
 /**
  * Class SpaceController
@@ -92,15 +90,21 @@ class SpaceController extends Controller
      */
     public function updateCtg(Request $request)
     {
+        try {
 
-        $param = [
-            $request->input('ctg_id'),
-            $request->input('pid', null),
-            $request->input('sort', 0),
-            $request->input('title', ''),
-        ];
+            $param = [
+                $request->input('ctg_id'),
+                $request->input('pid', null),
+                $request->input('sort', 0),
+                $request->input('title', ''),
+            ];
 
-        return response()->json(['status' => call_user_func_array([$this->ctg, 'updateCtg'], $param)]);
+            return response()->json(['status' => call_user_func_array([$this->ctg, 'updateCtg'], $param)]);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -136,7 +140,6 @@ class SpaceController extends Controller
         ];
 
         return response()->json(['status' => call_user_func_array([$this->item, 'createItem'], $param)]);
-
     }
 
     /**
@@ -155,7 +158,6 @@ class SpaceController extends Controller
         ];
 
         return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);
-
     }
 
     /**
