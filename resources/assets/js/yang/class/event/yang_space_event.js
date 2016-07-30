@@ -548,23 +548,23 @@ define([
                     this.setStartMatrix         = matrixToArr(destiny);
                     this.rotateObj.style[trsfm] = destiny;
                     break;
-            /**
-             * 隐藏当前的操作界面
-             */
+                /**
+                 * 隐藏当前的操作界面
+                 */
                 case 'hide':
 
                     conceal(target.parentNode);
                     break;
-            /**
-             * 查看某一个分类的子分类
-             */
+                /**
+                 * 查看某一个分类的子分类
+                 */
                 case 'descendant':
 
                     location.href = location.origin + location.pathname + '?pid=' + sData['ctg_id'];
                     break;
-            /**
-             * 给指定分类添加一个子分类
-             */
+                /**
+                 * 给指定分类添加一个子分类
+                 */
                 case 'add_desc':
 
                     this.clearForm(form);
@@ -572,9 +572,9 @@ define([
                     reveal(form);
 
                     break;
-            /**
-             * 给指定分类添加一个同级分类
-             */
+                /**
+                 * 给指定分类添加一个同级分类
+                 */
                 case 'add_peer':
 
                     this.clearForm(form);
@@ -598,18 +598,18 @@ define([
                     }, new FormData(form));
 
                     break;
-            /**
-             * 改变一个分类的父级分类
-             */
+                /**
+                 * 改变一个分类的父级分类
+                 */
                 case 'edit_pid':
 
                     unbindEvent(document, 'click', this.clickCallback);
 
                     bindEvent(document, 'click', this.editPid);
                     break;
-            /**
-             * 给分类添加一个内容
-             */
+                /**
+                 * 给分类添加一个内容
+                 */
                 case 'add_item':
 
                     this.clearForm(form);
@@ -617,9 +617,9 @@ define([
                     reveal(form);
 
                     break;
-            /**
-             * 编辑内容的标题、排序和标签信息
-             */
+                /**
+                 * 编辑内容的标题、排序和标签信息
+                 */
                 case 'edit_item':
 
                     /**
@@ -635,9 +635,9 @@ define([
                     }, new FormData(form));
 
                     break;
-            /**
-             * 将 Trackball 重置到初始视角
-             */
+                /**
+                 * 将 Trackball 重置到初始视角
+                 */
                 case 'reset_trackball':
 
                     this.setStartMatrix = resetTrackball(this.rotateObj);

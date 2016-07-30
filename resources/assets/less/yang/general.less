@@ -126,9 +126,33 @@ a {
     transform-style: flat;
 }
 
-.back_face {
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+.back_face(@v) {
+    -webkit-backface-visibility: @v;
+    backface-visibility: @v;
+}
+
+.rotate3d(@x, @y, @z, @deg) {
+    -webkit-transform: rotate3d(@x, @y, @z, @deg);
+    -moz-transform: rotate3d(@x, @y, @z, @deg);
+    -ms-transform: rotate3d(@x, @y, @z, @deg);
+    -o-transform: rotate3d(@x, @y, @z, @deg);
+    transform: rotate3d(@x, @y, @z, @deg);
+}
+
+.translate3d(@x, @y, @z) {
+    -webkit-transform: translate3d(@x, @y, @z);
+    -moz-transform: translate3d(@x, @y, @z);
+    -ms-transform: translate3d(@x, @y, @z);
+    -o-transform: translate3d(@x, @y, @z);
+    transform: translate3d(@x, @y, @z);
+}
+
+.cube {
+    .trsf_style_3d;
+    .s1 {
+        .rotate3d(0, 0, 0, 0deg);
+
+    }
 }
 
 /****3d 通用样式结束****/
