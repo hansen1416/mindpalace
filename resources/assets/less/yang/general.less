@@ -100,9 +100,9 @@ a {
 /****基本通用样式结束****/
 
 /****3d 通用样式开始****/
-.perspective {
-    -webkit-perspective: 700px;
-    perspective: 700px;
+.perspective(@d) {
+    -webkit-perspective: @d;
+    perspective: @d;
 }
 
 .pers_origin {
@@ -146,6 +146,7 @@ a {
 
     div {
         .center(@size*2, @size*2);
+        .back_face(hidden);
     }
 
     .s1 {

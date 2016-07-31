@@ -202,7 +202,7 @@ define([
             //非常重要，如果没有这一句，会出现鼠标点击抬起无效
             //e.preventDefault();
 
-            o[mouseDownVector] = calcZ(touchPos(e), o[pos], o[radius]);
+            o[mouseDownVector] = calcZ(touchPos(e), o[pos], o[radius], true);
             //获得当前已旋转的角度
             o[oldAngle]        = o[angle];
 
@@ -225,7 +225,7 @@ define([
             //非常重要，如果没有这一句，会出现鼠标点击抬起无效
             e.preventDefault();
             //计算鼠标经过轨迹的空间坐标
-            o[mouseMoveVector] = calcZ(touchPos(e), o[pos], o[radius]);
+            o[mouseMoveVector] = calcZ(touchPos(e), o[pos], o[radius], true);
 
             //当mouseMoveVector == mouseDownVector时（点击事件，有时候不是点击事件也会出现这种情况，有待进一步调查），向量单位化会出现分母为0的状况，这样便可以避免出现axis里面有NaN的情况，解决了卡死问题。
             if (o[mouseMoveVector][0] == o[mouseDownVector][0] && o[mouseMoveVector][1] == o[mouseDownVector][1] && o[mouseMoveVector][2] == o[mouseDownVector][2]) {

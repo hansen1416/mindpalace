@@ -173,9 +173,21 @@
         {{--{{ trans('buttons.resetTrackball') }}--}}
         {{--</div>--}}
         <div class="cube" id="top_left_cube">
-            <div class="s1">1</div>
-            <div class="s2">2</div>
-            <div class="s3">3</div>
+            <div class="s1">
+                <a href="{{ route('home') }}" title="{{ trans('general.title.home') }}">
+                    {{ trans('general.home') }}
+                </a>
+            </div>
+            <div class="s2">
+                <a href="{{ route('space') }}" title="{{ trans('general.title.space') }}">
+                    {{ trans('general.space') }}
+                </a>
+            </div>
+            <div class="s3">
+                <span class="btn" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}">
+                    {{ trans('buttons.resetTrackball') }}
+                </span>
+            </div>
             <div class="s4">4</div>
             <div class="s5">5</div>
             <div class="s6">6</div>

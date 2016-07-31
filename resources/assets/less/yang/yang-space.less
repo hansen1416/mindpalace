@@ -11,7 +11,7 @@ form {
 }
 
 #stage {
-    .perspective;
+    .perspective(700px);
     .pers_origin;
     .trsf_origin;
     .abs;
@@ -173,13 +173,13 @@ form {
 //左上角部分
 #top_left {
     .abs;
-    .perspective;
+    .perspective(700px);
     .pers_origin;
     .trsf_origin;
-    top: @med_w / 4;
-    left: @med_w / 4;
-    width: @med_w;
-    height: @med_w;
+    top: 0;
+    left: 0;
+    width: @med_w*2;
+    height: @med_w*2;
     font-size: 14px;
     line-height: @med_w;
     text-align: center;
@@ -187,6 +187,18 @@ form {
 
     .cube {
         .cube(@med_w/2);
+        div a{
+            text-decoration: none;
+            cursor: pointer;
+            color: #000;
+        }
+        div span{
+            position: static;
+            display: inline;
+            background: none;
+            border: none;
+            line-height: @med_w;
+        }
     }
 }
 
