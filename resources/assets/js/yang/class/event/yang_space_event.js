@@ -1,7 +1,5 @@
 define([
 
-           "../../var/document",
-           "../../var/location",
            "../../var/prefixJs",
            "../../var/prefixCss",
            "../../func/style/trsfm",
@@ -26,7 +24,7 @@ define([
            "../../func/anim/resetTrackball",
            "../layout/yang_space_layout"
 
-       ], function (document, location, prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
+       ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
                     bindEvent, unbindEvent, ajax, requestAnim, cancelAnim, roll, reveal, conceal, resetTrackball, yang_space_layout) {
     "use strict";
 
@@ -560,7 +558,7 @@ define([
                  */
                 case 'descendant':
 
-                    location.href = location.origin + location.pathname + '?pid=' + sData['ctg_id'];
+                    window.location.href = window.location.origin + window.location.pathname + '?pid=' + sData['ctg_id'];
                     break;
                 /**
                  * 给指定分类添加一个子分类

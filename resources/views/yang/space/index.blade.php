@@ -172,7 +172,7 @@
         {{--<div class="btn reset" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}">--}}
         {{--{{ trans('buttons.resetTrackball') }}--}}
         {{--</div>--}}
-        <div class="cube">
+        <div class="cube" id="top_left_cube">
             <div class="s1">1</div>
             <div class="s2">2</div>
             <div class="s3">3</div>
