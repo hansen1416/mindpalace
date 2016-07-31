@@ -160,26 +160,26 @@
     {{--内容表单--}}
 
     {{--左上角返回主页按钮--}}
-    <div id="top_left" class="cube">
+    <div id="top_left">
         {{--<a class="home" href="{{ route('home') }}" title="{{ trans('general.title.home') }}">--}}
-            {{--{{ trans('general.home') }}--}}
+        {{--{{ trans('general.home') }}--}}
         {{--</a>--}}
 
         {{--<a class="btn space" href="{{ route('space') }}" title="{{ trans('general.title.space') }}">--}}
-            {{--{{ trans('general.space') }}--}}
+        {{--{{ trans('general.space') }}--}}
         {{--</a>--}}
 
         {{--<div class="btn reset" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}">--}}
-            {{--{{ trans('buttons.resetTrackball') }}--}}
+        {{--{{ trans('buttons.resetTrackball') }}--}}
         {{--</div>--}}
-
-        <div class = "s1"></div>
-        <div class = "s2"></div>
-        <div class = "s3"></div>
-        <div class = "s4"></div>
-        <div class = "s5"></div>
-        <div class = "s6"></div>
-
+        <div class="cube">
+            <div class="s1">1</div>
+            <div class="s2">2</div>
+            <div class="s3">3</div>
+            <div class="s4">4</div>
+            <div class="s5">5</div>
+            <div class="s6">6</div>
+        </div>
     </div>
 
     {{--右上角用户信息--}}

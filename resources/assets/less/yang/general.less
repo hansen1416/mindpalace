@@ -131,27 +131,40 @@ a {
     backface-visibility: @v;
 }
 
-.rotate3d(@x, @y, @z, @deg) {
-    -webkit-transform: rotate3d(@x, @y, @z, @deg);
-    -moz-transform: rotate3d(@x, @y, @z, @deg);
-    -ms-transform: rotate3d(@x, @y, @z, @deg);
-    -o-transform: rotate3d(@x, @y, @z, @deg);
-    transform: rotate3d(@x, @y, @z, @deg);
+.rotateTrans3d(@x, @y, @z, @deg, @tx, @ty, @tz) {
+    -webkit-transform: rotate3d(@x, @y, @z, @deg) translate3d(@tx, @ty, @tz);
+    -moz-transform: rotate3d(@x, @y, @z, @deg) translate3d(@tx, @ty, @tz);
+    -ms-transform: rotate3d(@x, @y, @z, @deg) translate3d(@tx, @ty, @tz);
+    -o-transform: rotate3d(@x, @y, @z, @deg) translate3d(@tx, @ty, @tz);
+    transform: rotate3d(@x, @y, @z, @deg) translate3d(@tx, @ty, @tz);
 }
 
-.translate3d(@x, @y, @z) {
-    -webkit-transform: translate3d(@x, @y, @z);
-    -moz-transform: translate3d(@x, @y, @z);
-    -ms-transform: translate3d(@x, @y, @z);
-    -o-transform: translate3d(@x, @y, @z);
-    transform: translate3d(@x, @y, @z);
-}
+.cube(@size) {
 
-.cube {
     .trsf_style_3d;
-    .s1 {
-        .rotate3d(0, 0, 0, 0deg);
+    .center(@size*2, @size*2);
 
+    div {
+        .center(@size*2, @size*2);
+    }
+
+    .s1 {
+        .rotateTrans3d(0, 0, 0, 0deg, 0, 0, @size);
+    }
+    .s2 {
+        .rotateTrans3d(1, 0, 0, 90deg, 0, 0, @size);
+    }
+    .s3 {
+        .rotateTrans3d(1, 0, 0, 180deg, 0, 0, @size);
+    }
+    .s4 {
+        .rotateTrans3d(1, 0, 0, 270deg, 0, 0, @size);
+    }
+    .s5 {
+        .rotateTrans3d(0, 1, 0, 90deg, 0, 0, @size);
+    }
+    .s6 {
+        .rotateTrans3d(0, 1, 0, 270deg, 0, 0, @size);
     }
 }
 
