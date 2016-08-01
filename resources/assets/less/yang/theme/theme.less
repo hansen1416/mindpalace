@@ -1,0 +1,175 @@
+.btn {
+    background-color: @btn;
+    &:hover {
+        background-color: fadein(@btn, 40%);
+    }
+}
+
+.submit {
+    background-color: @submit;
+    &:hover {
+        background-color: darken(@submit, 20%);
+    }
+}
+
+#yang-home {
+    background-color: @home;
+    color: @home-font;
+
+    a {
+        color: @home-font;
+        &:hover {
+            color: darken(@home-font, 30%);
+        }
+    }
+
+    input {
+        background-color: lighten(@black, 80%);
+    }
+
+    .yang-home-back {
+        color: darken(@home, 15%);
+    }
+
+    .portrait {
+        background-color: @white;
+    }
+
+    .panel {
+        background-color: @white;
+    }
+
+}
+
+#yang-space {
+
+    .star-glow (@color: #ffffff, @slice: 30%, @repeat: stretch, @width: 4px) {
+
+        border: @width dashed @color;
+
+        -webkit-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
+        -webkit-border-image-slice: @slice;
+        -webkit-border-image-repeat: @repeat;
+        -webkit-border-image-width: @width;
+        -moz-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
+        -moz-border-image-slice: @slice;
+        -moz-border-image-repeat: @repeat;
+        -moz-border-image-width: @width;
+        -o-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
+        -o-border-image-slice: @slice;
+        -o-border-image-repeat: @repeat;
+        -o-border-image-width: @width;
+        border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
+        border-image-slice: @slice;
+        border-image-repeat: @repeat;
+        border-image-width: @width;
+
+        background-color: fade(@color, 13%);
+    }
+
+    .sec-0 {
+        .star-glow(@sec-0);
+    }
+    .sec-1 {
+        .star-glow(@sec-1);
+    }
+    .sec-2 {
+        .star-glow(@sec-2);
+    }
+    .sec-3 {
+        .star-glow(@sec-3);
+    }
+    .sec-4 {
+        .star-glow(@sec-4);
+    }
+    .sec-5 {
+        .star-glow(@sec-5);
+    }
+    .sec-6 {
+        .star-glow(@sec-6);
+    }
+    .sec-7 {
+        .star-glow(@sec-7);
+    }
+    .sec-8 {
+        .star-glow(@sec-8);
+    }
+    .sec-9 {
+        .star-glow(@sec-9);
+    }
+
+    background: radial-gradient(
+            ellipse farthest-corner at 50% 50%,
+            lighten(@stage_back, 30%) 0%,
+            lighten(@stage_back, 24%) 20%,
+            lighten(@stage_back, 18%) 40%,
+            lighten(@stage_back, 12%) 60%,
+            lighten(@stage_back, 6%) 80%,
+            lighten(@stage_back, 2%) 90%,
+            @stage_back 100%,
+    );
+
+    #stage {
+        color: #d1e2ff;
+
+        .star {
+            &:hover {
+                .star-glow;
+            }
+        }
+        .star.ctg {
+            background-color: fade(@star_ctg_back, 20%);
+
+        }
+        .star.item {
+
+        }
+    }
+
+    form {
+        box-shadow: 0 0 4px 2px #808080;
+        background-color: @pop;
+
+        #editor::-webkit-scrollbar-track {
+            background-color: darken(@pop, 10%);
+        }
+        #editor::-webkit-scrollbar-thumb {
+            background-color: fade(@scroll_bar, 30%);
+        }
+        #editor::-webkit-scrollbar-thumb:hover {
+            background-color: @scroll_bar;
+        }
+        #editor::-webkit-scrollbar-thumb:active {
+            background-color: @scroll_bar;
+        }
+    }
+
+    #ctg_form {
+
+    }
+
+    #item_form {
+
+    }
+
+    #top_right {
+        .cube div {
+            background-color: @white;
+        }
+    }
+
+    #progress {
+        background-color: @pop;
+    }
+
+    #themes {
+        a {
+            color: @black;
+            background-color: fade(@white, 50%);
+            &:hover {
+                background-color: fade(@white, 70%);
+            }
+        }
+    }
+
+}
