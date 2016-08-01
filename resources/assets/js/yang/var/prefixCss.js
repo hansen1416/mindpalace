@@ -1,6 +1,6 @@
 define(function(){
 
-    var userAgent   = navigator.userAgent.toLowerCase(),
+    let userAgent   = navigator.userAgent.toLowerCase(),
         prefixCss    = "";
 
     if(/webkit/gi.test(userAgent)){

@@ -11,7 +11,7 @@ define([
      */
     return function (arr){
 
-        var ele  = [],                                      //元素数组
+        let ele  = [],                                      //元素数组
             len  = 0,                                       //元素的个数
             i    = 0,                                       //annu 的键名
             j    = 0,                                       //ele 的键名

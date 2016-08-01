@@ -13,7 +13,7 @@ define(function(){
          * values 储存每一个父级分类包含的子分类的个数
          * j 表示 values 的键名
          */
-        var keys   = [],
+        let keys   = [],
             values = [],
             j      = -1,
             i      = 0;
@@ -37,7 +37,7 @@ define(function(){
 
         } while (i < arr.length);
 
-        var f = values.length,
+        let f = values.length,
             s = Math.max.apply(null, values);
 
         return Math.max(f * s, arr.length, n);

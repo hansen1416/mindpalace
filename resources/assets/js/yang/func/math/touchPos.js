@@ -7,7 +7,7 @@ define(function() {
      * @return     array 平面上的点
      */
 	return function (eventObj){
-        var x, y;
+        let x, y;
         if(eventObj.type.indexOf("mouse")>-1 || eventObj.type.indexOf("click")>-1){
             x = eventObj.pageX;
             y = eventObj.pageY;

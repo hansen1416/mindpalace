@@ -1,7 +1,7 @@
 define(function() {
     // inerpolate rotate3d vector into a 3d matrix, information from w3 org
 	return function (axis, angle){
-        var x  = axis[0],
+        let x  = axis[0],
             y  = axis[1],
             z  = axis[2],
             a  = angle,

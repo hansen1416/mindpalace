@@ -4,8 +4,8 @@ define(function(){
 			return;	
 		}
 		
-		for(var i = 0, len = obj._eventListeners.length; i < len; i++) {
-			var e = obj._eventListeners[i];
+		for(let i = 0, len = obj._eventListeners.length; i < len; i++) {
+            let e = obj._eventListeners[i];
 			obj.removeEventListener(e.event, e.callback);
 		}
 

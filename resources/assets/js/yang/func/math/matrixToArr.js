@@ -7,7 +7,7 @@ define(function() {
      */
 	return function (matrix){
 
-        var arr = matrix.split(",");
+        let arr = matrix.split(",");
 
         if (arr.length < 16) {
             return new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);

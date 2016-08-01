@@ -9,7 +9,7 @@ define(function () {
      */
     return function (num, radius) {
 
-        var dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
+        let dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
             dz    = 2.0 / num,
             long  = 0,
             z     = 1 - dz / 2,

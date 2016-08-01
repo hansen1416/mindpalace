@@ -1,7 +1,7 @@
 define(function() {
     // 计算两个m3d的乘积，其实是长度16的数组相乘，转化成两个4x4的矩阵相成
 	return function (m1, m2){
-        var m = new Float32Array(16);
+        let m = new Float32Array(16);
         
         m[0]   = m1[0]*m2[0]+m1[1]*m2[4]+m1[2]*m2[8]+m1[3]*m2[12];
         m[1]   = m1[0]*m2[1]+m1[1]*m2[5]+m1[2]*m2[9]+m1[3]*m2[13];

@@ -1,9 +1,9 @@
 define(function() {
 
 	return function (vec){ // 向量单位化，可以是任意维向量
-        var len = vec.length, vecLength = 0, norm = [];
+        let len = vec.length, vecLength = 0, norm = [];
 
-        for(var i = 0; i < len; i++){
+        for(let i = 0; i < len; i++){
             vecLength += Math.pow(vec[i], 2);
         }
 
@@ -13,7 +13,7 @@ define(function() {
             return false;       //当向量坐标全都为0时，避免出现NaN
         }
 
-        for(var i = 0; i < len; i++){
+        for(let i = 0; i < len; i++){
             norm[i] = vec[i]/vecLength;
         }
 

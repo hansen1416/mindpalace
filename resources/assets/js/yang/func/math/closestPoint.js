@@ -5,7 +5,7 @@ define(function() {
      * @param posArray
      */
     return function (parentPos, posArray) {
-        var dis = null,
+        let dis = null,
             d   = 0,
             k   = 0,
             x   = 0,

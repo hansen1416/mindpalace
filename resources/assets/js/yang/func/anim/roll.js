@@ -10,7 +10,7 @@ define([
      */
     return function (matrix3d) {
 
-        var arr = matrixToArr(matrix3d);
+        let arr = matrixToArr(matrix3d);
 
         arr[12] = 0;
         arr[13] = 0;

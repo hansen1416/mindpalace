@@ -8,7 +8,7 @@ define(function() {
 	 * @return     {[number]} [radian angle]
 	 */
 	return function (vec0, vec1) {
-        var numerator 	= vec0[0]*vec1[0] + vec0[1]*vec1[1] + vec0[2]*vec1[2],
+        let numerator 	= vec0[0]*vec1[0] + vec0[1]*vec1[1] + vec0[2]*vec1[2],
             denominator = Math.sqrt(vec0[0]*vec0[0] + vec0[1]*vec0[1] + vec0[2]*vec0[2])*Math.sqrt(vec1[0]*vec1[0] + vec1[1]*vec1[1] + vec1[2]*vec1[2]);
 
         return Math.acos(numerator/denominator);

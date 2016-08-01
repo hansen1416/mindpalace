@@ -8,8 +8,8 @@ define(function() {
      * @param      {[array]} vec1 [三维向量]
      * @return     {[array]} [三维向量，旋转轴]
      */
-    return function (vec0, vec1){ 
-        var res = [];
+    return function (vec0, vec1){
+        let res = [];
         
         res[0] = vec0[1]*vec1[2] - vec0[2]*vec1[1];
         res[1] = vec0[2]*vec1[0] - vec0[0]*vec1[2];

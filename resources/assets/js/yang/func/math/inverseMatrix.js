@@ -20,8 +20,8 @@ define(function(){
         if(M.length !== M[0].length){return;}
 
         //create the identity matrix (I), and a copy (C) of the original
-        var i=0, ii=0, j=0, dim=M.length, e=0, t=0;
-        var I = [], C = [];
+        let i=0, ii=0, j=0, dim=M.length, e=0, t=0;
+        let I = [], C = [];
         for(i=0; i<dim; i+=1){
             // Create the row
             I[I.length]=[];

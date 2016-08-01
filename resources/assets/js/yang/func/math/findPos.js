@@ -1,7 +1,7 @@
 define(function() {
     //findPos-script by www.quirksmode.org
 	return function (obj){
-        var curleft = 0,
+        let curleft = 0,
             curtop  = 0;
     
         if (obj.offsetParent) {

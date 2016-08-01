@@ -7,11 +7,11 @@ define(function(){
 			obj._eventListeners = [];
 		}
 
-		var propagation = arguments[2] || false;
+        let propagation = arguments[2] || false;
 
 		obj.addEventListener(params.event, params.callback, propagation);
-		
-		var eventListeners = obj._eventListeners;
+
+        let eventListeners = obj._eventListeners;
 		eventListeners.push(params);
 		obj._eventListeners = eventListeners;
 
