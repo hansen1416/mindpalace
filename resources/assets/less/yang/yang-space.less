@@ -207,39 +207,35 @@ form {
 //右上角用户信息部分
 #top_right {
     .abs;
-    .circle;
-    top: @med_w / 4;
-    right: @med_w / 4;
-    width: @med_w;
-    height: @med_w;
-    overflow: hidden;
+    .perspective(700px);
+    .pers_origin;
+    .trsf_origin;
+    top: 0;
+    right: 0;
+    width: @med_w*2;
+    height: @med_w*2;
     font-size: 14px;
-    color: #fff;
     line-height: @med_w;
     text-align: center;
+    overflow: visible;
 
-    &:hover {
-        top: @med_w*-3/4;
-        right: @med_w*-3/4;
-        width: @med_w*3;
-        height: @med_w*3;
-    }
-
-    .portrait {
-        .center(@med_w, @med_w);
-        .circle;
-        img {
+    .cube {
+        .cube(@med_w/2);
+        div img{
             .brim;
-            .circle;
         }
-    }
-
-    .btn {
-        .center;
-    }
-
-    .btn.theme {
-        margin: @med_w 0 0 0;
+        div a{
+            text-decoration: none;
+            cursor: pointer;
+            color: #000;
+        }
+        div span{
+            position: static;
+            display: inline;
+            background: none;
+            border: none;
+            line-height: @med_w;
+        }
     }
 
 }
