@@ -81,7 +81,7 @@ define([
             //当鼠标点击目标元素时，是否停止当前运动
             this[resetMotion]     = param.resetMotion;
             //单位角速度的cap,必须是大于0的数，默认为0.5
-            this[omegaCap]        = param.omegaGap;
+            this[omegaCap]        = param.omegaCap;
             //阻力系数，越大阻力越大，默认0.01
             this[lambda]          = param.lambda;
 

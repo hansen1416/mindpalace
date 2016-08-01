@@ -209,8 +209,8 @@ define([
             o[oldTime] = new Date().getTime();
             //绑定三个事件
             unbindEvent(o.stage, "mousedown", o.rotateStart);
-            bindEvent(document, "mousemove", o.rotate);
-            bindEvent(document, "mouseup", o.rotateFinish);
+            bindEvent(window.document, "mousemove", o.rotate);
+            bindEvent(window.document, "mouseup", o.rotateFinish);
 
         }//rotateStart ends
 
@@ -253,8 +253,8 @@ define([
         rotateFinish(e) {
             e.preventDefault();
             //解除 document 上的 mousemove 和 mouseup 事件
-            unbindEvent(document, 'mousemove', o.rotate);
-            unbindEvent(document, 'mouseup', o.rotateFinish);
+            unbindEvent(window.document, 'mousemove', o.rotate);
+            unbindEvent(window.document, 'mouseup', o.rotateFinish);
             bindEvent(o.stage, 'mousedown', o.rotateStart);
             //当第一下为点击时，axis还是空数组，会出现计算出的startMatrix包含NaN的情况，所以在这里解除绑定的事件并且结束流程。其实可以不需要判断里面的数字是否为NaN，在前面rotate哪里已经把这种情况预防了，在这里只是以防万一
             if (o[axis] == [] || isNaN(o[axis][0]) || isNaN(o[axis][1]) || isNaN(o[axis][2])) {
@@ -415,7 +415,7 @@ define([
 
             editor.set(this, new Quill('#editor'));
 
-            bindEvent(document, 'click', this.clickCallback);
+            bindEvent(window.document, 'click', this.clickCallback);
 
         }//click ends
 
@@ -580,7 +580,9 @@ define([
                     reveal(form);
 
                     break;
-
+            /**
+             * 编辑分类的信息
+             */
                 case 'edit_ctg':
 
                     ajax(ctgDetailUrl, function (res) {
@@ -601,9 +603,9 @@ define([
                  */
                 case 'edit_pid':
 
-                    unbindEvent(document, 'click', this.clickCallback);
+                    unbindEvent(window.document, 'click', this.clickCallback);
 
-                    bindEvent(document, 'click', this.editPid);
+                    bindEvent(window.document, 'click', this.editPid);
                     break;
                 /**
                  * 给分类添加一个内容

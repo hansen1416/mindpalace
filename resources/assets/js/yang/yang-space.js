@@ -17,7 +17,7 @@ define([
         rotateObj  : document.getElementById('top_left_cube'),
         impulse    : true,
         resetMotion: true,
-        omegaGap   : 0.8,
+        omegaCap   : 0.8,
         lambda     : 0.001
     });
 
@@ -30,7 +30,7 @@ define([
         rotateObj  : document.getElementById('top_right_cube'),
         impulse    : true,
         resetMotion: true,
-        omegaGap   : 0.8,
+        omegaCap   : 0.8,
         lambda     : 0.001
     });
 
