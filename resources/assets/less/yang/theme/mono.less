@@ -3,186 +3,28 @@
 @blue: #37B8FC;
 
 @btn: fade(@blue, 80%);
-@submit: lighten(@black, 70%);
+@submit: #ccc;
 
-.btn {
-    background-color: @btn;
-    color: @white;
-    &:hover {
-        background-color: fadein(@btn, 40%);
-    }
-}
-
-.submit {
-    background-color: @submit;
-    &:hover {
-        background-color: darken(@submit, 20%);
-    }
-}
-
-//home
 @home: lighten(@black, 60%);
 @home-font: @white;
 
-#yang-home {
-    background-color: @home;
-    color: @home-font;
-
-    a {
-        color: @home-font;
-        &:hover {
-            color: darken(@home-font, 30%);
-        }
-    }
-
-    input {
-        background-color: lighten(@black, 80%);
-    }
-
-    .yang-home-back {
-        color: darken(@home, 15%);
-    }
-
-    .portrait {
-        background-color: @blue;
-    }
-
-    .panel {
-        background-color: @blue;
-    }
-
-}
-
-//#yang-home ends
-
-//space
 @stage_back: lighten(@black, 40%);
 
-#yang-space {
+@sec-0: lighten(@black, 10%);
+@sec-1: lighten(@black, 15%);
+@sec-2: lighten(@black, 20%);
+@sec-3: lighten(@black, 25%);
+@sec-4: lighten(@black, 30%);
+@sec-5: lighten(@black, 35%);
+@sec-6: lighten(@black, 40%);
+@sec-7: lighten(@black, 45%);
+@sec-8: lighten(@black, 50%);
+@sec-9: lighten(@black, 55%);
 
-    .star-glow (@color: @white, @width: 2px, @repeat: stretch) {
+@star_ctg_back: #638AE7;
 
-        border: @width solid @color;
+@pop: darken(@white, 5%);
 
-        background-color: fade(@color, 20%);
-    }
+@scroll_bar: #5D6CEA;
 
-    .sec-0 {
-        .star-glow(lighten(@black, 10%));
-    }
-    .sec-1 {
-        .star-glow(lighten(@black, 15%));
-    }
-    .sec-2 {
-        .star-glow(lighten(@black, 20%));
-    }
-    .sec-3 {
-        .star-glow(lighten(@black, 25%));
-    }
-    .sec-4 {
-        .star-glow(lighten(@black, 30%));
-    }
-    .sec-5 {
-        .star-glow(lighten(@black, 35%));
-    }
-    .sec-6 {
-        .star-glow(lighten(@black, 40%));
-    }
-    .sec-7 {
-        .star-glow(lighten(@black, 45%));
-    }
-    .sec-8 {
-        .star-glow(lighten(@black, 50%));
-    }
-    .sec-9 {
-        .star-glow(lighten(@black, 55%));
-    }
-
-    background: radial-gradient(
-            ellipse farthest-corner at 50% 50%,
-            darken(@stage_back, 30%) 0%,
-            darken(@stage_back, 24%) 20%,
-            darken(@stage_back, 18%) 40%,
-            darken(@stage_back, 12%) 60%,
-            darken(@stage_back, 6%) 80%,
-            darken(@stage_back, 2%) 90%,
-            @stage_back 100%,
-    );
-
-    #stage {
-        color: @white;
-
-        .star {
-            &:hover {
-                .star-glow;
-            }
-        }
-        .star.ctg {
-            border-style: solid;
-        }
-        .star.item {
-            border-style: dashed;
-        }
-    }
-    //#stage ends
-
-    @pop: darken(@white, 5%);
-
-    form {
-        box-shadow: 0 0 4px 2px lighten(@black, 50%);
-        background-color: @pop;
-
-        #editor::-webkit-scrollbar-track {
-            background-color: darken(@pop, 10%);
-        }
-        #editor::-webkit-scrollbar-thumb {
-            background-color: fade(lighten(@black, 55%), 30%);
-        }
-        #editor::-webkit-scrollbar-thumb:hover {
-            background-color: lighten(@black, 30%);
-        }
-        #editor::-webkit-scrollbar-thumb:active {
-            background-color: lighten(@black, 30%);
-        }
-    }
-
-    #ctg_form {
-
-    }
-
-    #item_form {
-
-    }
-
-    #top_left {
-        color: @white;
-        a.home {
-            background-color: lighten(@black, 50%);
-            color: inherit;
-        }
-    }
-
-    #top_right {
-        color: @white;
-        .portrait {
-            background-color: lighten(@black, 50%);
-        }
-    }
-
-    #progress {
-        background-color: @pop;
-    }
-
-    #themes {
-        a {
-            color: @black;
-            background-color: fade(@white, 50%);
-            &:hover {
-                background-color: fade(@white, 70%);
-            }
-        }
-    }
-
-}
-
-//#yang-space ends
+@import "theme.less";
