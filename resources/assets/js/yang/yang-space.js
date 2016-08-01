@@ -1,42 +1,24 @@
 define([
-           "./class/event/yang_trackball",
+           "./class/event/YangTrackball",
            "./class/event/yang_space_event"
 
-       ], function (yang_trackball, yang_space_event) {
+       ], function (YangTrackball, yang_space_event) {
 
     /**
      * 引入 class YangTrackball
      * 引入 class YangSpaceLayout
      * @type {null}
      */
-    yang_trackball = null;
     yang_space_event = null;
 
-    let TL = new YangTrackball({
-        stage      : document.getElementById('top_left'),
-        rotateObj  : document.getElementById('top_left_cube'),
-        impulse    : true,
-        resetMotion: true,
-        omegaCap   : 0.8,
-        lambda     : 0.001
-    });
-
-    TL.trackball();
-
-    TL = null;
-
-    let TR = new YangTrackball({
+    let T = new YangTrackball({
         stage      : document.getElementById('top_right'),
-        rotateObj  : document.getElementById('top_right_cube'),
-        impulse    : true,
-        resetMotion: true,
-        omegaCap   : 0.8,
-        lambda     : 0.001
+        rotateObj  : document.getElementById('top_right_cube')
     });
 
-    TR.trackball();
+    T.trackball();
 
-    TR = null;
+    T = null;
 
     /**
      * 赋予 operation 部分样式

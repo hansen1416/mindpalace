@@ -159,30 +159,6 @@
     </form>
     {{--内容表单--}}
 
-    {{--左上角返回主页按钮--}}
-    <div id="top_left">
-        <div class="cube" id="top_left_cube">
-            <div class="s1">
-                <a href="{{ route('home') }}" title="{{ trans('general.title.home') }}">
-                    {{ trans('general.home') }}
-                </a>
-            </div>
-            <div class="s2">
-                <a href="{{ route('space') }}" title="{{ trans('general.title.space') }}">
-                    {{ trans('general.space') }}
-                </a>
-            </div>
-            <div class="s3">
-                <span class="btn" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}">
-                    {{ trans('buttons.resetTrackball') }}
-                </span>
-            </div>
-            <div class="s4">4</div>
-            <div class="s5">5</div>
-            <div class="s6">6</div>
-        </div>
-    </div>
-
     {{--右上角用户信息--}}
     <div id="top_right">
         <div class="cube" id="top_right_cube">
@@ -190,15 +166,27 @@
                 <img src="{{ asset('portrait/' . $user->profile->portrait) }}" title="{{ $user->name }}">
             </div>
             <div class="s2">
+                <span class="btn" data-func="reset_trackball" title="{{ trans('buttons.title.resetTrackball') }}">
+                    {{ trans('buttons.resetTrackball') }}
+                </span>
+            </div>
+            <div class="s3">
                 <span class="btn theme" data-func="theme" data-action="{{ route('themes') }}"
                       title="{{ trans('buttons.title.theme') }}">
                     {{ trans('buttons.theme') }}
                 </span>
             </div>
-            <div class="s3">3</div>
             <div class="s4">4</div>
-            <div class="s5">5</div>
-            <div class="s6">6</div>
+            <div class="s5">
+                <a href="{{ route('home') }}" title="{{ trans('general.title.home') }}">
+                    {{ trans('general.home') }}
+                </a>
+            </div>
+            <div class="s6">
+                <a href="{{ route('space') }}" title="{{ trans('general.title.space') }}">
+                    {{ trans('general.space') }}
+                </a>
+            </div>
         </div>
     </div>
 

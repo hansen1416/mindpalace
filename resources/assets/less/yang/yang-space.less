@@ -170,39 +170,6 @@ form {
 
 //#item_form ends
 
-//左上角部分
-#top_left {
-    .abs;
-    .perspective(700px);
-    .pers_origin;
-    .trsf_origin;
-    top: 0;
-    left: 0;
-    width: @med_w*2;
-    height: @med_w*2;
-    font-size: 14px;
-    line-height: @med_w;
-    text-align: center;
-    overflow: visible;
-
-    .cube {
-        .cube(@med_w/2);
-        div a{
-            text-decoration: none;
-            cursor: pointer;
-            color: #000;
-        }
-        div span{
-            position: static;
-            display: inline;
-            background: none;
-            border: none;
-            line-height: @med_w;
-        }
-    }
-}
-
-//#top_left ends
 
 //右上角用户信息部分
 #top_right {
@@ -231,9 +198,11 @@ form {
         }
         div span{
             position: static;
-            display: inline;
+            display: initial;
             background: none;
             border: none;
+            margin: 0;
+            border-radius: 0;
             line-height: @med_w;
         }
     }
