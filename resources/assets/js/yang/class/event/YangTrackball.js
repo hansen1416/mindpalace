@@ -20,6 +20,7 @@ define([
 
        ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
                     bindEvent, unbindEvent, requestAnim, cancelAnim) {
+    "use strict";
 
     let o               = null,
         //visual trackball radius

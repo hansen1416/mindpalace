@@ -2,15 +2,10 @@ define([
 
            "../../func/event/bindEvent",
            "../../func/ajax/ajax",
-           "../layout/yang_home_layout"
+           "../layout/YangHomeLayout"
 
-       ], function (bindEvent, ajax, yang_home_layout) {
-
-    /**
-     * 引入 YangHomeLayout
-     * @type {null}
-     */
-    yang_home_layout = null;
+       ], function (bindEvent, ajax, YangHomeLayout) {
+    "use strict";
 
     class YangHomeEvent extends YangHomeLayout {
 
@@ -73,6 +68,6 @@ define([
 
     }//YangHomeEvent ends
 
-    window.YangHomeEvent = YangHomeEvent;
+    return YangHomeEvent;
 
 });

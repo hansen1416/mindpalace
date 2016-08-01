@@ -3,7 +3,7 @@ define([
            "../../func/style/annulus"
 
        ], function (annulus) {
-
+    "use strict";
 
     class YangHomeLayout {
 
@@ -21,7 +21,6 @@ define([
 
     }
 
-    window.YangHomeLayout = YangHomeLayout;
-
+    return YangHomeLayout;
 
 });

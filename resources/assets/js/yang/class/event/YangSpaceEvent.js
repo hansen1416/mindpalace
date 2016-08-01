@@ -22,17 +22,11 @@ define([
            "../../func/anim/reveal",
            "../../func/anim/conceal",
            "../../func/anim/resetTrackball",
-           "../layout/yang_space_layout"
+           "../layout/YangSpaceLayout"
 
        ], function (prefixJs, prefixCss, trsfm, getStyle, touchPos, findPos, multiplyMatrix3d, calcAngle, calcZ, normalize, crossVector, rotateMatrix, matrixToArr,
-                    bindEvent, unbindEvent, ajax, requestAnim, cancelAnim, roll, reveal, conceal, resetTrackball, yang_space_layout) {
+                    bindEvent, unbindEvent, ajax, requestAnim, cancelAnim, roll, reveal, conceal, resetTrackball, YangSpaceLayout) {
     "use strict";
-
-    /**
-     * 引入 class YangSpaceLayout
-     * @type {null}
-     */
-    yang_space_layout = null;
 
     let o               = null,
         editor          = new WeakMap(),
@@ -724,6 +718,6 @@ define([
 
     }//YangHomeEvent ends
 
-    window.YangSpaceEvent = YangSpaceEvent;
+    return YangSpaceEvent;
 
 });

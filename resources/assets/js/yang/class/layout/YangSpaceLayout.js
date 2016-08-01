@@ -8,6 +8,7 @@ define([
            "../../func/math/fibonacciSphere"
 
        ], function (annulus, trsfm, getStyle, closestPoint, maxPoint, fibonacciSphere) {
+    "use strict";
 
     class YangSpaceLayout {
 
@@ -153,6 +154,6 @@ define([
 
     }//YangSpaceLayout ends
 
-    window.YangSpaceLayout = YangSpaceLayout;
+    return YangSpaceLayout;
 
 });

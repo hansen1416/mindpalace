@@ -1,19 +1,13 @@
 define([
            "./class/event/YangTrackball",
-           "./class/event/yang_space_event"
+           "./class/event/YangSpaceEvent"
 
-       ], function (YangTrackball, yang_space_event) {
-
-    /**
-     * 引入 class YangTrackball
-     * 引入 class YangSpaceLayout
-     * @type {null}
-     */
-    yang_space_event = null;
+       ], function (YangTrackball, YangSpaceEvent) {
+    "use strict";
 
     let T = new YangTrackball({
-        stage      : document.getElementById('top_right'),
-        rotateObj  : document.getElementById('top_right_cube')
+        stage    : document.getElementById('top_right'),
+        rotateObj: document.getElementById('top_right_cube')
     });
 
     T.trackball();
@@ -24,10 +18,10 @@ define([
      * 赋予 operation 部分样式
      * 所有按钮环形排布
      */
-    window.YangSpaceEvent.setOperation([
-                                           {'selector': '.ctg_btn', 'radius': 100},
-                                           {'selector': '.item_btn', 'radius': 100}
-                                       ]);
+    YangSpaceEvent.setOperation([
+                                    {'selector': '.ctg_btn', 'radius': 100},
+                                    {'selector': '.item_btn', 'radius': 100}
+                                ]);
 
     let Y = new YangSpaceEvent({
         stage    : document.getElementById('stage'),
