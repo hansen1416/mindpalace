@@ -136,7 +136,7 @@ define([
 
             this[impulse]     = trackballParam.impulse;
             this[resetMotion] = trackballParam.resetMotion;
-            this[omegaCap]    = trackballParam.omegaGap;
+            this[omegaCap]    = trackballParam.omegaCap;
             this[lambda]      = trackballParam.lambda;
 
             //旋转空间的top、left
