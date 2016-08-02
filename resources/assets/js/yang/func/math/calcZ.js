@@ -15,8 +15,8 @@ define(function () {
             z = 1 - x * x - y * y;
 
         if (opposite) {
-            x*=-1;
-            y*=-1;
+            x *= -1;
+            y *= -1;
         }
 
         return [x, y, z];

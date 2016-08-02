@@ -1,6 +1,8 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Auth;
 
 /**
  * App\Item
@@ -55,6 +57,20 @@ class Item extends Model
     public function ctg()
     {
         return $this->belongsTo('App\Ctg');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * 全局查询范围
+         * 共有的或者作者是当前用户的
+         */
+        static::addGlobalScope('private', function (Builder $builder) {
+            $builder->where('private', '=', 0)
+                    ->orWhere('user_id', '=', Auth::user()->user_id);
+        });
     }
 
     /**

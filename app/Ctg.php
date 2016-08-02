@@ -2,6 +2,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Auth;
+
 
 /**
  * App\Ctg
@@ -31,6 +34,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg descendant($ctg_id)
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg allCtg()
+ * @property integer                                                   $private
+ * @method static \Illuminate\Database\Query\Builder|\App\Ctg wherePrivate($value)
  */
 class Ctg extends Model
 {
@@ -54,7 +59,7 @@ class Ctg extends Model
      *
      * @var array
      */
-    protected $fillable = ['pid', 'tier', 'sort', 'title', 'path'];
+    protected $fillable = ['pid', 'tier', 'sort', 'path', 'title', 'private'];
 
     /**
      * one to many relationship, with table mp_item
@@ -64,6 +69,21 @@ class Ctg extends Model
     {
         return $this->hasMany('App\Item')
                     ->select('item_id', 'ctg_id', 'sort', 'title');
+    }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * 全局查询范围
+         * 共有的或者作者是当前用户的
+         */
+        static::addGlobalScope('private', function (Builder $builder) {
+            $builder->where('private', '=', 0)
+                    ->orWhere('user_id', '=', Auth::user()->user_id);
+        });
     }
 
     /**

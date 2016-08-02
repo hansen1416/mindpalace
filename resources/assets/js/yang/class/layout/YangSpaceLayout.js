@@ -72,7 +72,7 @@ define([
              * 如果不是，则先算出该层的上一层的分类数，记为 elders，再计算哪个父分类中的子分类最多，记为 sons，
              * 然后取 elders*sons，stars.length，N 中的最大者，作为该层球面包含的点的数量
              */
-            this.N = this.prevTier ? maxPoint(stars, this.N) : stars.length;
+            this.N = this.prevTier ? maxPoint(stars, this.N*2) : stars.length;
 
             //当前层的半径
             this.radius += this.gap;
@@ -83,7 +83,7 @@ define([
              * 否则通过 fibonacciSphere 计算出球面点的位置和旋转角度
              * 并将返回值赋值给 savedPos 和 tierPos
              */
-            this.tierPos = (this.N == this.savedPos.length) ? this.savedPos : fibonacciSphere(this.N, this.radius);
+            this.tierPos = fibonacciSphere(this.N, this.radius);
 
             /**
              * 如果是最内层，则直接给元素定位，不需要考虑上级分类元素的位置

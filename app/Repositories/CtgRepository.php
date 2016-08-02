@@ -27,7 +27,7 @@ class CtgRepository
     /**
      * @param      $ctg_id
      * @param bool $item
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     * @return mixed
      */
     public function findCtg($ctg_id, $item = false)
     {
@@ -116,6 +116,8 @@ class CtgRepository
             /**
              * 在其后的子元素中寻找他属于最内层的哪一个分类
              * 继承最内层的 section
+             * 如果没有最内层分类，则直接不取，
+             * 此种情况通常不会发生，因为如果一个分类是私有的那么他的所有子分类应该都是私有
              */
             if ($tier) {
 
@@ -124,7 +126,7 @@ class CtgRepository
                 if ($match && isset($match[1])) {
                     $section = 'sec-' . $core_id_flip[$match[1]] % 10;
                 } else {
-                    $section = '';
+                    continue;
                 }
             } else {
                 $section = 'sec-' . $core_id_flip[$value->ctg_id] % 10;

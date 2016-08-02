@@ -23,7 +23,7 @@ define(function(){
             if (!(arr[i] instanceof Object)) {
                 continue;
             }
-            var pid = arr[i].dataset.pid;
+            let pid = arr[i].dataset.pid;
 
             if (keys[pid] === undefined) {
                 j++;
