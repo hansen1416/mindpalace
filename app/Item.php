@@ -26,6 +26,8 @@ use Auth;
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereCreatedAt($value)
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Query\Builder|\App\Item noContent()
+ * @property integer $private 私有
+ * @method static \Illuminate\Database\Query\Builder|\App\Item wherePrivate($value)
  */
 class Item extends Model
 {
