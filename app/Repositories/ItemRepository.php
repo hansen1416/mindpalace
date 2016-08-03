@@ -27,7 +27,7 @@ class ItemRepository extends Repository
 
     /**
      * @param $item_id
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     * @return mixed
      */
     public function findItem($item_id)
     {
@@ -36,7 +36,7 @@ class ItemRepository extends Repository
 
     /**
      * @param $item_id
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     * @return mixed
      */
     public function getItemWithContent($item_id)
     {

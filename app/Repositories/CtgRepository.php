@@ -193,15 +193,16 @@ class CtgRepository extends Repository
      * @param $pid
      * @param $sort
      * @param $title
+     * @param $private
      * @return mixed
      * @throws \Exception
      */
-    public function updateCtg($ctg_id, $pid, $sort, $title)
+    public function updateCtg($ctg_id, $pid, $sort, $title, $private)
     {
 
         $ctg = $this->findCtg($ctg_id);
 
-        if (is_null($pid) || $ctg->pid == $pid) {
+        if ((is_null($pid) || $ctg->pid == $pid) && (is_null($private) || $ctg->private == $private)) {
 
             $ctg->sort = $sort;
 
@@ -225,14 +226,14 @@ class CtgRepository extends Repository
                  * 如果目标父级分类是自己的子类，
                  * 那么就抛出错误
                  */
-                $pattern = '/\-'.$ctg->ctg_id.'\-/';
+                $pattern = '/\-' . $ctg->ctg_id . '\-/';
                 if (preg_match($pattern, $parent->path)) {
                     return ['status' => 0, 'message' => trans('errors.invalid_ctg_pid')];
                 }
 
 
-                $path   = $parent->path . $pid . '-';
-                $tier   = $parent->tier + 1;
+                $path = $parent->path . $pid . '-';
+                $tier = $parent->tier + 1;
 
             } else {
 
@@ -242,17 +243,11 @@ class CtgRepository extends Repository
 
             $oldPath = $ctg->path . $ctg->ctg_id . '-';
 
-            $ctg->pid  = $pid;
-            $ctg->path = $path;
-            $ctg->tier = $tier;
+            $ctg->pid     = $pid;
+            $ctg->path    = $path;
+            $ctg->tier    = $tier;
+            $ctg->private = $private;
             $ctg->save();
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-        try {
 
             $newPath = $ctg->path . $ctg->ctg_id . '-';
             $a       = count(explode('-', $oldPath)) - 3;
@@ -260,6 +255,16 @@ class CtgRepository extends Repository
 
             $update['path'] = DB::raw("REPLACE(path, '" . $oldPath . "', '" . $newPath . "')");
             $update['tier'] = DB::raw("(tier-{$a}+{$b})");
+
+            /**
+             * 如果 $private == 1
+             * 那么把该分类的所有子类都置为私有分类
+             * 如果 $private == 0
+             * 那么不需要去改变他的所有子类
+             */
+            if ($private) {
+                $update['private'] = $private;
+            }
 
             $res = $this->ctg->where('path', 'like', $oldPath . '%')
                              ->update($update);
