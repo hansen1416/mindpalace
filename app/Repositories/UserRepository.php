@@ -12,7 +12,7 @@ use App\Theme;
  * Class UserRepository
  * @package App\Repositories
  */
-class UserRepository
+class UserRepository extends Repository
 {
 
     /**
@@ -38,6 +38,8 @@ class UserRepository
      */
     public function __construct(User $user, Profile $profile, Theme $theme)
     {
+        parent::__construct();
+
         $this->user    = $user;
         $this->profile = $profile;
         $this->theme   = $theme;

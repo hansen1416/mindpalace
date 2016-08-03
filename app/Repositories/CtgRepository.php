@@ -2,13 +2,13 @@
 namespace App\Repositories;
 
 use App\Ctg;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 /**
  * Class CtgRepository
  * @package App\Repositories
  */
-class CtgRepository
+class CtgRepository extends Repository
 {
     /**
      * @var Ctg
@@ -21,6 +21,8 @@ class CtgRepository
      */
     public function __construct(Ctg $ctg)
     {
+        parent::__construct();
+
         $this->ctg = $ctg;
     }
 
@@ -191,7 +193,7 @@ class CtgRepository
      * @param $pid
      * @param $sort
      * @param $title
-     * @return bool
+     * @return mixed
      * @throws \Exception
      */
     public function updateCtg($ctg_id, $pid, $sort, $title)
@@ -246,7 +248,7 @@ class CtgRepository
             $ctg->save();
 
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
             throw $e;
         }
 
@@ -263,7 +265,7 @@ class CtgRepository
                              ->update($update);
 
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
             throw $e;
         }
 

@@ -7,7 +7,7 @@ use App\Item;
  * Class ItemRepository
  * @package App\Repositories
  */
-class ItemRepository
+class ItemRepository extends Repository
 {
     /**
      * @var Item
@@ -20,6 +20,8 @@ class ItemRepository
      */
     public function __construct(Item $item)
     {
+        parent::__construct();
+
         $this->item = $item;
     }
 
