@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Yang;
 //use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
-use App\Repositories\CtgRepository;
+use App\Repositories\SpaceRepository;
 
 /**
  * Class HomeController
@@ -24,19 +24,19 @@ class HomeController extends Controller
     protected $user;
 
     /**
-     * @var CtgRepository
+     * @var SpaceRepository
      */
-    protected $ctg;
+    protected $space;
 
     /**
      * HomeController constructor.
-     * @param UserRepository $user
-     * @param CtgRepository  $ctg
+     * @param UserRepository  $user
+     * @param SpaceRepository $space
      */
-    public function __construct(UserRepository $user, CtgRepository $ctg)
+    public function __construct(UserRepository $user, SpaceRepository $space)
     {
-        $this->user = $user;
-        $this->ctg  = $ctg;
+        $this->user  = $user;
+        $this->space = $space;
     }
 
     /**
@@ -45,7 +45,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        return response()->view('yang.home.index', ['user' => $this->user->userInfo(), 'theme' => $this->user->getDefaultTheme()]);
+        return response()->view('yang.home.index', [
+            'user'   => $this->user->userInfo(),
+            'theme'  => $this->user->getDefaultTheme(),
+            'spaces' => $this->space->showAllSpace(),
+        ]);
     }
 }

@@ -17,6 +17,15 @@
         </div>
     @endif
 
+    @foreach($spaces as $space)
+        
+        <div class="space1">
+            <a href="">{{ $space->name }}</a>
+        </div>
+
+    @endforeach
+
+
     {{--根据登陆状态显示用户头像或者是登陆输入框--}}
     <div class="portrait" id="portrait">
 

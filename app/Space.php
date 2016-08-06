@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Auth;
 
+
 /**
  * App\Space
  *
@@ -23,6 +24,7 @@ use Auth;
  * @method static \Illuminate\Database\Query\Builder|\App\Space wherePrivate($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Space whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Space whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Space allSpace()
  * @mixin \Eloquent
  */
 class Space extends Model
@@ -49,6 +51,9 @@ class Space extends Model
     protected $fillable = ['user_id', 'sort', 'name', 'private'];
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function ctg()
     {
         return $this->hasMany('App\Ctg');
@@ -67,6 +72,15 @@ class Space extends Model
             $builder->where('private', '=', 0)
                     ->orWhere('user_id', '=', Auth::user()->user_id);
         });
+    }
+
+    /**
+     * @param Builder $query
+     * @return mixed
+     */
+    public function scopeAllSpace(Builder $query)
+    {
+        return $query->orderBy('sort', 'asc');
     }
 
 }
