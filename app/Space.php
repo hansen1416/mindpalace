@@ -9,13 +9,13 @@ use Auth;
 /**
  * App\Space
  *
- * @property integer $space_id 空间ID
- * @property integer $user_id
- * @property integer $sort
- * @property string $name 空间名称
- * @property boolean $private
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $created_at
+ * @property integer                                                  $space_id 空间ID
+ * @property integer                                                  $user_id
+ * @property integer                                                  $sort
+ * @property string                                                   $name     空间名称
+ * @property boolean                                                  $private
+ * @property \Carbon\Carbon                                           $updated_at
+ * @property \Carbon\Carbon                                           $created_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ctg[] $ctg
  * @method static \Illuminate\Database\Query\Builder|\App\Space whereSpaceId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Space whereUserId($value)
@@ -69,8 +69,14 @@ class Space extends Model
          * 共有的或者作者是当前用户的
          */
         static::addGlobalScope('private', function (Builder $builder) {
-            $builder->where('private', '=', 0)
-                    ->orWhere('user_id', '=', Auth::user()->user_id);
+
+            if (Auth::user()) {
+                $builder->where('private', '=', 0)
+                        ->orWhere('user_id', '=', Auth::user()->user_id);
+            } else {
+                $builder->where('private', '=', 0);
+            }
+
         });
     }
 

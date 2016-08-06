@@ -58,7 +58,7 @@ class UserRepository extends Repository
      */
     public function getDefaultTheme()
     {
-        return $this->userInfo() ? $this->userInfo()->profile->theme->name : 'mono';
+        return $this->userInfo() ? $this->userInfo()->profile->theme->name : 'nebula';
     }
 
     /**
