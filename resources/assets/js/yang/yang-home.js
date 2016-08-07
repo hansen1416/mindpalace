@@ -6,7 +6,8 @@ define([
     "use strict";
 
     YangHomeEvent.setRings([
-                               {'selector': '.panel', 'radius': 150}
+                               {'selector': '.panel', 'radius': 150},
+                               {'selector': '.circle1', 'radius': 250}
                            ]);
 
 

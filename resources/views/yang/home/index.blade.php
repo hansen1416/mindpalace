@@ -19,7 +19,7 @@
 
     @foreach($spaces as $space)
         
-        <div class="space1">
+        <div class="space circle1 med-btn">
             <a href="">{{ $space->name }}</a>
         </div>
 
