@@ -37,16 +37,17 @@ class CtgRepository extends Repository
     }
 
     /**
+     * @param      $space_id
      * @param bool $item
      * @return string
      */
-    public function getAllCtg($item = false)
+    public function getSpaceCtg($space_id, $item = false)
     {
 
         if ($item) {
-            $data = $this->ctg->with('item')->allCtg()->get();
+            $data = $this->ctg->with('item')->spaceCtg($space_id)->get();
         } else {
-            $data = $this->ctg->allCtg()->get();
+            $data = $this->ctg->spaceCtg($space_id)->get();
         }
 
         return $this->tagWrap($data, $item);

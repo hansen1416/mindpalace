@@ -39,6 +39,7 @@ use Auth;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg untilTier($tier)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg descendant($ctg_id)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\Ctg spaceCtg($space_id)
  */
 class Ctg extends Model
 {
@@ -97,11 +98,13 @@ class Ctg extends Model
 
     /**
      * @param $query
+     * @param $space_id
      * @return mixed
      */
-    public function scopeAllCtg($query)
+    public function scopeSpaceCtg($query, $space_id)
     {
-        return $query->orderBy('tier', 'asc')
+        return $query->where('space_id', '=', $space_id)
+                     ->orderBy('tier', 'asc')
                      ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
 

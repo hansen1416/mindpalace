@@ -183,7 +183,7 @@
                 </a>
             </div>
             <div class="s6">
-                <a href="{{ route('space') }}" title="{{ trans('general.title.space') }}">
+                <a href="{{ route('space', ['space_id' => $space_id]) }}" title="{{ trans('general.title.space') }}">
                     {{ trans('general.space') }}
                 </a>
             </div>

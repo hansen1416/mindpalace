@@ -55,15 +55,21 @@ class SpaceController extends Controller
 //            var_dump($status);die;
 //        }
 
-        $pid = $request->input('pid', 0);
+        $pid      = $request->input('pid', 0);
+        $space_id = $request->input('space_id');
 
         if ($pid) {
             $html = $this->ctg->getDescCtg($pid, true);
         } else {
-            $html = $this->ctg->getAllCtg(true);
+            $html = $this->ctg->getSpaceCtg($space_id, true);
         }
 
-        return response()->view('yang.space.index', ['html' => $html, 'user' => $this->user->userInfo(), 'pid' => $pid]);
+        return response()->view('yang.space.index', [
+            'html'     => $html,
+            'user'     => $this->user->userInfo(),
+            'space_id' => $space_id,
+            'pid'      => $pid,
+        ]);
     }
 
     /**

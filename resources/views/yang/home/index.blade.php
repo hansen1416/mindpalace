@@ -4,7 +4,7 @@
 
     {{--跳转到space--}}
     <div class="panel">
-        <a href="{{ route('space') }}">{{ trans('general.space') }}</a>
+        <a href="">{{ trans('general.space') }}</a>
     </div>
     {{--根据登陆状态显示登陆或登出--}}
     @if ($user)
@@ -18,9 +18,9 @@
     @endif
 
     @foreach($spaces as $space)
-        
+
         <div class="space circle1 med-btn">
-            <a href="">{{ $space->name }}</a>
+            <a href="{{ route('space', ['space_id' => $space->space_id]) }}">{{ $space->name }}</a>
         </div>
 
     @endforeach
