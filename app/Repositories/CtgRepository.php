@@ -162,12 +162,13 @@ class CtgRepository extends Repository
 
     /**
      * @param $pid
+     * @param $space_id
      * @param $user_id
      * @param $sort
      * @param $title
      * @return bool
      */
-    public function createCtg($pid, $user_id, $sort, $title)
+    public function createCtg($pid, $space_id, $user_id, $sort, $title)
     {
 
         $parent = $pid ? $this->findCtg($pid) : null;
@@ -179,12 +180,13 @@ class CtgRepository extends Repository
             $tier = $parent->tier + 1;
         }
 
-        $this->ctg->pid     = $pid;
-        $this->ctg->user_id = $user_id;
-        $this->ctg->tier    = $tier;
-        $this->ctg->sort    = $sort;
-        $this->ctg->path    = $path;
-        $this->ctg->title   = $title;
+        $this->ctg->pid      = $pid;
+        $this->ctg->space_id = $space_id;
+        $this->ctg->user_id  = $user_id;
+        $this->ctg->tier     = $tier;
+        $this->ctg->sort     = $sort;
+        $this->ctg->path     = $path;
+        $this->ctg->title    = $title;
 
         return $this->ctg->save();
     }
