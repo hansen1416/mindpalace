@@ -1,16 +1,6 @@
 .idea
-.svn
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
-node_modules/
-vendor/
-*.log
-_ide_helper.php
-_ide_helper_models.php
-.phpstorm.meta.php
-.env
-.gitattributes
-README.md
 .gitignore
 
 
