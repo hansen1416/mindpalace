@@ -2,5 +2,9 @@
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
 .gitignore
+.phpstorm.meta.php
+_ide_helper.php
+composer.lock
+vendor/
 
 
