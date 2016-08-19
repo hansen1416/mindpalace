@@ -105,16 +105,13 @@ define([
             o = this;
         }
 
-
         set setStartMatrix(arr) {
             this.startMatrix = arr;
         }
 
-
         get getStartMatrix() {
             return this.startMatrix;
         }
-
 
         /**
          * trackball 整体思路
@@ -574,9 +571,9 @@ define([
                     reveal(form);
 
                     break;
-            /**
-             * 编辑分类的信息
-             */
+                /**
+                 * 编辑分类的信息
+                 */
                 case 'edit_ctg':
 
                     ajax(ctgDetailUrl, function (res) {
