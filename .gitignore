@@ -6,5 +6,5 @@ bootstrap/cache/*
 _ide_helper.php
 composer.lock
 vendor/
-
+node_modules/
 
