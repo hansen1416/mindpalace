@@ -9,4 +9,8 @@ _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
 composer.lock
-public/.user.ini
+.env
+.gitattributes
+gulpfile.js
+README.md
+package.json
