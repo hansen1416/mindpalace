@@ -8,9 +8,9 @@ vendor/
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
-composer.lock
 .env
 .gitattributes
-gulpfile.js
 README.md
-package.json
+.gitignore
+
+
