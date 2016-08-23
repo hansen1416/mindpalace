@@ -39,8 +39,6 @@ gulp.task('webpack_space', function (cb) {
                              filename: 'yang-space.js'
                          }
                      }),
-             gulp.dest('public/js'),
-             minifier(options, harmony),
              gulp.dest('public/js')
          ],
          cb
