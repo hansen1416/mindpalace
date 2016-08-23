@@ -30,11 +30,6 @@ class SpaceController extends Controller
     protected $item;
 
     /**
-     * @var
-     */
-    protected $space_id;
-
-    /**
      * SpaceController constructor.
      * @param UserRepository $user
      * @param CtgRepository  $ctg
@@ -45,10 +40,6 @@ class SpaceController extends Controller
         $this->user = $user;
         $this->ctg  = $ctg;
         $this->item = $item;
-
-        $request = new Request();
-
-        $this->space_id = $request->input('space_id');
     }
 
     /**
@@ -65,7 +56,7 @@ class SpaceController extends Controller
 //        }
 
         $pid      = $request->input('pid', 0);
-        $space_id = $request->space_id;
+        $space_id = $request->input('space_id');
 
         if ($pid) {
             $html = $this->ctg->getDescCtg($pid, true);
@@ -90,7 +81,7 @@ class SpaceController extends Controller
 
         $param = [
             $request->input($request->input('act')),
-            $request->space_id,
+            $request->input('space_id'),
             $this->user->userInfo()->user_id,
             0,
             $request->input('title'),
