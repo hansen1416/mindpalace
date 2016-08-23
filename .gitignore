@@ -2,10 +2,12 @@
 .svn
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
-node_modules/
-vendor/
-*.log
-_ide_helper.php
-_ide_helper_models.php
+.gitignore
 .phpstorm.meta.php
+_ide_helper.php
 composer.lock
+vendor/
+node_modules/
+public/.user.ini
+
+
