@@ -204,6 +204,7 @@
     <input type="hidden" id="create_item_url" value="{{ route('createItem') }}">
     <input type="hidden" id="update_item_url" value="{{ route('updateItem') }}">
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+    <input type="hidden" id="space_id" value="{{$space_id}}">
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>

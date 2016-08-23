@@ -554,7 +554,7 @@ define([
                  */
                 case 'descendant':
 
-                    window.location.href = window.location.origin + window.location.pathname + '?pid=' + sData['ctg_id'];
+                    window.location.href = window.location.origin + window.location.pathname + '?pid=' + sData['ctg_id'] + '&space_id=' + document.getElementById('space_id').value;
                     break;
                 /**
                  * 给指定分类添加一个子分类
