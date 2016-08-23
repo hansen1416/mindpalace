@@ -522,6 +522,11 @@ define([
                     inputs[i].value = sData[inputs[i].getAttribute('name')] || bData[inputs[i].getAttribute('name')];
                     i++;
                 }
+                
+                if (star.classList.contains('item') && sData['pid']) {
+                    form.querySelector("input[name='ctg_id']").value = sData['pid'];
+                }
+                
             }
 
 
@@ -549,7 +554,7 @@ define([
                  */
                 case 'descendant':
 
-                    window.location.href = window.location.origin + window.location.pathname + '?pid=' + sData['ctg_id'];
+                    window.location.href = window.location.origin + window.location.pathname + '?pid=' + sData['ctg_id'] + '&space_id=' + document.getElementById('space_id').value;
                     break;
                 /**
                  * 给指定分类添加一个子分类

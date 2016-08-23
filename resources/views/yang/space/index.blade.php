@@ -124,6 +124,7 @@
         {{--</label>--}}
 
         <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
+        <input type="hidden" name="space_id" value="{{$space_id}}}">
         <div class="submit">{{ trans('general.save') }}</div>
         <input type="hidden" name="ctg_id" value="0">
         <input type="hidden" name="pid" value="0">
@@ -203,6 +204,7 @@
     <input type="hidden" id="create_item_url" value="{{ route('createItem') }}">
     <input type="hidden" id="update_item_url" value="{{ route('updateItem') }}">
     <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
+    <input type="hidden" id="space_id" value="{{$space_id}}">
 
     @if(App::environment('development'))
         <script data-main="/resources/assets/js/yang/yang-space.js" src="/resources/assets/js/require.js"></script>

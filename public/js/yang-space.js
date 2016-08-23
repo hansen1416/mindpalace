@@ -1309,6 +1309,11 @@
 	                    inputs[i].value = sData[inputs[i].getAttribute('name')] || bData[inputs[i].getAttribute('name')];
 	                    i++;
 	                }
+	                
+	                if (star.classList.contains('item') && sData['pid']) {
+	                    form.querySelector("input[name='ctg_id']").value = sData['pid'];
+	                }
+	                
 	            }
 
 
