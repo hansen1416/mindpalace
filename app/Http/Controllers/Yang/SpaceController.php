@@ -90,7 +90,7 @@ class SpaceController extends Controller
 
         $param = [
             $request->input($request->input('act')),
-            $this->space_id,
+            $request->space_id,
             $this->user->userInfo()->user_id,
             0,
             $request->input('title'),
