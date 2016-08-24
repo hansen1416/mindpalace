@@ -93,7 +93,7 @@ class SpaceController extends Controller
             $request->input('sort', 0),
             $request->input('title', ''),
             $request->input('private', 0),
-            $request->input('content', null),
+            $request->input('content'),
         ];
 
         return $this->jsonResponse(call_user_func_array([$this->ctg, 'updateCtg'], $param));
