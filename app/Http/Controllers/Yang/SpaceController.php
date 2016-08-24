@@ -40,7 +40,6 @@ class SpaceController extends Controller
      */
     public function index(Request $request)
     {
-
 //        $status = $request->session()->get('status');
 //
 //        if ($status) {
@@ -70,7 +69,6 @@ class SpaceController extends Controller
      */
     public function createCtg(Request $request)
     {
-
         $param = [
             $request->input($request->input('act')),
             $request->input('space_id'),
@@ -80,7 +78,6 @@ class SpaceController extends Controller
         ];
 
         return response()->json(['status' => call_user_func_array([$this->ctg, 'createCtg'], $param)]);
-
     }
 
     /**
@@ -89,13 +86,12 @@ class SpaceController extends Controller
      */
     public function updateCtg(Request $request)
     {
-
         $param = [
             $request->input('ctg_id'),
-            $request->input('pid', null),
             $request->input('sort', 0),
             $request->input('title', ''),
             $request->input('private', null),
+            $request->input('content', null),
         ];
 
         return $this->jsonResponse(call_user_func_array([$this->ctg, 'updateCtg'], $param));
@@ -105,9 +101,22 @@ class SpaceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+    public function moveCtg(Request $request)
+    {
+        $param = [
+            $request->input('ctg_id'),
+            $request->input('pid'),
+        ];
+
+        return $this->jsonResponse(call_user_func_array([$this->ctg, 'moveCtg'], $param));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCtgDetail(Request $request)
     {
-
         $param = [
             $request->input('ctg_id'),
         ];
@@ -122,7 +131,6 @@ class SpaceController extends Controller
      */
     public function getAllTheme()
     {
-
         $themes = $this->user->allThemes();
 
         return response()->json(['status' => '1', 'message' => $themes]);
@@ -134,7 +142,6 @@ class SpaceController extends Controller
      */
     public function changeTheme(Request $request)
     {
-
         $message = 'theme update failed';
 
         if ($this->user->updateTheme($request->input('theme_id'))) {

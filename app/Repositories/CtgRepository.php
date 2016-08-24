@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Ctg;
+use App\Item;
 use DB;
 
 /**
@@ -17,13 +18,14 @@ class CtgRepository extends Repository
 
     /**
      * CtgRepository constructor.
-     * @param Ctg $ctg
+     * @param Ctg  $ctg
+     * @param Item $item
      */
     public function __construct(Ctg $ctg)
     {
         parent::__construct();
 
-        $this->ctg = $ctg;
+        $this->ctg  = $ctg;
     }
 
     /**
@@ -166,33 +168,65 @@ class CtgRepository extends Repository
 
     /**
      * @param $ctg_id
-     * @param $pid
      * @param $sort
      * @param $title
      * @param $private
+     * @param $content
      * @return mixed
      * @throws \Exception
      */
-    public function updateCtg($ctg_id, $pid, $sort, $title, $private)
+    public function updateCtg($ctg_id, $sort, $title, $private, $content)
     {
+        DB::beginTransaction();
 
-        $ctg = $this->findCtg($ctg_id);
+        try {
 
-        if ((is_null($pid) || $ctg->pid == $pid) && (is_null($private) || $ctg->private == $private)) {
+            $ctg = Ctg::find($ctg_id);
 
             $ctg->sort = $sort;
+
+            if (!is_null($private)) {
+                $ctg->private = $private;
+            }
 
             if ($title) {
                 $ctg->title = $title;
             }
 
-            return $ctg->save();
+            $res = $ctg->save();
+
+            if (!is_null($content)) {
+
+                $item = Item::where('ctg_id', $ctg_id)->first();
+                $item->content = $content;
+
+                $res = $item->save();
+            }
+
+            DB::commit();
+
+            return $res;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
         }
 
+    }
 
+    /**
+     * @param $ctg_id
+     * @param $pid
+     * @return mixed
+     * @throws \Exception
+     */
+    public function moveCtg($ctg_id, $pid)
+    {
         DB::beginTransaction();
 
         try {
+
+            $ctg = Ctg::find($ctg_id);
 
             if ($pid) {
 
@@ -219,10 +253,9 @@ class CtgRepository extends Repository
 
             $oldPath = $ctg->path . $ctg->ctg_id . '-';
 
-            $ctg->pid     = $pid;
-            $ctg->path    = $path;
-            $ctg->tier    = $tier;
-            $ctg->private = $private;
+            $ctg->pid  = $pid;
+            $ctg->path = $path;
+            $ctg->tier = $tier;
             $ctg->save();
 
             $newPath = $ctg->path . $ctg->ctg_id . '-';
@@ -238,23 +271,21 @@ class CtgRepository extends Repository
              * 如果 $private == 0
              * 那么不需要去改变他的所有子类
              */
-            if ($private) {
-                $update['private'] = $private;
+            if ($ctg->private) {
+                $update['private'] = $ctg->private;
             }
 
             $res = $this->ctg->where('path', 'like', $oldPath . '%')
                              ->update($update);
 
+            DB::commit();
+
+            return ($res !== false);
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return $e->getMessage();
         }
 
-        DB::commit();
-
-        return ($res !== false);
-
     }
-
 
 }

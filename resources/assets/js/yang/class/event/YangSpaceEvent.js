@@ -50,9 +50,10 @@ define([
         rsf             = Symbol(),
         originTransform = Symbol();
 
-    const createCtgUrl  = document.getElementById('create_ctg_url').value;     //创建分类的URL
-    const updateCtgUrl  = document.getElementById('update_ctg_url').value;     //编辑分类的URL
-    const ctgDetailUrl  = document.getElementById('ctg_detail_url').value;      //获取分类详情的URL
+    const createCtgUrl = document.getElementById('create_ctg_url').value;       //创建分类的URL
+    const updateCtgUrl = document.getElementById('update_ctg_url').value;       //编辑分类的URL
+    const ctgDetailUrl = document.getElementById('ctg_detail_url').value;       //获取分类详情的URL
+    const moveCtgUrl   = document.getElementById('move_ctg_url').value;         //改变分类的父分类
 
     class YangSpaceEvent extends YangSpaceLayout {
 
@@ -443,9 +444,9 @@ define([
          */
         starClick(target) {
 
-            let data     = target.dataset,
-                ctg_id   = data['ctg_id'] ? data['ctg_id'] : 0,       //分类的ID
-                ctg_box  = document.getElementById('ctg_box');        //分类对应的操作面板
+            let data    = target.dataset,
+                ctg_id  = data['ctg_id'] ? data['ctg_id'] : 0,       //分类的ID
+                ctg_box = document.getElementById('ctg_box');        //分类对应的操作面板
 
             if (ctg_id) {
                 reveal(ctg_box);
@@ -466,7 +467,7 @@ define([
                 data = new FormData(form),
                 success;
 
-                data.append('content', editor.get(this).getHTML());
+            data.append('content', editor.get(this).getHTML());
 
             /**
              * 请求成功的回调函数
@@ -480,6 +481,16 @@ define([
             ajax(form.action, success, data);
 
         }//submitForm ends
+
+
+        clearForm(form) {
+
+            form.reset();
+
+            if (form.querySelector('#editor')) {
+                editor.get(this).setHTML('');
+            }
+        }//clearForm ends
 
 
         /**
@@ -571,7 +582,9 @@ define([
                             form.querySelector('#ctg_title').value = res.message['title'];
                             form.querySelector('#ctg_sort').value  = res.message['sort'];
 
-                            editor.get(o).setHTML(res.message.item['content']);
+                            if (res.message.item) {
+                                editor.get(o).setHTML(res.message.item['content']);
+                            }
 
                             form.action = updateCtgUrl;
                             reveal(form);
@@ -633,17 +646,6 @@ define([
 
         }//btnClick ends
 
-
-        clearForm(form) {
-
-            form.reset();
-
-            if (form.querySelector('#editor')) {
-                editor.get(this).setHTML('');
-            }
-        }//clearForm ends
-
-
         editPid(e) {
 
             let target = e.target;
@@ -661,7 +663,7 @@ define([
                 data.append('pid', tData['ctg_id']);
             }
 
-            ajax(updateCtgUrl, function (res) {
+            ajax(moveCtgUrl, function (res) {
                 //TODO
                 console.log(res);
 
