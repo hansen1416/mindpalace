@@ -78,7 +78,7 @@ class Ctg extends Model
     public function item()
     {
         return $this->hasOne('App\Item')
-                    ->select('item_id', 'ctg_id', 'title');
+                    ->select('item_id', 'ctg_id', 'title', 'content');
     }
 
 

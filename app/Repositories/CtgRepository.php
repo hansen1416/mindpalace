@@ -28,54 +28,40 @@ class CtgRepository extends Repository
 
     /**
      * @param      $ctg_id
-     * @param bool $item
      * @return mixed
      */
-    public function findCtg($ctg_id, $item = false)
+    public function findCtg($ctg_id)
     {
-        return $item ? $this->ctg->with('item')->find($ctg_id) : $this->ctg->find($ctg_id);
+        return $this->ctg->with('item')->find($ctg_id);
     }
 
     /**
      * @param      $space_id
-     * @param bool $item
      * @return string
      */
-    public function getSpaceCtg($space_id, $item = false)
+    public function getSpaceCtg($space_id)
     {
+        $data = $this->ctg->with('item')->spaceCtg($space_id)->get();
 
-        if ($item) {
-            $data = $this->ctg->with('item')->spaceCtg($space_id)->get();
-        } else {
-            $data = $this->ctg->spaceCtg($space_id)->get();
-        }
-
-        return $this->tagWrap($data, $item);
+        return $this->tagWrap($data);
     }
 
     /**
      * @param      $ctg_id
-     * @param bool $item
      * @return string
      */
-    public function getDescCtg($ctg_id, $item = false)
+    public function getDescCtg($ctg_id)
     {
+        $data = $this->ctg->with('item')->descendant($ctg_id)->get();
 
-        if ($item) {
-            $data = $this->ctg->with('item')->descendant($ctg_id)->get();
-        } else {
-            $data = $this->ctg->descendant($ctg_id)->get();
-        }
-
-        return $this->tagWrap($data, $item);
+        return $this->tagWrap($data);
     }
 
     /**
      * @param      $array
-     * @param bool $item
      * @return string
      */
-    protected function tagWrap($array, $item = false)
+    protected function tagWrap($array)
     {
 
         if (count($array) == 0) {
@@ -141,19 +127,6 @@ class CtgRepository extends Repository
             $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}'>" .
                      $value->title .
                      "</div>";
-
-            /**
-             * 如果有内容元素
-             * 拼接内容元素的 html
-             */
-            if ($item && count($value->item)) {
-                $tier = $tier + 1;
-                foreach ($value->item as $item) {
-                    $html .= "<div class='tier-{$tier} star {$section} item' title='{$item->title}' data-title='{$item->title}' data-pid='{$item->ctg_id}' data-item_id='{$item->item_id}' data-tier='{$tier}'>" .
-                             $item->title .
-                             "</div>";
-                }
-            }
 
         }
 

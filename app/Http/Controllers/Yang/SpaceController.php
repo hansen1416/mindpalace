@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Repositories\CtgRepository;
-use App\Repositories\ItemRepository;
 
 /**
  * Class SpaceController
@@ -25,21 +24,14 @@ class SpaceController extends Controller
     protected $ctg;
 
     /**
-     * @var ItemRepository
-     */
-    protected $item;
-
-    /**
      * SpaceController constructor.
      * @param UserRepository $user
      * @param CtgRepository  $ctg
-     * @param ItemRepository $item
      */
-    public function __construct(UserRepository $user, CtgRepository $ctg, ItemRepository $item)
+    public function __construct(UserRepository $user, CtgRepository $ctg)
     {
         $this->user = $user;
         $this->ctg  = $ctg;
-        $this->item = $item;
     }
 
     /**
@@ -59,9 +51,9 @@ class SpaceController extends Controller
         $space_id = $request->input('space_id');
 
         if ($pid) {
-            $html = $this->ctg->getDescCtg($pid, true);
+            $html = $this->ctg->getDescCtg($pid);
         } else {
-            $html = $this->ctg->getSpaceCtg($space_id, true);
+            $html = $this->ctg->getSpaceCtg($space_id);
         }
 
         return response()->view('yang.space.index', [
@@ -118,60 +110,11 @@ class SpaceController extends Controller
 
         $param = [
             $request->input('ctg_id'),
-            false,
         ];
 
         $data = call_user_func_array([$this->ctg, 'findCtg'], $param);
 
         return response()->json(['status' => boolval($data), 'message' => $data]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function createItem(Request $request)
-    {
-
-        $param = [
-            $request->input('ctg_id'),
-            $this->user->userInfo()->user_id,
-            $request->input('sort', 0),
-            $request->input('title', ''),
-            $request->input('content', ''),
-        ];
-
-        return response()->json(['status' => call_user_func_array([$this->item, 'createItem'], $param)]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateItem(Request $request)
-    {
-
-        $param = [
-            $request->input('item_id'),
-            $request->input('ctg_id', 0),
-            $request->input('sort', 0),
-            $request->input('title', ''),
-            $request->input('content', ''),
-        ];
-
-        return response()->json(['status' => call_user_func_array([$this->item, 'updateItem'], $param)]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getItemDetail(Request $request)
-    {
-
-        $item = $this->item->getItemWithContent($request->input('item_id'));
-
-        return response()->json(['status' => boolval($item), 'message' => $item->content]);
     }
 
     /**
