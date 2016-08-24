@@ -52,7 +52,7 @@ class Item extends Model
      *
      * @var array
      */
-    protected $fillable = ['ctg_id', 'sort', 'title', 'content'];
+    protected $fillable = ['ctg_id', 'title', 'content'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -65,15 +65,6 @@ class Item extends Model
     protected static function boot()
     {
         parent::boot();
-
-        /**
-         * 全局查询范围
-         * 共有的或者作者是当前用户的
-         */
-        static::addGlobalScope('private', function (Builder $builder) {
-            $builder->where('private', '=', 0)
-                    ->orWhere('user_id', '=', Auth::user()->user_id);
-        });
     }
 
     /**
@@ -82,7 +73,7 @@ class Item extends Model
      */
     public function scopeNoContent($query)
     {
-        return $query->select('item_id', 'ctg_id', 'user_id', 'sort', 'title');
+        return $query->select('item_id', 'ctg_id', 'title');
     }
 
 }
