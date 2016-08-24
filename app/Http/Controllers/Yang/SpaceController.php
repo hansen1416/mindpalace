@@ -75,6 +75,8 @@ class SpaceController extends Controller
             $this->user->userInfo()->user_id,
             0,
             $request->input('title'),
+            $request->input('private', 0),
+            $request->input('content', null),
         ];
 
         return response()->json(['status' => call_user_func_array([$this->ctg, 'createCtg'], $param)]);
@@ -90,7 +92,7 @@ class SpaceController extends Controller
             $request->input('ctg_id'),
             $request->input('sort', 0),
             $request->input('title', ''),
-            $request->input('private', null),
+            $request->input('private', 0),
             $request->input('content', null),
         ];
 

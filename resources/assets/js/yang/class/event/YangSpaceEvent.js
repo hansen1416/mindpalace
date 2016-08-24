@@ -582,9 +582,9 @@ define([
                             form.querySelector('#ctg_title').value = res.message['title'];
                             form.querySelector('#ctg_sort').value  = res.message['sort'];
 
-                            if (res.message.item) {
-                                editor.get(o).setHTML(res.message.item['content']);
-                            }
+                            let content = res.message.item ? res.message.item['content'] : '';
+
+                            editor.get(o).setHTML(content);
 
                             form.action = updateCtgUrl;
                             reveal(form);

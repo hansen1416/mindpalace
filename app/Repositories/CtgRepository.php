@@ -17,15 +17,21 @@ class CtgRepository extends Repository
     protected $ctg;
 
     /**
+     * @var Item
+     */
+    protected $item;
+
+    /**
      * CtgRepository constructor.
      * @param Ctg  $ctg
      * @param Item $item
      */
-    public function __construct(Ctg $ctg)
+    public function __construct(Ctg $ctg, Item $item)
     {
         parent::__construct();
 
         $this->ctg  = $ctg;
+        $this->item = $item;
     }
 
     /**
@@ -141,29 +147,54 @@ class CtgRepository extends Repository
      * @param $user_id
      * @param $sort
      * @param $title
+     * @param $private
+     * @param $content
      * @return bool
      */
-    public function createCtg($pid, $space_id, $user_id, $sort, $title)
+    public function createCtg($pid, $space_id, $user_id, $sort, $title, $private, $content)
     {
+        DB::beginTransaction();
 
-        $parent = $pid ? $this->findCtg($pid) : null;
-        $path   = '-0-';
-        $tier   = 0;
+        try {
 
-        if ($parent) {
-            $path = $parent->path . $pid . '-';
-            $tier = $parent->tier + 1;
+            $parent = $pid ? $this->findCtg($pid) : null;
+            $path   = '-0-';
+            $tier   = 0;
+
+            if ($parent) {
+                $path = $parent->path . $pid . '-';
+                $tier = $parent->tier + 1;
+            }
+
+            $ctg = $this->ctg;
+
+            $ctg->pid      = $pid;
+            $ctg->space_id = $space_id;
+            $ctg->user_id  = $user_id;
+            $ctg->tier     = $tier;
+            $ctg->sort     = $sort;
+            $ctg->path     = $path;
+            $ctg->title    = $title;
+            $ctg->private  = $private;
+
+            $res = $ctg->save();
+
+            if (!is_null($content)) {
+                $item = $this->item;
+
+                $item->ctg_id  = $ctg->ctg_id;
+                $item->content = $content;
+
+                $res = $item->save();
+            }
+
+            DB::commit();
+            return $res;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
         }
 
-        $this->ctg->pid      = $pid;
-        $this->ctg->space_id = $space_id;
-        $this->ctg->user_id  = $user_id;
-        $this->ctg->tier     = $tier;
-        $this->ctg->sort     = $sort;
-        $this->ctg->path     = $path;
-        $this->ctg->title    = $title;
-
-        return $this->ctg->save();
     }
 
     /**
@@ -183,11 +214,8 @@ class CtgRepository extends Repository
 
             $ctg = Ctg::find($ctg_id);
 
-            $ctg->sort = $sort;
-
-            if (!is_null($private)) {
-                $ctg->private = $private;
-            }
+            $ctg->sort    = $sort;
+            $ctg->private = $private;
 
             if ($title) {
                 $ctg->title = $title;
@@ -198,6 +226,13 @@ class CtgRepository extends Repository
             if (!is_null($content)) {
 
                 $item = Item::where('ctg_id', $ctg_id)->first();
+
+                if (!$item) {
+                    $item = $this->item;
+
+                    $item->ctg_id = $ctg_id;
+                }
+
                 $item->content = $content;
 
                 $res = $item->save();
