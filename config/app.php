@@ -142,7 +142,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         /**
-         * LaravelIdeHelper
+         * LaravelIde-Helper
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 	],
