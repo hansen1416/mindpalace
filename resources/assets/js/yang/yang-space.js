@@ -21,7 +21,6 @@ define([
      */
     YangSpaceEvent.setOperation([
                                     {'selector': '.ctg_btn', 'radius': 100},
-                                    {'selector': '.item_btn', 'radius': 100}
                                 ]);
 
     let Y = new YangSpaceEvent({

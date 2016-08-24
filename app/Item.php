@@ -2,8 +2,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Auth;
 
 /**
  * App\Item
@@ -65,15 +63,6 @@ class Item extends Model
     protected static function boot()
     {
         parent::boot();
-    }
-
-    /**
-     * @param $query
-     * @return mixed
-     */
-    public function scopeNoContent($query)
-    {
-        return $query->select('item_id', 'ctg_id', 'title');
     }
 
 }

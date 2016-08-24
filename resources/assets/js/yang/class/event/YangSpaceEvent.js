@@ -53,9 +53,6 @@ define([
     const createCtgUrl  = document.getElementById('create_ctg_url').value;     //创建分类的URL
     const updateCtgUrl  = document.getElementById('update_ctg_url').value;     //编辑分类的URL
     const ctgDetailUrl  = document.getElementById('ctg_detail_url').value;      //获取分类详情的URL
-    const createItemUrl = document.getElementById('create_item_url').value;     //创建内容的URL
-    const updateItemUrl = document.getElementById('update_item_url').value;     //编辑内容的URL
-    const itemDetailUrl = document.getElementById('item_detail_url').value;     //获取内容详情的URL
 
     class YangSpaceEvent extends YangSpaceLayout {
 
@@ -448,16 +445,10 @@ define([
 
             let data     = target.dataset,
                 ctg_id   = data['ctg_id'] ? data['ctg_id'] : 0,       //分类的ID
-                item_id  = data['item_id'] ? data['item_id'] : 0,     //内容的ID
-                ctg_box  = document.getElementById('ctg_box'),              //分类对应的操作面板
-                item_box = document.getElementById('item_box');             //内容对应的操作面板
+                ctg_box  = document.getElementById('ctg_box');        //分类对应的操作面板
 
             if (ctg_id) {
                 reveal(ctg_box);
-                conceal(item_box);
-            } else if (item_id) {
-                reveal(item_box);
-                conceal(ctg_box);
             }
 
             aimedStar.set(this, target);
@@ -475,9 +466,7 @@ define([
                 data = new FormData(form),
                 success;
 
-            if (form.id == 'item_form') {
                 data.append('content', editor.get(this).getHTML());
-            }
 
             /**
              * 请求成功的回调函数
@@ -506,7 +495,7 @@ define([
             let star   = aimedStar.get(this),
                 sData  = star ? star.dataset : [],
                 bData  = target.dataset,
-                form   = bData['form'] ? document.getElementById(bData['form']) : null,
+                form   = document.getElementById('ctg_form'),
                 inputs = [],
                 i      = 0;
 
@@ -522,11 +511,6 @@ define([
                     inputs[i].value = sData[inputs[i].getAttribute('name')] || bData[inputs[i].getAttribute('name')];
                     i++;
                 }
-                
-                if (star.classList.contains('item') && sData['pid']) {
-                    form.querySelector("input[name='ctg_id']").value = sData['pid'];
-                }
-                
             }
 
 
@@ -587,6 +571,8 @@ define([
                             form.querySelector('#ctg_title').value = res.message['title'];
                             form.querySelector('#ctg_sort').value  = res.message['sort'];
 
+                            editor.get(o).setHTML(res.message.item['content']);
+
                             form.action = updateCtgUrl;
                             reveal(form);
                         }
@@ -602,34 +588,6 @@ define([
                     unbindEvent(window.document, 'click', this.clickCallback);
 
                     bindEvent(window.document, 'click', this.editPid);
-                    break;
-                /**
-                 * 给分类添加一个内容
-                 */
-                case 'add_item':
-
-                    this.clearForm(form);
-                    form.action = createItemUrl;
-                    reveal(form);
-
-                    break;
-                /**
-                 * 编辑内容的标题、排序和标签信息
-                 */
-                case 'edit_item':
-
-                    /**
-                     * 请求详情数据
-                     * 并显示详情表单
-                     */
-                    ajax(itemDetailUrl, function (res) {
-
-                        editor.get(o).setHTML(res.message);
-                        form.action = updateItemUrl;
-                        reveal(form);
-
-                    }, new FormData(form));
-
                     break;
                 /**
                  * 将 Trackball 重置到初始视角
@@ -696,20 +654,14 @@ define([
 
             let sData = aimedStar.get(o).dataset,
                 tData = target.dataset,
-                data  = new FormData(),
-                url   = '';
+                data  = new FormData();
 
             if (sData['ctg_id']) {
-                url = updateCtgUrl;
                 data.append('ctg_id', sData['ctg_id']);
                 data.append('pid', tData['ctg_id']);
-            } else {
-                url = updateItemUrl;
-                data.append('item_id', sData['item_id']);
-                data.append('ctg_id', tData['ctg_id']);
             }
 
-            ajax(url, function (res) {
+            ajax(updateCtgUrl, function (res) {
                 //TODO
                 console.log(res);
 

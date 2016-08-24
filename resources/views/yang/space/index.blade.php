@@ -56,50 +56,19 @@
             {{ trans('buttons.show_desc') }}
         </div>
         {{--添加一个子级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_desc') }}" data-func="add_desc"
-             data-form="ctg_form" data-act="ctg_id">
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_desc') }}" data-func="add_desc" data-act="ctg_id">
             {{ trans('buttons.add_desc') }}
         </div>
         {{--添加一个同级分类--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_peer') }}" data-func="add_peer"
-             data-form="ctg_form" data-act="pid">
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_peer') }}" data-func="add_peer" data-act="pid">
             {{ trans('buttons.add_peer') }}
         </div>
         {{--编辑分类标题--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_ctg') }}" data-func="edit_ctg"
-             data-form="ctg_form">
+        <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_ctg') }}" data-func="edit_ctg">
             {{ trans('buttons.edit_ctg') }}
         </div>
         {{--改变父级分类--}}
         <div class="btn ctg_btn" title="{{ trans('buttons.title.edit_pid') }}" data-func="edit_pid">
-            {{ trans('buttons.edit_pid') }}
-        </div>
-        {{--添加一个子内容--}}
-        <div class="btn ctg_btn" title="{{ trans('buttons.title.add_item') }}" data-func="add_item"
-             data-form="item_form">
-            {{ trans('buttons.add_item') }}
-        </div>
-
-    </div>
-
-    {{--关于内容的操作--}}
-    <div id="item_box" class="operation">
-
-        {{--聚焦选中 .star--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.focus') }}" data-func="focus">
-            {{ trans('buttons.focus') }}
-        </div>
-        {{--隐藏操作面板--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.hide_plate') }}" data-func="hide">
-            {{ trans('buttons.hide_plate') }}
-        </div>
-        {{--编辑内容标题--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.edit_item') }}" data-func="edit_item"
-             data-form="item_form">
-            {{ trans('buttons.edit_item') }}
-        </div>
-        {{--改变父级分类--}}
-        <div class="btn item_btn" title="{{ trans('buttons.title.edit_pid') }}" data-func="edit_pid">
             {{ trans('buttons.edit_pid') }}
         </div>
 
@@ -123,6 +92,8 @@
         {{--<input type="text" id="ctg_tags" name="tags">--}}
         {{--</label>--}}
 
+        <div id="editor"></div>
+
         <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
         <input type="hidden" name="space_id" value="{{$space_id}}}">
         <div class="submit">{{ trans('general.save') }}</div>
@@ -132,33 +103,6 @@
         <input type="hidden" name="act">
     </form>
     {{--分类表单--}}
-
-    {{--内容表单--}}
-    <form enctype="multipart/form-data" id="item_form">
-
-        <label for="item_title">
-            {{ trans('general.itemTitle') }}
-            <input type="text" id="item_title" name="title">
-        </label>
-
-        <label for="item_sort">
-            {{ trans('general.itemSort') }}
-            <input type="text" id="item_sort" name="sort">
-        </label>
-
-        {{--<label for="item_tags">--}}
-        {{--{{ trans('general.itemTags') }}--}}
-        {{--<input type="text" id="item_tags" name="tags">--}}
-        {{--</label>--}}
-
-        <div id="editor"></div>
-
-        <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
-        <div class="submit">{{ trans('general.save') }}</div>
-        <input type="hidden" name="ctg_id" value="0">
-        <input type="hidden" name="item_id" value="0">
-    </form>
-    {{--内容表单--}}
 
     {{--右上角用户信息--}}
     <div id="top_right">
@@ -201,9 +145,6 @@
     <input type="hidden" id="create_ctg_url" value="{{ route('createCtg') }}">
     <input type="hidden" id="update_ctg_url" value="{{ route('updateCtg') }}">
     <input type="hidden" id="ctg_detail_url" value="{{ route('ctgDetail') }}">
-    <input type="hidden" id="create_item_url" value="{{ route('createItem') }}">
-    <input type="hidden" id="update_item_url" value="{{ route('updateItem') }}">
-    <input type="hidden" id="item_detail_url" value="{{ route('itemDetail') }}">
     <input type="hidden" id="space_id" value="{{$space_id}}">
 
     @if(App::environment('development'))

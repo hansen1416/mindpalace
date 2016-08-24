@@ -12,9 +12,6 @@ return [
     'ctgTitle'  => '分类名称',
     'ctgSort'   => '分类排序',
     'ctgTags'   => '分类标签',
-    'itemTitle' => '内容名称',
-    'itemSort'  => '内容排序',
-    'itemTags'  => '内容标签',
 
     'title' => [
         'home'  => '回到首页',
