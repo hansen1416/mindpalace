@@ -145,6 +145,7 @@
     <input type="hidden" id="create_ctg_url" value="{{ route('createCtg') }}">
     <input type="hidden" id="update_ctg_url" value="{{ route('updateCtg') }}">
     <input type="hidden" id="ctg_detail_url" value="{{ route('ctgDetail') }}">
+    <input type="hidden" id="move_ctg_url" value="{{ route('moveCtg') }}">
     <input type="hidden" id="space_id" value="{{$space_id}}">
 
     @if(App::environment('development'))

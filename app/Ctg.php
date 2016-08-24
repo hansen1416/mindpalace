@@ -6,22 +6,23 @@ use Illuminate\Database\Eloquent\Builder;
 use Auth;
 
 
+
 /**
  * App\Ctg
  *
- * @property integer                                                   $ctg_id     分类ID
- * @property integer                                                   $pid        父分类ID
- * @property integer                                                   $space_id   空间ID
- * @property integer                                                   $user_id    用户ID
- * @property integer                                                   $tier       层序号
- * @property integer                                                   $sort       排序
- * @property string                                                    $path       分类的族谱
- * @property string                                                    $title      分类名
- * @property integer                                                   $private
- * @property \Carbon\Carbon                                            $updated_at 更新时间
- * @property \Carbon\Carbon                                            $created_at 创建时间
- * @property-read \App\Space                                           $space
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $item
+ * @property integer $ctg_id 分类ID
+ * @property integer $pid 父分类ID
+ * @property integer $space_id 空间ID
+ * @property integer $user_id 用户ID
+ * @property integer $tier 层序号
+ * @property integer $sort 排序
+ * @property string $path 分类的族谱
+ * @property string $title 分类名
+ * @property integer $private
+ * @property \Carbon\Carbon $updated_at 更新时间
+ * @property \Carbon\Carbon $created_at 创建时间
+ * @property-read \App\Space $space
+ * @property-read \App\Item $item
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereCtgId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg wherePid($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereSpaceId($value)
@@ -33,13 +34,12 @@ use Auth;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg wherePrivate($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Ctg allCtg()
+ * @method static \Illuminate\Database\Query\Builder|\App\Ctg spaceCtg($space_id)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg son($pid)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg tier($tier)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg untilTier($tier)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg descendant($ctg_id)
  * @mixin \Eloquent
- * @method static \Illuminate\Database\Query\Builder|\App\Ctg spaceCtg($space_id)
  */
 class Ctg extends Model
 {
@@ -78,7 +78,7 @@ class Ctg extends Model
     public function item()
     {
         return $this->hasOne('App\Item')
-                    ->select('item_id', 'ctg_id', 'title', 'content');
+                    ->select('item_id', 'ctg_id', 'content');
     }
 
 
@@ -157,6 +157,5 @@ class Ctg extends Model
                      ->orderBy('sort', 'asc')
                      ->select('ctg_id', 'pid', 'tier', 'title', 'path');
     }
-
 
 }
