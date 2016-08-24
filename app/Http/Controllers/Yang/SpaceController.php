@@ -50,7 +50,7 @@ class SpaceController extends Controller
         $space_id = $request->input('space_id');
 
         if ($pid) {
-            $html = $this->ctg->getDescCtg($pid);
+            $html = $this->ctg->getDescCtg($pid, $space_id);
         } else {
             $html = $this->ctg->getSpaceCtg($space_id);
         }

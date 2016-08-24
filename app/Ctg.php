@@ -38,7 +38,7 @@ use Auth;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg son($pid)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg tier($tier)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg untilTier($tier)
- * @method static \Illuminate\Database\Query\Builder|\App\Ctg descendant($ctg_id)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ctg descendant($ctg_id, $space_id)
  * @mixin \Eloquent
  */
 class Ctg extends Model
@@ -148,11 +148,13 @@ class Ctg extends Model
     /**
      * @param $query
      * @param $ctg_id
+     * @param $space_id
      * @return mixed
      */
-    public function scopeDescendant($query, $ctg_id)
+    public function scopeDescendant($query, $ctg_id, $space_id)
     {
         return $query->where('path', 'like', '%-' . $ctg_id . '-%')
+                     ->where('space_id', $space_id)
                      ->orderBy('tier', 'asc')
                      ->orderBy('sort', 'asc')
                      ->select('ctg_id', 'pid', 'tier', 'title', 'path');
