@@ -1298,7 +1298,7 @@
 
 	            if (form) {
 
-	                inputs = form.querySelectorAll("input[type='hidden']");
+	                inputs = form.querySelectorAll("input[type='hidden']:not([name='space_id'])");
 
 	                /**
 	                 * 从 star 或 target 中取出 表单隐藏域需要的数据
