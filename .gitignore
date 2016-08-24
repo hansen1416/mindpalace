@@ -9,6 +9,7 @@ composer.lock
 vendor/
 node_modules/
 public/.user.ini
+.gitattributes
 gulpfile.js
 package.json
 README.md

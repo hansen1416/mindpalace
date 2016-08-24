@@ -77,8 +77,8 @@ class Ctg extends Model
      */
     public function item()
     {
-        return $this->hasMany('App\Item')
-                    ->select('item_id', 'ctg_id', 'sort', 'title');
+        return $this->hasOne('App\Item')
+                    ->select('item_id', 'ctg_id', 'title');
     }
 
 
