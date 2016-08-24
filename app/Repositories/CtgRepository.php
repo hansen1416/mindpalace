@@ -56,11 +56,12 @@ class CtgRepository extends Repository
 
     /**
      * @param      $ctg_id
+     * @param      $space_id
      * @return string
      */
-    public function getDescCtg($ctg_id)
+    public function getDescCtg($ctg_id, $space_id)
     {
-        $data = $this->ctg->with('item')->descendant($ctg_id)->get();
+        $data = $this->ctg->with('item')->descendant($ctg_id, $space_id)->get();
 
         return $this->tagWrap($data);
     }

@@ -50,7 +50,7 @@ class SpaceController extends Controller
         $space_id = $request->input('space_id');
 
         if ($pid) {
-            $html = $this->ctg->getDescCtg($pid);
+            $html = $this->ctg->getDescCtg($pid, $space_id);
         } else {
             $html = $this->ctg->getSpaceCtg($space_id);
         }
@@ -93,7 +93,7 @@ class SpaceController extends Controller
             $request->input('sort', 0),
             $request->input('title', ''),
             $request->input('private', 0),
-            $request->input('content', null),
+            $request->input('content'),
         ];
 
         return $this->jsonResponse(call_user_func_array([$this->ctg, 'updateCtg'], $param));

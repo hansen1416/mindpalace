@@ -95,8 +95,9 @@
         <div id="editor"></div>
 
         <div class="btn" data-func="hide">{{ trans('buttons.hide_plate') }}</div>
-        <input type="hidden" name="space_id" value="{{$space_id}}}">
         <div class="submit">{{ trans('general.save') }}</div>
+
+        <input type="hidden" name="space_id" value="{{$space_id}}">
         <input type="hidden" name="ctg_id" value="0">
         <input type="hidden" name="pid" value="0">
         <input type="hidden" name="tier" value="0">

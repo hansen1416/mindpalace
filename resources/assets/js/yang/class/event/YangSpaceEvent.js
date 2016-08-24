@@ -474,8 +474,11 @@ define([
              * @param res json对象 res.status == 1 成功, 0 失败
              */
             success = function (res) {
-                //TODO
-                console.log(res);
+
+                if (res.status) {
+                    window.location.reload();
+                }
+
             };
 
             ajax(form.action, success, data);
@@ -512,7 +515,7 @@ define([
 
             if (form) {
 
-                inputs = form.querySelectorAll("input[type='hidden']");
+                inputs = form.querySelectorAll("input[type='hidden']:not([name='space_id'])");
 
                 /**
                  * 从 star 或 target 中取出 表单隐藏域需要的数据
@@ -664,8 +667,10 @@ define([
             }
 
             ajax(moveCtgUrl, function (res) {
-                //TODO
-                console.log(res);
+
+                if (res.status) {
+                    window.location.reload();
+                }
 
             }, data);
 
