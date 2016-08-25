@@ -8,7 +8,7 @@ var gulp     = require('gulp'),
     cssnano  = require('gulp-cssnano'),
     assets   = './resources/assets/';
 
-gulp.task('webpack_home', function (cb) {
+gulp.task('yang-home', function (cb) {
     "use strict";
 
     pump([
@@ -28,7 +28,7 @@ gulp.task('webpack_home', function (cb) {
 
 });
 
-gulp.task('webpack_space', function (cb) {
+gulp.task('yang-space', function (cb) {
     "use strict";
 
     pump([
@@ -67,7 +67,7 @@ gulp.task('less', function () {
 
 
 gulp.task('default', function () {
-    gulp.run('webpack_home');
-    gulp.run('webpack_space');
+    gulp.run('yang-home');
+    gulp.run('yang-space');
     gulp.run('less');
 });
