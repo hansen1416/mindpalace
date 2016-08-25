@@ -133,7 +133,7 @@ class CtgRepository extends Repository
             /**
              * 组合分类的 html
              */
-            $html .= "<div class='tier-{$tier} star {$section} ctg' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}'>" .
+            $html .= "<div class='tier-{$tier} star {$section}' title='{$value->title}' data-title='{$value->title}' data-ctg_id='{$value->ctg_id}' data-pid='{$value->pid}' data-tier='{$tier}'>" .
                      $value->title .
                      "</div>";
 
