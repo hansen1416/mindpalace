@@ -1439,7 +1439,7 @@
 
 	            let target = e.target;
 
-	            if (!target.classList.contains('star') || !target.classList.contains('ctg')) {
+	            if (!target.classList.contains('star')) {
 	                return false;
 	            }
 
