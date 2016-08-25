@@ -47,27 +47,8 @@
 
 #yang-space {
 
-    .star-glow (@color: #ffffff, @slice: 30%, @repeat: stretch, @width: 4px) {
-
-        border: @width dashed @color;
-
-        -webkit-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        -webkit-border-image-slice: @slice;
-        -webkit-border-image-repeat: @repeat;
-        -webkit-border-image-width: @width;
-        -moz-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        -moz-border-image-slice: @slice;
-        -moz-border-image-repeat: @repeat;
-        -moz-border-image-width: @width;
-        -o-border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        -o-border-image-slice: @slice;
-        -o-border-image-repeat: @repeat;
-        -o-border-image-width: @width;
-        border-image-source: radial-gradient(fade(@color, 0%) 0%, fade(@color, 20%) 40%, @color, 50%, fade(@color, 20%) 60%, fade(@color, 0%) 100%);
-        border-image-slice: @slice;
-        border-image-repeat: @repeat;
-        border-image-width: @width;
-
+    .star-glow (@color: #ffffff, @width: 2px) {
+        border: @width solid @color;
         background-color: fade(@color, 13%);
     }
 
@@ -120,13 +101,6 @@
             &:hover {
                 .star-glow;
             }
-        }
-        .star.ctg {
-            background-color: fade(@star_ctg_back, 20%);
-
-        }
-        .star.item {
-
         }
     }
 
