@@ -1,34 +1,18 @@
 {
   "private": true,
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-less": "^3.1.0",
-    "gulp-uglify": "^1.5.4",
-    "pump": "^1.0.1",
-    "uglify-js-harmony": "^2.6.2",
-    "webpack": "^1.13.1",
-    "webpack-stream": "^3.2.0"
-  },
-  "dependencies": {},
-  "name": "mindpalace",
-  "description": "\"The secret to building large apps is never build large apps. Break your applications into small pieces. Then, assemble those testable, bite-sized pieces into your big application\" -\r Justin Meyer, author JavaScriptMVC",
-  "version": "1.0.0",
-  "main": "gulpfile.js",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "gulp --production",
+    "dev": "gulp watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hansen1416/mindpalace.git"
-  },
-  "author": "Hanlongzhen",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hansen1416/mindpalace/issues"
-  },
-  "homepage": "https://github.com/hansen1416/mindpalace#readme"
+  "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "gulp": "^3.9.1",
+    "jquery": "^3.1.0",
+    "laravel-elixir": "^6.0.0-9",
+    "laravel-elixir-vue": "^0.1.4",
+    "laravel-elixir-webpack-official": "^1.0.2",
+    "lodash": "^4.14.0",
+    "vue": "^1.0.26",
+    "vue-resource": "^0.9.3"
+  }
 }
