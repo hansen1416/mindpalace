@@ -1,0 +1,9 @@
+/**
+ * Created by hlz on 16-9-12.
+ */
+import { Component } from '@angular/core';
+@Component({
+    selector: 'my-app',
+    template: '<h1>My First Angular 2 App</h1>'
+})
+export class AppComponent { }
