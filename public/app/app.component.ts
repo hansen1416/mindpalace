@@ -16,7 +16,7 @@ export class AppComponent {
     title = 'Tour of Heroes';
     heroes = [
         new Hero(1, 'Windstorm'),
-        new Hero(2, 'Bombasto'),
+        new Hero(2, 'Bomb'),
         new Hero(3, 'Magneta'),
         new Hero(4, 'Tornado')
     ];
