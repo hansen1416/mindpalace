@@ -15,5 +15,7 @@ class CtgRepository extends EloquentRepository
     protected $repositoryId = 'rinvex.repository.ctg';
 
 
+    protected $model = 'App\Ctg';
+
 
 }
