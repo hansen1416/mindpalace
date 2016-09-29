@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Contract\CtgRepositoryContract;
+use App\Repositories\CtgEloquentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(CtgRepositoryContract::class, CtgEloquentRepository::class);
     }
 }
