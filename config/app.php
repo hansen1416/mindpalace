@@ -166,8 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-
-        //
+        Rinvex\Repository\Providers\RepositoryServiceProvider::class,
 
         /*
          * Application Service Providers...
