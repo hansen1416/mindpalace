@@ -22,12 +22,14 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
     public function getOne($id)
     {
 
-        $this->setCacheDriver('file');
-        $driver = $this->getCacheDriver();
+//        $this->setCacheDriver('file');
+//        $driver = $this->getCacheDriver();
 
 //        return $driver;
 
-        return $this->find($id);
+        return $this
+            ->setCacheLifetime(0)
+            ->find($id)->toArray();
     }
 
 
