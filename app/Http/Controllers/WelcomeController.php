@@ -9,13 +9,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Repositories\CtgEloquentRepository;
+use App\Repositories\Contract\CtgRepositoryContract;
 
 class WelcomeController extends Controller
 {
-    public function index(CtgEloquentRepository $ctgRepository)
+    public function index(CtgRepositoryContract $ctgRepositoryContract)
     {
-        $data = $ctgRepository->getOne(1);
+        $data = $ctgRepositoryContract->getOne(1);
 
         var_dump($data);
     }
