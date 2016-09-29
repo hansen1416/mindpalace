@@ -2,6 +2,7 @@
 *.css linguist-vendored
 *.less linguist-vendored
 .env merge=ours
+.gitignore merge=ours
+.gitattributes merge=ours
 ./config/app.php merge=ours
 ./config/ide-helper.php merge=ours
-.gitignore merge=ours
