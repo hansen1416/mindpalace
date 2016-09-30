@@ -33,12 +33,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ctg extends Model
 {
+
     protected $table = 'ctg';
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
+
     protected $primaryKey = 'ctg_id';
+
+
+    protected $guarded = [];
+
+
+
 }
