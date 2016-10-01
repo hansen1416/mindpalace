@@ -19,7 +19,7 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
     protected $model = 'App\Ctg';
 
 
-    public function getOne($id)
+    public function getOne(int $ctg_id)
     {
 
 //        $this->setCacheDriver('file');
@@ -29,7 +29,15 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
 
         return $this
             ->setCacheLifetime(0)
-            ->find($id)->toArray();
+            ->find($ctg_id)->toArray();
+    }
+
+
+    public function getBySpace(int $space_id)
+    {
+        return $this
+            ->where('space_id', $space_id)
+            ->findAll()->toArray();
     }
 
 
