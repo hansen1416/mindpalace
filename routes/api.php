@@ -16,3 +16,23 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+
+Route::group([
+                 'namespace' => 'Api',
+             ],
+    function () {
+        Route::get('login', 'LoginController@showLoginForm');
+        Route::post('login', 'LoginController@login');
+    });
+
+
+Route::group([
+                 'namespace'  => 'Api',
+                 'middleware' => 'auth:api',
+             ],
+    function () {
+        Route::get('home', function () {
+            echo 'home';
+        });
+    });
