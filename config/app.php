@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Rinvex\Repository\Providers\RepositoryServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
