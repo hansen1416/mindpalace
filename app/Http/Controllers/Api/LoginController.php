@@ -38,6 +38,12 @@ class LoginController extends Controller
     }
 
 
+    protected function guard()
+    {
+        return Auth::guard('api');
+    }
+
+
 //    public function showLoginForm()
 //    {
 //
