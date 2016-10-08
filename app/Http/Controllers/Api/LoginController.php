@@ -44,19 +44,22 @@ class LoginController extends Controller
     }
 
 
-//    public function showLoginForm()
-//    {
-//
-//    }
+    public function showLoginForm()
+    {
+        echo 'login-form';
+    }
 
 
     public function login(Request $request)
     {
-        $g = Auth::guard('api');
+        $email    = $request->input('email');
+        $password = $request->input('password');
 
-        $m = get_object_vars($g);
+        $g = Auth::guard('api')->attempt(['email' => $email, 'password' => $password]);
 
-        var_dump($m);
+//        $m = get_object_vars($g);
+
+        var_dump($g);
     }
 
 
