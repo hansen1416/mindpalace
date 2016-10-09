@@ -8,7 +8,7 @@ import {Hero} from './hero';
 @Injectable()
 export class HeroService {
 
-    private heroesUrl: string = 'app/heroes';
+    private heroesUrl: string = 'http://api.mindpalaces.com/oauth/token';
 
     private handleError(error:any):Promise<any>{
         console.error('error occurred', error);
@@ -20,7 +20,9 @@ export class HeroService {
     getHeroes(): Promise<Hero[]> {
         return this.http.get(this.heroesUrl)
                    .toPromise()
-                   .then(response => response.json().data as Hero[])
+                   .then((response) => {
+                       console.log(response);
+                   })
                    .catch(this.handleError);
     }
 
