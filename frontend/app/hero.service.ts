@@ -1,29 +1,35 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 
-import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 
 import {Hero} from './hero';
 
 @Injectable()
 export class HeroService {
 
-    private heroesUrl: string = 'http://api.mindpalaces.com/oauth/token';
+    private heroesUrl: string = 'http://api.mindpalaces.com/api/home';
 
-    private handleError(error:any):Promise<any>{
+    private headers = new Headers();
+
+    private handleError(error: any): Promise<any> {
         console.error('error occurred', error);
         return Promise.reject(error.message || error);
     }
 
     constructor(private http: Http) {}
 
-    getHeroes(): Promise<Hero[]> {
+    getHeroes() {
+
+        // this.headers.append('X-CSRF-TOKEN', '1oKzQKqk980SMCsKCViKJxIgYJhvHbUwUFBIRbdK');
+        // this.headers.append('Access-Control-Allow-Origin', '*');
+
         return this.http.get(this.heroesUrl)
-                   .toPromise()
-                   .then((response) => {
-                       console.log(response);
-                   })
-                   .catch(this.handleError);
+                   .map(res => res.json())
+                   .subscribe(
+
+                   );
+
     }
 
     // getHeroesSlowly(): Promise<Hero[]> {

@@ -20,10 +20,12 @@ Route::get('/user', function (Request $request) {
 
 Route::group([
                  'namespace' => 'Api',
+                 'prefix'    => 'api',
              ],
     function () {
         Route::get('login', 'LoginController@showLoginForm');
         Route::post('login', 'LoginController@login');
+        Route::get('home', 'CtgController@home');
     });
 
 

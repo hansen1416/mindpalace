@@ -10,7 +10,6 @@ import {DashboardComponent} from "./dashboard.component";
 import {HeroService} from './hero.service';
 import {routing} from './app.routing';
 
-
 @NgModule({
               imports     : [
                   BrowserModule,
