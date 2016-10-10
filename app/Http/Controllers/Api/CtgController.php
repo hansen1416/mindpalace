@@ -18,7 +18,7 @@ class CtgController extends Controller
         header("Access-Control-Request-Method:POST, GET");
         header("Content-type");
 
-        return 1111;
+        echo 1111;
 
 //        return response('2', 200, ['Access-Control-Allow-Origin' => '*', 'Access-Control-Request-Method' => 'POST, GET']);
     }

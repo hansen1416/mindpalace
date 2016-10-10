@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 import {Hero} from './hero';
 
@@ -19,16 +19,18 @@ export class HeroService {
 
     constructor(private http: Http) {}
 
-    getHeroes() {
+    getHeroes(): Promise<Hero[]> {
 
         // this.headers.append('X-CSRF-TOKEN', '1oKzQKqk980SMCsKCViKJxIgYJhvHbUwUFBIRbdK');
         // this.headers.append('Access-Control-Allow-Origin', '*');
 
-        return this.http.get(this.heroesUrl)
-                   // .map(res => res.json())
-                   .subscribe(
-
-                   );
+        return this.http.get(this.heroesUrl, {headers: this.headers})
+                   .toPromise()
+                   .then(response => {
+                       console.log(response);
+                       return [{id: 1, name: '2'}];
+                   })
+                   .catch(this.handleError);
 
     }
 
@@ -38,7 +40,7 @@ export class HeroService {
     //         .then(() => this.getHeroes());
     // }
 
-    // getHero(id: number): Promise<Hero> {
-    //     return this.getHeroes().then(heroes => heroes.find(hero=>hero.id === id));
-    // }
+    getHero(id: number): Promise<Hero> {
+        return this.getHeroes().then(heroes => heroes.find(hero=>hero.id === id));
+    }
 }
