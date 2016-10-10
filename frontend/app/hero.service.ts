@@ -25,7 +25,7 @@ export class HeroService {
         // this.headers.append('Access-Control-Allow-Origin', '*');
 
         return this.http.get(this.heroesUrl)
-                   .map(res => res.json())
+                   // .map(res => res.json())
                    .subscribe(
 
                    );
@@ -38,7 +38,7 @@ export class HeroService {
     //         .then(() => this.getHeroes());
     // }
 
-    getHero(id: number): Promise<Hero> {
-        return this.getHeroes().then(heroes => heroes.find(hero=>hero.id === id));
-    }
+    // getHero(id: number): Promise<Hero> {
+    //     return this.getHeroes().then(heroes => heroes.find(hero=>hero.id === id));
+    // }
 }
