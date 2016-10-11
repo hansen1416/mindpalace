@@ -2,12 +2,15 @@
     "name": "public",
     "version": "1.0.0",
     "scripts": {
-        "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+        "start": "npm run cleandist && npm run moveassets && tsc && concurrently \"tsc -w\" \"lite-server\" \"npm run watchassets\" ",
         "lite": "lite-server",
         "postinstall": "typings install",
         "tsc": "tsc",
         "tsc:w": "tsc -w",
-        "typings": "typings"
+        "typings": "typings",
+        "cleandist": "rm -rf dist/*",
+        "moveassets": "rsync -a --include='*.css' --include='*.html' --include='*/' --exclude='*' ./app/ ./dist/",
+        "watchassets": "onchange 'app/**/*.css' 'app/**/*.html' -e 'dist/*' -v -- rsync -a --include='*.css' --include='*.html' --include='*/' --exclude='*' --delete ./app/ ./dist/"
     },
     "license": "ISC",
     "dependencies": {
@@ -32,6 +35,7 @@
         "concurrently": "^2.2.0",
         "lite-server": "^2.2.2",
         "typescript": "^2.0.2",
-        "typings":"^1.3.2"
+        "typings": "^1.3.2",
+        "onchange": "^3.0.2"
     }
 }
