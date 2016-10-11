@@ -14,12 +14,8 @@ class CtgController extends Controller
 {
     public function home()
     {
-        header("Access-Control-Allow-Origin:*");
-        header("Access-Control-Request-Method:POST, GET");
-        header("Content-type");
-
-        echo 1111;
-
-//        return response('2', 200, ['Access-Control-Allow-Origin' => '*', 'Access-Control-Request-Method' => 'POST, GET']);
+        return response()->json([
+                                    'ctg',
+                                ]);
     }
 }

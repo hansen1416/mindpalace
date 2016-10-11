@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,7 +231,5 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
 
     ],
-
-    'allow_origin' => 'http://www.mindpalaces.com',
 
 ];

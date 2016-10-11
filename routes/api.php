@@ -23,7 +23,6 @@ Route::group([
                  'prefix'    => 'api',
              ],
     function () {
-        Route::get('login', 'LoginController@showLoginForm');
         Route::post('login', 'LoginController@login');
         Route::get('home', 'CtgController@home');
     });
@@ -31,10 +30,9 @@ Route::group([
 
 Route::group([
                  'namespace'  => 'Api',
+                 'prefix'     => 'api',
                  'middleware' => 'auth:api',
              ],
     function () {
-        Route::get('home', function () {
-            echo 'home';
-        });
+        Route::get('ctg', 'CtgController@home');
     });
