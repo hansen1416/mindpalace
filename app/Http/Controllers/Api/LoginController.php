@@ -50,7 +50,8 @@ class LoginController extends Controller
     }
 
 
-    protected function authenticated(){
+    protected function authenticated()
+    {
 
     }
 
@@ -61,7 +62,10 @@ class LoginController extends Controller
 //        $password = $request->input('password');
 //
 //        $g = Auth::guard('api')->attempt(['email' => $email, 'password' => $password]);
-        return response('123');
+        return response()->json([
+                                    'user_id'  => 1,
+                                    'username' => 'ddd',
+                                ]);
 
     }
 

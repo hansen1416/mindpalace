@@ -16,7 +16,7 @@ class ApiHeader
     {
         $response = $next($request);
 
-        $response->header('Access-Control-Allow-Origin', '*')
+        $response->header('Access-Control-Allow-Origin', config('app.allow_origin'))
                  ->header('Access-Control-Request-Method', 'GET,POST,OPTIONS');
 
         return $response;
