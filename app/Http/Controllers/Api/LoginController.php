@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use Route;
 
 class LoginController extends Controller
 {
@@ -60,14 +61,21 @@ class LoginController extends Controller
     {
         $email    = $request->input('email');
         $password = $request->input('password');
-//
-//        $g = Auth::guard('api')->attempt(['email' => $email, 'password' => $password]);
-        return response()->json([
-                                    'user_id'  => 1,
-                                    'username' => 'ddd',
-                                    'email'    => json_encode($request->all()),
-                                    'password' => json_encode($_REQUEST),
-                                ]);
+
+        $request->request->add([
+                                   'username'      => $email,
+                                   'password'      => $password,
+                                   'grant_type'    => 'password',
+                                   'client_id'     => env('API_CLIENT_ID'),
+                                   'client_secret' => env('API_CLIENT_SECRET'),
+                                   'scope'         => '*',
+                               ]);
+
+        $tokenRequest = Request::create(
+            env('APP_URL') . '/oauth/token',
+            'post'
+        );
+        return Route::dispatch($tokenRequest)->getContent();
 
     }
 

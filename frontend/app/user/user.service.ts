@@ -2,7 +2,7 @@
  * Created by mok on 16-10-11.
  */
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Http, Response} from '@angular/http';
 import {User} from './user';
 
 import {Observable} from 'rxjs/Rx';
@@ -25,9 +25,7 @@ export class UserService {
 
     authenticate(): Observable<User> {
 
-        let body    = new FormData();
-        // let headers = new Headers({'Content-Type': 'multipart/form-data; charset=utf-8; boundary=----WebKitFormBoundarypda2sdkj'});
-        // let options = new RequestOptions({headers: headers});
+        let body = new FormData();
 
         body.append('email', 'hansen1416@163.com');
         body.append('password', '123456');
