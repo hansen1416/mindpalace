@@ -58,13 +58,15 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-//        $email    = $request->input('email');
-//        $password = $request->input('password');
+        $email    = $request->input('email');
+        $password = $request->input('password');
 //
 //        $g = Auth::guard('api')->attempt(['email' => $email, 'password' => $password]);
         return response()->json([
                                     'user_id'  => 1,
                                     'username' => 'ddd',
+                                    'email'    => json_encode($request->all()),
+                                    'password' => json_encode($_REQUEST),
                                 ]);
 
     }

@@ -2,10 +2,12 @@
  * Created by mok on 16-10-11.
  */
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {User} from './user';
 
-import 'rxjs/add/operator/toPromise';
+import {Observable} from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class UserService {
@@ -21,11 +23,18 @@ export class UserService {
         return Promise.reject(error.message || error);
     }
 
-    authenticate(): Promise<User> {
-        return this.http.post(this.authUrl, JSON.stringify({email: 'hansen1416@163.com', password: 123456}))
-                   .toPromise()
-                   .then(response=> response.json().data as User)
-                   .catch(this.handleError);
+    authenticate(): Observable<User> {
+
+        let body    = new FormData();
+        // let headers = new Headers({'Content-Type': 'multipart/form-data; charset=utf-8; boundary=----WebKitFormBoundarypda2sdkj'});
+        // let options = new RequestOptions({headers: headers});
+
+        body.append('email', 'hansen1416@163.com');
+        body.append('password', '123456');
+
+        return this.http.post(this.authUrl, body)
+                   .map((res: Response) => res.json())
+                   .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     }
 
 }
