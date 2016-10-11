@@ -1,19 +1,22 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from './user/user.service';
+import {User} from './user/user';
 
 @Component({
-               moduleId: module.id,
-               selector: 'my-app',
-               template: `
-                        <h1>{{title}}</h1>
-                        <nav>
-                            <a>Dashboard</a>
-                            <a>Heroes</a>
-                        </nav>
-                    `
+               moduleId   : module.id,
+               selector   : 'my-app',
+               templateUrl: 'app.component.html'
            })
-export class AppComponent {
-    title: string = 'Tour of Heroes';
+export class AppComponent implements OnInit {
+    title: string = 'Mind Palace';
 
-    constructor() {
+    constructor(
+        private userService: UserService,
+        private user: User
+    ) {
+    }
+
+    ngOnInit() {
+        this.userService.authenticate().then(user => this.user = user);
     }
 }
