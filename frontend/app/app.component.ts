@@ -9,9 +9,11 @@ import {Component} from '@angular/core';
                             <a>Dashboard</a>
                             <a>Heroes</a>
                         </nav>
-                        <router-outlet></router-outlet>
                     `
            })
 export class AppComponent {
     title: string = 'Tour of Heroes';
+
+    constructor() {
+    }
 }
