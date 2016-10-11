@@ -50,16 +50,19 @@ class LoginController extends Controller
     }
 
 
+    protected function authenticated(){
+
+    }
+
+
     public function login(Request $request)
     {
-        $email    = $request->input('email');
-        $password = $request->input('password');
+//        $email    = $request->input('email');
+//        $password = $request->input('password');
+//
+//        $g = Auth::guard('api')->attempt(['email' => $email, 'password' => $password]);
+        return response('123');
 
-        $g = Auth::guard('api')->attempt(['email' => $email, 'password' => $password]);
-
-//        $m = get_object_vars($g);
-
-        var_dump($g);
     }
 
 
