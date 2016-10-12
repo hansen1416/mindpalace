@@ -1,6 +1,7 @@
 .idea
 .svn
 *.log
+.env
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
 .phpstorm.meta.php
