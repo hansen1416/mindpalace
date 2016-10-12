@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
+/**
+ * handle the preflight options request,
+ * just return 204 no Content
+ */
+Route::options('{all}', function () {
+    return response('', 204);
+})->where('all', '.*');
+
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');

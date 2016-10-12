@@ -19,14 +19,15 @@ export class AppComponent implements OnInit {
             (response) => {
                 this.user = response;
                 console.log(this.user);
+
+                this.userService.ctg(this.user).subscribe(
+                    (response) => {
+                        console.log(response);
+                    }
+                );
+
             }
         );
 
-
-        this.userService.ctg().subscribe(
-            (response) => {
-                console.log(response);
-            }
-        );
     }
 }

@@ -2,7 +2,7 @@
  * Created by mok on 16-10-11.
  */
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {User} from './user';
 
 import {Observable} from 'rxjs/Rx';
@@ -12,7 +12,9 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class UserService {
 
-    constructor(private http: Http) {
+    constructor(
+        private http: Http
+    ) {
 
     }
 
@@ -27,18 +29,23 @@ export class UserService {
         body.append('password', 'hs198546');
 
         return this.http.post(this.authUrl, body)
-            .map((res: Response) => res.json() as User)
-            .catch((error: any) => Observable.throw(error.json() || 'Server error'));
+                   .map((res: Response) => res.json() as User)
+                   .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     }
 
 
-    ctg(): Observable<any> {
+    ctg(user: User): Observable<any> {
 
-        let url = "http://api.mindpalaces.com/api/ctg";
+        let url     = "http://api.mindpalaces.com/api/ctg";
+        let headers = new Headers({
+            'Accept'       : 'application/json',
+            'Authorization': 'Bearer ' + user.access_token
+        });
+        let options = new RequestOptions({headers: headers});
 
-        return this.http.get(url)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json() || 'Server error'));
+        return this.http.get(url, options)
+                   .map((res: Response) => res.json())
+                   .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     }
 
 }

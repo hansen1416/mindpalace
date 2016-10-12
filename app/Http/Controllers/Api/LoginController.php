@@ -35,25 +35,13 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+//        $this->middleware('guest', ['except' => 'logout']);
     }
 
 
     protected function guard()
     {
         return Auth::guard('api');
-    }
-
-
-    public function showLoginForm()
-    {
-        echo 'login-form';
-    }
-
-
-    protected function authenticated()
-    {
-
     }
 
 
