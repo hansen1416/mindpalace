@@ -38,7 +38,9 @@ export class UserService {
 
         let url     = "http://api.mindpalaces.com/api/ctg";
         let headers = new Headers({
+            //set Accept to 'application/json', so at the server side $request->expectsJson() will true
             'Accept'       : 'application/json',
+            //the Bearer credential
             'Authorization': 'Bearer ' + user.access_token
         });
         let options = new RequestOptions({headers: headers});

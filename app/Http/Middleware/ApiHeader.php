@@ -14,12 +14,9 @@ class ApiHeader
 {
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
-
-        $response->header('Access-Control-Allow-Origin', env('API_CLIENT_URL'))
-                 ->header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-                 ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
-
-        return $response;
+        return $next($request)
+            ->header('Access-Control-Allow-Origin', env('API_CLIENT_URL'))
+            ->header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
     }
 }
