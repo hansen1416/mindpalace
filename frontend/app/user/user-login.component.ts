@@ -12,12 +12,14 @@ import {User} from './user';
            })
 export class UserLoginComponent {
 
-    model = new User(0, 'username');
+    model = new User(0, '', '', '');
 
     submitted = false;
 
-    onSubmit() { this.submitted = true; }
+    onSubmit() {
+        this.submitted = true;
+        
+        console.log(this.model);
+    }
 
-    // TODO: Remove this when we're done
-    get diagnostic() { return JSON.stringify(this.model); }
 }
