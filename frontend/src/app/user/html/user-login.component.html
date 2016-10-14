@@ -1,0 +1,28 @@
+<div class="user-login">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="form-label">
+            <label for="email">邮箱</label>
+            <input type="text" id="email" name="email"
+                   required
+                   [(ngModel)]="model.email"
+                   #email="ngModel"
+            >
+            <div [hidden]="email.valid || email.pristine">
+                请输入正确邮箱
+            </div>
+        </div>
+        <div class="form-label">
+            <label for="password">密码</label>
+            <input type="text" id="password" name="password"
+                   required
+                   [(ngModel)]="model.password"
+                    #password="ngModel"
+            >
+            <div [hidden]="password.valid || password.pristine">
+                请输入密码
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="!loginForm.form.valid">提交</button>
+    </form>
+</div>
