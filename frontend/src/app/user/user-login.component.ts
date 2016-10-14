@@ -8,7 +8,8 @@ import {User} from './user';
 @Component({
                // moduleId   : module.id,
                selector   : 'user-login',
-               templateUrl: './html/user-login.component.html'
+               templateUrl: './html/user-login.component.html',
+               styles  : [require('./scss/user-login.component.scss')]
            })
 export class UserLoginComponent {
 
@@ -18,7 +19,7 @@ export class UserLoginComponent {
 
     onSubmit() {
         this.submitted = true;
-        
+
         console.log(this.model);
     }
 
