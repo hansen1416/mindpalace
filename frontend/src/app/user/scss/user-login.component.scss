@@ -1,9 +1,15 @@
 .user-login {
+    $form-width: 13rem;
+    $form-height: 14rem;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 12rem;
-    height: 13rem;
-    margin: -7.5rem 0 0 -5.5rem;
+    width: $form-width;
+    height: $form-height;
+    margin: $form-height/-2 0 0 $form-width/-2;
     background-color: #fff;
+
+    label {
+        font-size: 1rem;
+    }
 }

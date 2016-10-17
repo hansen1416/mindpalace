@@ -7,6 +7,7 @@ import {AppComponent}  from './app.component';
 // import {User} from './user/user';
 // import {UserService} from './user/user.service';
 import {UserLoginComponent} from './user/user-login.component';
+import {LangService} from "./lang/lang.service";
 
 @NgModule({
               imports     : [
@@ -21,10 +22,11 @@ import {UserLoginComponent} from './user/user-login.component';
               bootstrap   : [
                   AppComponent
               ],
-              // providers   : [
-              //     UserService,
-              //     User
-              // ]
+              providers   : [
+                  LangService
+                  // UserService,
+                  // User
+              ]
               // exports     : [],
           })
 export class AppModule {

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+// import {LangService} from './lang/lang.service';
 // import {UserService} from './user/user.service';
 // import {User} from './user/user';
 
@@ -11,6 +12,7 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
 
     constructor(
+        // lang: LangService,
         // private userService: UserService,
         // private user: User
     ) {

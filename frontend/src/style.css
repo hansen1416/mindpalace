@@ -1,3 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 15px;
+}
 body {
     background-color: rgba(29, 97, 140, 0.22);
 }
+form {
+    padding: 0.5rem;
+}
+input {
+    border: none;
+    width: 8rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    background-color: rgba(86, 155, 255, 0.6);
+}
+form .form-label {
+    margin: 0 0 0 .5rem;
+}
+
