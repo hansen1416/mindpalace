@@ -4,10 +4,12 @@ import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent}  from './app.component';
-// import {User} from './user/user';
-// import {UserService} from './user/user.service';
-import {UserLoginComponent} from './user/user-login.component';
-import {LangService} from "./lang/lang.service";
+// import {LangService} from "./lang/lang.service";
+import {User} from './user/user';
+import {UserService} from './user/user.service';
+
+// import {UserLoginComponent} from './user/user-login.component';
+
 
 @NgModule({
               imports     : [
@@ -17,15 +19,16 @@ import {LangService} from "./lang/lang.service";
               ],
               declarations: [
                   AppComponent,
-                  UserLoginComponent
+                  // UserLoginComponent
               ],
               bootstrap   : [
                   AppComponent
               ],
               providers   : [
-                  LangService
-                  // UserService,
-                  // User
+                  // LangService,
+                  User,
+                  UserService,
+
               ]
               // exports     : [],
           })

@@ -1,24 +1,36 @@
 import {Component, OnInit} from '@angular/core';
-// import {LangService} from './lang/lang.service';
-// import {UserService} from './user/user.service';
+
+
 // import {User} from './user/user';
+// import {UserService} from './user/user.service';
+// import {LangService} from './lang/lang.service';
+
+
 
 @Component({
                // moduleId   : module.id,
-               selector   : 'my-app',
+               selector:    'my-app',
                templateUrl: 'app.component.html',
-               styles     : [require("./app.component.scss")]
+               styles:      [require("./app.component.scss")],
+               // providers:   [
+               //     {provide: LANG, useValue: local},
+               // ]
            })
 export class AppComponent implements OnInit {
 
+
     constructor(
-        // lang: LangService,
+        // private langService: LangService
         // private userService: UserService,
         // private user: User
     ) {
+
+
     }
 
     ngOnInit() {
+
+    // console.log(this.langService.getLang(''));
         // this.userService.authenticate().subscribe(
         //     (response) => {
         //         this.user = response;

@@ -50,4 +50,8 @@ export class UserService {
                    .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     }
 
+    getLocal(){
+        return 'zh';
+    }
+
 }
