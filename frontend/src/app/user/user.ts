@@ -12,4 +12,6 @@ export class User {
         public refresh_token?: string,
     ) {}
 
+    public userLanguage: string;
+
 }

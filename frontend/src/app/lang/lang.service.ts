@@ -1,21 +1,20 @@
-import {Injectable, OnInit, ReflectiveInjector} from '@angular/core';
+import {Injectable, ReflectiveInjector} from '@angular/core';
 import {ZH} from './i18n/zh';
 import {EN} from './i18n/en';
 import {LANG} from './lang.opaquetoken';
-// import {UserService} from "../user/user.service";
-
+import {UserService} from '../user/user.service';
+import {LangInterface} from './lang.interface';
 
 @Injectable()
 export class LangService {
 
-    protected local;
+    protected local: LangInterface;
 
     constructor(
-        // private userService: UserService
+        private userService: UserService
     ) {
 
-        // let userLocal = userService.getLocal();
-        let userLocal = 'zh';
+        let userLocal = userService.getLocal();
         let language;
 
         switch (userLocal) {
@@ -36,11 +35,11 @@ export class LangService {
 
     // protected local = ZH;
 
-    setLocal(languageName: string): void {
-        // this.local = languageName.toUpperCase();
-    }
+    // setLocal(languageName: string): void {
+    //     // this.local = languageName.toUpperCase();
+    // }
 
-    getLang(key: string): any {
-        console.log(this.local);
+    getLang() {
+        return this.local;
     }
 }

@@ -1,14 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
-
 // import {User} from './user/user';
 // import {UserService} from './user/user.service';
 // import {LangService} from './lang/lang.service';
 
-
-
 @Component({
-               // moduleId   : module.id,
                selector:    'my-app',
                templateUrl: 'app.component.html',
                styles:      [require("./app.component.scss")],
@@ -29,6 +25,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        // console.log(this.langService.getLang(''));
 
     // console.log(this.langService.getLang(''));
         // this.userService.authenticate().subscribe(

@@ -12,13 +12,15 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class UserService {
 
+    private authUrl = "http://api.mindpalaces.com/api/login";
+
+    public userModel = new User(0, '', '', '');
+
     constructor(
-        private http: Http
+        private http: Http,
     ) {
 
     }
-
-    private authUrl = "http://api.mindpalaces.com/api/login";
 
 
     authenticate(): Observable<User> {
@@ -50,8 +52,18 @@ export class UserService {
                    .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     }
 
-    getLocal(){
-        return 'zh';
+
+    getUserModel() {
+        return this.userModel;
+    }
+
+    serUserLanguage(lang:string):void {
+        this.userModel.userLanguage = lang;
+    }
+
+
+    getLocal() {
+        return this.userModel.userLanguage;
     }
 
 }
