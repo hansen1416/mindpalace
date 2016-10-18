@@ -4,7 +4,8 @@
 import {Component} from '@angular/core';
 
 import {UserService} from "./user.service";
-// import {TranslateService} from 'ng2-translate/ng2-translate';
+import {LangService} from "../lang/lang.service";
+
 
 @Component({
                selector   : 'user-login',
@@ -14,8 +15,8 @@ import {UserService} from "./user.service";
 export class UserLoginComponent {
 
     constructor(
-        // private translate:TranslateService,
         private userService: UserService,
+        private langService: LangService,
     ) {
 
     }

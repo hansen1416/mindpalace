@@ -14,7 +14,7 @@ export class LangService {
         private userService: UserService
     ) {
 
-        let userLocal = userService.getLocal();
+        let userLocal = 'zh';
         let language;
 
         switch (userLocal) {

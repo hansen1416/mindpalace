@@ -7,7 +7,7 @@
                    [(ngModel)]="model.email"
                    #email="ngModel"
             >
-            <div [hidden]="email.valid || email.pristine">
+            <div [hidden]="email.valid || email.pristine" highlight>
                 请输入正确邮箱
             </div>
         </div>
