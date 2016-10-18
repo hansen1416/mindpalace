@@ -2,9 +2,9 @@
  * Created by mok on 16-10-12.
  */
 import {Component} from '@angular/core';
-import {UserService} from "./user.service";
-import {LangService} from '../lang/lang.service';
 
+import {UserService} from "./user.service";
+// import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
                selector   : 'user-login',
@@ -14,8 +14,8 @@ import {LangService} from '../lang/lang.service';
 export class UserLoginComponent {
 
     constructor(
+        // private translate:TranslateService,
         private userService: UserService,
-        private langService: LangService,
     ) {
 
     }
@@ -28,12 +28,7 @@ export class UserLoginComponent {
     onSubmit() {
         this.submitted = true;
 
-        this.userService.serUserLanguage('en');
-        
-        console.log(this.userService.getUserModel());
-
-        console.log(this.langService.getLang());
-
+        // this.translate.use('en');
     }
 
 }

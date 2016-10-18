@@ -1,26 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 
-// import {User} from './user/user';
-// import {UserService} from './user/user.service';
-// import {LangService} from './lang/lang.service';
+// import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
                selector:    'my-app',
                templateUrl: 'app.component.html',
                styles:      [require("./app.component.scss")],
-               // providers:   [
-               //     {provide: LANG, useValue: local},
-               // ]
            })
 export class AppComponent implements OnInit {
 
 
     constructor(
-        // private langService: LangService
-        // private userService: UserService,
-        // private user: User
+        // private translate:TranslateService,
     ) {
-
+        // translate.setDefaultLang('zh');
 
     }
 

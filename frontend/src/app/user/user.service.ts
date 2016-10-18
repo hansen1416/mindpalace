@@ -62,7 +62,7 @@ export class UserService {
     }
 
 
-    getLocal() {
+    getUserLanguage() {
         return this.userModel.userLanguage;
     }
 

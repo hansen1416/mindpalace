@@ -2,18 +2,19 @@ import {NgModule}      from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
+// import {TranslateModule} from 'ng2-translate/ng2-translate';
 
 import {AppComponent}  from './app.component';
-// import {User} from './user/user';
 import {UserService} from './user/user.service';
 import {UserLoginComponent} from './user/user-login.component';
-import {LangService} from "./lang/lang.service";
+
 
 @NgModule({
               imports     : [
                   BrowserModule,
                   HttpModule,
-                  FormsModule
+                  FormsModule,
+                  // TranslateModule.forRoot()
               ],
               declarations: [
                   AppComponent,
@@ -25,7 +26,7 @@ import {LangService} from "./lang/lang.service";
               providers   : [
                   // User,
                   UserService,
-                  LangService,
+                  // LangService,
               ]
               // exports     : [],
           })
