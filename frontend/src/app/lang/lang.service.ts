@@ -8,38 +8,29 @@ import {LangInterface} from './lang.interface';
 @Injectable()
 export class LangService {
 
-    protected local: LangInterface;
+
+    protected userLocal;
+
 
     constructor(
         private userService: UserService
     ) {
-
-        let userLocal = 'zh';
-        let language;
-
-        switch (userLocal) {
-            case 'en':
-                language = EN;
-                break;
-            default:
-                language = ZH;
-        }
-
-        let injector = ReflectiveInjector.resolveAndCreate([
-                                                               {provide: LANG, useValue: language}
-                                                           ]);
-
-        this.local = injector.get(LANG);
+        this.userLocal = this.userService.getUserLanguage();
     }
 
 
-    // protected local = ZH;
+    getLang(): LangInterface {
 
-    // setLocal(languageName: string): void {
-    //     // this.local = languageName.toUpperCase();
-    // }
-
-    getLang() {
-        return this.local;
+        let languagePackage: LangInterface;
+        
+        switch (this.userLocal) {
+            case 'en':
+                languagePackage = EN;
+                break;
+            default:
+                languagePackage = ZH;
+        }
+console.log(this.userLocal);
+        return languagePackage;
     }
 }
