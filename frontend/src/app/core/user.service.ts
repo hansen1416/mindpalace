@@ -11,7 +11,7 @@ import 'rxjs/add/operator/catch';
 
 
 export class UserServiceConfig {
-    userName = 'Philip Marlowe';
+    userName = 'Anonymous';
 }
 
 @Injectable()
@@ -62,7 +62,7 @@ export class UserService {
         return this.userModel;
     }
 
-    serUserLanguage(lang:string):void {
+    setUserLanguage(lang:string):void {
         this.userModel.userLanguage = lang;
     }
 

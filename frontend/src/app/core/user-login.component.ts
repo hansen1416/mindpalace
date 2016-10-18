@@ -25,12 +25,16 @@ export class UserLoginComponent {
 
     submitted = false;
 
+    switchLang() {
+        let lang = this.model.userLanguage == 'zh' ? 'en' : 'zh';
+        this.userService.setUserLanguage(lang);
+    }
 
     onSubmit() {
         this.submitted = true;
 
         let l = this.langService.getLang();
-        
+
         console.log(l);
     }
 
