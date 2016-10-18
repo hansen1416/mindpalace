@@ -2,7 +2,7 @@ import {Injectable, ReflectiveInjector} from '@angular/core';
 import {ZH} from './i18n/zh';
 import {EN} from './i18n/en';
 import {LANG} from './lang.opaquetoken';
-import {UserService} from '../user/user.service';
+import {UserService} from '../core/user.service';
 import {LangInterface} from './lang.interface';
 
 @Injectable()

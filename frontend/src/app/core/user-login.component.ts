@@ -29,7 +29,9 @@ export class UserLoginComponent {
     onSubmit() {
         this.submitted = true;
 
-        // this.translate.use('en');
+        let l = this.langService.getLang();
+        
+        console.log(l);
     }
 
 }

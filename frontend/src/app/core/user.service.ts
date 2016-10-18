@@ -9,6 +9,11 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+
+export class UserServiceConfig {
+    userName = 'Philip Marlowe';
+}
+
 @Injectable()
 export class UserService {
 

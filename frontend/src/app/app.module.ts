@@ -2,15 +2,11 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
-
-import {LangModule} from './lang/lang.module';
-
-
+/* App root */
 import {AppComponent}  from './app.component';
-import {HighlightDirective} from './highlight.directive';
-import {UserService} from './user/user.service';
-import {UserLoginComponent} from './user/user-login.component';
-
+/* Feature Modules */
+import {LangModule} from './lang/lang.module';
+import {CoreModule} from './core/core.module';
 
 
 @NgModule({
@@ -19,16 +15,11 @@ import {UserLoginComponent} from './user/user-login.component';
                   HttpModule,
                   FormsModule,
                   LangModule,
+                  CoreModule,
               ],
               declarations: [
                   AppComponent,
-                  HighlightDirective,
-                  UserLoginComponent,
               ],
-              providers   : [
-                  UserService,
-              ],
-              // exports     : [],
               bootstrap   : [
                   AppComponent
               ],
