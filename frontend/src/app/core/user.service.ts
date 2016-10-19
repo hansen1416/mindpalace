@@ -10,7 +10,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 
-
 export class UserServiceConfig {
     userName = 'Anonymous';
 }
@@ -18,23 +17,38 @@ export class UserServiceConfig {
 @Injectable()
 export class UserService {
 
-    private authUrl = "http://api.mindpalaces.com/api/login";
 
     private userModel = new User();
+
 
     constructor(
         private http: Http,
     ) {}
 
 
-    authenticate(): Observable<User> {
+    getUserModel() {
+        return this.userModel;
+    }
 
-        let body = new FormData();
 
-        body.append('email', this.getUserModel().email);
-        body.append('password', this.getUserModel().password);
+    getUserProperty(userProperty): string {
+        return this.userModel[userProperty];
+    }
 
-        return this.http.post(this.authUrl, body)
+
+    setUserProperty(userProperty:Object): void {
+        Object.assign(this.userModel, userProperty);
+    }
+
+
+    authenticate(url: string): Observable<User> {
+
+        let formData = new FormData();
+
+        formData.append('email', this.getUserModel().email);
+        formData.append('password', this.getUserModel().password);
+
+        return this.http.post(url, formData)
                    .map((res: Response) => res.json() as User)
                    .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     }
@@ -54,22 +68,6 @@ export class UserService {
         return this.http.get(url, options)
                    .map((res: Response) => res.json())
                    .catch((error: any) => Observable.throw(error.json() || 'Server error'));
-    }
-
-
-    getUserModel() {
-        return this.userModel;
-    }
-
-
-    setUserLanguage(lang:string):void {
-        this.userModel.userLanguage = lang;
-    }
-
-
-    getUserLanguage() {
-        
-        return this.userModel.userLanguage;
     }
 
 }

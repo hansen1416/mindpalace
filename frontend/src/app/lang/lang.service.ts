@@ -17,7 +17,7 @@ export class LangService {
 
         let languagePackage: LangInterface;
 
-        switch (this.userService.getUserLanguage()) {
+        switch (this.userService.getUserProperty('userLanguage')) {
             case 'en':
                 languagePackage = EN;
                 break;

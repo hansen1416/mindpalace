@@ -4,6 +4,7 @@
 import {Component} from '@angular/core';
 
 import {UserService} from "./user.service";
+import {ApiRoutesService} from '../share/api-routes.service';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class UserLoginComponent {
 
     constructor(
         private userService: UserService,
+        private apiRoutes: ApiRoutesService,
     ) {}
 
 
@@ -24,16 +26,18 @@ export class UserLoginComponent {
     submitted = false;
 
 
-    switchLang() {
-        let lang = this.user.userLanguage == 'zh' ? 'en' : 'zh';
-        this.userService.setUserLanguage(lang);
-    }
-
-
     onSubmit() {
         this.submitted = true;
 
-        console.log(this.user);
+        this.userService.authenticate(this.apiRoutes.login).subscribe(
+            res => {
+                this.userService.setUserProperty({
+                                                     access_token : res.access_token,
+                                                     refresh_token: res.refresh_token
+                                                 });
+            }
+        )
+
     }
 
 }
