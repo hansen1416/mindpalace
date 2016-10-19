@@ -18,20 +18,22 @@ export class UserLoginComponent {
     ) {}
 
 
-    public model = this.userService.getUserModel();
+    public user = this.userService.getUserModel();
 
 
     submitted = false;
 
 
     switchLang() {
-        let lang = this.model.userLanguage == 'zh' ? 'en' : 'zh';
+        let lang = this.user.userLanguage == 'zh' ? 'en' : 'zh';
         this.userService.setUserLanguage(lang);
     }
 
 
     onSubmit() {
         this.submitted = true;
+
+        console.log(this.user);
     }
 
 }

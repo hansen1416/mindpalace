@@ -8,11 +8,16 @@ import {FormsModule}         from '@angular/forms';
 import {LangModule}         from '../lang/lang.module';
 
 import {HighlightDirective}  from './highlight.directive';
+import {ApiRoutesService} from './api-routes.service';
+
 
 @NgModule({
               imports     : [CommonModule],
               declarations: [
                   HighlightDirective
+              ],
+              providers   : [
+                  ApiRoutesService,
               ],
               exports     : [
                   HighlightDirective,

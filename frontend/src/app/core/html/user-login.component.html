@@ -6,7 +6,7 @@
             <input type="text" id="email" name="email"
                    placeholder="{{'user.email_placeholder' | translate}}"
                    required
-                   [(ngModel)]="model.email"
+                   [(ngModel)]="user.email"
                    #email="ngModel"
             >
             <div [hidden]="email.valid || email.pristine" highlight>
@@ -18,7 +18,7 @@
             <input type="text" id="password" name="password"
                    placeholder="{{'user.password_placeholder' | translate}}"
                    required
-                   [(ngModel)]="model.password"
+                   [(ngModel)]="user.password"
                     #password="ngModel"
             >
             <div [hidden]="password.valid || password.pristine">
