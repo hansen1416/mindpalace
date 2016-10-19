@@ -23,9 +23,7 @@ export class UserService {
 
     constructor(
         private http: Http,
-    ) {
-
-    }
+    ) {}
 
 
     authenticate(): Observable<User> {
@@ -61,6 +59,7 @@ export class UserService {
     getUserModel() {
         return this.userModel;
     }
+
 
     setUserLanguage(lang:string):void {
         this.userModel.userLanguage = lang;

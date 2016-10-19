@@ -5,6 +5,8 @@ import {NgModule}            from '@angular/core';
 import {CommonModule}        from '@angular/common';
 import {FormsModule}         from '@angular/forms';
 
+import {LangModule}         from '../lang/lang.module';
+
 import {HighlightDirective}  from './highlight.directive';
 
 @NgModule({
@@ -16,6 +18,7 @@ import {HighlightDirective}  from './highlight.directive';
                   HighlightDirective,
                   CommonModule,
                   FormsModule,
+                  LangModule,
               ]
           })
 export class SharedModule {

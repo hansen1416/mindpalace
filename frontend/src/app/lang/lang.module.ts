@@ -5,10 +5,13 @@ import {NgModule}           from '@angular/core';
 import {CommonModule}       from '@angular/common';
 
 import {LangService} from './lang.service';
+import {LangPipe} from "./lang.pipe";
 
 @NgModule({
-              imports  : [CommonModule],
-              providers: [LangService]
+              imports     : [CommonModule],
+              declarations: [LangPipe],
+              providers   : [LangService],
+              exports     : [LangPipe],
           })
 export class LangModule {
 

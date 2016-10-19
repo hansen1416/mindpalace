@@ -1,7 +1,6 @@
-import {Injectable, ReflectiveInjector} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ZH} from './i18n/zh';
 import {EN} from './i18n/en';
-import {LANG} from './lang.opaquetoken';
 import {UserService} from '../core/user.service';
 import {LangInterface} from './lang.interface';
 
@@ -9,28 +8,32 @@ import {LangInterface} from './lang.interface';
 export class LangService {
 
 
-    protected userLocal;
-
-
     constructor(
         private userService: UserService
-    ) {
-        this.userLocal = this.userService.getUserLanguage();
-    }
+    ) {}
 
 
-    getLang(): LangInterface {
+    getLanguagePackage(): LangInterface {
 
         let languagePackage: LangInterface;
-        
-        switch (this.userLocal) {
+
+        switch (this.userService.getUserLanguage()) {
             case 'en':
                 languagePackage = EN;
                 break;
             default:
                 languagePackage = ZH;
         }
-console.log(this.userLocal);
+
         return languagePackage;
     }
+
+
+    translate(text: string): string {
+
+        let languagePackage = this.getLanguagePackage();
+        
+        return languagePackage[text] || console.warn('can not find translation for ' + text);
+    }
+
 }

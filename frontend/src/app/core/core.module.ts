@@ -14,7 +14,7 @@ import {UserServiceConfig} from './user.service';
 @NgModule({
               imports     : [
                   CommonModule,
-                  SharedModule
+                  SharedModule,
               ],
               declarations: [
                   UserLoginComponent
@@ -43,4 +43,5 @@ export class CoreModule {
             ]
         };
     }
+
 }

@@ -6,6 +6,7 @@
         <div class="form-label">
             <label for="email"></label>
             <input type="text" id="email" name="email"
+                   placeholder="{{'email_placeholder' | translate}}"
                    required
                    [(ngModel)]="model.email"
                    #email="ngModel"

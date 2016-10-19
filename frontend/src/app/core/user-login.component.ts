@@ -4,7 +4,6 @@
 import {Component} from '@angular/core';
 
 import {UserService} from "./user.service";
-import {LangService} from "../lang/lang.service";
 
 
 @Component({
@@ -16,10 +15,8 @@ export class UserLoginComponent {
 
     constructor(
         private userService: UserService,
-        private langService: LangService,
-    ) {
+    ) {}
 
-    }
 
     public model = this.userService.getUserModel();
 
@@ -30,12 +27,9 @@ export class UserLoginComponent {
         this.userService.setUserLanguage(lang);
     }
 
+
     onSubmit() {
         this.submitted = true;
-
-        let l = this.langService.getLang();
-
-        console.log(l);
     }
 
 }
