@@ -1,5 +1,5 @@
 .user-login {
-    $form-width: 13rem;
+    $form-width: 17rem;
     $form-height: 14rem;
     position: absolute;
     top: 50%;
@@ -8,8 +8,29 @@
     height: $form-height;
     margin: $form-height/-2 0 0 $form-width/-2;
     background-color: #fff;
+    text-align: center;
 
-    label {
-        font-size: 1rem;
+    $input-width: $form-width - 4rem;
+    $input-height: 2.4rem;
+    input {
+        width: $input-width;
+        height: $input-height;
+        line-height: $input-height;
+        font-size: $input-height/2.2;
+        margin-bottom: .5rem;
+    }
+    .form-label:first-child input{
+        margin-top: 1.5rem;
+    }
+
+    button[type='submit'] {
+        width: $input-width;
+        height: $input-height;
+        line-height: $input-height;
+        font-size: $input-height/2;
+        color: #fff;
+        border: 0;
+        box-shadow: none;
+        background-color: #5bc0de;
     }
 }

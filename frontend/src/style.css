@@ -16,9 +16,8 @@ input {
     width: 8rem;
     height: 1.2rem;
     line-height: 1.2rem;
-    background-color: rgba(86, 155, 255, 0.6);
+    background-color: rgb(224, 225, 238);
+    text-indent: 0.3rem;
 }
-form .form-label {
-    margin: 0 0 0 .5rem;
-}
+
 

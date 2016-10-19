@@ -1,8 +1,6 @@
 <div class="user-login">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
 
-        <button type="button" (click)="switchLang()" >切换语言</button>
-
         <div class="form-label">
             <label for="email"></label>
             <input type="text" id="email" name="email"
@@ -26,13 +24,6 @@
             <div [hidden]="password.valid || password.pristine">
                 请输入密码
             </div>
-        </div>
-
-        <div class="form-label">
-            <label for="userLanguage"></label>
-            <input type="text" id="userLanguage" name="userLanguage"
-                   [(ngModel)]="model.userLanguage"
-            >
         </div>
 
         <button type="submit" [disabled]="!loginForm.form.valid">{{'user.login' | translate}}</button>
