@@ -4,5 +4,10 @@
 import {LangInterface} from '../lang.interface';
 
 export const EN: LangInterface = {
-    email_placeholder: 'Enter your email please'
+    user: {
+        email_placeholder   : 'Enter your email please',
+        password_placeholder: 'Enter your password please',
+        login               : 'Login',
+    }
+
 };

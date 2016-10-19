@@ -4,5 +4,9 @@
 import {LangInterface} from '../lang.interface';
 
 export const ZH: LangInterface = {
-    email_placeholder: '请输入您的邮箱'
+    user: {
+        email_placeholder   : '请输入您的邮箱',
+        password_placeholder: '请输入您的密码',
+        login               : '登录',
+    }
 };

@@ -32,8 +32,14 @@ export class LangService {
     translate(text: string): string {
 
         let languagePackage = this.getLanguagePackage();
-        
-        return languagePackage[text] || console.warn('can not find translation for ' + text);
+
+        let keys = text.split('.');
+
+        try {
+            return languagePackage[keys[0]][keys[1]];
+        }catch (e){
+            console.warn('can not find translation for ' + text);
+        }
     }
 
 }

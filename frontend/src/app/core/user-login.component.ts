@@ -20,7 +20,9 @@ export class UserLoginComponent {
 
     public model = this.userService.getUserModel();
 
+
     submitted = false;
+
 
     switchLang() {
         let lang = this.model.userLanguage == 'zh' ? 'en' : 'zh';

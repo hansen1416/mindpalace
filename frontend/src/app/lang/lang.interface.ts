@@ -2,5 +2,10 @@
  * Created by hlz on 16-10-17.
  */
 export interface LangInterface {
-    email_placeholder: string;
+    user: {
+        email_placeholder: string,
+        password_placeholder: string,
+        login: string,
+    }
+
 }
