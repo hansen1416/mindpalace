@@ -8,4 +8,9 @@ export class ApiRoutesService {
     get login() {
         return this.api_url + 'login';
     }
+
+    get ctg() {
+        return this.api_url + 'ctg';
+    }
+
 }

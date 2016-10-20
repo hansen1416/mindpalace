@@ -9,6 +9,7 @@ import {LangModule}         from '../lang/lang.module';
 
 import {HighlightDirective}  from './highlight.directive';
 import {ApiRoutesService} from './api-routes.service';
+import {ApiHttpService} from "./api-http.service";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {ApiRoutesService} from './api-routes.service';
               ],
               providers   : [
                   ApiRoutesService,
+                  ApiHttpService,
               ],
               exports     : [
                   HighlightDirective,
