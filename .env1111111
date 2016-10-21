@@ -2,7 +2,7 @@ APP_ENV=development
 APP_DEBUG=true
 APP_KEY=base64:X+M8LoqAhEXMmDSZhhO7+S0m4Nonz/kdvMlEyqxo6dY=
 API_CLIENT_ID=2
-API_CLIENT_SECRET=zEMbl7HKpbUKiquctiyKKgZlf2bq3nJfnaod0LXR
+API_CLIENT_SECRET=n5jDx5PYPWj9ylrbmVkCeajRnqezpqphrhZEJaQt
 API_CLIENT_URL='http://www.mindpalaces.com:3000',
 
 DB_HOST=localhost
