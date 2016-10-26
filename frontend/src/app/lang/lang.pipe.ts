@@ -18,7 +18,7 @@ export class LangPipe implements PipeTransform {
 
 
     transform(text: string): string {
-        return this.langService.translate(text);
+        return this.langService.translate(text) || text;
     }
 
 }

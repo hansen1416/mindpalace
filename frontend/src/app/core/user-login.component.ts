@@ -9,9 +9,9 @@ import {ApiHttpService} from "../share/api-http.service";
 
 
 @Component({
-               selector:    'user-login',
+               selector   : 'user-login',
                templateUrl: './html/user-login.component.html',
-               styles:      [require('./scss/user-login.component.scss')]
+               styles     : [require('./scss/user-login.component.scss')]
            })
 export class UserLoginComponent {
 
@@ -23,13 +23,20 @@ export class UserLoginComponent {
     }
 
 
-    submitted = false;
-
     user = this.userService.getUserModel();
 
 
+    invalidEmail = false;
+
+
+    checkEmail() {
+        let pattern = /@([a-zA-Z0-9\-])+\./;
+
+        this.invalidEmail = pattern.test(this.user.email) ? false : true;
+    }
+
+
     onSubmit() {
-        this.submitted = true;
 
         let formData = new FormData();
 
@@ -39,12 +46,13 @@ export class UserLoginComponent {
         this.apiHttp.post(this.apiRoutes.login, formData).subscribe(
             res => {
                 this.userService.setUserProperty({
-                                                     access_token:  res.access_token,
+                                                     access_token : res.access_token,
                                                      refresh_token: res.refresh_token
                                                  });
+
+                console.log(this.user);
             }
         );
-
 
     }
 

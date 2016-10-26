@@ -4,7 +4,10 @@
 export interface LangInterface {
     user: {
         email_placeholder: string,
+        email_required: string,
+        email_validation: string,
         password_placeholder: string,
+        password_required: string,
         login: string,
     }
 

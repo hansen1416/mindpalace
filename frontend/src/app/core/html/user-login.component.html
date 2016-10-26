@@ -7,6 +7,8 @@
                    placeholder="{{'user.email_placeholder' | translate}}"
                    required
                    [(ngModel)]="user.email"
+                   (keyup.enter)="checkEmail()"
+                   (blur)="checkEmail()"
                    #email="ngModel"
             >
         </div>
@@ -23,11 +25,14 @@
         <button type="submit" [disabled]="!loginForm.form.valid">{{'user.login' | translate}}</button>
 
         <div class="message-box">
-            <p [hidden]="email.valid || email.pristine" error>
-                请输入正确邮箱
+            <p *ngIf="!(email.valid || email.pristine)" error>
+                {{'user.email_required' | translate}}
             </p>
-            <p [hidden]="password.valid || password.pristine" error>
-                请输入密码
+            <p *ngIf="!(password.valid || password.pristine)" error>
+                {{'user.password_required' | translate}}
+            </p>
+            <p *ngIf="invalidEmail" error>
+                {{'user.email_validation' | translate}}
             </p>
         </div>
 
