@@ -9,9 +9,6 @@
                    [(ngModel)]="user.email"
                    #email="ngModel"
             >
-            <div [hidden]="email.valid || email.pristine" highlight>
-                请输入正确邮箱
-            </div>
         </div>
         <div class="form-label">
             <label for="password"></label>
@@ -21,11 +18,18 @@
                    [(ngModel)]="user.password"
                     #password="ngModel"
             >
-            <div [hidden]="password.valid || password.pristine">
-                请输入密码
-            </div>
         </div>
 
         <button type="submit" [disabled]="!loginForm.form.valid">{{'user.login' | translate}}</button>
+
+        <div class="message-box">
+            <p [hidden]="email.valid || email.pristine" error>
+                请输入正确邮箱
+            </p>
+            <p [hidden]="password.valid || password.pristine" error>
+                请输入密码
+            </p>
+        </div>
+
     </form>
 </div>

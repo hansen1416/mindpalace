@@ -46,14 +46,6 @@ export class UserLoginComponent {
         );
 
 
-
-
-        this.apiHttp.get(this.apiRoutes.ctg).subscribe(
-            res => {
-                console.log(res);
-            }
-        )
-
     }
 
 }

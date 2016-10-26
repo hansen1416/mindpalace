@@ -7,7 +7,7 @@ import {FormsModule}         from '@angular/forms';
 
 import {LangModule}         from '../lang/lang.module';
 
-import {HighlightDirective}  from './highlight.directive';
+import {ErrorDirective}  from './error.directive';
 import {ApiRoutesService} from './api-routes.service';
 import {ApiHttpService} from "./api-http.service";
 
@@ -15,14 +15,14 @@ import {ApiHttpService} from "./api-http.service";
 @NgModule({
               imports     : [CommonModule],
               declarations: [
-                  HighlightDirective
+                  ErrorDirective
               ],
               providers   : [
                   ApiRoutesService,
                   ApiHttpService,
               ],
               exports     : [
-                  HighlightDirective,
+                  ErrorDirective,
                   CommonModule,
                   FormsModule,
                   LangModule,
