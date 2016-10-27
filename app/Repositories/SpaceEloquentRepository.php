@@ -17,8 +17,8 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
 
     protected $model = 'App\Space';
 
-    public function allSpace(int $user_id)
+    public function allSpace()
     {
-
+        return $this->findAll()->toArray();
     }
 }

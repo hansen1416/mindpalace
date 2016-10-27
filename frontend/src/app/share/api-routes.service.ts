@@ -9,8 +9,8 @@ export class ApiRoutesService {
         return this.api_url + 'login';
     }
 
-    get ctg():string {
-        return this.api_url + 'ctg';
+    get home():string {
+        return this.api_url + 'home';
     }
 
     get user():string {

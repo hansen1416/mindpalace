@@ -6,10 +6,13 @@
  * Time: 下午5:09
  */
 
-namespace app\Services\Contract;
+namespace App\Services\Contract;
 
 
 interface SpaceServiceContract
 {
-    public function userService(int $user_id);
+    public function allSpace();
+
+
+    public function updateSpace($space_id);
 }

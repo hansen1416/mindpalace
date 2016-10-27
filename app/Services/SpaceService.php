@@ -24,8 +24,15 @@ class SpaceService implements SpaceServiceContract
         $this->spaceRepo = $spaceRepositoryContract;
     }
 
-    public function userService(int $user_id)
+    public function allSpace()
     {
-        $this->spaceRepo->allSpace($user_id);
+        return $this->spaceRepo->allSpace();
     }
+
+
+    public function updateSpace($space_id)
+    {
+        $this->spaceRepo->update($space_id, ['name' => 'PHP5']);
+    }
+
 }

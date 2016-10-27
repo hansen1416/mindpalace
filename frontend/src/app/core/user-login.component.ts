@@ -50,6 +50,14 @@ export class UserLoginComponent {
      */
     onSubmit() {
 
+        this.apiHttp.get(this.apiRoutes.home).subscribe(
+            response => {
+                console.log(response);
+            }
+        );
+
+        return;
+
         let formData = new FormData();
 
         formData.append('email', this.user.email);
@@ -75,11 +83,11 @@ export class UserLoginComponent {
 
                             this.userService.setUserProperties(response, profile);
                             this.userService.sealUserModel();
-                            
+
                             console.log(this.user);
                         }
                     )
-                }else{
+                } else {
                     this.authError = true;
                 }
 

@@ -16,8 +16,9 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
 {
     /**
      * user spaces
-     * @param int $user_id
      * @return array
      */
-    public function allSpace(int $user_id);
+    public function allSpace();
+
+
 }

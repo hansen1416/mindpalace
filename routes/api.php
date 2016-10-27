@@ -25,10 +25,12 @@ Route::options('{all}', function () {
 Route::group([
                  'namespace' => 'Api',
                  'prefix'    => 'api',
+                 'middleware' => 'public',
              ],
     function () {
         Route::post('login', 'LoginController@login');
-        Route::get('home', 'CtgController@home');
+        Route::get('home', 'SpaceController@home');
+        Route::get('update', 'SpaceController@update');
     });
 
 

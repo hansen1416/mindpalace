@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contract\SpaceRepositoryContract;
+use App\Repositories\SpaceEloquentRepository;
+use App\Services\Contract\SpaceServiceContract;
+use App\Services\SpaceService;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\CtgEloquentRepository;
@@ -31,7 +35,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CtgRepositoryContract::class, CtgEloquentRepository::class);
         $this->app->bind(UserRepositoryContract::class, UserEloquentRepository::class);
+        $this->app->bind(SpaceRepositoryContract::class, SpaceEloquentRepository::class);
 
         $this->app->bind(UserServiceContract::class, UserService::class);
+        $this->app->bind(SpaceServiceContract::class, SpaceService::class);
     }
 }
