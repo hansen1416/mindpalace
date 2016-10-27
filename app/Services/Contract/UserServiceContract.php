@@ -11,5 +11,8 @@ namespace App\Services\Contract;
 
 interface UserServiceContract
 {
-
+    /**
+     * @return mixed
+     */
+    public function userProfile();
 }

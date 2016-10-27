@@ -25,17 +25,29 @@ export class UserLoginComponent {
 
     user = this.userService.getUserModel();
 
-
+    /**
+     * invalid email format
+     * @type {boolean}
+     */
     invalidEmail = false;
 
+    /**
+     * authenticate failed
+     */
+    authError = false;
 
+    /**
+     * check email format
+     */
     checkEmail() {
         let pattern = /@([a-zA-Z0-9\-])+\./;
 
         this.invalidEmail = pattern.test(this.user.email) ? false : true;
     }
 
-
+    /**
+     * submit login form
+     */
     onSubmit() {
 
         let formData = new FormData();
@@ -45,16 +57,30 @@ export class UserLoginComponent {
 
         this.apiHttp.post(this.apiRoutes.login, formData).subscribe(
             response => {
-                this.userService.setUserProperties(response);
+                this.userService.setUserProperties({
+                                                       access_token : response.access_token,
+                                                       refresh_token: response.refresh_token,
+                                                   });
 
-                this.apiHttp.get(this.apiRoutes.user).subscribe(
-                    response => {
-                        this.userService.setUserProperties(response);
-                        
-                        console.log(this.user);
-                    }
-                )
-                
+                /**
+                 * if authenticated
+                 */
+                if (this.user.access_token) {
+                    this.apiHttp.get(this.apiRoutes.user).subscribe(
+                        response => {
+
+                            let profile = response.profile;
+                            delete response.profile;
+                            delete profile.profile_id;
+
+                            this.userService.setUserProperties(response, profile);
+                            this.userService.sealUserModel();
+                        }
+                    )
+                }else{
+                    this.authError = true;
+                }
+
             }
         );
 

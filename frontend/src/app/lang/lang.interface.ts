@@ -9,6 +9,7 @@ export interface LangInterface {
         password_placeholder: string,
         password_required: string,
         login: string,
+        login_failed: string,
     }
 
 }

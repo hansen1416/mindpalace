@@ -3,15 +3,17 @@
  */
 export class User {
 
-    public user_id: number;
-    public name: string;
-    public email: string;
-    public password: string;
-    public access_token: string;
-    public refresh_token: string;
-    public userLanguage: string;
-    public create_at:string;
-    public update_at:string;
+    user_id: number;
+    name: string;
+    email: string;
+    password: string;
+    access_token: string;
+    refresh_token: string;
+    created_at: string;
+    updated_at: string;
+    language: string;
+    portrait: string;
+    theme_id: string;
 
     constructor(
         user_id?: number,

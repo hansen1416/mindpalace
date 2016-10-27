@@ -26,6 +26,9 @@ use Laravel\Passport\HasApiTokens;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
+ * @property-read \App\Profile $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  */
 class User extends Authenticatable
 {
@@ -54,4 +57,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
 }

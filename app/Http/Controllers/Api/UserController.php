@@ -25,13 +25,9 @@ class UserController extends Controller
     }
 
 
-    public function profile(Request $request)
+    public function profile()
     {
-        $user=$request->user();
-
-        unset($user->name);
-
-        return $user;
+        return response()->json($this->user->userProfile());
     }
 
 

@@ -16,12 +16,15 @@ export class UserService {
     private userModel = new User();
 
 
-    constructor(
-    ) {
+    constructor() {}
+
+
+    sealUserModel(): void {
+        Object.seal(this.userModel);
     }
 
-
-    getUserModel() {
+    
+    getUserModel(): User {
         return this.userModel;
     }
 
@@ -31,8 +34,8 @@ export class UserService {
     }
 
 
-    setUserProperties(userProperty: Object): void {
-        Object.assign(this.userModel, userProperty);
+    setUserProperties(...userProperty: Object[]): void {
+        Object.assign(this.userModel, ...userProperty);
     }
 
 

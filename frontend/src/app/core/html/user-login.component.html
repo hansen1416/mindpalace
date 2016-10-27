@@ -1,5 +1,5 @@
 <div class="user-login">
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form *ngIf="!user.access_token" (ngSubmit)="onSubmit()" #loginForm="ngForm">
 
         <div class="form-label">
             <label for="email"></label>
@@ -34,7 +34,15 @@
             <p *ngIf="invalidEmail" error>
                 {{'user.email_validation' | translate}}
             </p>
+            <p *ngIf="authError" error>
+                {{'user.login_failed' | translate}}
+            </p>
         </div>
 
     </form>
+
+
+    <div *ngIf="user.access_token" class="">
+        <p>{{user.name}}</p>
+    </div>
 </div>
