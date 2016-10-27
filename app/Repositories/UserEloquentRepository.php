@@ -16,4 +16,11 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     protected $repositoryId = 'rinvex.repository.user';
 
     protected $model = 'App\User';
+
+    public function userProfile(int $user_id)
+    {
+        return $this->with(['profile'])->find($user_id)->toArray();
+    }
+
+
 }

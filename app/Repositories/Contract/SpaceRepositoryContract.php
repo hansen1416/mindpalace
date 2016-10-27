@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: mok
- * Date: 16-9-30
- * Time: 下午4:57
+ * Date: 16-10-27
+ * Time: 下午5:06
  */
 
 namespace App\Repositories\Contract;
@@ -11,13 +11,13 @@ namespace App\Repositories\Contract;
 use Rinvex\Repository\Contracts\CacheableContract;
 use Rinvex\Repository\Contracts\RepositoryContract;
 
-interface UserRepositoryContract extends RepositoryContract, CacheableContract
+
+interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
 {
     /**
-     * user profile
+     * user spaces
      * @param int $user_id
      * @return array
      */
-    public function userProfile(int $user_id);
-
+    public function allSpace(int $user_id);
 }

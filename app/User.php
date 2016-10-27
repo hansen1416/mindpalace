@@ -29,6 +29,7 @@ use Laravel\Passport\HasApiTokens;
  * @property-read \App\Profile $profile
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Space[] $space
  */
 class User extends Authenticatable
 {
@@ -58,9 +59,21 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
+    /**
+     * user profile
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function profile()
     {
         return $this->hasOne('App\Profile');
     }
+
+    /**
+     * user spaces
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function space(){
+        return $this->hasMany('App\Space');
+    }
+
 }

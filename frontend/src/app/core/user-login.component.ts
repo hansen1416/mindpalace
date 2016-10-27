@@ -75,6 +75,8 @@ export class UserLoginComponent {
 
                             this.userService.setUserProperties(response, profile);
                             this.userService.sealUserModel();
+                            
+                            console.log(this.user);
                         }
                     )
                 }else{

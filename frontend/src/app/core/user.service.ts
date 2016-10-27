@@ -23,7 +23,7 @@ export class UserService {
         Object.seal(this.userModel);
     }
 
-    
+
     getUserModel(): User {
         return this.userModel;
     }
