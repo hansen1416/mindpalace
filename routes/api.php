@@ -22,11 +22,6 @@ Route::options('{all}', function () {
 })->where('all', '.*');
 
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
-
-
 Route::group([
                  'namespace' => 'Api',
                  'prefix'    => 'api',
@@ -43,5 +38,5 @@ Route::group([
                  'middleware' => 'auth:api',
              ],
     function () {
-        Route::get('ctg', 'CtgController@home');
+        Route::get('user', 'UserController@profile');
     });

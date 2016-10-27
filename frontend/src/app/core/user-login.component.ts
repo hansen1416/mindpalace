@@ -44,13 +44,17 @@ export class UserLoginComponent {
         formData.append('password', this.user.password);
 
         this.apiHttp.post(this.apiRoutes.login, formData).subscribe(
-            res => {
-                this.userService.setUserProperty({
-                                                     access_token : res.access_token,
-                                                     refresh_token: res.refresh_token
-                                                 });
+            response => {
+                this.userService.setUserProperties(response);
 
-                console.log(this.user);
+                this.apiHttp.get(this.apiRoutes.user).subscribe(
+                    response => {
+                        this.userService.setUserProperties(response);
+                        
+                        console.log(this.user);
+                    }
+                )
+                
             }
         );
 

@@ -13,5 +13,7 @@ use App\Repositories\Contract\UserRepositoryContract;
 
 class UserEloquentRepository extends EloquentRepository implements UserRepositoryContract
 {
+    protected $repositoryId = 'rinvex.repository.user';
 
+    protected $model = 'App\User';
 }

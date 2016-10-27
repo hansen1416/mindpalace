@@ -31,7 +31,7 @@ export class UserService {
     }
 
 
-    setUserProperty(userProperty: Object): void {
+    setUserProperties(userProperty: Object): void {
         Object.assign(this.userModel, userProperty);
     }
 

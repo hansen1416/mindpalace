@@ -7,6 +7,8 @@ use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\CtgEloquentRepository;
 use App\Repositories\Contract\UserRepositoryContract;
 use App\Repositories\UserEloquentRepository;
+use App\Services\Contract\UserServiceContract;
+use App\Services\UserService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CtgRepositoryContract::class, CtgEloquentRepository::class);
         $this->app->bind(UserRepositoryContract::class, UserEloquentRepository::class);
+
+        $this->app->bind(UserServiceContract::class, UserService::class);
     }
 }
