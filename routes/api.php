@@ -23,9 +23,8 @@ Route::options('{all}', function () {
 
 
 Route::group([
-                 'namespace' => 'Api',
-                 'prefix'    => 'api',
-                 'middleware' => 'public',
+                 'namespace'  => 'Api',
+                 'prefix'     => 'api',
              ],
     function () {
         Route::post('login', 'LoginController@login');
@@ -37,7 +36,7 @@ Route::group([
 Route::group([
                  'namespace'  => 'Api',
                  'prefix'     => 'api',
-                 'middleware' => 'auth:api',
+                 'middleware' => ['auth:api'],
              ],
     function () {
         Route::get('user', 'UserController@profile');
