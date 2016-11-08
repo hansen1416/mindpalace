@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereCreatedAt($value)
  * @mixin \Eloquent
+ * @property string $language 用户语言
+ * @method static \Illuminate\Database\Query\Builder|\App\Profile whereLanguage($value)
  */
 class Profile extends Model
 {

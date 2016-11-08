@@ -7,6 +7,7 @@ import {AppComponent}  from './app.component';
 /* Feature Modules */
 import {LangModule} from './lang/lang.module';
 import {CoreModule} from './core/core.module';
+import {SpaceModule} from './space/space.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {CoreModule} from './core/core.module';
                   FormsModule,
                   LangModule,
                   CoreModule,
+                  SpaceModule,
               ],
               declarations: [
                   AppComponent,

@@ -1,0 +1,15 @@
+.space-item{
+    $width: 5rem;
+    $height: 3rem;
+
+    position: absolute;
+    width: $width;
+    height: $height;
+    top: 50%;
+    left: 50%;
+    margin: $height/-2 0 0 $width/-2;
+    line-height: $height;
+    text-align: center;
+    color: #fff;
+    background-color: #1f648b;
+}

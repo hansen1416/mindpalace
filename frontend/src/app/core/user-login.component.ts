@@ -50,14 +50,6 @@ export class UserLoginComponent {
      */
     onSubmit() {
 
-        this.apiHttp.get(this.apiRoutes.home).subscribe(
-            response => {
-                console.log(response);
-            }
-        );
-
-        return;
-
         let formData = new FormData();
 
         formData.append('email', this.user.email);

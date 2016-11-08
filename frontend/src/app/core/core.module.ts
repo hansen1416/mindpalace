@@ -2,7 +2,6 @@
  * Created by mok on 16-10-18.
  */
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
-
 import {CommonModule}      from '@angular/common';
 
 import {SharedModule} from '../share/share.module'
