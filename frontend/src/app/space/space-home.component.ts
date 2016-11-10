@@ -16,7 +16,11 @@ import {Space} from './space';
            })
 export class SpaceHomeComponent implements OnInit {
 
+    //spaces on the home page
     private spaces: Space[];
+
+    //true if the sphere been built, false if not
+    private sphere = false;
 
     constructor(
         private apiRoutes: ApiRoutesService,
@@ -26,16 +30,17 @@ export class SpaceHomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        //require the spaces data from api
         this.apiHttp.get(this.apiRoutes.home).subscribe(
-            response => {
-                this.spaces = response;
-
-
-                console.log(this.spaces);
-
-                this.spiral.setSphere('.space-item');
-            }
+            response => this.spaces = response
         )
+    }
+
+    ngAfterContentChecked(){
+        //build the sphere
+        if (!this.sphere) {
+            this.sphere = this.spiral.setSphere('.space-item');
+        }
     }
 
 }
