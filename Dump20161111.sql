@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.15, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.16, for Linux (x86_64)
 --
 -- Host: localhost    Database: mindpalace
 -- ------------------------------------------------------
--- Server version	5.7.13-0ubuntu0.16.04.2
+-- Server version	5.7.16-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -143,8 +143,154 @@ CREATE TABLE `mp_migrations` (
 
 LOCK TABLES `mp_migrations` WRITE;
 /*!40000 ALTER TABLE `mp_migrations` DISABLE KEYS */;
-INSERT INTO `mp_migrations` VALUES ('2014_10_12_000000_create_users_table',1),('2014_10_12_100000_create_password_resets_table',1);
+INSERT INTO `mp_migrations` VALUES ('2014_10_12_000000_create_users_table',1),('2014_10_12_100000_create_password_resets_table',1),('2016_06_01_000001_create_oauth_auth_codes_table',2),('2016_06_01_000002_create_oauth_access_tokens_table',2),('2016_06_01_000003_create_oauth_refresh_tokens_table',2),('2016_06_01_000004_create_oauth_clients_table',2),('2016_06_01_000005_create_oauth_personal_access_clients_table',2);
 /*!40000 ALTER TABLE `mp_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mp_oauth_access_tokens`
+--
+
+DROP TABLE IF EXISTS `mp_oauth_access_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mp_oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `client_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_access_tokens_user_id_index` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mp_oauth_access_tokens`
+--
+
+LOCK TABLES `mp_oauth_access_tokens` WRITE;
+/*!40000 ALTER TABLE `mp_oauth_access_tokens` DISABLE KEYS */;
+INSERT INTO `mp_oauth_access_tokens` VALUES ('273d4637d47a425e82682d8183b9c858e0254e127dfc5625b6e99521b8fe84d212d150917c5fa165',1,2,NULL,'[\"*\"]',0,'2016-10-27 07:42:16','2016-10-27 07:42:16','2116-10-27 15:42:16'),('2c7cede3a91bb6ab20cf0c29d740713c268ccadbd3351adf1a8bc2edbf127e31ed7ea853058bf39f',1,2,NULL,'[\"*\"]',0,'2016-10-27 08:19:58','2016-10-27 08:19:58','2116-10-27 16:19:58'),('48e17fbace9f6c72623e10dc614ca9f2a897983f877923b2502d3f0d7a949e160de89a432dbab500',1,2,NULL,'[\"*\"]',0,'2016-10-27 08:42:36','2016-10-27 08:42:36','2116-10-27 16:42:36'),('68e74593fef5d6f5af4b539220f9dec53cd51dd94692e04629640ae85e73cb7292d83afe1e14569e',1,2,NULL,'[\"*\"]',0,'2016-10-27 08:43:35','2016-10-27 08:43:35','2116-10-27 16:43:35'),('6d9c2c198ccab513a30acf04963d0bf70043e6767522c5f68069657a878d90a771f06d81d4303b24',1,2,NULL,'[\"*\"]',0,'2016-10-27 08:41:43','2016-10-27 08:41:43','2116-10-27 16:41:43'),('cfa911493b2d6c0391ca9a09aa17b83717288f98dffb5e2fddc4499eb81d213cdfcbef55fd16c514',1,2,NULL,'[\"*\"]',0,'2016-11-08 06:23:00','2016-11-08 06:23:00','2116-11-08 14:23:00'),('d0ed085c42fa028147d9e60fff5ef71d6edaa7a2e281b2a7299cdfff1135231d0f6058e3e7c30b77',1,2,NULL,'[\"*\"]',0,'2016-10-27 08:20:29','2016-10-27 08:20:29','2116-10-27 16:20:29'),('fb710c564ba55f5db583dbee578bc970ae3fe76478e31bf57f694fc999fb6f78edd9a13a2210cdb7',1,2,NULL,'[\"*\"]',0,'2016-10-27 08:09:39','2016-10-27 08:09:39','2116-10-27 16:09:39');
+/*!40000 ALTER TABLE `mp_oauth_access_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mp_oauth_auth_codes`
+--
+
+DROP TABLE IF EXISTS `mp_oauth_auth_codes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mp_oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `scopes` text COLLATE utf8_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mp_oauth_auth_codes`
+--
+
+LOCK TABLES `mp_oauth_auth_codes` WRITE;
+/*!40000 ALTER TABLE `mp_oauth_auth_codes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mp_oauth_auth_codes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mp_oauth_clients`
+--
+
+DROP TABLE IF EXISTS `mp_oauth_clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mp_oauth_clients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_clients_user_id_index` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mp_oauth_clients`
+--
+
+LOCK TABLES `mp_oauth_clients` WRITE;
+/*!40000 ALTER TABLE `mp_oauth_clients` DISABLE KEYS */;
+INSERT INTO `mp_oauth_clients` VALUES (1,NULL,'My Application Personal Access Client','aQ27nGt0vSsvBhcLG2mjwY9tjOahaCPRNFOj97S6','http://localhost',1,0,0,'2016-10-07 17:29:41','2016-10-07 17:29:41'),(2,NULL,'My Application Password Grant Client','n5jDx5PYPWj9ylrbmVkCeajRnqezpqphrhZEJaQt','http://www.mindpalaces.com',0,1,0,'2016-10-07 17:29:41','2016-10-07 17:29:41'),(3,NULL,'My Application Personal Access Client','fjFpXIsDqj41osH5AZzHi6kIs8mmdoQE5N5KTqcU','http://localhost',1,0,0,'2016-10-08 18:00:34','2016-10-08 18:00:34'),(4,NULL,'My Application Password Grant Client','AxRpZm9jGOGpMvmTugeVNRchBRNPLXIueN8b5Phg','http://localhost',0,1,0,'2016-10-08 18:00:35','2016-10-08 18:00:35'),(5,NULL,'My Application Personal Access Client','0f6JWGJLil1DQUWGqtsi22EABPD7PAUxrRijT6IH','http://localhost',1,0,0,'2016-10-11 01:48:31','2016-10-11 01:48:31'),(6,NULL,'My Application Password Grant Client','b8cP4CX2cGSkiRh5vDZxBnOQAmG0Mcg4RbR5oNkH','http://localhost',0,1,0,'2016-10-11 01:48:35','2016-10-11 01:48:35');
+/*!40000 ALTER TABLE `mp_oauth_clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mp_oauth_personal_access_clients`
+--
+
+DROP TABLE IF EXISTS `mp_oauth_personal_access_clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mp_oauth_personal_access_clients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_personal_access_clients_client_id_index` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mp_oauth_personal_access_clients`
+--
+
+LOCK TABLES `mp_oauth_personal_access_clients` WRITE;
+/*!40000 ALTER TABLE `mp_oauth_personal_access_clients` DISABLE KEYS */;
+INSERT INTO `mp_oauth_personal_access_clients` VALUES (1,1,'2016-10-07 17:29:41','2016-10-07 17:29:41'),(2,3,'2016-10-08 18:00:35','2016-10-08 18:00:35'),(3,5,'2016-10-11 01:48:34','2016-10-11 01:48:34');
+/*!40000 ALTER TABLE `mp_oauth_personal_access_clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mp_oauth_refresh_tokens`
+--
+
+DROP TABLE IF EXISTS `mp_oauth_refresh_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mp_oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mp_oauth_refresh_tokens`
+--
+
+LOCK TABLES `mp_oauth_refresh_tokens` WRITE;
+/*!40000 ALTER TABLE `mp_oauth_refresh_tokens` DISABLE KEYS */;
+INSERT INTO `mp_oauth_refresh_tokens` VALUES ('0b82c9721bdccb88357d968dda8cc171b493e48c5114bb730f5a3a3a7c73fc7b53c2686509f6e8b3','68e74593fef5d6f5af4b539220f9dec53cd51dd94692e04629640ae85e73cb7292d83afe1e14569e',0,'2116-10-27 16:43:35'),('3b7dee85d7f55530c94d41deb33e8e6e26124e3247ca36b1429b8aa889174d55aac0c6b01d617c59','48e17fbace9f6c72623e10dc614ca9f2a897983f877923b2502d3f0d7a949e160de89a432dbab500',0,'2116-10-27 16:42:36'),('b4f397c30c4dd05d7caf0c7670fa6144cad3bf4b977908402d98cb2cc3e6d874e5d2b3d1a096f07b','273d4637d47a425e82682d8183b9c858e0254e127dfc5625b6e99521b8fe84d212d150917c5fa165',0,'2116-10-27 15:42:16'),('b59f9f6994c9e7eb0974b9e4f9eea0f3f3f55184f0a4089ecae56020f0410f35f7eaea5d3a8ad5e9','cfa911493b2d6c0391ca9a09aa17b83717288f98dffb5e2fddc4499eb81d213cdfcbef55fd16c514',0,'2116-11-08 14:23:01'),('c99965d0a6c91984e7440dc131a851cd32457531df1b4ac7b0375e032a02946e2542d20250bb6e57','d0ed085c42fa028147d9e60fff5ef71d6edaa7a2e281b2a7299cdfff1135231d0f6058e3e7c30b77',0,'2116-10-27 16:20:29'),('d924484cc633aaa27e1a363aa8cf771cf350c68e9b3b5389db5cc1899ae07b52ac801409c14c9bee','6d9c2c198ccab513a30acf04963d0bf70043e6767522c5f68069657a878d90a771f06d81d4303b24',0,'2116-10-27 16:41:43'),('f01fc7c7dfa4dd7665c1971b6da0d951856ec9dd472b2f952400a6cd483a66078f9f0a77ba69aecb','fb710c564ba55f5db583dbee578bc970ae3fe76478e31bf57f694fc999fb6f78edd9a13a2210cdb7',0,'2116-10-27 16:09:39'),('f5dcaf488cdabab29ef120a745039ec01bf04bec407e08aa304f37fcdbbce73931b78abac58ff004','2c7cede3a91bb6ab20cf0c29d740713c268ccadbd3351adf1a8bc2edbf127e31ed7ea853058bf39f',0,'2116-10-27 16:19:58');
+/*!40000 ALTER TABLE `mp_oauth_refresh_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -184,6 +330,7 @@ CREATE TABLE `mp_profile` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `portrait` varchar(255) NOT NULL COMMENT '头像',
   `theme_id` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '主题ID',
+  `language` char(2) NOT NULL COMMENT '用户语言',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`profile_id`),
@@ -198,7 +345,7 @@ CREATE TABLE `mp_profile` (
 
 LOCK TABLES `mp_profile` WRITE;
 /*!40000 ALTER TABLE `mp_profile` DISABLE KEYS */;
-INSERT INTO `mp_profile` VALUES (1,1,'1.png',2,'2016-07-28 17:56:33','0000-00-00 00:00:00'),(2,2,'2.png',2,'2016-08-22 09:19:47','2016-07-08 21:33:03'),(3,3,'1.png',2,'2016-08-22 09:19:47','2016-07-14 00:53:27'),(4,4,'1.png',2,'2016-08-22 09:19:47','2016-07-14 00:55:17');
+INSERT INTO `mp_profile` VALUES (1,1,'1.png',2,'','2016-10-27 06:21:11','2016-07-08 21:33:03'),(2,2,'2.png',2,'','2016-08-22 09:19:47','2016-07-08 21:33:03'),(3,3,'1.png',2,'','2016-08-22 09:19:47','2016-07-14 00:53:27'),(4,4,'1.png',2,'','2016-08-22 09:19:47','2016-07-14 00:55:17');
 /*!40000 ALTER TABLE `mp_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +361,7 @@ CREATE TABLE `mp_space` (
   `user_id` int(10) unsigned NOT NULL,
   `sort` int(10) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL COMMENT '空间名称',
-  `private` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `share` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`space_id`)
@@ -227,7 +374,7 @@ CREATE TABLE `mp_space` (
 
 LOCK TABLES `mp_space` WRITE;
 /*!40000 ALTER TABLE `mp_space` DISABLE KEYS */;
-INSERT INTO `mp_space` VALUES (1,1,0,'PHP',0,'2016-08-06 09:04:33','2016-08-06 09:04:33'),(2,1,0,'Javascript',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(3,1,0,'CSS',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(4,1,0,'HTML',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(5,1,0,'Mes',1,'2016-08-23 06:41:15','2016-08-07 04:12:50'),(6,1,0,'MySQL',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(7,1,0,'Japa',1,'2016-08-23 06:41:15','2016-08-08 14:55:20'),(8,1,0,'yg',0,'2016-08-23 06:41:15',NULL);
+INSERT INTO `mp_space` VALUES (1,1,0,'PHP5',0,'2016-10-27 10:19:56','2016-08-06 09:04:33'),(2,1,0,'Javascript',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(3,1,0,'CSS',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(4,1,0,'HTML',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(5,1,0,'Mes',1,'2016-08-23 06:41:15','2016-08-07 04:12:50'),(6,1,0,'MySQL',0,'2016-08-07 04:12:50','2016-08-07 04:12:50'),(7,1,0,'Japa',1,'2016-08-23 06:41:15','2016-08-08 14:55:20'),(8,1,0,'yg',0,'2016-08-23 06:41:15',NULL);
 /*!40000 ALTER TABLE `mp_space` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +474,7 @@ CREATE TABLE `mp_users` (
 
 LOCK TABLES `mp_users` WRITE;
 /*!40000 ALTER TABLE `mp_users` DISABLE KEYS */;
-INSERT INTO `mp_users` VALUES (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','JCGJXbIEmTwsLxZX9wZiHaAvKcE6yO0T8SaPlRO4bAayfPIqLSsGm8HJiiJp','2016-05-29 22:37:00','2016-08-22 01:19:03'),(2,'aaa','aaa@163.om','$2y$10$1a9ysC7m2pKQMiJgVokMVu.z7uMPS7gUbkoMSGahm1CZjgvW9X5v2','PYoj46Xtu72bb4ImGyoBY47oIW538TfEouTtcyHErxnw1gnD8f3pn1RtJBNu','2016-07-08 21:33:03','2016-08-22 01:22:29'),(3,'bbb','bbb@163.com','$2y$10$v2YwJcnFu13XVpoux/lyUuTD/znkY.He8IVChFYt.rSmz1NgGD1f6','oqnmSx8EXCfm5cUO1GI1IkL8lfO6gwx17auEz8EScrspPXClBHucWWs47mF9','2016-07-14 00:53:27','2016-07-14 00:53:33'),(4,'ccc','ccc@163.com','$2y$10$5zwpEs3iv51Bh6UF5Cm5G.8OFvQpeySrvv9QbJYiPlbbfcBsAPeIy','xs6Ze9G8EUctOY4NPjpjVDLUtIAMl8gJFa9FGseGEVBMeraxu203gWbwC2ai','2016-07-14 00:55:16','2016-07-14 00:55:21');
+INSERT INTO `mp_users` VALUES (1,'hari','hansen1416@163.com','$2y$10$.OuUC8aHrNKbKEqoIvmUX.LQfAG0GCmnZfVnlsOTUpsSdoUh0QMrO','XWb2CSmP8gz4sW3pjHt0VmJhtVaHrMLfxhUU2K7NV8nshMs3LagXl2cFGkiB','2016-05-29 22:37:00','2016-10-08 17:36:27'),(2,'aaa','aaa@163.om','$2y$10$1a9ysC7m2pKQMiJgVokMVu.z7uMPS7gUbkoMSGahm1CZjgvW9X5v2','','2016-07-08 21:33:03','2016-08-22 01:22:29'),(3,'bbb','bbb@163.com','$2y$10$v2YwJcnFu13XVpoux/lyUuTD/znkY.He8IVChFYt.rSmz1NgGD1f6','','2016-07-14 00:53:27','2016-07-14 00:53:33'),(4,'ccc','ccc@163.com','$2y$10$5zwpEs3iv51Bh6UF5Cm5G.8OFvQpeySrvv9QbJYiPlbbfcBsAPeIy','','2016-07-14 00:55:16','2016-07-14 00:55:21');
 /*!40000 ALTER TABLE `mp_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -340,4 +487,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-29 16:32:58
+-- Dump completed on 2016-11-11 17:36:05

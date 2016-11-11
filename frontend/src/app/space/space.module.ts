@@ -11,6 +11,7 @@ import {SharedModule} from '../share/share.module';
 import {SpiralModule} from '../spiral/spiral.module';
 
 import {SpaceHomeComponent} from './space-home.component';
+import {ConcentricService} from './concentric.service';
 
 @NgModule({
               imports     : [
@@ -24,9 +25,9 @@ import {SpaceHomeComponent} from './space-home.component';
               exports     : [
                   SpaceHomeComponent,
               ],
-              // providers   : [
-              //
-              // ]
+              providers   : [
+                  ConcentricService,
+              ],
           })
 export class SpaceModule {
 

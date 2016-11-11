@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
-import {SpiralService} from '../spiral/spiral.service';
+import {ConcentricService} from './concentric.service';
 
 import {Space} from './space';
 
@@ -25,7 +25,7 @@ export class SpaceHomeComponent implements OnInit {
     constructor(
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
-        private spiral: SpiralService,
+        private concentric: ConcentricService,
     ) {
     }
 
@@ -40,7 +40,7 @@ export class SpaceHomeComponent implements OnInit {
 
         //build the sphere
         if (!this.sphere) {
-            this.sphere = this.spiral.setSphere('.space-item');
+            this.sphere = this.concentric.serConcentricCircles('.space-item', 10, 1);
         }
     }
 

@@ -12,7 +12,7 @@ export class CssService {
     public transform: string;
 
 
-    get getPrefixJs() {
+    get getPrefixJs():string {
 
         let userAgent = navigator.userAgent.toLowerCase();
 
@@ -33,7 +33,7 @@ export class CssService {
      * //判断浏览器支持那种transform的写法;
      * @returns {string}
      */
-    get getTransform() {
+    get getTransform():string {
         this.transform = (this.getPrefixJs + "Transform" in document.documentElement.style) ? this.getPrefixJs + "Transform" : "transform";
         return this.transform;
     }
@@ -44,7 +44,7 @@ export class CssService {
      * @param prop
      * @returns {string}
      */
-    static getStyle(target: Element, prop:string) {
+    static getStyle(target: Element, prop:string):string {
         return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
     }
 
