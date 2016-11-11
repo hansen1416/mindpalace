@@ -10,9 +10,9 @@ export class SpiralService {
 
     private nodeList: NodeListOf<Element>;
 
-    stage    = document.getElementById('stage');
+    stage: HTMLElement;
     //每层球面实际半径
-    radius   = 200;
+    radius   = 400;
     //每一层球面的间隔
     gap      = 10;
     //一共有多少层
@@ -30,9 +30,7 @@ export class SpiralService {
 
     constructor(
         private css: CssService
-    ) {
-
-    }
+    ) {}
 
 
     /**
@@ -41,9 +39,11 @@ export class SpiralService {
      * @returns {boolean}
      */
     setSphere(selector: string): boolean {
+        
         this.nodeList = document.body.querySelectorAll(selector);
+        this.stage    = document.getElementById('stage');
 
-        if (this.nodeList.length) {
+        if (this.nodeList.length && this.stage) {
 
             this.diffuse();
 
@@ -64,7 +64,7 @@ export class SpiralService {
 
     private diffuse() {
 
-        let stars: NodeListOf<Element> = this.stage.querySelectorAll('.tier-' + this.prevTier);
+        let stars = <NodeListOf<HTMLElement>>this.stage.querySelectorAll('.tier-' + this.prevTier);
 
         //如果没有下一层了，则停止
         if (!stars.length) {
@@ -132,12 +132,12 @@ export class SpiralService {
                 pos = this.tierPos[i];
             }
 
-            stars[i].style[this.css.transform] =
+            stars[i].style[this.css.getTransform] =
                 "translate3d(" + pos.tx + "px, " + pos.ty + "px, " + pos.tz + "px)" +
                 "rotateY(" + pos.ry + "rad)" +
                 "rotateX(" + pos.rx + "rad)";
 
-            stars[i].style[this.css.transform] = CssService.getStyle(stars[i], 'transform');
+            stars[i].style[this.css.getTransform] = CssService.getStyle(stars[i], 'transform');
 
             //记录每一个ctg_id对应的位置，他的子集分类依据此点计算空间中的位置
             if (ctg_id) {
@@ -205,7 +205,7 @@ export class SpiralService {
     }
 
 
-    private maxPoint(arr: NodeListOf<Element>, n: number) {
+    private maxPoint(arr, n: number) {
         /**
          * keys 储存父级分类的 id
          * values 储存每一个父级分类包含的子分类的个数
@@ -242,7 +242,7 @@ export class SpiralService {
     }
 
 
-    private closestPoint(parentPos: Array, posArray: Array) {
+    private closestPoint(parentPos: Object[], posArray) {
         let dis = null,
             d   = 0,
             k   = 0,

@@ -37,6 +37,7 @@ export class SpaceHomeComponent implements OnInit {
     }
 
     ngAfterContentChecked(){
+
         //build the sphere
         if (!this.sphere) {
             this.sphere = this.spiral.setSphere('.space-item');

@@ -1,15 +1,73 @@
-.space-item{
-    $width: 5rem;
-    $height: 3rem;
-
-    position: absolute;
-    width: $width;
-    height: $height;
-    top: 50%;
-    left: 50%;
-    margin: $height/-2 0 0 $width/-2;
-    line-height: $height;
-    text-align: center;
-    color: #fff;
-    background-color: #1f648b;
+@mixin perspective($d) {
+    -webkit-perspective: $d;
+    perspective: $d;
 }
+@mixin pers_origin {
+    -webkit-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
+}
+@mixin trsf_origin {
+    -webkit-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+@mixin trsf_style_3d {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+@mixin trsf_style_flat {
+    -webkit-transform-style: flat;
+    transform-style: flat;
+}
+@mixin back_face($v) {
+    -webkit-backface-visibility: $v;
+    backface-visibility: $v;
+}
+#stage {
+    @include perspective(700px);
+    @include pers_origin;
+    @include trsf_origin;
+    position: absolute;
+    width: 100vw;
+    height: 100vw;
+    top: 50%;
+    margin: -50vw 0 0 0;
+    &:hover {
+        cursor: hand;
+    }
+
+    #galaxy {
+        @include trsf_style_3d;
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
+        margin: -50px 0 0 -50px;
+
+        //分类
+        .space-item {
+            $width: 5rem;
+            $height: 3rem;
+
+            position: absolute;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: $width;
+            height: $height;
+            top: 50%;
+            left: 50%;
+            margin: $height/-2 0 0 $width/-2;
+            line-height: $height;
+            text-align: center;
+            color: #fff;
+            background-color: #1f648b;
+        }
+
+    }
+    //galaxy ends
+
+}
+//#stage ends
+

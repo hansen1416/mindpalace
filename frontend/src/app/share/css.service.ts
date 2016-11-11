@@ -6,13 +6,13 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class CssService {
 
-    private prefixJs: string;
+    public prefixJs: string;
 
 
-    private transform: string;
+    public transform: string;
 
 
-    get prefixJs() {
+    get getPrefixJs() {
 
         let userAgent = navigator.userAgent.toLowerCase();
 
@@ -29,8 +29,8 @@ export class CssService {
         return this.prefixJs;
     }
 
-    get transform() { //判断浏览器支持那种transform的写法;
-        this.transform = (this.prefixJs + "Transform" in document.documentElement.style) ? this.prefixJs + "Transform" : "transform";
+    get getTransform() { //判断浏览器支持那种transform的写法;
+        this.transform = (this.getPrefixJs + "Transform" in document.documentElement.style) ? this.getPrefixJs + "Transform" : "transform";
         return this.transform;
     }
 
