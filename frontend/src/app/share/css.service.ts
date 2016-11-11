@@ -29,12 +29,21 @@ export class CssService {
         return this.prefixJs;
     }
 
-    get getTransform() { //判断浏览器支持那种transform的写法;
+    /**
+     * //判断浏览器支持那种transform的写法;
+     * @returns {string}
+     */
+    get getTransform() {
         this.transform = (this.getPrefixJs + "Transform" in document.documentElement.style) ? this.getPrefixJs + "Transform" : "transform";
         return this.transform;
     }
 
-
+    /**
+     * get element style
+     * @param target
+     * @param prop
+     * @returns {string}
+     */
     static getStyle(target: Element, prop:string) {
         return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
     }

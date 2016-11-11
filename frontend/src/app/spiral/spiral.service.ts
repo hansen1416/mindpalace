@@ -10,22 +10,22 @@ export class SpiralService {
 
     private nodeList: NodeListOf<Element>;
 
-    stage: HTMLElement;
+    private stage: HTMLElement;
     //每层球面实际半径
-    radius   = 400;
+    private radius   = 200;
     //每一层球面的间隔
-    gap      = 10;
+    private gap      = 10;
     //一共有多少层
-    tiers    = 0;
+    private tiers    = 0;
     //每一层球面上均匀分布的点的数量，不小于该层的元素数量
-    N        = 0;
-    prevTier = 0;
+    private N        = 0;
+    private prevTier = 0;
     //记录每一个 id 对应的空间位置的数据
-    allPos   = [];
+    private allPos   = [];
     //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
-    tierPos  = [];
+    private tierPos  = [];
     //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
-    savedPos = [];
+    private savedPos = [];
 
 
     constructor(
@@ -39,7 +39,7 @@ export class SpiralService {
      * @returns {boolean}
      */
     setSphere(selector: string): boolean {
-        
+
         this.nodeList = document.body.querySelectorAll(selector);
         this.stage    = document.getElementById('stage');
 
@@ -62,13 +62,13 @@ export class SpiralService {
     }
 
 
-    private diffuse() {
+    private diffuse(): void {
 
         let stars = <NodeListOf<HTMLElement>>this.stage.querySelectorAll('.tier-' + this.prevTier);
 
         //如果没有下一层了，则停止
         if (!stars.length) {
-            return false;
+            return;
         }
 
         /**
@@ -94,13 +94,13 @@ export class SpiralService {
          * 如果不是最内层，则先把这一层所有元素的位置和旋转信息储存起来，
          * 再根据父分类的位置，计算元素所在位置，需要多一次循环
          */
-        let i      = 0,
-            pos    = null,
-            p      = null,
-            k      = null,
-            s_data = null,
-            pid    = 0,
-            ctg_id = 0;
+        let i      = 0;
+        let p      = null;
+        let k      = null;
+        let s_data = null;
+        let pid    = 0;
+        let ctg_id = 0;
+        let pos: Position;
 
         do {
             //如果不是 DOM 对象，则跳出当前 for 循环
@@ -155,8 +155,15 @@ export class SpiralService {
 
     }//diffuse ends
 
-
-    private fibonacciSphere(num: number, radius: number) {
+    /**
+     * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
+     * positioning the points by spiral Fibonacci method
+     * 在球面做一条螺旋线，依照螺旋线按照黄金分割取点，获取近似的球面均匀分布的点位
+     * @param num 点的总数
+     * @param radius 球面半径
+     * @returns {Array}
+     */
+    private fibonacciSphere(num: number, radius: number): Position[] {
 
         let dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
             dz    = 2.0 / num,
@@ -204,8 +211,15 @@ export class SpiralService {
 
     }
 
-
-    private maxPoint(arr, n: number) {
+    /**
+     * 计算出每个球面上应该有多少个均匀分布的点
+     * 先算出该层的上一层的分类数，记为 f，再计算哪个父分类中的子分类最多，记为 s，
+     * 然后取 f*s，arr.length，n 中的最大者，作为该层球面包含的点的数量
+     * @param arr
+     * @param n
+     * @returns {number}
+     */
+    private maxPoint(arr: NodeListOf<HTMLElement>, n: number): number {
         /**
          * keys 储存父级分类的 id
          * values 储存每一个父级分类包含的子分类的个数
@@ -221,7 +235,7 @@ export class SpiralService {
             if (!(arr[i] instanceof Object)) {
                 continue;
             }
-            let pid = arr[i].dataset.pid;
+            let pid = arr[i].dataset['pid'];
 
             if (keys[pid] === undefined) {
                 j++;
@@ -241,8 +255,13 @@ export class SpiralService {
         return Math.max(f * s, arr.length, n);
     }
 
-
-    private closestPoint(parentPos: Object[], posArray) {
+    /**
+     * 从位置数组中寻找离空间中指定点最近的点
+     * @param parentPos
+     * @param posArray
+     * @returns {number}
+     */
+    private closestPoint(parentPos: ParentPosition, posArray: Position[]): number {
         let dis = null,
             d   = 0,
             k   = 0,
@@ -279,4 +298,32 @@ export class SpiralService {
     }
 
 
+}
+
+/**
+ * 空间中点的位置
+ * tx: translateX
+ * ty: translateY
+ * tz: translateZ
+ * ry: rotateY
+ * rx: rotateX
+ */
+class Position {
+    tx: number;
+    ty: number;
+    tz: number;
+    ry: number;
+    rx: number;
+}
+
+/**
+ * 父类点的位置,不包括旋转
+ * x: translateX
+ * y: translateY
+ * z: translateZ
+ */
+class ParentPosition {
+    x: number;
+    y: number;
+    z: number;
 }

@@ -50,6 +50,8 @@
             $width: 5rem;
             $height: 3rem;
 
+            @include back_face(hidden);
+
             position: absolute;
             text-overflow: ellipsis;
             overflow: hidden;
