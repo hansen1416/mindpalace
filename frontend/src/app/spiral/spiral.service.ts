@@ -16,7 +16,7 @@ export class SpiralService {
     //每一层球面的间隔
     private gap      = 10;
     //一共有多少层
-    private tiers    = 0;
+    // private tiers    = 0;
     //每一层球面上均匀分布的点的数量，不小于该层的元素数量
     private N        = 0;
     private prevTier = 0;
@@ -25,7 +25,7 @@ export class SpiralService {
     //记录当前球面的所有点位位置和旋转，用于赋值，已经复制的点位即删除
     private tierPos  = [];
     //记录当前球面的所有点位位置和旋转，如果下一层点的数量和上层相等，则不用计算直接从这里取值
-    private savedPos = [];
+    // private savedPos = [];
 
 
     constructor(
@@ -47,13 +47,13 @@ export class SpiralService {
 
             this.diffuse();
 
-            this.tiers = this.prevTier - 1;
+            // this.tiers = this.prevTier - 1;
 
             this.N        = 0;
             this.prevTier = 0;
             this.allPos   = [];
             this.tierPos  = [];
-            this.savedPos = [];
+            // this.savedPos = [];
 
             return true;
         } else {
