@@ -9,7 +9,8 @@ import {LangModule}         from '../lang/lang.module';
 
 import {ErrorDirective}  from './error.directive';
 import {ApiRoutesService} from './api-routes.service';
-import {ApiHttpService} from "./api-http.service";
+import {ApiHttpService} from './api-http.service';
+import {CssService} from './css.service';
 
 
 @NgModule({
@@ -17,16 +18,17 @@ import {ApiHttpService} from "./api-http.service";
               declarations: [
                   ErrorDirective
               ],
-              providers   : [
-                  ApiRoutesService,
-                  ApiHttpService,
-              ],
               exports     : [
                   ErrorDirective,
                   CommonModule,
                   FormsModule,
                   LangModule,
-              ]
+              ],
+              providers   : [
+                  ApiRoutesService,
+                  ApiHttpService,
+                  CssService,
+              ],
           })
 export class SharedModule {
 }
