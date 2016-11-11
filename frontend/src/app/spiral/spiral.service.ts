@@ -17,14 +17,18 @@ export class SpiralService {
         this.nodeList = document.body.querySelectorAll(selector);
         
         if (this.nodeList.length) {
-            
-            console.log(this.nodeList.length);
-            
+
+
             return true;
         }else{
             return false;
         }
-        
     }
+
+
+    getStyle(target, prop){
+        return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
+    }
+
     
 }
