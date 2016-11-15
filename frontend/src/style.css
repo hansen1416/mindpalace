@@ -6,6 +6,8 @@ html {
     font-size: 15px;
 }
 body {
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(29, 97, 140, 0.22);
 }
 form {

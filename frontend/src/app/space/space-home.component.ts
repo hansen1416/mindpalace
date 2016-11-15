@@ -40,7 +40,7 @@ export class SpaceHomeComponent implements OnInit {
 
         //build the sphere
         if (!this.sphere) {
-            this.sphere = this.concentric.serConcentricCircles('.space-item', 10, 1);
+            this.sphere = this.concentric.serConcentricCircles('.space-item');
         }
     }
 
