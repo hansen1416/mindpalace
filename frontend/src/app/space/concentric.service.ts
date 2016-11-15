@@ -52,10 +52,10 @@ export class ConcentricService {
 
                 let turn = [
                     w,
-                    w + h * 2,
-                    w * 3 + h * 2,
-                    w * 3 + h * 4 - 1,
-                    w * 4 + h * 4 - 2
+                    w + h * 2 - 1,
+                    w * 3 + h * 2 - 2,
+                    w * 3 + h * 4 - 3,
+                    w * 4 + h * 4 - 4
                 ];
 
                 //上边的右半部分
@@ -63,20 +63,20 @@ export class ConcentricService {
                     x = i * k;
                     y = b / -2;
                     //右边
-                } else if (i > turn[0] && i < turn[1]) {
+                } else if (i > turn[0] && i <= turn[1]) {
                     x = a / 2;
                     y = ((i - turn[0]) * g) - (h * g) + g / 2;
                     //底边
-                } else if (i >= turn[1] && i < turn[2]) {
-                    x = (w * k) - ((i - turn[1]) * k) - k;
+                } else if (i > turn[1] && i <= turn[2]) {
+                    x = (w * k) - ((i - turn[1]) * k);
                     y = b / 2;
                     //左边
-                } else if (i >= turn[2] && i < turn[3]) {
+                } else if (i > turn[2] && i <= turn[3]) {
                     x = a / -2;
-                    y = (h * g) - g * 3 / 2 - ((i - turn[2]) * g);
+                    y = (h * g) - ((i - turn[2]) * g) + g / 2;
                     //上边的左半部分
-                } else if (i >= turn[3] && i < turn[4]) {
-                    x = ((i - turn[3]) * k) - (w * k) + k;
+                } else if (i > turn[3] && i <= turn[4]) {
+                    x = ((i - turn[3]) * k) - (w * k) - k;
                     y = b / -2;
                 }
 
