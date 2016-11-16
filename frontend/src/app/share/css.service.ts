@@ -6,15 +6,16 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class CssService {
 
+    //js style prefix of current browser
     private prefixJs: string;
 
-
+    //transform style name of current browser
     private transform: string;
 
-
+    //root font-size in pixel
     private remToPx: number;
 
-
+    //body width
     private bodyWidth: number;
 
 
@@ -63,7 +64,10 @@ export class CssService {
         return this.remToPx;
     }
 
-
+    /**
+     * body width
+     * @returns {number}
+     */
     get bw():number{
         this.bodyWidth = document.body.clientWidth;
         return this.bodyWidth;
