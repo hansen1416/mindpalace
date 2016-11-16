@@ -6,10 +6,16 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class CssService {
 
-    public prefixJs: string;
+    private prefixJs: string;
 
 
-    public transform: string;
+    private transform: string;
+
+
+    private remToPx: number;
+
+
+    private bodyWidth: number;
 
 
     get getPrefixJs():string {
@@ -52,8 +58,15 @@ export class CssService {
      * get root font-size in pixel
      * @returns {Number}
      */
-    static remToPx(){
-        return Number(getComputedStyle(document.body, "").fontSize.match(/(\d+)px/)[1]);
+    get remPx():number{
+        this.remToPx = Number(getComputedStyle(document.body, "").fontSize.match(/(\d+)px/)[1]);
+        return this.remToPx;
+    }
+
+
+    get bw():number{
+        this.bodyWidth = document.body.clientWidth;
+        return this.bodyWidth;
     }
 
 }

@@ -30,8 +30,6 @@ export class ConcentricService {
             let x: number;
             //y轴位移
             let y: number;
-            //z轴位移
-            let z: number;
             //中心空白的宽度
             let a = 20;
             //中心空白的高度
@@ -49,6 +47,13 @@ export class ConcentricService {
 
 
             while (n < length) {
+                /**
+                 * 不能超出屏幕宽度
+                 * todo distribute surplus item on vertical
+                 */
+                if (((a + k) * this.css.remPx) > this.css.bw) {
+                    break;
+                }
 
                 w = Math.round(a / k / 2);
                 h = Math.round(b / g / 2);
@@ -89,9 +94,7 @@ export class ConcentricService {
                     continue;
                 }
 
-                z = 0;
-
-                nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, " + z + "rem)" +
+                nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
                                                "rotateY(" + 0 + "rad)" +
                                                "rotateX(" + 0 + "rad)";
 
