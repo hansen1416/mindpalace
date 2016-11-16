@@ -33,4 +33,10 @@ class SpaceController extends Controller
         $this->space->updateSpace(1);
     }
 
+
+    public function create()
+    {
+        $this->space->createSpace();
+    }
+
 }

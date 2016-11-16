@@ -35,4 +35,14 @@ class SpaceService implements SpaceServiceContract
         $this->spaceRepo->update($space_id, ['name' => 'PHP5']);
     }
 
+
+    public function createSpace()
+    {
+        $this->spaceRepo->create([
+                                     'user_id'    => 1,
+                                     'name'       => 'space',
+                                     'created_at' => date('Y-m-d H:i:s'),
+                                 ]);
+    }
+
 }

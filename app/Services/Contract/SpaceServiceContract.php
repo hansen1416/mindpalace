@@ -15,4 +15,7 @@ interface SpaceServiceContract
 
 
     public function updateSpace($space_id);
+
+
+    public function createSpace();
 }

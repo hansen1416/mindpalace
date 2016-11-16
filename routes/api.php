@@ -29,7 +29,7 @@ Route::group([
     function () {
         Route::post('login', 'LoginController@login');
         Route::get('home', 'SpaceController@home');
-        Route::get('update', 'SpaceController@update');
+        Route::get('create', 'SpaceController@create');
     });
 
 

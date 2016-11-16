@@ -48,5 +48,12 @@ export class CssService {
         return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
     }
 
+    /**
+     * get root font-size in pixel
+     * @returns {Number}
+     */
+    static remToPx(){
+        return Number(getComputedStyle(document.body, "").fontSize.match(/(\d+)px/)[1]);
+    }
 
 }

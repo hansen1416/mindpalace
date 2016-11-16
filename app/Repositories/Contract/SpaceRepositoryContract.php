@@ -20,5 +20,4 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
      */
     public function allSpace();
 
-
 }
