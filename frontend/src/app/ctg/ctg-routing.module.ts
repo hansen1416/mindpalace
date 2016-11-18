@@ -9,7 +9,7 @@ import {CtgListComponent}    from './ctg-list.component';
 @NgModule({
               imports: [
                   RouterModule.forChild([
-                                            {path: 'space/:id', component: CtgListComponent},
+                                            {path: 'space/:space_id', component: CtgListComponent},
                                         ])
               ],
               exports: [

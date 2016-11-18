@@ -21,5 +21,8 @@ input {
     background-color: rgb(224, 225, 238);
     text-indent: 0.3rem;
 }
+a{
+    text-decoration: none;
+}
 
 

@@ -9,6 +9,8 @@ import {CtgRoutingModule} from './ctg-routing.module';
 
 import {CtgListComponent} from './ctg-list.component';
 
+import {CtgService} from './ctg.service';
+
 @NgModule({
               imports     : [
                   CommonModule,
@@ -19,8 +21,8 @@ import {CtgListComponent} from './ctg-list.component';
                   CtgListComponent,
               ],
               providers   : [
-
-              ]
+                  CtgService,
+              ],
           })
 export class CtgModule {
 }
