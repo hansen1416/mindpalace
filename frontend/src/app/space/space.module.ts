@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../share/share.module';
 import {SpiralModule} from '../spiral/spiral.module';
 
-import {SpaceHomeComponent} from './space-home.component';
 import {ConcentricService} from './concentric.service';
 
 @NgModule({
@@ -20,10 +19,10 @@ import {ConcentricService} from './concentric.service';
                   SpiralModule,
               ],
               declarations: [
-                  // SpaceHomeComponent,
+
               ],
               exports     : [
-                  // SpaceHomeComponent,
+
               ],
               providers   : [
                   ConcentricService,

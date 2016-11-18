@@ -23,8 +23,7 @@ import {UserServiceConfig} from './user.service';
                   SpaceHomeComponent,
               ],
               exports     : [
-                  UserLoginComponent,
-                  SpaceHomeComponent,
+
               ],
               providers   : [
                   UserService,
