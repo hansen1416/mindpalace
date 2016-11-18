@@ -4,25 +4,30 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
 import {CommonModule}      from '@angular/common';
 
-import {SharedModule} from '../share/share.module'
+import {CoreRoutingModule} from './core-routing.module';
+import {SharedModule} from '../share/share.module';
 
 import {UserLoginComponent}    from './user-login.component';
+import {SpaceHomeComponent} from '../space/space-home.component';
 import {UserService}       from './user.service';
 import {UserServiceConfig} from './user.service';
 
 @NgModule({
               imports     : [
                   CommonModule,
+                  CoreRoutingModule,
                   SharedModule,
               ],
               declarations: [
-                  UserLoginComponent
+                  UserLoginComponent,
+                  SpaceHomeComponent,
               ],
               exports     : [
-                  UserLoginComponent
+                  UserLoginComponent,
+                  SpaceHomeComponent,
               ],
               providers   : [
-                  UserService
+                  UserService,
               ]
           })
 export class CoreModule {

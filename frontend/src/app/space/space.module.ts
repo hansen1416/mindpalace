@@ -20,10 +20,10 @@ import {ConcentricService} from './concentric.service';
                   SpiralModule,
               ],
               declarations: [
-                  SpaceHomeComponent,
+                  // SpaceHomeComponent,
               ],
               exports     : [
-                  SpaceHomeComponent,
+                  // SpaceHomeComponent,
               ],
               providers   : [
                   ConcentricService,

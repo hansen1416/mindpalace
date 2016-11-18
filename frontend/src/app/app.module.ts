@@ -2,12 +2,16 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
-/* App root */
-import {AppComponent}  from './app.component';
+
 /* Feature Modules */
+import {AppRoutingModule} from './app-routing.module';
 import {LangModule} from './lang/lang.module';
 import {CoreModule} from './core/core.module';
 import {SpaceModule} from './space/space.module';
+import {CtgModule} from './ctg/ctg.module';
+
+/* App root */
+import {AppComponent}  from './app.component';
 
 
 @NgModule({
@@ -15,9 +19,11 @@ import {SpaceModule} from './space/space.module';
                   BrowserModule,
                   HttpModule,
                   FormsModule,
+                  AppRoutingModule,
                   LangModule,
                   CoreModule,
                   SpaceModule,
+                  CtgModule,
               ],
               declarations: [
                   AppComponent,
