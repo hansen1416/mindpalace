@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Repositories\SpaceEloquentRepository;
+use App\Services\Contract\CtgServiceContract;
 use App\Services\Contract\SpaceServiceContract;
+use App\Services\CtgService;
 use App\Services\SpaceService;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Contract\CtgRepositoryContract;
@@ -33,11 +35,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CtgRepositoryContract::class, CtgEloquentRepository::class);
         $this->app->bind(UserRepositoryContract::class, UserEloquentRepository::class);
         $this->app->bind(SpaceRepositoryContract::class, SpaceEloquentRepository::class);
+        $this->app->bind(CtgRepositoryContract::class, CtgEloquentRepository::class);
 
         $this->app->bind(UserServiceContract::class, UserService::class);
         $this->app->bind(SpaceServiceContract::class, SpaceService::class);
+        $this->app->bind(CtgServiceContract::class, CtgService::class);
     }
 }

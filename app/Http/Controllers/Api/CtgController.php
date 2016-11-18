@@ -9,13 +9,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\Contract\CtgServiceContract;
 
 class CtgController extends Controller
 {
-    public function home()
+    private $ctg;
+
+    public function __construct(
+        CtgServiceContract $ctgServiceContract
+    )
     {
-        return response()->json([
-                                    'ctg',
-                                ]);
+        $this->ctg = $ctgServiceContract;
+    }
+
+    public function spaceCtg($space_id)
+    {
+        return response()->json($this->ctg->spaceCtg($space_id));
     }
 }

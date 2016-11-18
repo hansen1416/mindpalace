@@ -23,13 +23,14 @@ Route::options('{all}', function () {
 
 
 Route::group([
-                 'namespace'  => 'Api',
-                 'prefix'     => 'api',
+                 'namespace' => 'Api',
+                 'prefix'    => 'api',
              ],
     function () {
         Route::post('login', 'LoginController@login');
         Route::get('home', 'SpaceController@home');
         Route::get('create', 'SpaceController@create');
+        Route::get('space/{space_id}', 'CtgController@spaceCtg');
     });
 
 
