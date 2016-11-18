@@ -32,11 +32,13 @@ export class SpaceHomeComponent implements OnInit {
     ngOnInit() {
         //require the spaces data from api
         this.apiHttp.get(this.apiRoutes.home).subscribe(
-            response => this.spaces = response
-        )
+            response => {
+                this.spaces = response;
+            }
+        );
     }
 
-    ngAfterContentChecked(){
+    ngAfterViewChecked(){
 
         //build the sphere
         if (!this.sphere) {

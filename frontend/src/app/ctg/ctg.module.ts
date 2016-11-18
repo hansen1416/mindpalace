@@ -18,9 +18,9 @@ import {CtgListComponent} from './ctg-list.component';
               declarations: [
                   CtgListComponent,
               ],
-              // providers   : [
-              //
-              // ]
+              providers   : [
+
+              ]
           })
 export class CtgModule {
 }

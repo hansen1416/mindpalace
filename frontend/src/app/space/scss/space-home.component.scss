@@ -42,6 +42,7 @@
         @include back_face(hidden);
         @include trsf_style_3d;
 
+        display: block;
         position: absolute;
         text-overflow: ellipsis;
         overflow: hidden;
