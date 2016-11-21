@@ -1,1 +1,5 @@
-<p>ctg-list</p>
+<section *ngIf="ctgList">
+<div *ngFor="let ctg of ctgList">
+    {{ctg.title}}
+</div>
+</section>

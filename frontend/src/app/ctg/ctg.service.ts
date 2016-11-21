@@ -3,23 +3,25 @@
  */
 import {Injectable} from '@angular/core';
 
-import {ApiHttpService} from '../share/api-http.service';
+import {Ctg} from "./ctg";
+
 
 @Injectable()
 export class CtgService {
 
-    ctgList: Object[];
-    
-    private apiHttp;
+    private ctgList: Ctg[];
 
-    constructor(
-        private http:ApiHttpService
-    ) {
-        this.apiHttp = http;
+
+    constructor() {}
+
+
+    setCtgList(ctgList:Ctg[]):void{
+        this.ctgList = ctgList;
     }
 
-    getCtgListBySpaceId(space_id:number) {
 
+    getCtgList():Ctg[]{
+        return this.ctgList;
     }
 
 
