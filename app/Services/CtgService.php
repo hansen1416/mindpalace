@@ -25,6 +25,6 @@ class CtgService implements CtgServiceContract
 
     public function spaceCtg($space_id)
     {
-        return $this->ctgRepo->where('space_id', '=', $space_id)->findAll();
+        return $this->ctgRepo->getBySpace($space_id);
     }
 }

@@ -21,12 +21,6 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
 
     public function getOne(int $ctg_id)
     {
-
-//        $this->setCacheDriver('file');
-//        $driver = $this->getCacheDriver();
-
-//        return $driver;
-
         return $this
             ->setCacheLifetime(0)
             ->find($ctg_id)->toArray();
@@ -37,6 +31,7 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
     {
         return $this
             ->where('space_id', $space_id)
+            ->orderBy('tier', 'ASC')
             ->findAll()->toArray();
     }
 

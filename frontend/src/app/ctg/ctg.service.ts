@@ -5,7 +5,6 @@ import {Injectable} from '@angular/core';
 
 import {Ctg} from "./ctg";
 
-
 @Injectable()
 export class CtgService {
 

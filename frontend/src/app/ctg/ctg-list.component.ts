@@ -43,7 +43,7 @@ export class CtgListComponent implements OnInit {
 
     ngAfterViewChecked() {
         if (this.ctgList) {
-            console.log(this.ctgList);
+            
         }
     }
 
