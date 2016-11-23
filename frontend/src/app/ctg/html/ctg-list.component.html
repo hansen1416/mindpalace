@@ -1,5 +1,10 @@
 <section *ngIf="ctgList">
-<div *ngFor="let ctg of ctgList" ctgStyle>
-    {{ctg.title}}||{{ctg.tier}}||{{ctg.sort}}
-</div>
+    <div *ngFor="let ctg of ctgList"
+         attr.data-tier="{{ctg.tier}}"
+         attr.data-sort="{{ctg.sort}}"
+         attr.data-pid="{{ctg.pid}}"
+         attr.data-path="{{ctg.path}}"
+         ctgStyle>
+        {{ctg.title}}||{{ctg.tier}}||{{ctg.sort}}
+    </div>
 </section>

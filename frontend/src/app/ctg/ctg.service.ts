@@ -3,25 +3,23 @@
  */
 import {Injectable} from '@angular/core';
 
-import {Ctg} from "./ctg";
+import {ApiHttpService} from '../share/api-http.service';
+import {ApiRoutesService} from '../share/api-routes.service';
+import {Ctg} from './ctg';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class CtgService {
 
-    private ctgList: Ctg[];
+
+    constructor(
+        private http: ApiHttpService,
+        private routers: ApiRoutesService
+    ) {}
 
 
-    constructor() {}
-
-
-    setCtgList(ctgList:Ctg[]):void{
-        this.ctgList = ctgList;
+    getCtgListBySpaceId(space_id:number):Observable<Ctg[]> {
+        return this.http.get(this.routers.space(space_id));
     }
-
-
-    getCtgList():Ctg[]{
-        return this.ctgList;
-    }
-
 
 }
