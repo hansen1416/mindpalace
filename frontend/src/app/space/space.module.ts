@@ -1,15 +1,13 @@
 /**
  * Created by mok on 16-11-8.
  */
-/**
- * Created by mok on 16-10-18.
- */
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {SharedModule} from '../share/share.module';
 import {SpiralModule} from '../spiral/spiral.module';
 
+import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
 
 @NgModule({
@@ -18,14 +16,11 @@ import {ConcentricService} from './concentric.service';
                   SharedModule,
                   SpiralModule,
               ],
-              declarations: [
-
-              ],
-              exports     : [
-
-              ],
+              declarations: [],
+              exports     : [],
               providers   : [
                   ConcentricService,
+                  SpaceService,
               ],
           })
 export class SpaceModule {

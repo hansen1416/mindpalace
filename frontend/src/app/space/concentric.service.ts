@@ -47,13 +47,6 @@ export class ConcentricService {
 
 
             while (n < length) {
-                /**
-                 * 不能超出屏幕宽度
-                 * todo distribute surplus item on vertical
-                 */
-                if (((a + k) * this.css.remPx) > this.css.bw) {
-                    break;
-                }
 
                 w = Math.round(a / k / 2);
                 h = Math.round(b / g / 2);
@@ -66,37 +59,47 @@ export class ConcentricService {
                     w * 4 + h * 4 - 3
                 ];
 
-                //上边的右半部分
-                if (i <= t[0]) {
-                    x = i * k;
-                    y = b / -2;
-                    //右边
-                } else if (i > t[0] && i <= t[1]) {
-                    x = a / 2;
-                    y = ((i - t[0]) * g) - (h * g) + g / 2;
-                    //底边
-                } else if (i > t[1] && i <= t[2]) {
-                    x = (w * k) - ((i - t[1]) * k);
-                    y = b / 2;
-                    //左边
-                } else if (i > t[2] && i <= t[3]) {
-                    x = a / -2;
-                    y = (h * g) - ((i - t[2]) * g) - g / 2;
-                    //上边的左半部分
-                } else if (i > t[3] && i <= t[4]) {
-                    x = ((i - t[3]) * k) - (w * k);
-                    y = b / -2;
-                } else {
-                    i = 0;
-                    a = a + k * 2;
-                    b = b + g * 2;
-                    l++;
-                    continue;
+                /**
+                 * 不能超出屏幕宽度
+                 */
+                if (((a + k) * this.css.remPx) > this.css.bw) {
+                    
+                    console.log(n);
+                                                                                                                                
+                }else{
+                    //上边的右半部分
+                    if (i <= t[0]) {
+                        x = i * k;
+                        y = b / -2;
+                        //右边
+                    } else if (i > t[0] && i <= t[1]) {
+                        x = a / 2;
+                        y = ((i - t[0]) * g) - (h * g) + g / 2;
+                        //底边
+                    } else if (i > t[1] && i <= t[2]) {
+                        x = (w * k) - ((i - t[1]) * k);
+                        y = b / 2;
+                        //左边
+                    } else if (i > t[2] && i <= t[3]) {
+                        x = a / -2;
+                        y = (h * g) - ((i - t[2]) * g) - g / 2;
+                        //上边的左半部分
+                    } else if (i > t[3] && i <= t[4]) {
+                        x = ((i - t[3]) * k) - (w * k);
+                        y = b / -2;
+                    } else {
+                        i = 0;
+                        a = a + k * 2;
+                        b = b + g * 2;
+                        l++;
+                        continue;
+                    }
+
+                    nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
+                                                   "rotateY(" + 0 + "rad)" +
+                                                   "rotateX(" + 0 + "rad)";
                 }
 
-                nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
-                                               "rotateY(" + 0 + "rad)" +
-                                               "rotateX(" + 0 + "rad)";
 
                 i++;
                 n++;

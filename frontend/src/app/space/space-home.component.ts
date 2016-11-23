@@ -3,8 +3,8 @@
  */
 import {Component, OnInit} from '@angular/core';
 
-import {ApiRoutesService} from '../share/api-routes.service';
-import {ApiHttpService} from '../share/api-http.service';
+
+import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
 
 import {Space} from './space';
@@ -23,22 +23,17 @@ export class SpaceHomeComponent implements OnInit {
     private sphere = false;
 
     constructor(
-        private apiRoutes: ApiRoutesService,
-        private apiHttp: ApiHttpService,
-        private concentric: ConcentricService,
+        private spaceService: SpaceService,
+        private concentric: ConcentricService
     ) {
     }
 
     ngOnInit() {
         //require the spaces data from api
-        this.apiHttp.get(this.apiRoutes.home).subscribe(
-            response => {
-                this.spaces = response;
-            }
-        );
+        this.spaceService.getHomeSpaceList().subscribe(response => this.spaces = response);
     }
 
-    ngAfterViewChecked(){
+    ngAfterViewChecked() {
 
         //build the sphere
         if (!this.sphere) {
