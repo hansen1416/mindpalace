@@ -18,8 +18,11 @@ export class CssService {
     //body width
     private bodyWidth: number;
 
+    //window height
+    private bodyHeight: number;
 
-    get getPrefixJs():string {
+
+    get getPrefixJs(): string {
 
         let userAgent = navigator.userAgent.toLowerCase();
 
@@ -40,7 +43,7 @@ export class CssService {
      * //判断浏览器支持那种transform的写法;
      * @returns {string}
      */
-    get getTransform():string {
+    get getTransform(): string {
         this.transform = (this.getPrefixJs + "Transform" in document.documentElement.style) ? this.getPrefixJs + "Transform" : "transform";
         return this.transform;
     }
@@ -51,7 +54,7 @@ export class CssService {
      * @param prop
      * @returns {string}
      */
-    static getStyle(target: Element, prop:string):string {
+    static getStyle(target: Element, prop: string): string {
         return document.defaultView.getComputedStyle(target, "").getPropertyValue(prop);
     }
 
@@ -59,7 +62,7 @@ export class CssService {
      * get root font-size in pixel
      * @returns {Number}
      */
-    get remPx():number{
+    get remPx(): number {
         this.remToPx = Number(getComputedStyle(document.body, "").fontSize.match(/(\d+)px/)[1]);
         return this.remToPx;
     }
@@ -68,9 +71,15 @@ export class CssService {
      * body width
      * @returns {number}
      */
-    get bw():number{
+    get bw(): number {
         this.bodyWidth = document.body.clientWidth;
         return this.bodyWidth;
+    }
+
+
+    get bh(): number {
+        this.bodyHeight = window.innerHeight;
+        return this.bodyHeight;
     }
 
 }

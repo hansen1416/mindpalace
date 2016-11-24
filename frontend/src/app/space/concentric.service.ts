@@ -30,9 +30,9 @@ export class ConcentricService {
             let x: number;
             //y轴位移
             let y: number;
-            //中心空白的宽度
+            //中心空白的宽度,unit rem
             let a = 20;
-            //中心空白的高度
+            //中心空白的高度,unit rem
             let b = 15;
             //单个node占据的宽度, 包括margin
             let k = 5;
@@ -45,6 +45,10 @@ export class ConcentricService {
             //层数, 0是最内层
             let l = 0;
 
+            let upperTier = 0;
+
+
+            let reverse = 1;
 
             while (n < length) {
 
@@ -62,9 +66,33 @@ export class ConcentricService {
                  * 不能超出屏幕宽度
                  */
                 if (((a + k) * this.css.remPx) > this.css.bw) {
+                    /**
+                     * because w has been calculated to the next round above
+                     * so here we need to minus one
+                     * @type {number}
+                     */
+                    w -= 1;
 
-                    console.log('exceed the limit');
-                    break;
+                    let remainder = i % w;
+
+                    /**
+                     * element distribute upwards
+                     * when it's going to reach the top
+                     * move the surplus elements to bottom
+                     * and distribute all of them downward until last one
+                     */
+                    if (i && !remainder) {
+                        upperTier++;
+                        reverse *= -1;
+                    }
+
+                    x = (remainder - 2) * k * reverse;
+                    y = (b / 2) * -1 - upperTier * g;
+
+                    if (y * this.css.remPx * -2 >= this.css.bh) {
+                        break;
+                    }
+
 
                 } else {
 
@@ -95,11 +123,11 @@ export class ConcentricService {
                          */
                     }
 
-                    nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
-                                                   "rotateY(" + 0 + "rad)" +
-                                                   "rotateX(" + 0 + "rad)";
                 }
 
+                nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
+                                               "rotateY(" + 0 + "rad)" +
+                                               "rotateX(" + 0 + "rad)";
 
                 i++;
                 n++;
