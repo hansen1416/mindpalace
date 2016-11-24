@@ -22,9 +22,9 @@ export class ConcentricService {
 
             let transform = this.css.getTransform;
 
-            //横向排列数目的一半
+            //横向排列数目
             let w: number;
-            //纵向排列数目的一半
+            //纵向排列数目
             let h: number;
             //x轴位移
             let x: number;
@@ -48,51 +48,51 @@ export class ConcentricService {
 
             while (n < length) {
 
-                w = Math.round(a / k / 2);
-                h = Math.round(b / g / 2);
+                w = Math.round(a / k);
+                h = Math.round(b / g);
 
                 let t = [
-                    w,
-                    w + h * 2 - 1,
-                    w * 3 + h * 2 - 1,
-                    w * 3 + h * 4 - 2,
-                    w * 4 + h * 4 - 3
+                    w - 1,
+                    w + h - 1,
+                    w * 2 + h - 1,
+                    w * 2 + h * 2 - 1,
                 ];
 
                 /**
                  * 不能超出屏幕宽度
                  */
                 if (((a + k) * this.css.remPx) > this.css.bw) {
-                    
-                    console.log(n);
-                                                                                                                                
-                }else{
-                    //上边的右半部分
+
+                    console.log('exceed the limit');
+                    break;
+
+                } else {
+
                     if (i <= t[0]) {
-                        x = i * k;
+                        x = (i - w / 2 + 1) * k;
                         y = b / -2;
-                        //右边
+                        //上边
                     } else if (i > t[0] && i <= t[1]) {
                         x = a / 2;
-                        y = ((i - t[0]) * g) - (h * g) + g / 2;
-                        //底边
+                        y = ((i - t[0] - h / 2) * g);
+                        //右边
                     } else if (i > t[1] && i <= t[2]) {
-                        x = (w * k) - ((i - t[1]) * k);
+                        x = (w / 2 - (i - t[1])) * k;
                         y = b / 2;
-                        //左边
+                        //底边
                     } else if (i > t[2] && i <= t[3]) {
                         x = a / -2;
-                        y = (h * g) - ((i - t[2]) * g) - g / 2;
-                        //上边的左半部分
-                    } else if (i > t[3] && i <= t[4]) {
-                        x = ((i - t[3]) * k) - (w * k);
-                        y = b / -2;
+                        y = ((h / 2 - (i - t[2])) * g);
+                        //左边
                     } else {
                         i = 0;
                         a = a + k * 2;
                         b = b + g * 2;
                         l++;
                         continue;
+                        /**
+                         * 一圈转弯了,将中心空白扩大一圈开始转下一圈
+                         */
                     }
 
                     nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
