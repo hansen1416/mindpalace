@@ -48,6 +48,9 @@ export class ConcentricService {
             let upperTier = 0;
 
 
+            let lowerTier = 0;
+
+
             let reverse = 1;
 
             while (n < length) {
@@ -89,8 +92,19 @@ export class ConcentricService {
                     x = (remainder - 2) * k * reverse;
                     y = (b / 2) * -1 - upperTier * g;
 
+                    /**
+                     * if elements beyond the top
+                     * distribute them downward from the bottom of the inner rectangle
+                     */
                     if (y * this.css.remPx * -2 >= this.css.bh) {
-                        break;
+
+                        if (i && !remainder) {
+                            lowerTier++;
+                        }
+
+                        x = (remainder - 2) * k * reverse;
+                        y = (b / 2) + (lowerTier - 1) * g;
+
                     }
 
 
