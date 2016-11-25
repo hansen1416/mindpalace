@@ -42,16 +42,6 @@ export class ConcentricService {
             let i = 0;
             //node[n]
             let n = 0;
-            //层数, 0是最内层
-            let l = 0;
-
-            let upperTier = 0;
-
-
-            let lowerTier = 0;
-
-
-            let reverse = 1;
 
             while (n < length) {
 
@@ -68,81 +58,41 @@ export class ConcentricService {
                 /**
                  * 不能超出屏幕宽度
                  */
-                if (((a + k) * this.css.remPx) > this.css.bw) {
-                    /**
-                     * because w has been calculated to the next round above
-                     * so here we need to minus one
-                     * @type {number}
-                     */
-                    w -= 1;
-
-                    let remainder = i % w;
-
-                    /**
-                     * element distribute upwards
-                     * when it's going to reach the top
-                     * move the surplus elements to bottom
-                     * and distribute all of them downward until last one
-                     */
-                    if (i && !remainder) {
-                        upperTier++;
-                        reverse *= -1;
-                    }
-
-                    x = (remainder - 2) * k * reverse;
-                    y = (b / 2) * -1 - upperTier * g;
-
-                    /**
-                     * if elements beyond the top
-                     * distribute them downward from the bottom of the inner rectangle
-                     */
-                    if (y * this.css.remPx * -2 >= this.css.bh) {
-
-                        if (i && !remainder) {
-                            lowerTier++;
-                        }
-
-                        x = (remainder - 2) * k * reverse;
-                        y = (b / 2) + (lowerTier - 1) * g;
-
-                    }
-
-
+                if (i <= t[0]) {
+                    x = (i - w / 2 + 1) * k;
+                    y = b / -2;
+                    //上边
+                } else if (i > t[0] && i <= t[1]) {
+                    x = a / 2;
+                    y = ((i - t[0] - h / 2) * g);
+                    //右边
+                } else if (i > t[1] && i <= t[2]) {
+                    x = (w / 2 - (i - t[1])) * k;
+                    y = b / 2;
+                    //底边
+                } else if (i > t[2] && i <= t[3]) {
+                    x = a / -2;
+                    y = ((h / 2 - (i - t[2])) * g);
+                    //左边
                 } else {
+                    i = 0;
+                    a = a + k * 2;
+                    b = b + g * 2;
+                    continue;
+                    /**
+                     * 一圈转弯了,将中心空白扩大一圈开始转下一圈
+                     */
+                }
 
-                    if (i <= t[0]) {
-                        x = (i - w / 2 + 1) * k;
-                        y = b / -2;
-                        //上边
-                    } else if (i > t[0] && i <= t[1]) {
-                        x = a / 2;
-                        y = ((i - t[0] - h / 2) * g);
-                        //右边
-                    } else if (i > t[1] && i <= t[2]) {
-                        x = (w / 2 - (i - t[1])) * k;
-                        y = b / 2;
-                        //底边
-                    } else if (i > t[2] && i <= t[3]) {
-                        x = a / -2;
-                        y = ((h / 2 - (i - t[2])) * g);
-                        //左边
-                    } else {
-                        i = 0;
-                        a = a + k * 2;
-                        b = b + g * 2;
-                        l++;
-                        continue;
-                        /**
-                         * 一圈转弯了,将中心空白扩大一圈开始转下一圈
-                         */
-                    }
-
+                if (Math.abs(x) * this.css.remPx * 2 > this.css.bw || (y < 0 && Math.abs(y) * this.css.remPx * 2 > this.css.bh) ) {
+                    i++;
+                    n++;
+                    continue;
                 }
 
                 nodeList[n].style[transform] = "translate3d(" + x + "rem, " + y + "rem, 0rem)" +
                                                "rotateY(" + 0 + "rad)" +
                                                "rotateX(" + 0 + "rad)";
-
                 i++;
                 n++;
             }
