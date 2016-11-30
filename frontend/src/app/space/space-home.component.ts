@@ -37,7 +37,16 @@ export class SpaceHomeComponent implements OnInit {
 
         //build the sphere
         if (!this.sphere) {
-            this.sphere = this.concentric.serConcentricCircles('.space-item');
+            let items = document.body.querySelectorAll('.space-item');
+
+            if (items.length) {
+                this.concentric.serConcentricCircles(items.length);
+
+                console.log(this.concentric.getPositions);
+                
+                this.sphere = true;
+            }
+            
         }
     }
 
