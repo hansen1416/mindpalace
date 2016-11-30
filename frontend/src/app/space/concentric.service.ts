@@ -84,9 +84,11 @@ export class ConcentricService {
                      */
                 }
 
+                /**
+                 * 以顶部和左右为界,不可超出
+                 */
                 if (Math.abs(x) * this.css.remPx * 2 > this.css.bw || (y < 0 && Math.abs(y) * this.css.remPx * 2 > this.css.bh) ) {
                     i++;
-                    n++;
                     continue;
                 }
 
@@ -95,6 +97,7 @@ export class ConcentricService {
                                                "rotateX(" + 0 + "rad)";
                 i++;
                 n++;
+                
             }
 
             return true;
