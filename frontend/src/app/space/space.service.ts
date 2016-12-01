@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
+import {ConcentricService} from './concentric.service';
 import {Space} from './space';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class SpaceService {
     constructor(
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
+        private concentricService: ConcentricService,
     ) {}
 
 
@@ -36,6 +38,7 @@ export class SpaceService {
 
     addEmptySpace() {
         this.spaces.unshift(new Space());
+        this.concentricService.setConcentricCircles(this.getSpaces);
     }
 
 }
