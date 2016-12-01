@@ -1,6 +1,7 @@
 <div id="stage">
-    <a class="space-item" routerLink="/space/{{space.space_id}}"
+    <a class="space-item"
        *ngFor="let space of spaces; let i=index; trackBy:trackBySpaces"
+       routerLink="/space/{{space.space_id}}"
        [ngStyle]="spaceStyles(positions[i].x, positions[i].y)"
     >
         {{space.space_id}}|{{space.name}}

@@ -33,14 +33,19 @@ export class SpaceHomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        /**
-         * get the spaces data from api
-         * set the position for each space item
-         */
-        this.spaceService.getHomeSpaceList().subscribe(response => {
-            this.spaces = this.spaceService.setSpaces = this.concentric.setConcentricCircles(response);
+        if (this.spaceService.getSpaces && this.concentric.getPositions) {
+            this.spaces    = this.spaceService.getSpaces;
             this.positions = this.concentric.getPositions;
-        });
+        } else {
+            /**
+             * get the spaces data from api
+             * set the position for each space item
+             */
+            this.spaceService.getHomeSpaceList().subscribe(response => {
+                this.spaces = this.spaceService.setSpaces = this.concentric.setConcentricCircles(response);
+                this.positions = this.concentric.getPositions;
+            });
+        }
     }
 
 
