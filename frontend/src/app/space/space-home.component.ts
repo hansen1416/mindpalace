@@ -9,6 +9,7 @@ import {ConcentricService} from './concentric.service';
 import {CssService} from '../share/css.service';
 
 import {Space} from './space';
+import {Position} from './position';
 
 @Component({
                selector   : 'space-home',
@@ -21,7 +22,8 @@ export class SpaceHomeComponent implements OnInit {
     private spaces: Space[];
 
 
-    private positions: Array<any>;
+    private positions: Array<Position>;
+
 
     constructor(
         private spaceService: SpaceService,
@@ -37,17 +39,10 @@ export class SpaceHomeComponent implements OnInit {
          */
         this.spaceService.getHomeSpaceList().subscribe(response => {
             this.spaces = this.spaceService.setSpaces = this.concentric.setConcentricCircles(response);
-            this.positions = this.concentric.positions;
+            this.positions = this.concentric.getPositions;
         });
     }
 
-
-    ngDoCheck() {
-        if (this.spaces !== this.spaceService.getSpaces) {
-
-            console.log('d');
-        }
-    }
 
     trackBySpaces(index: number, space: Space) {return space.space_id}
 

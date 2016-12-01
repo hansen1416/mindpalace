@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 
 import {CssService} from '../share/css.service';
 import {Space} from './space';
+import {Position} from './position';
 
 
 @Injectable()
@@ -23,7 +24,7 @@ export class ConcentricService {
     //node[n]
     private n = 0;
 
-    public positions = [];
+    private positions = <Array<Position>>[];
 
     constructor(
         private css: CssService
@@ -67,6 +68,11 @@ export class ConcentricService {
 
     get verticalNum() {
         return Math.round(this.innerHeight / this.itemHeight);
+    }
+
+
+    get getPositions() {
+        return this.positions;
     }
 
 
@@ -135,7 +141,7 @@ export class ConcentricService {
                 continue;
             }
 
-            this.positions[this.n] = {x:x, y:y};
+            this.positions[this.n] = {x: x, y: y};
 
             this.i++;
             this.n++;
