@@ -23,6 +23,8 @@ export class ConcentricService {
     //node[n]
     private n = 0;
 
+    public positions = [];
+
     constructor(
         private css: CssService
     ) {}
@@ -68,7 +70,7 @@ export class ConcentricService {
     }
 
 
-    serConcentricCircles(spaces: Space[]): Space[] {
+    setConcentricCircles(spaces: Space[]): Space[] {
 
         //横向排列数目
         let w: number;
@@ -133,8 +135,7 @@ export class ConcentricService {
                 continue;
             }
 
-            spaces[this.n].x = x;
-            spaces[this.n].y = y;
+            this.positions[this.n] = {x:x, y:y};
 
             this.i++;
             this.n++;

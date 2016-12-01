@@ -6,6 +6,8 @@ import {Component} from '@angular/core';
 import {UserService} from "./user.service";
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
+import {SpaceService} from "../space/space.service";
+import {ConcentricService} from "../space/concentric.service";
 
 
 @Component({
@@ -19,6 +21,8 @@ export class UserLoginComponent {
         private userService: UserService,
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
+        private spaceService: SpaceService,
+        private concentricService: ConcentricService,
     ) {
     }
 
@@ -76,6 +80,8 @@ export class UserLoginComponent {
                             this.userService.setUserProperties(response, profile);
                             this.userService.sealUserModel();
 
+                            this.spaceService.addEmptySpace();
+                            this.concentricService.setConcentricCircles(this.spaceService.getSpaces);
                             console.log(this.user);
                         }
                     )

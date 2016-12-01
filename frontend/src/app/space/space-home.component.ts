@@ -20,6 +20,9 @@ export class SpaceHomeComponent implements OnInit {
     //spaces on the home page
     private spaces: Space[];
 
+
+    private positions: Array<any>;
+
     constructor(
         private spaceService: SpaceService,
         private concentric: ConcentricService,
@@ -33,7 +36,8 @@ export class SpaceHomeComponent implements OnInit {
          * set the position for each space item
          */
         this.spaceService.getHomeSpaceList().subscribe(response => {
-            this.spaces = this.spaceService.setSpaces = this.concentric.serConcentricCircles(response);
+            this.spaces = this.spaceService.setSpaces = this.concentric.setConcentricCircles(response);
+            this.positions = this.concentric.positions;
         });
     }
 

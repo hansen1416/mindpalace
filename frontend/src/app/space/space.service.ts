@@ -11,7 +11,7 @@ import {Space} from './space';
 @Injectable()
 export class SpaceService {
 
-    private spaces:Space[];
+    private spaces: Space[];
 
     constructor(
         private apiRoutes: ApiRoutesService,
@@ -24,13 +24,18 @@ export class SpaceService {
     }
 
 
-    get getSpaces(){
+    get getSpaces() {
         return this.spaces;
     }
 
 
-    set setSpaces(spaces:Space[]){
+    set setSpaces(spaces: Space[]) {
         this.spaces = spaces;
+    }
+
+
+    addEmptySpace() {
+        this.spaces.unshift(new Space());
     }
 
 }
