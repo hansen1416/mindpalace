@@ -43,7 +43,8 @@
     </form>
 
 
-    <div *ngIf="user.access_token" class="">
-        <p>{{user.name}}</p>
+    <div *ngIf="user.access_token" class="user-info">
+        <img src="" alt="" class="portrait">
+        <div class="user-name">{{user.name}}</div>
     </div>
 </div>

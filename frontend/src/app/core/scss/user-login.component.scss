@@ -20,7 +20,7 @@
         margin-bottom: .5rem;
         font-size: 1em;
     }
-    .form-label:first-child input{
+    .form-label:first-child input {
         margin-top: 1.5rem;
     }
 
@@ -35,10 +35,31 @@
         background-color: #5bc0de;
     }
 
-    .message-box{
+    .message-box {
         width: $input-width;
         min-height: $input-height;
         margin: 1rem auto 0;
         font-size: 0.9em;
     }
+
+    .user-info {
+        width: 100%;
+        height: 100%;
+
+        img.portrait {
+            display: block;
+            width: 8rem;
+            height: 8rem;
+            margin: 2rem auto 0;
+        }
+
+        .user-name {
+            width: 100%;
+            height: 2rem;
+            text-align: center;
+            line-height: 2rem;
+            font-size: 1.2rem;
+        }
+    }
+
 }
