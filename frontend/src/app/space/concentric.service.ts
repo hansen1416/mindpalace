@@ -6,10 +6,6 @@ import {Injectable} from '@angular/core';
 import {CssService} from '../share/css.service';
 import {Space} from './space';
 
-class position {
-    x: number;
-    y: number;
-}
 
 @Injectable()
 export class ConcentricService {
@@ -26,8 +22,6 @@ export class ConcentricService {
     private i = 0;
     //node[n]
     private n = 0;
-
-    private positions = <Array<position>>[];
 
     constructor(
         private css: CssService
@@ -73,10 +67,6 @@ export class ConcentricService {
         return Math.round(this.innerHeight / this.itemHeight);
     }
 
-
-    get getPositions(){
-        return this.positions;
-    }
 
     serConcentricCircles(spaces: Space[]): Space[] {
 

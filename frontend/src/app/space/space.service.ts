@@ -11,6 +11,7 @@ import {Space} from './space';
 @Injectable()
 export class SpaceService {
 
+    private spaces:Space[];
 
     constructor(
         private apiRoutes: ApiRoutesService,
@@ -21,4 +22,15 @@ export class SpaceService {
     getHomeSpaceList(): Observable<Space[]> {
         return this.apiHttp.get(this.apiRoutes.home);
     }
+
+
+    get getSpaces(){
+        return this.spaces;
+    }
+
+
+    set setSpaces(spaces:Space[]){
+        this.spaces = spaces;
+    }
+
 }
