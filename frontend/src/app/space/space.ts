@@ -9,4 +9,6 @@ export class Space {
     share: number;
     updated_at: string;
     created_at: string;
+    x: number;
+    y: number;
 }

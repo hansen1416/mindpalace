@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
+import {CssService} from '../share/css.service';
 
 import {Space} from './space';
 
@@ -22,32 +23,35 @@ export class SpaceHomeComponent implements OnInit {
     //true if the sphere been built, false if not
     private sphere = false;
 
+
+    private positions = [];
+
     constructor(
         private spaceService: SpaceService,
-        private concentric: ConcentricService
+        private concentric: ConcentricService,
+        private cssService: CssService
     ) {
     }
 
     ngOnInit() {
-        //require the spaces data from api
-        this.spaceService.getHomeSpaceList().subscribe(response => this.spaces = response);
+        /**
+         * get the spaces data from api
+         * set the position for each space item
+         */
+        this.spaceService.getHomeSpaceList().subscribe(response => this.spaces = this.concentric.serConcentricCircles(response));
     }
 
-    ngAfterViewChecked() {
 
-        //build the sphere
-        if (!this.sphere) {
-            let items = document.body.querySelectorAll('.space-item');
+    trackBySpaces(index: number, space: Space) {return space.space_id}
 
-            if (items.length) {
-                this.concentric.serConcentricCircles(items.length);
 
-                console.log(this.concentric.getPositions);
-                
-                this.sphere = true;
-            }
-            
-        }
+    spaceStyles(x, y) {
+        let styles = {};
+
+        styles[this.cssService.getTransform] = 'translate3d(' + x + 'rem, ' + y + 'rem, 0rem)';
+
+        return styles;
     }
+
 
 }

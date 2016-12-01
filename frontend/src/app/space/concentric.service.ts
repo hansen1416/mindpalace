@@ -4,6 +4,7 @@
 import {Injectable} from '@angular/core';
 
 import {CssService} from '../share/css.service';
+import {Space} from './space';
 
 class position {
     x: number;
@@ -26,7 +27,7 @@ export class ConcentricService {
     //node[n]
     private n = 0;
 
-    private positions: Array<position>;
+    private positions = <Array<position>>[];
 
     constructor(
         private css: CssService
@@ -77,7 +78,7 @@ export class ConcentricService {
         return this.positions;
     }
 
-    serConcentricCircles(n: number): void {
+    serConcentricCircles(spaces: Space[]): Space[] {
 
         //横向排列数目
         let w: number;
@@ -92,7 +93,7 @@ export class ConcentricService {
         //单个node占据的高度, 包括margin
         let g = this.itemHeight;
 
-        while (this.n < n) {
+        while (this.n < spaces.length) {
 
             w = this.horizontalNum;
             h = this.verticalNum;
@@ -142,13 +143,14 @@ export class ConcentricService {
                 continue;
             }
 
-            (this.positions)[this.n] = {x:x,y:y};
+            spaces[this.n].x = x;
+            spaces[this.n].y = y;
 
             this.i++;
             this.n++;
         }
 
-
+        return spaces;
     }
 
 
