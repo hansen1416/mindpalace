@@ -3,13 +3,12 @@
  */
 import {Component, OnInit} from '@angular/core';
 
-
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
 import {CssService} from '../share/css.service';
-
 import {Space} from './space';
 import {Position} from './position';
+
 
 @Component({
                selector   : 'space-home',
@@ -21,29 +20,29 @@ export class SpaceHomeComponent implements OnInit {
     //spaces on the home page
     private spaces: Space[];
 
-
+    //position of all the spaces
     private positions: Array<Position>;
 
 
     constructor(
         private spaceService: SpaceService,
-        private concentric: ConcentricService,
+        private concentricService: ConcentricService,
         private cssService: CssService
     ) {
     }
 
     ngOnInit() {
-        if (this.spaceService.getSpaces && this.concentric.getPositions) {
+        if (this.spaceService.getSpaces && this.concentricService.getPositions) {
             this.spaces    = this.spaceService.getSpaces;
-            this.positions = this.concentric.getPositions;
+            this.positions = this.concentricService.getPositions;
         } else {
             /**
              * get the spaces data from api
              * set the position for each space item
              */
             this.spaceService.getHomeSpaceList().subscribe(response => {
-                this.spaces = this.spaceService.setSpaces = this.concentric.setConcentricCircles(response);
-                this.positions = this.concentric.getPositions;
+                this.spaces = this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+                this.positions = this.concentricService.getPositions;
             });
         }
     }
