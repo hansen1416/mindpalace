@@ -1,9 +1,15 @@
 <div id="stage">
     <div class="space-item"
-       *ngFor="let space of spaces; let i=index; trackBy:trackBySpaces"
-       routerLink="/space/{{space.space_id}}"
-       [ngStyle]="spaceStyles(positions[i].x, positions[i].y)"
+         *ngFor="let space of spaces; let i=index; trackBy:trackBySpaces"
+         [routerLink]="space.space_id ? '/space/'+space.space_id : ''"
+         [ngStyle]="spaceStyles(positions[i].x, positions[i].y)"
     >
-        {{space.space_id}}|{{space.name}}
+        <input id="addNewSpace"
+               #newSpace
+               *ngIf="!space.space_id"
+               (keyup.enter)="addNewSpace(newSpace.value)"
+               placeholder="　　+"
+        />
+        {{space.name}}
     </div>
 </div>

@@ -60,4 +60,9 @@ export class SpaceHomeComponent implements OnInit {
     }
 
 
+    addNewSpace(value){
+        console.log(value);
+    }
+
+
 }
