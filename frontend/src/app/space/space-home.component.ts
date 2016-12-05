@@ -6,6 +6,8 @@ import {Component, OnInit} from '@angular/core';
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
 import {CssService} from '../share/css.service';
+import {ApiRoutesService} from '../share/api-routes.service';
+import {ApiHttpService} from '../share/api-http.service';
 import {Space} from './space';
 import {Position} from './position';
 
@@ -27,7 +29,9 @@ export class SpaceHomeComponent implements OnInit {
     constructor(
         private spaceService: SpaceService,
         private concentricService: ConcentricService,
-        private cssService: CssService
+        private cssService: CssService,
+        private apiRoutes: ApiRoutesService,
+        private apiHttp: ApiHttpService
     ) {
     }
 
@@ -61,7 +65,11 @@ export class SpaceHomeComponent implements OnInit {
 
 
     addNewSpace(value){
-        console.log(value);
+
+        this.apiHttp.get(this.apiRoutes.createSpace).subscribe(response=>{
+           console.log(response);
+        });
+        // console.log(value);
     }
 
 

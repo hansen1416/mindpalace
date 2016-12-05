@@ -30,7 +30,7 @@ Route::group([
         Route::post('login', 'LoginController@login');
         Route::get('home', 'SpaceController@home');
         Route::get('create', 'SpaceController@create');
-        Route::get('space/{space_id}', 'CtgController@spaceCtg');
+        Route::get('space/{space_id}', 'CtgController@spaceCtg')->where('space_id', '[0-9]+');
     });
 
 
@@ -41,4 +41,5 @@ Route::group([
              ],
     function () {
         Route::get('user', 'UserController@profile');
+        Route::get('space/create', 'SpaceController@create');
     });

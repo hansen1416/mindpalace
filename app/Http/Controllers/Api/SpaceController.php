@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\Contract\SpaceServiceContract;
+use Auth;
 
 class SpaceController extends Controller
 {
@@ -36,7 +37,11 @@ class SpaceController extends Controller
 
     public function create()
     {
-        $this->space->createSpace();
+        return response()->json([
+            'user_id' => Auth::guard('api')->user()->user_id
+                                ]);
+
+//        $this->space->createSpace();
     }
 
 }

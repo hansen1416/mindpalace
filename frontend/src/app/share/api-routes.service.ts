@@ -17,8 +17,12 @@ export class ApiRoutesService {
         return this.api_url + 'user';
     }
 
-    space(space_id:number): string {
+    space(space_id: number): string {
         return this.api_url + 'space/' + space_id;
+    }
+
+    get createSpace(): string {
+        return this.api_url + 'space/create';
     }
 
 }
