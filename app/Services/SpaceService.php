@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
+use Auth;
 
 class SpaceService implements SpaceServiceContract
 {
@@ -36,13 +37,13 @@ class SpaceService implements SpaceServiceContract
     }
 
 
-    public function createSpace()
+    public function createSpace($name)
     {
-        $this->spaceRepo->create([
-                                     'user_id'    => 1,
-                                     'name'       => 'space',
-                                     'created_at' => date('Y-m-d H:i:s'),
-                                 ]);
+        return $this->spaceRepo->create([
+                                            'user_id'    => Auth::guard('api')->user()->user_id,
+                                            'name'       => $name,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                        ]);
     }
 
 }

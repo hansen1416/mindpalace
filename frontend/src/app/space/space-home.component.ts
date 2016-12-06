@@ -66,10 +66,13 @@ export class SpaceHomeComponent implements OnInit {
 
     addNewSpace(value){
 
-        this.apiHttp.get(this.apiRoutes.createSpace).subscribe(response=>{
+        let data = new FormData();
+
+        data.append('name', value);
+
+        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response=>{
            console.log(response);
         });
-        // console.log(value);
     }
 
 

@@ -41,5 +41,5 @@ Route::group([
              ],
     function () {
         Route::get('user', 'UserController@profile');
-        Route::get('space/create', 'SpaceController@create');
+        Route::post('space/create', 'SpaceController@create');
     });
