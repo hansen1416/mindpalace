@@ -25,6 +25,11 @@ export class SpaceHomeComponent implements OnInit {
     //position of all the spaces
     private positions: Array<Position>;
 
+    private addInProgress = false;
+
+
+    private newSpaceName = '';
+
 
     constructor(
         private spaceService: SpaceService,
@@ -63,15 +68,29 @@ export class SpaceHomeComponent implements OnInit {
         return styles;
     }
 
+    /**
+     * add a new space
+     */
+    addNewSpace() {
 
-    addNewSpace(value){
+        if (!this.newSpaceName) {
+            return;
+        }
+
+        if (this.addInProgress) {
+            return;
+        }
+
+        this.addInProgress = true;
 
         let data = new FormData();
 
-        data.append('name', value);
+        data.append('name', this.newSpaceName);
 
-        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response=>{
-           this.spaceService.addNewSpace(<Space>response[1]);
+        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response=> {
+            this.spaceService.addNewSpace(<Space>response[1]);
+            this.newSpaceName  = '';
+            this.addInProgress = false;
         });
     }
 

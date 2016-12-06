@@ -7,8 +7,9 @@
         <input id="addNewSpace"
                #newSpace
                *ngIf="!space.space_id"
-               (keyup.enter)="addNewSpace(newSpace.value)"
+               (keyup.enter)="addNewSpace()"
                placeholder="　　+"
+               [(ngModel)]="newSpaceName"
         />
         {{space.name}}
     </div>
