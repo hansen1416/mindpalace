@@ -41,4 +41,10 @@ export class SpaceService {
         this.concentricService.setConcentricCircles(this.getSpaces);
     }
 
+
+    addNewSpace(space:Space) {
+        this.spaces[0] = space;
+        this.addEmptySpace();
+    }
+
 }

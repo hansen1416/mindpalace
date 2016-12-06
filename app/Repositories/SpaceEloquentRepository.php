@@ -19,6 +19,9 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
 
     public function allSpace()
     {
-        return $this->findAll()->toArray();
+        return $this
+            ->orderBy('sort', 'ASC')
+            ->findAll()
+            ->toArray();
     }
 }

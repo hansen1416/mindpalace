@@ -37,9 +37,9 @@ class SpaceController extends Controller
 
     public function create(Request $request)
     {
-        return response()->json([
-                                    'res' => $this->space->createSpace($request->input('name')),
-                                ]);
+        return response()->json(
+            $this->space->createSpace($request->input('name'))
+        );
     }
 
 }

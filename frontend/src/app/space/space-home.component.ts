@@ -71,7 +71,7 @@ export class SpaceHomeComponent implements OnInit {
         data.append('name', value);
 
         this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response=>{
-           console.log(response);
+           this.spaceService.addNewSpace(<Space>response[1]);
         });
     }
 
