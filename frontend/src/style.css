@@ -11,7 +11,7 @@ body {
     background-color: rgba(29, 97, 140, 0.22);
 }
 form {
-    padding: 0.5rem;
+    padding: 0;
 }
 input {
     border: none;

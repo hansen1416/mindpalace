@@ -29,6 +29,12 @@ class SpaceController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
+        return response()->json($this->space->searchSpace($request->input('name')));
+    }
+
+
     public function update()
     {
         $this->space->updateSpace(1);
@@ -41,5 +47,6 @@ class SpaceController extends Controller
             $this->space->createSpace($request->input('name'))
         );
     }
+
 
 }

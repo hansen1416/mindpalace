@@ -25,4 +25,9 @@ export class ApiRoutesService {
         return this.api_url + 'space/create';
     }
 
+
+    get searchSpace(): string {
+        return this.api_url + 'space/search';
+    }
+
 }

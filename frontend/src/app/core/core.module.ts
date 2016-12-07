@@ -9,6 +9,7 @@ import {SharedModule} from '../share/share.module';
 
 import {UserLoginComponent}    from './user-login.component';
 import {SpaceHomeComponent} from '../space/space-home.component';
+import {SpaceSearchComponent} from '../space/space-search.component';
 import {UserService}       from './user.service';
 import {UserServiceConfig} from './user.service';
 
@@ -21,6 +22,7 @@ import {UserServiceConfig} from './user.service';
               declarations: [
                   UserLoginComponent,
                   SpaceHomeComponent,
+                  SpaceSearchComponent,
               ],
               exports     : [
 

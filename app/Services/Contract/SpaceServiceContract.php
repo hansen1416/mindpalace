@@ -14,6 +14,9 @@ interface SpaceServiceContract
     public function allSpace();
 
 
+    public function searchSpace(string $name);
+
+
     public function updateSpace($space_id);
 
 

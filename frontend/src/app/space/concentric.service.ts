@@ -14,7 +14,7 @@ export class ConcentricService {
     //中心空白的宽度,unit rem
     private a = 20;
     //中心空白的高度,unit rem
-    private b = 15;
+    private b = 18;
 
     private k = 5;
 

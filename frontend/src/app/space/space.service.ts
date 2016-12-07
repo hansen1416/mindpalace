@@ -26,6 +26,13 @@ export class SpaceService {
     }
 
 
+    getSearchSpaceList(spaceName:string): Observable<Space[]> {
+        let data = new FormData();
+        data.append('name', spaceName);
+        return this.apiHttp.post(this.apiRoutes.searchSpace, data);
+    }
+
+
     get getSpaces() {
         return this.spaces;
     }

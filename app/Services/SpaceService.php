@@ -31,6 +31,14 @@ class SpaceService implements SpaceServiceContract
     }
 
 
+    public function searchSpace(string $name)
+    {
+        $user_id = Auth::guard('api')->user()->user_id;
+
+//        return $this->spaceRepo->
+    }
+
+
     public function updateSpace($space_id)
     {
         $this->spaceRepo->update($space_id, ['name' => 'PHP5']);

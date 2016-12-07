@@ -31,6 +31,7 @@ Route::group([
         Route::get('home', 'SpaceController@home');
         Route::get('create', 'SpaceController@create');
         Route::get('space/{space_id}', 'CtgController@spaceCtg')->where('space_id', '[0-9]+');
+        Route::post('space/search', 'SpaceController@search');
     });
 
 
