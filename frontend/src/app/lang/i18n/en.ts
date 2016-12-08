@@ -12,6 +12,8 @@ export const EN: LangInterface = {
         password_required   : 'Enter your password please',
         login               : 'Login',
         login_failed         : 'Email and password does not match',
+    },
+    space: {
+        show_all: 'Show all',
     }
-
 };

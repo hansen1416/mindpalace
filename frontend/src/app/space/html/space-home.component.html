@@ -3,6 +3,7 @@
          *ngFor="let space of spaces; let i=index; trackBy:trackBySpaces"
          [routerLink]="space.space_id ? '/space/'+space.space_id : ''"
          [ngStyle]="spaceStyles(positions[i].x, positions[i].y)"
+         title="{{space.name}}"
     >
         <input id="addNewSpace"
                #newSpace

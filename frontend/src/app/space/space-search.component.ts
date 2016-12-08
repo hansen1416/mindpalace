@@ -19,12 +19,13 @@ export class SpaceSearchComponent {
 
     private searchInProgress = false;
 
+
+    private searched = false;
+
     constructor(
         private spaceService: SpaceService,
         private concentricService: ConcentricService
-    ) {
-
-    }
+    ) {}
 
     searchSpace() {
 
@@ -40,6 +41,8 @@ export class SpaceSearchComponent {
 
         this.spaceService.getSearchSpaceList(this.spaceName).subscribe(response => {
             this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+
+            this.searched         = true;
             this.searchInProgress = false;
         });
     }
