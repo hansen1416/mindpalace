@@ -4,6 +4,7 @@
 import {Component} from '@angular/core';
 
 import {SpaceService} from './space.service';
+import {ConcentricService} from './concentric.service';
 
 @Component({
                selector   : 'space-search',
@@ -19,7 +20,8 @@ export class SpaceSearchComponent {
     private searchInProgress = false;
 
     constructor(
-        private spaceService: SpaceService
+        private spaceService: SpaceService,
+        private concentricService: ConcentricService
     ) {
 
     }
@@ -37,7 +39,7 @@ export class SpaceSearchComponent {
         this.searchInProgress = true;
 
         this.spaceService.getSearchSpaceList(this.spaceName).subscribe(response => {
-            console.log(response);
+            this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
             this.searchInProgress = false;
         });
     }

@@ -82,7 +82,6 @@ export class UserLoginComponent {
                             this.spaceService.getHomeSpaceList().subscribe(response=> {
 
                                 this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
-                                this.concentricService.getPositions;
                                 this.spaceService.addEmptySpace();
                             });
 
