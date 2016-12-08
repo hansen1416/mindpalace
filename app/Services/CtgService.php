@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\CtgRepositoryContract;
 
+
 class CtgService implements CtgServiceContract
 {
 

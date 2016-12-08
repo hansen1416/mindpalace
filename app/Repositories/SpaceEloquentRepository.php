@@ -21,7 +21,25 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
     {
         return $this
             ->orderBy('sort', 'ASC')
+            ->orderBy('space_id', 'DESC')
             ->findAll()
             ->toArray();
     }
+
+
+    public function searchUserSpaceByName(string $name, int $user_id)
+    {
+        return $this
+            ->where('name', 'like', '%' . $name . '%')
+            ->where('user_id', '=', 1, 'and')
+            ->where(function($q){
+                $q->where('user_id', '<>', 1, 'or');
+                $q->where('share', '<>', 1, 'or');
+            })
+            ->orderBy('sort', 'DESC')
+            ->orderBy('space_id', 'DESC')
+            ->findAll()->toArray();
+    }
+
+
 }

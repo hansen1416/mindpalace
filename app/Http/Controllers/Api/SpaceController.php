@@ -31,7 +31,7 @@ class SpaceController extends Controller
 
     public function search(Request $request)
     {
-        return response()->json($this->space->searchSpace($request->input('name')));
+        return response()->json($this->space->searchSpace($request->input('name', '')));
     }
 
 

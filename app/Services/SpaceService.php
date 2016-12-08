@@ -12,6 +12,7 @@ use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use Auth;
 
+
 class SpaceService implements SpaceServiceContract
 {
 
@@ -33,9 +34,9 @@ class SpaceService implements SpaceServiceContract
 
     public function searchSpace(string $name)
     {
-        $user_id = Auth::guard('api')->user()->user_id;
+        $user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : null;
 
-//        return $this->spaceRepo->
+        $this->spaceRepo->searchUserSpaceByName($name, (int)$user_id);
     }
 
 
