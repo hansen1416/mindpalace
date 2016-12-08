@@ -13,16 +13,20 @@
         font-size: 1em;
     }
     .show-all {
-        $height : $search-height - 0.4;
+        $top: 0.2rem;
+        $height: $search-height - $top*2;
         position: absolute;
         width: auto;
         height: $height;
-        top: 0;
-        right: 0;
-        padding: 0.1rem;
+        top: $top;
+        right: $top;
+        padding: 0 0.4rem;
         line-height: $height;
         text-align: center;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+        color: #fff;
+        background-color: #5bc0de;
+        &:hover{cursor: pointer;}
     }
 }
 

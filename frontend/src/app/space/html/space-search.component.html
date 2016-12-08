@@ -4,5 +4,8 @@
            (keyup.enter)="searchSpace()"
            [(ngModel)]="spaceName"
     >
-    <div class="show-all">{{'space.show_all' | translate}}</div>
+    <div class="show-all"
+         *ngIf="searched"
+         (click)="showAll()"
+    >{{'space.show_all' | translate}}</div>
 </div>

@@ -47,4 +47,21 @@ export class SpaceSearchComponent {
         });
     }
 
+
+    showAll() {
+        if (this.searchInProgress) {
+            return;
+        }
+
+        this.searchInProgress = true;
+
+        this.spaceService.getHomeSpaceList().subscribe(response => {
+            this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+
+            this.searched         = false;
+            this.searchInProgress = false;
+        });
+    }
+
+
 }

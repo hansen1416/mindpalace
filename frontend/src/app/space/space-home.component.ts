@@ -52,7 +52,6 @@ export class SpaceHomeComponent implements OnInit {
              */
             this.spaceService.getHomeSpaceList().subscribe(response => {
                 this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
-                this.concentricService.getPositions;
             });
         }
     }
