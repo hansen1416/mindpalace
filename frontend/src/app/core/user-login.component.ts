@@ -7,6 +7,7 @@ import {UserService} from "./user.service";
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {SpaceService} from "../space/space.service";
+import {ConcentricService} from "../space/concentric.service";
 
 @Component({
                selector   : 'user-login',
@@ -19,7 +20,8 @@ export class UserLoginComponent {
         private userService: UserService,
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
-        private spaceService: SpaceService
+        private spaceService: SpaceService,
+        private concentricService: ConcentricService
     ) {
     }
 
@@ -77,8 +79,13 @@ export class UserLoginComponent {
                             this.userService.setUserProperties(response, profile);
                             this.userService.sealUserModel();
 
-                            this.spaceService.addEmptySpace();
-                            console.log(this.user);
+                            this.spaceService.getHomeSpaceList().subscribe(response=> {
+
+                                this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+                                this.concentricService.getPositions;
+                                this.spaceService.addEmptySpace();
+                            });
+
                         }
                     )
                 } else {

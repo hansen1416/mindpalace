@@ -11,7 +11,7 @@ namespace App\Services;
 use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use Auth;
-
+use DB;
 
 class SpaceService implements SpaceServiceContract
 {
@@ -28,15 +28,18 @@ class SpaceService implements SpaceServiceContract
 
     public function allSpace()
     {
-        return $this->spaceRepo->allSpace();
+        $user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : null;
+        return $this->spaceRepo->allSpace((int)$user_id);
     }
 
 
     public function searchSpace(string $name)
     {
+        DB::enableQueryLog();
         $user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : null;
 
         $this->spaceRepo->searchUserSpaceByName($name, (int)$user_id);
+        return DB::getQueryLog();
     }
 
 

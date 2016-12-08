@@ -4,8 +4,6 @@
 import {Component} from '@angular/core';
 
 import {SpaceService} from './space.service';
-import {ApiRoutesService} from '../share/api-routes.service';
-import {ApiHttpService} from '../share/api-http.service';
 
 @Component({
                selector   : 'space-search',
@@ -21,9 +19,7 @@ export class SpaceSearchComponent {
     private searchInProgress = false;
 
     constructor(
-        private spaceService: SpaceService,
-        private apiRoutesService: ApiRoutesService,
-        private apiHttpService: ApiHttpService
+        private spaceService: SpaceService
     ) {
 
     }
@@ -42,6 +38,7 @@ export class SpaceSearchComponent {
 
         this.spaceService.getSearchSpaceList(this.spaceName).subscribe(response => {
             console.log(response);
+            this.searchInProgress = false;
         });
     }
 

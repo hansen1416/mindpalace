@@ -25,6 +25,7 @@ export class SpaceHomeComponent implements OnInit {
     //position of all the spaces
     private positions: Array<Position>;
 
+
     private addInProgress = false;
 
 
@@ -50,10 +51,16 @@ export class SpaceHomeComponent implements OnInit {
              * set the position for each space item
              */
             this.spaceService.getHomeSpaceList().subscribe(response => {
-                this.spaces = this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
-                this.positions = this.concentricService.getPositions;
+                this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+                this.concentricService.getPositions;
             });
         }
+    }
+
+
+    ngDoCheck(){
+        this.spaces = this.spaceService.getSpaces;
+        this.positions = this.concentricService.getPositions;
     }
 
 

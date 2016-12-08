@@ -17,28 +17,45 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
 
     protected $model = 'App\Space';
 
-    public function allSpace()
+    private function availableSpaces($user_id)
     {
-        return $this
-            ->orderBy('sort', 'ASC')
-            ->orderBy('space_id', 'DESC')
-            ->findAll()
-            ->toArray();
+        if ($user_id) {
+
+            $this->where(function ($q) use ($user_id) {
+                $q->where(function ($q) use ($user_id) {
+                    $q->where('user_id', '<>', $user_id);
+                    $q->where('share', '=', 1);
+                })->where('user_id', '=', $user_id, 'or');
+            });
+        } else {
+            $this->where('share', '=', 1);
+        }
+
+        return $this->orderBy('sort', 'ASC')
+                    ->orderBy('space_id', 'DESC');
     }
 
+    public function allSpace(int $user_id)
+    {
+        $model = $this->availableSpaces($user_id);
 
+        return $model->findAll()->toArray();
+    }
+
+    /**
+     * search only the user own space and public space
+     * @param string $name
+     * @param int    $user_id
+     * @return array
+     */
     public function searchUserSpaceByName(string $name, int $user_id)
     {
-        return $this
-            ->where('name', 'like', '%' . $name . '%')
-            ->where('user_id', '=', 1, 'and')
-            ->where(function($q){
-                $q->where('user_id', '<>', 1, 'or');
-                $q->where('share', '<>', 1, 'or');
-            })
-            ->orderBy('sort', 'DESC')
-            ->orderBy('space_id', 'DESC')
-            ->findAll()->toArray();
+        $model = $this->availableSpaces($user_id);
+
+        $model->setCacheLifetime(0)
+              ->where('name', 'like', '%' . $name . '%');
+
+        return $model->findAll()->toArray();
     }
 
 
