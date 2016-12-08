@@ -27,6 +27,9 @@ export class SpaceSearchComponent {
         private concentricService: ConcentricService
     ) {}
 
+    /**
+     * search spaces by space name
+     */
     searchSpace() {
 
         if (!this.spaceName) {
@@ -47,7 +50,9 @@ export class SpaceSearchComponent {
         });
     }
 
-
+    /**
+     * show all user available spaces after search conducted
+     */
     showAll() {
         if (this.searchInProgress) {
             return;

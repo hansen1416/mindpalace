@@ -24,12 +24,18 @@ class UserService implements UserServiceContract
     }
 
 
+    public function userId()
+    {
+        return Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : 0;
+    }
+
+
     public function userProfile()
     {
 //        $user = Auth::guard('api')->user();
 //        $user->profile;
 //        $user->space;
-        return $this->userRepo->userProfile(Auth::guard('api')->user()->user_id);
+        return $this->userRepo->userProfile($this->userId());
     }
 
 

@@ -12,6 +12,11 @@ namespace App\Services\Contract;
 interface UserServiceContract
 {
     /**
+     * @return int
+     */
+    public function userId();
+
+    /**
      * @return mixed
      */
     public function userProfile();

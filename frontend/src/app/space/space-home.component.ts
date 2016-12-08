@@ -56,7 +56,9 @@ export class SpaceHomeComponent implements OnInit {
         }
     }
 
-
+    /**
+     * synchronous space and position data from service
+     */
     ngDoCheck(){
         this.spaces = this.spaceService.getSpaces;
         this.positions = this.concentricService.getPositions;
