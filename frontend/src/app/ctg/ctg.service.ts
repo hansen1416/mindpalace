@@ -83,6 +83,7 @@ export class CtgService {
         let startTier  = li[0].tier;
         let itemWidth  = 5;
         let itemHeight = 1.2;
+        let data       = {};
 
         while (i < len) {
 
@@ -90,8 +91,27 @@ export class CtgService {
 
             if (ctg.tier == startTier) {
                 this.ctgPositions[i] = {x: i * itemWidth, y: 0, z: 0};
-            }else{
+                data[li[i].ctg_id]   = {x: i * itemWidth};
+            } else {
                 this.ctgPositions[i] = {x: 0, y: 0, z: 0};
+
+                let path = li[i].path.split('-');
+                let j = 0;
+                
+                while (j < path.length){
+                    if (path[j] && data.hasOwnProperty(path[j])) {
+                        this.ctgPositions[i]['x'] = data[path[j]]['x'];
+                        
+                        // if (data[path[j]].hasOwnProperty) {
+                        //
+                        // }
+                        
+                        break;
+                    }
+                    
+                    j++;
+                }
+
             }
 
             i++;
