@@ -31,9 +31,27 @@ export class CtgListComponent implements OnInit {
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
 
-            this.ctgService.getCtgListBySpaceId(params['space_id']).subscribe(response => this.ctgList = response);
+            this.ctgService.setSpaceId = params['space_id'];
+            this.ctgService.setCtgId   = params['ctg_id'];
+
+            if (this.ctgService.getSpaceId) {
+                this.ctgService.getCtgListBySpaceId().subscribe(response => {
+                    this.ctgService.setCtgList = this.ctgService.setCtgPosition(response);
+                });
+            }
+
+            if (this.ctgService.getCtgId) {
+                this.ctgService.getCtgListByCtgId().subscribe(response => {
+                    this.ctgService.setCtgList = this.ctgService.setCtgPosition(response);
+                });
+            }
 
         });
+    }
+
+
+    ngDoCheck() {
+        this.ctgList = this.ctgService.getCtgList;
     }
 
 

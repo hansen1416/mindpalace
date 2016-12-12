@@ -4,7 +4,8 @@
          attr.data-sort="{{ctg.sort}}"
          attr.data-pid="{{ctg.pid}}"
          attr.data-path="{{ctg.path}}"
+         [routerLink]="ctg.ctg_id ? '/ctg/'+ctg.ctg_id : ''"
          ctgStyle>
-        {{ctg.tier}}|{{ctg.sort}}|{{ctg.ctg_id}}|{{ctg.title}}
+        {{ctg.tier}}|{{ctg.sort}}|{{ctg.ctg_id}}|{{ctg.title}}|{{ctg.path}}
     </div>
 </section>

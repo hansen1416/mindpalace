@@ -10,6 +10,7 @@ import {CtgListComponent}    from './ctg-list.component';
               imports: [
                   RouterModule.forChild([
                                             {path: 'space/:space_id', component: CtgListComponent},
+                                            {path: 'ctg/:ctg_id', component: CtgListComponent}
                                         ])
               ],
               exports: [

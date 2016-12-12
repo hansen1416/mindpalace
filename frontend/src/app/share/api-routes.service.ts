@@ -30,4 +30,8 @@ export class ApiRoutesService {
         return this.api_url + 'space/search';
     }
 
+    ctg(ctg_id: number): string {
+        return this.api_url + 'ctg/' + ctg_id;
+    }
+
 }
