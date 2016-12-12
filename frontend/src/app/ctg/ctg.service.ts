@@ -2,11 +2,12 @@
  * Created by mok on 16-11-18.
  */
 import {Injectable} from '@angular/core';
+import {Observable} from "rxjs";
 
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {Ctg} from './ctg';
-import {Observable} from "rxjs";
+import {CtgPosition} from './ctg-position';
 
 @Injectable()
 export class CtgService {
@@ -19,6 +20,9 @@ export class CtgService {
 
 
     private ctgList: Ctg[];
+
+
+    private ctgPositions = <Array<CtgPosition>>[];
 
 
     constructor(
@@ -57,6 +61,10 @@ export class CtgService {
     }
 
 
+    get getCtgPositions() {
+        return this.ctgPositions;
+    }
+
     getCtgListBySpaceId(): Observable<Ctg[]> {
         return this.http.get(this.routers.space(this.getSpaceId));
     }
@@ -69,16 +77,22 @@ export class CtgService {
 
     setCtgPosition(ctgList?: Ctg[]) {
 
-        let i         = 0;
-        let li        = ctgList || this.ctgList;
-        let len       = li.length;
-        let startTier = 1;
+        let i          = 0;
+        let li         = ctgList || this.getCtgList;
+        let len        = li.length;
+        let startTier  = li[0].tier;
+        let itemWidth  = 5;
+        let itemHeight = 1.2;
 
         while (i < len) {
 
             let ctg = li[i];
 
-            console.log(ctg);
+            if (ctg.tier == startTier) {
+                this.ctgPositions[i] = {x: i * itemWidth, y: 0, z: 0};
+            }else{
+                this.ctgPositions[i] = {x: 0, y: 0, z: 0};
+            }
 
             i++;
         }

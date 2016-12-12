@@ -68,7 +68,7 @@ export class SpaceHomeComponent implements OnInit {
     trackBySpaces(index: number, space: Space) {return space.space_id}
 
 
-    spaceStyles(x, y) {
+    spaceStyles(x:number, y:number) {
         let styles = {};
 
         styles[this.cssService.getTransform] = 'translate3d(' + x + 'rem, ' + y + 'rem, 0rem)';

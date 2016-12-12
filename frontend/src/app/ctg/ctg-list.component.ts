@@ -4,10 +4,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
-// import {ApiHttpService} from '../share/api-http.service';
-// import {ApiRoutesService} from '../share/api-routes.service';
+import {CssService} from '../share/css.service';
 import {CtgService} from './ctg.service';
 import {Ctg} from "./ctg";
+import {CtgPosition} from "./ctg-position";
 
 @Component({
                selector   : 'ctg-list',
@@ -18,15 +18,17 @@ export class CtgListComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        // private http: ApiHttpService,
-        // private routers: ApiRoutesService,
+        private cssService: CssService,
         private ctgService: CtgService
     ) {
 
     }
 
 
-    ctgList: Ctg[];
+    private ctgList: Ctg[];
+
+
+    private ctgPositions: CtgPosition[];
 
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
@@ -52,6 +54,16 @@ export class CtgListComponent implements OnInit {
 
     ngDoCheck() {
         this.ctgList = this.ctgService.getCtgList;
+        this.ctgPositions = this.ctgService.getCtgPositions;
+    }
+
+
+    ctgStyles(x: number, y: number, z: number) {
+        let styles = {};
+
+        styles[this.cssService.getTransform] = 'translate3d(' + x + 'rem, ' + y + 'rem, ' + z + 'rem)';
+
+        return styles;
     }
 
 
