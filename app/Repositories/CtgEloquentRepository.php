@@ -30,11 +30,15 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
     {
         return $this
             ->where('space_id', $space_id)
-            ->orderBy('tier', 'ASC')
-            ->orderBy('sort', 'ASC')
-            ->orderBy('ctg_id', 'DESC')
             ->findAll()->toArray();
     }
 
+
+    public function getByCtg(int $ctg_id)
+    {
+        return $this
+            ->where('path', 'LIKE', '%-' . $ctg_id . '-%')
+            ->findAll()->toArray();
+    }
 
 }

@@ -26,4 +26,12 @@ class CtgController extends Controller
     {
         return response()->json($this->ctg->spaceCtg($space_id));
     }
+
+
+    public function ctgDescendant($ctg_id)
+    {
+        return response()->json($this->ctg->ctgDescendant($ctg_id));
+    }
+
+
 }

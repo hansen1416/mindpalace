@@ -24,8 +24,16 @@ class CtgService implements CtgServiceContract
         $this->ctgRepo = $ctgRepositoryContract;
     }
 
-    public function spaceCtg($space_id)
+    public function spaceCtg(int $space_id)
     {
         return $this->ctgRepo->getBySpace($space_id);
     }
+
+
+    public function ctgDescendant(int $ctg_id)
+    {
+        return $this->ctgRepo->getByCtg($ctg_id);
+    }
+
+
 }

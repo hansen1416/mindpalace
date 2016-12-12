@@ -11,7 +11,7 @@ namespace App\Services\Contract;
 
 interface CtgServiceContract
 {
-    public function spaceCtg($space_id);
+    public function spaceCtg(int $space_id);
 
-
+    public function ctgDescendant(int $ctg_id);
 }

@@ -17,4 +17,7 @@ interface CtgRepositoryContract extends CacheableContract, RepositoryContract
 
 
     public function getBySpace(int $space_id);
+
+
+    public function getByCtg(int $ctg_id);
 }
