@@ -9,6 +9,7 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(29, 97, 140, 0.22);
+    overflow: hidden;
 }
 form {
     padding: 0;
@@ -21,7 +22,7 @@ input {
     background-color: rgb(224, 225, 238);
     text-indent: 0.3rem;
 }
-a{
+a {
     text-decoration: none;
 }
 

@@ -8,16 +8,78 @@ import * as THREE from "three";
 @Injectable()
 export class ThreeService {
 
-    scene = new THREE.Scene();
+    private container: HTMLElement;
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    renderer = new THREE.WebGLRenderer();
+    private width: number;
 
-    geometry = new THREE.CubeGeometry(1, 1, 1);
 
-    material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    private height: number;
 
-    cube = new THREE.Mesh(this.geometry, this.material);
+
+    renderer() {
+        this.container = document.getElementById('canvas-frame');
+        this.width     = this.container.clientWidth;
+        this.height    = this.container.clientHeight;
+
+        let renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+
+        renderer.setSize(this.width, this.height);
+        this.container.appendChild(renderer.domElement);
+        renderer.setClearColor(0xFFFFFF, 1.0);
+        return renderer;
+    }
+
+    scene() {
+        return new THREE.Scene();
+    }
+
+    camera() {
+        let camera = new THREE.PerspectiveCamera(50, this.width / this.height);
+
+        camera.position.x = 0;
+        camera.position.y = 1000;
+        camera.position.z = 0;
+        camera.up.x       = 0;
+        camera.up.y       = 0;
+        camera.up.z       = 1;
+        camera.lookAt(this.vector3(0, 0, 0));
+
+        return camera;
+    }
+
+    geometry() {
+        return new THREE.Geometry();
+    }
+
+    material(parameters?) {
+        return new THREE.MeshBasicMaterial(parameters);
+    }
+
+    color(color?){
+        return new THREE.Color(color);
+    }
+
+    cube() {
+        return new THREE.Mesh(this.geometry(), this.material());
+    }
+
+    vector3(a, b, c) {
+        return new THREE.Vector3(a, b, c);
+    }
+
+    light() {
+        return new THREE.DirectionalLight(0xFF0000, 0.5);
+    }
+
+    line(geometry?, material?, mode?) {
+        return new THREE.Line(geometry, material, mode);
+    }
+
+    lineSegments(){
+        return THREE.LineSegments;
+    }
 
 }

@@ -1,12 +1,1 @@
-<section *ngIf="ctgList">
-    <div *ngFor="let ctg of ctgList; let i=index;"
-         attr.data-tier="{{ctg.tier}}"
-         attr.data-sort="{{ctg.sort}}"
-         attr.data-pid="{{ctg.pid}}"
-         attr.data-path="{{ctg.path}}"
-         [routerLink]="ctg.ctg_id ? '/ctg/'+ctg.ctg_id : ''"
-         class="ctg-item"
-         ctgStyle>
-        {{ctg.tier}}|{{ctg.sort}}|{{ctg.ctg_id}}|{{ctg.title}}|{{ctg.path}}
-    </div>
-</section>
+<div id="canvas-frame"></div>

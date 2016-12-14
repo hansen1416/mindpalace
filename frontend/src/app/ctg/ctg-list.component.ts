@@ -32,21 +32,13 @@ export class CtgListComponent implements OnInit {
 
     private ctgPositions: CtgPosition[];
 
+
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
 
             this.ctgService.setSpaceId = params['space_id'];
             this.ctgService.setCtgId   = params['ctg_id'];
         });
-
-        if (this.ctgService.getSpaceId) {
-            this.ctgService.getCtgListBySpaceId().subscribe(response => this.renderCtgList(response));
-        }
-
-        if (this.ctgService.getCtgId) {
-            this.ctgService.getCtgListByCtgId().subscribe(response => this.renderCtgList(response));
-        }
-
     }
 
 
@@ -56,40 +48,41 @@ export class CtgListComponent implements OnInit {
     }
 
 
-    ctgStyles(x: number, y: number, z: number) {
-        let styles = {};
+    ngAfterViewInit() {
+        if (this.ctgService.getSpaceId) {
+            this.ctgService.getCtgListBySpaceId().subscribe(response => this.renderCtgList(response));
+        }
 
-        styles[this.cssService.getTransform] = 'translate3d(' + x + 'rem, ' + y + 'rem, ' + z + 'rem)';
-
-        return styles;
+        if (this.ctgService.getCtgId) {
+            this.ctgService.getCtgListByCtgId().subscribe(response => this.renderCtgList(response));
+        }
     }
 
 
     private renderCtgList(ctgList: Ctg[]) {
         this.ctgService.setCtgList = ctgList;
 
-        let scene = this.threeService.scene;
+        let renderer = this.threeService.renderer();
+        let geometry = this.threeService.geometry();
+        let material = this.threeService.material({vertexColors: true});
+        let color1   = this.threeService.color(0x444444);
+        let color2   = this.threeService.color(0xFF0000);
+        let point1   = this.threeService.vector3(-100, 0, 100);
+        let point2   = this.threeService.vector3(100, 0, -100);
 
-        let camera = this.threeService.camera;
+        geometry.vertices.push(point1);
+        geometry.vertices.push(point2);
+        geometry.colors.push(color1, color2);
 
-        var renderer = this.threeService.renderer;
+        let line   = this.threeService.line(geometry, material, this.threeService.lineSegments());
+        let scene  = this.threeService.scene();
+        let camera = this.threeService.camera();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        scene.add(line);
 
-        document.body.appendChild(renderer.domElement);
+        renderer.clear();
+        renderer.render(scene, camera);
 
-        let cube = this.threeService.cube;
-
-        scene.add(cube);
-        camera.position.z = 5;
-        function render() {
-            requestAnimationFrame(render);
-            cube.rotation.x += 0.1;
-            cube.rotation.y += 0.1;
-            renderer.render(scene, camera);
-        }
-
-        render();
     }
 
 
