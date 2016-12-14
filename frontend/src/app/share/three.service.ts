@@ -4,6 +4,7 @@
 import {Injectable} from '@angular/core';
 
 import * as THREE from "three";
+import {Stats} from "@types/stats";
 
 @Injectable()
 export class ThreeService {
@@ -50,6 +51,14 @@ export class ThreeService {
         return camera;
     }
 
+    stats() {
+        // let stats = new Stats();
+        // stats.domElement.style.position = 'absolute';
+        // stats.domElement.style.left = '0px';
+        // stats.domElement.style.top = '0px';
+        // document.getElementById('canvas-frame').appendChild(stats.domElement);
+    }
+
     geometry() {
         return new THREE.Geometry();
     }
@@ -58,7 +67,7 @@ export class ThreeService {
         return new THREE.MeshBasicMaterial(parameters);
     }
 
-    color(color?){
+    color(color?) {
         return new THREE.Color(color);
     }
 
@@ -71,14 +80,14 @@ export class ThreeService {
     }
 
     light() {
-        return new THREE.DirectionalLight(0xFF0000, 0.5);
+        return new THREE.DirectionalLight(0xFFEE00, 1);
     }
 
     line(geometry?, material?, mode?) {
         return new THREE.Line(geometry, material, mode);
     }
 
-    lineSegments(){
+    lineSegments() {
         return THREE.LineSegments;
     }
 

@@ -65,10 +65,10 @@ export class CtgListComponent implements OnInit {
         let renderer = this.threeService.renderer();
         let geometry = this.threeService.geometry();
         let material = this.threeService.material({vertexColors: true});
-        let color1   = this.threeService.color(0x444444);
+        let color1   = this.threeService.color(0x0000FF);
         let color2   = this.threeService.color(0xFF0000);
-        let point1   = this.threeService.vector3(-100, 0, 100);
-        let point2   = this.threeService.vector3(100, 0, -100);
+        let point1   = this.threeService.vector3(0, 0, 0);
+        let point2   = this.threeService.vector3(100, 100, 0);
 
         geometry.vertices.push(point1);
         geometry.vertices.push(point2);
@@ -77,7 +77,13 @@ export class CtgListComponent implements OnInit {
         let line   = this.threeService.line(geometry, material, this.threeService.lineSegments());
         let scene  = this.threeService.scene();
         let camera = this.threeService.camera();
+        let light  = this.threeService.light();
 
+        line.position.z = 300;
+        line.rotation.x = Math.PI / 2;
+        light.position.set(100, 100, 200);
+
+        scene.add(light);
         scene.add(line);
 
         renderer.clear();
