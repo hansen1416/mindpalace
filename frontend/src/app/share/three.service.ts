@@ -66,20 +66,27 @@ export class ThreeService {
 
         sphere.position.z = -500;
 
-        let a = sphere.geometry;
-
-        console.log(a);
-
         scene.add(sphere);
 
-        let pointLight = new THREE.PointLight(0xFFFFFF);
+        let planeGeo = new THREE.PlaneGeometry(100, 50, 10, 100);
+        let plane = new THREE.Mesh(planeGeo, sphereMaterial);
+
+        plane.position.z = -400;
+
+        plane.rotation.x = Math.PI/6;
+        plane.rotation.z = Math.PI/6;
+        plane.rotation.y = Math.PI/6;
+
+        scene.add(plane);
+
+        let pointLight = new THREE.DirectionalLight(0xFFFFFF, 0.8);
         let rad        = 150;
         let alpha      = 0;
         let x          = 0;
 
         pointLight.position.x = 0;
         pointLight.position.y = rad;
-        pointLight.position.z = -130;
+        pointLight.position.z = 1300;
 
         scene.add(pointLight);
 
