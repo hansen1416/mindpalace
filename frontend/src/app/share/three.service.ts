@@ -4,15 +4,20 @@
 import {Injectable} from '@angular/core';
 
 import * as THREE from "three";
+import * as TWEEN from "tween.js";
 
 @Injectable()
 export class ThreeService {
 
+    private view_angle = 45;
+
+    private near = 0.1;
+
+    private far = 1000;
+
     private container: HTMLElement;
 
-
     private width: number;
-
 
     private height: number;
 
@@ -22,28 +27,21 @@ export class ThreeService {
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
 
-        let renderer = new THREE.WebGLRenderer({
-            antialias: true
-        });
+        let renderer = new THREE.WebGLRenderer();
 
         renderer.setSize(this.width, this.height);
         this.container.appendChild(renderer.domElement);
-        renderer.setClearColor(0xFFFFFF, 1.0);
+
         return renderer;
     }
 
     camera() {
-        let camera = new THREE.PerspectiveCamera(50, this.width / this.height);
-
-        camera.position.x = 0;
-        camera.position.y = 0;
-        camera.position.z = 600;
-        camera.up.x       = 0;
-        camera.up.y       = 1;
-        camera.up.z       = 0;
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-        return camera;
+        return new THREE.PerspectiveCamera(
+            this.view_angle,
+            this.width / this.height,
+            this.near,
+            this.far
+        );
     }
 
 
@@ -51,26 +49,61 @@ export class ThreeService {
         let renderer = this.renderer();
         let camera   = this.camera();
         let scene    = new THREE.Scene();
-        let light    = new THREE.AmbientLight(0xFFFFFF);
 
-        light.position.set(100, 100, 200);
-        scene.add(light);
-        light = new THREE.PointLight(0x00FF00);
-        light.position.set(0, 0, 300);
-        scene.add(light);
 
-        var geometry  = new THREE.CylinderGeometry(100, 150, 400);
-        var material  = new THREE.MeshLambertMaterial({color: 0xFFFF00});
-        var mesh      = new THREE.Mesh(geometry, material);
-        mesh.position.set(0, 0, 0);
-        scene.add(mesh);
+        let radius         = 50;
+        let segment        = 16;
+        let rings          = 16;
+        let sphereMaterial = new THREE.MeshLambertMaterial({color: 0xCC0000});
 
-        let ani = function () {
-            renderer.clear();
-            camera.position.x += 1;
+        let sphere = new THREE.Mesh(
+            new THREE.SphereGeometry(
+                radius,
+                segment,
+                rings),
+
+            sphereMaterial);
+
+        sphere.position.z = -500;
+
+        let a = sphere.geometry;
+
+        console.log(a);
+
+        scene.add(sphere);
+
+        let pointLight = new THREE.PointLight(0xFFFFFF);
+        let rad        = 150;
+        let alpha      = 0;
+        let x          = 0;
+
+        pointLight.position.x = 0;
+        pointLight.position.y = rad;
+        pointLight.position.z = -130;
+
+        scene.add(pointLight);
+
+        function rotate() {
             renderer.render(scene, camera);
-            requestAnimationFrame(ani);
+
+            x = Math.PI * (alpha % 100 / 50);
+
+            // console.log(Math.sin(x), Math.cos(x));
+
+            pointLight.position.x = rad * Math.sin(x);
+            pointLight.position.y = rad * Math.cos(x);
+
+            alpha++;
+
+            let r = requestAnimationFrame(rotate);
+
+            if (alpha > 500) {
+                cancelAnimationFrame(r);
+            }
         }
+
+        rotate();
+
     }
 
 
