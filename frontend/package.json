@@ -19,7 +19,7 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "*",
     "to-string-loader": "^1.1.4",
-    "typescript": "^2.0.2",
+    "typescript": "2.0.3",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
     "webpack-merge": "^0.8.4"
