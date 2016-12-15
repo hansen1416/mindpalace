@@ -66,8 +66,7 @@ var defaultConfig = {
         setImmediate  : 0
     },
 
-    three: 'npm:/three/build/three.min.js',
-    stats: 'npm:/stats/lib/stats.js'
+    three: 'npm:/three/build/three.min.js'
 };
 
 var webpackMerge = require('webpack-merge');

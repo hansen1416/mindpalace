@@ -11,8 +11,7 @@
         "types": [
             "core-js",
             "node",
-            "three",
-            "stats"
+            "three"
         ]
     },
     "exclude": [

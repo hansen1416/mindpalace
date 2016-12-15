@@ -4,7 +4,6 @@
 import {Injectable} from '@angular/core';
 
 import * as THREE from "three";
-import {Stats} from "@types/stats";
 
 @Injectable()
 export class ThreeService {
