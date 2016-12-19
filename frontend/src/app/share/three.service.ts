@@ -28,6 +28,12 @@ export class ThreeService {
     private camera;
 
 
+    private triangleMesh;
+
+
+    private squareMesh;
+
+
     init() {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
@@ -40,14 +46,14 @@ export class ThreeService {
         // viewed in browsers, which don't support WebGL. The limitations of the canvas renderer
         // in contrast to the WebGL renderer will be explained in the tutorials, when there is a
         // difference.
-        if (Detector.webgl) {
-            this.renderer = new THREE.WebGLRenderer({antialias: true});
+        // if (Detector.webgl) {
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
 
-            // If its not supported, instantiate the canvas renderer to support all non WebGL
-            // browsers
-        } else {
-            this.renderer = new THREE.CanvasRenderer();
-        }
+        // If its not supported, instantiate the canvas renderer to support all non WebGL
+        // browsers
+        // } else {
+        //     this.renderer = new THREE.CanvasRenderer();
+        // }
 
         // Set the background color of the renderer to gray, with full opacity
         this.renderer.setClearColor(0xcccccc, 1);
@@ -90,21 +96,61 @@ export class ThreeService {
 
     project() {
 
-        // Create the triangle (or any arbitrary geometry).
-        // 1. Instantiate the geometry object
-        // 2. Add the vertices
-        // 3. Define the faces by setting the vertices indices
-        var triangleGeometry = new THREE.Geometry();
-        triangleGeometry.vertices.push(new THREE.Vector3(0.0, 1.0, 0.0));
-        triangleGeometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0));
-        triangleGeometry.vertices.push(new THREE.Vector3(1.0, -1.0, 0.0));
-        triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
 
-        var triangleMaterial = new THREE.MeshBasicMaterial({
-            color: 0xFFFFFF,
-            side : THREE.DoubleSide
+        let pyramidGeometry = new THREE.CylinderGeometry(0, 1.5, 1.5, 4, 1, false);
+        let i               = 0;
+
+        while (i < pyramidGeometry.faces.length) {
+
+            pyramidGeometry.faces[i].vertexColors[0] = new THREE.Color(0xFF0000);
+            pyramidGeometry.faces[i].vertexColors[1] = new THREE.Color(0x00FF00);
+            pyramidGeometry.faces[i].vertexColors[2] = new THREE.Color(0x0000FF);
+
+            i++;
+        }
+
+        let pyramidMaterial = new THREE.MeshBasicMaterial({
+            vertexColors: THREE.VertexColors,
+            side        : THREE.DoubleSide
         });
 
+        let pyramidMesh = new THREE.Mesh(pyramidGeometry, pyramidMaterial);
+        pyramidMesh.position.set(-1, 0, 1);
+        this.scene.add(pyramidMesh);
+
+        let boxGeometry = new THREE.BoxGeometry(1.5,1.5,1.5);
+
+        let boxMaterials = [
+          new THREE.MeshBasicMaterial({color:0xFF0000}),
+          new THREE.MeshBasicMaterial({color:0x00FF00}),
+          new THREE.MeshBasicMaterial({color:0x0000FF}),
+          new THREE.MeshBasicMaterial({color:0xFFFF00}),
+          new THREE.MeshBasicMaterial({color:0x00FFFF}),
+          new THREE.MeshBasicMaterial({color:0xFFFFFF})
+        ];
+
+        let boxMaterial = new THREE.MultiMaterial(boxMaterials);
+
+        let boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+        boxMesh.position.set(2,0,1);
+        this.scene.add(boxMesh);
+
+        let renderer = this.renderer;
+        let scene    = this.scene;
+        let camera   = this.camera;
+
+        function animation() {
+
+            pyramidMesh.rotation.y += 0.01;
+            boxMesh.rotation.x += 0.01;
+            boxMesh.rotation.y += 0.01;
+
+            requestAnimationFrame(animation);
+
+            renderer.render(scene, camera);
+        }
+
+        animation();
     }
 
 
