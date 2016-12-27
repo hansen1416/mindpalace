@@ -3,8 +3,8 @@
  */
 import {Injectable} from '@angular/core';
 
-import * as THREE from "three";
-import * as TWEEN from "tween.js";
+// import * as THREE from "three";
+declare var THREE:any;
 
 @Injectable()
 export class ThreeService {
@@ -49,6 +49,8 @@ export class ThreeService {
         // if (Detector.webgl) {
         this.renderer = new THREE.WebGLRenderer({antialias: true});
 
+        let renderer2 = new THREE.CSS3DRenderer();
+
         // If its not supported, instantiate the canvas renderer to support all non WebGL
         // browsers
         // } else {
@@ -88,7 +90,7 @@ export class ThreeService {
             this.near,
             this.far
         );
-        this.camera.position.set(0, 0, 100);
+        this.camera.position.set(0, 0, 10);
         this.camera.lookAt(this.scene.position);
         this.scene.add(this.camera);
     }
@@ -98,7 +100,7 @@ export class ThreeService {
 
         let textureLoader = new THREE.TextureLoader();
 
-        let map = textureLoader.load('texture.jpg');
+        // let map = textureLoader.load('texture.jpg');
 
         let material = new THREE.SpriteMaterial({
             // map  : map,
@@ -110,15 +112,14 @@ export class ThreeService {
         for (let i = 0; i < 100; i++) {
             let sprite = new THREE.Sprite(material);
 
-            let x = Math.random() * 100 - 50;
-            let y = Math.random() * 100 - 50;
-            let z = Math.random() * 100 - 50;
+            let x = Math.random() * 10 - 5;
+            let y = Math.random() * 10 - 5;
+            let z = Math.random() * 10 - 5;
 
+            sprite.position.set(x, y, z);
 
-            sprite.position.set(x,y,z);
-
-            sprite.position.normalize();
-            sprite.position.multiplyScalar( 10 );
+            // sprite.position.normalize();
+            // sprite.position.multiplyScalar( 10 );
 
             group.add(sprite);
             // this.scene.add(sprite);
@@ -126,8 +127,19 @@ export class ThreeService {
 
         this.scene.add(group);
 
-        this.renderer.render(this.scene, this.camera);
+        let camera   = this.camera;
+        let scene    = this.scene;
+        let renderer = this.renderer;
 
+        // function ani() {
+        //
+        //     camera.rotation.x += 0.01;
+        renderer.render(scene, camera);
+
+        // requestAnimationFrame(ani);
+        // }
+
+        // ani();
     }
 
 
