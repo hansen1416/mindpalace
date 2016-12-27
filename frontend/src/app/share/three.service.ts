@@ -88,7 +88,7 @@ export class ThreeService {
             this.near,
             this.far
         );
-        this.camera.position.set(0, 0, 10);
+        this.camera.position.set(0, 0, 100);
         this.camera.lookAt(this.scene.position);
         this.scene.add(this.camera);
     }
@@ -96,61 +96,38 @@ export class ThreeService {
 
     project() {
 
+        let textureLoader = new THREE.TextureLoader();
 
-        let pyramidGeometry = new THREE.CylinderGeometry(0, 1.5, 1.5, 4, 1, false);
-        let i               = 0;
+        let map = textureLoader.load('texture.jpg');
 
-        while (i < pyramidGeometry.faces.length) {
-
-            pyramidGeometry.faces[i].vertexColors[0] = new THREE.Color(0xFF0000);
-            pyramidGeometry.faces[i].vertexColors[1] = new THREE.Color(0x00FF00);
-            pyramidGeometry.faces[i].vertexColors[2] = new THREE.Color(0x0000FF);
-
-            i++;
-        }
-
-        let pyramidMaterial = new THREE.MeshBasicMaterial({
-            vertexColors: THREE.VertexColors,
-            side        : THREE.DoubleSide
+        let material = new THREE.SpriteMaterial({
+            // map  : map,
+            color: 0x0000ff
         });
 
-        let pyramidMesh = new THREE.Mesh(pyramidGeometry, pyramidMaterial);
-        pyramidMesh.position.set(-1, 0, 1);
-        this.scene.add(pyramidMesh);
+        let group = new THREE.Group();
 
-        let boxGeometry = new THREE.BoxGeometry(1.5,1.5,1.5);
+        for (let i = 0; i < 100; i++) {
+            let sprite = new THREE.Sprite(material);
 
-        let boxMaterials = [
-          new THREE.MeshBasicMaterial({color:0xFF0000}),
-          new THREE.MeshBasicMaterial({color:0x00FF00}),
-          new THREE.MeshBasicMaterial({color:0x0000FF}),
-          new THREE.MeshBasicMaterial({color:0xFFFF00}),
-          new THREE.MeshBasicMaterial({color:0x00FFFF}),
-          new THREE.MeshBasicMaterial({color:0xFFFFFF})
-        ];
+            let x = Math.random() * 100 - 50;
+            let y = Math.random() * 100 - 50;
+            let z = Math.random() * 100 - 50;
 
-        let boxMaterial = new THREE.MultiMaterial(boxMaterials);
 
-        let boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-        boxMesh.position.set(2,0,1);
-        this.scene.add(boxMesh);
+            sprite.position.set(x,y,z);
 
-        let renderer = this.renderer;
-        let scene    = this.scene;
-        let camera   = this.camera;
+            sprite.position.normalize();
+            sprite.position.multiplyScalar( 10 );
 
-        function animation() {
-
-            pyramidMesh.rotation.y += 0.01;
-            boxMesh.rotation.x += 0.01;
-            boxMesh.rotation.y += 0.01;
-
-            requestAnimationFrame(animation);
-
-            renderer.render(scene, camera);
+            group.add(sprite);
+            // this.scene.add(sprite);
         }
 
-        animation();
+        this.scene.add(group);
+
+        this.renderer.render(this.scene, this.camera);
+
     }
 
 
