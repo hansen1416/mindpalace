@@ -4,6 +4,7 @@
 import {Injectable} from '@angular/core';
 
 // import * as THREE from "three";
+// import * as TWEEN from "tween.js";
 declare var THREE: any;
 
 @Injectable()
@@ -28,12 +29,6 @@ export class ThreeService {
     private camera;
 
 
-    private triangleMesh;
-
-
-    private squareMesh;
-
-
     init() {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
@@ -47,7 +42,8 @@ export class ThreeService {
         // in contrast to the WebGL renderer will be explained in the tutorials, when there is a
         // difference.
         // if (Detector.webgl) {
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        // this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer = new THREE.CSS3DRenderer();
 
         // If its not supported, instantiate the canvas renderer to support all non WebGL
         // browsers
@@ -109,15 +105,12 @@ export class ThreeService {
         controls.staticMoving         = true;
         controls.dynamicDampingFactor = 0.3;
         controls.keys                 = [65, 83, 68];
-        controls.addEventListener('change', render);
 
+        let x = this;
 
-        let textureLoader = new THREE.TextureLoader();
-
-        // let map = textureLoader.load('texture.jpg');
+        controls.addEventListener('change', ()=>x.render());
 
         let material = new THREE.SpriteMaterial({
-            // map  : map,
             color: 0x0000ff
         });
 
@@ -135,7 +128,7 @@ export class ThreeService {
             group.add(sprite);
         }
 
-        this.scene.add(group);
+        scene.add(group);
 
         function ani() {
 
@@ -143,11 +136,11 @@ export class ThreeService {
             controls.update();
         }
 
-        function render() {
-            renderer.render(scene, camera);
-        }
-
         ani();
+    }
+
+    render() {
+        this.renderer.render(this.scene, this.camera);
     }
 
 
