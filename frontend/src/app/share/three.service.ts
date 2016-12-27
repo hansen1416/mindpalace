@@ -4,7 +4,7 @@
 import {Injectable} from '@angular/core';
 
 // import * as THREE from "three";
-declare var THREE:any;
+declare var THREE: any;
 
 @Injectable()
 export class ThreeService {
@@ -48,8 +48,6 @@ export class ThreeService {
         // difference.
         // if (Detector.webgl) {
         this.renderer = new THREE.WebGLRenderer({antialias: true});
-
-        let renderer2 = new THREE.CSS3DRenderer();
 
         // If its not supported, instantiate the canvas renderer to support all non WebGL
         // browsers
@@ -98,6 +96,22 @@ export class ThreeService {
 
     project() {
 
+        let camera   = this.camera;
+        let scene    = this.scene;
+        let renderer = this.renderer;
+        let controls = new THREE.TrackballControls(camera);
+
+        controls.rotateSpeed          = 1.0;
+        controls.zoomSpeed            = 1.2;
+        controls.panSpeed             = 0.8;
+        controls.noZoom               = false;
+        controls.noPan                = false;
+        controls.staticMoving         = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys                 = [65, 83, 68];
+        controls.addEventListener('change', render);
+
+
         let textureLoader = new THREE.TextureLoader();
 
         // let map = textureLoader.load('texture.jpg');
@@ -118,28 +132,22 @@ export class ThreeService {
 
             sprite.position.set(x, y, z);
 
-            // sprite.position.normalize();
-            // sprite.position.multiplyScalar( 10 );
-
             group.add(sprite);
-            // this.scene.add(sprite);
         }
 
         this.scene.add(group);
 
-        let camera   = this.camera;
-        let scene    = this.scene;
-        let renderer = this.renderer;
+        function ani() {
 
-        // function ani() {
-        //
-        //     camera.rotation.x += 0.01;
-        renderer.render(scene, camera);
+            requestAnimationFrame(ani);
+            controls.update();
+        }
 
-        // requestAnimationFrame(ani);
-        // }
+        function render() {
+            renderer.render(scene, camera);
+        }
 
-        // ani();
+        ani();
     }
 
 
