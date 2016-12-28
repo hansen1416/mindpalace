@@ -119,9 +119,21 @@ export class ThreeService {
             let z = Math.random() * 100 - 50;
 
             sprite.position.set(x, y, z);
+            // sprite.position.normalize();
+            // sprite.position.multiplyScalar(50);
 
             group.add(sprite);
         }
+
+
+
+        let element = document.createElement('div');
+        element.innerHTML = 'hhhhh';
+
+        let div = new THREE.CSS3DSprite(element);
+
+
+
 
         this.webGLScene.add(group);
 
