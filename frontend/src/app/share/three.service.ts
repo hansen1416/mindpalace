@@ -28,6 +28,8 @@ export class ThreeService {
 
     private camera;
 
+    private controls;
+
 
     init() {
         this.container = document.getElementById('canvas-frame');
@@ -42,8 +44,8 @@ export class ThreeService {
         // in contrast to the WebGL renderer will be explained in the tutorials, when there is a
         // difference.
         // if (Detector.webgl) {
-        // this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer = new THREE.CSS3DRenderer();
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        // this.renderer = new THREE.CSS3DRenderer();
 
         // If its not supported, instantiate the canvas renderer to support all non WebGL
         // browsers
@@ -84,7 +86,7 @@ export class ThreeService {
             this.near,
             this.far
         );
-        this.camera.position.set(0, 0, 10);
+        this.camera.position.set(0, 0, 30);
         this.camera.lookAt(this.scene.position);
         this.scene.add(this.camera);
     }
@@ -92,23 +94,18 @@ export class ThreeService {
 
     project() {
 
-        let camera   = this.camera;
-        let scene    = this.scene;
-        let renderer = this.renderer;
-        let controls = new THREE.TrackballControls(camera);
+        this.controls = new THREE.TrackballControls(this.camera);
 
-        controls.rotateSpeed          = 1.0;
-        controls.zoomSpeed            = 1.2;
-        controls.panSpeed             = 0.8;
-        controls.noZoom               = false;
-        controls.noPan                = false;
-        controls.staticMoving         = true;
-        controls.dynamicDampingFactor = 0.3;
-        controls.keys                 = [65, 83, 68];
+        this.controls.rotateSpeed          = 1.0;
+        this.controls.zoomSpeed            = 1.2;
+        this.controls.panSpeed             = 0.8;
+        this.controls.noZoom               = false;
+        this.controls.noPan                = false;
+        this.controls.staticMoving         = true;
+        this.controls.dynamicDampingFactor = 0.3;
+        this.controls.keys                 = [65, 83, 68];
 
-        let x = this;
-
-        controls.addEventListener('change', ()=>x.render());
+        this.controls.addEventListener('change', ()=>this.render());
 
         let material = new THREE.SpriteMaterial({
             color: 0x0000ff
@@ -119,24 +116,26 @@ export class ThreeService {
         for (let i = 0; i < 100; i++) {
             let sprite = new THREE.Sprite(material);
 
-            let x = Math.random() * 10 - 5;
-            let y = Math.random() * 10 - 5;
-            let z = Math.random() * 10 - 5;
+            let x = Math.random() * 100 - 50;
+            let y = Math.random() * 100 - 50;
+            let z = Math.random() * 100 - 50;
 
             sprite.position.set(x, y, z);
 
             group.add(sprite);
         }
 
-        scene.add(group);
+        this.scene.add(group);
 
-        function ani() {
+        this.animate();
 
-            requestAnimationFrame(ani);
-            controls.update();
-        }
+        this.render();
+    }
 
-        ani();
+    animate() {
+
+        this.controls.update();
+        requestAnimationFrame(()=>this.animate());
     }
 
     render() {
