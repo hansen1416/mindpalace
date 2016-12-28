@@ -22,9 +22,13 @@ export class ThreeService {
 
     private height: number;
 
-    private renderer;
+    private webGLRenderer;
 
-    private scene;
+    private CSS3DRender;
+
+    private webGLScene;
+
+    private CSS3DScene;
 
     private camera;
 
@@ -36,50 +40,25 @@ export class ThreeService {
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
 
-        // Check whether the browser supports WebGL. If so, instantiate the hardware accelerated
-        // WebGL renderer. For antialiasing, we have to enable it. The canvas renderer uses
-        // antialiasing by default.
-        // The approach of multiple renderers is quite nice, because your scene can also be
-        // viewed in browsers, which don't support WebGL. The limitations of the canvas renderer
-        // in contrast to the WebGL renderer will be explained in the tutorials, when there is a
-        // difference.
-        // if (Detector.webgl) {
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
-        // this.renderer = new THREE.CSS3DRenderer();
-
-        // If its not supported, instantiate the canvas renderer to support all non WebGL
-        // browsers
-        // } else {
-        //     this.renderer = new THREE.CanvasRenderer();
-        // }
-
+        this.webGLRenderer = new THREE.WebGLRenderer({antialias: true});
         // Set the background color of the renderer to gray, with full opacity
-        this.renderer.setClearColor(0xcccccc, 1);
+        this.webGLRenderer.setClearColor(0xcccccc, 1);
+        this.webGLRenderer.setSize(this.width, this.height);
+        this.container.appendChild(this.webGLRenderer.domElement);
 
-        this.renderer.setSize(this.width, this.height);
-        this.container.appendChild(this.renderer.domElement);
 
-        this.scene = new THREE.Scene();
+        this.CSS3DRender = new THREE.CSS3DRenderer();
+        this.CSS3DRender.setSize(this.width, this.height);
+        this.CSS3DRender.domElement.style.position = 'absolute';
+        this.container.appendChild(this.CSS3DRender.domElement);
 
-        // Now that we have a scene, we want to look into it. Therefore we need a camera.
-        // Three.js offers three camera types:
-        //  - PerspectiveCamera (perspective projection)
-        //  - OrthographicCamera (parallel projection)
-        //  - CombinedCamera (allows to switch between perspective / parallel projection
-        //    during runtime)
-        // In this example we create a perspective camera. Parameters for the perspective
-        // camera are ...
-        // ... field of view (FOV),
-        // ... aspect ratio (usually set to the quotient of canvas width to canvas height)
-        // ... near and
-        // ... far.
-        // Near and far define the cliping planes of the view frustum. Three.js provides an
-        // example (http://mrdoob.github.com/three.js/examples/
-        // -> canvas_camera_orthographic2.html), which allows to play around with these
-        // parameters.
-        // The camera is moved 10 units towards the z axis to allow looking to the center of
-        // the scene.
-        // After definition, the camera has to be added to the scene.
+
+        this.webGLScene = new THREE.Scene();
+
+
+        this.CSS3DScene = new THREE.Scene();
+
+
         this.camera = new THREE.PerspectiveCamera(
             this.view_angle,
             this.width / this.height,
@@ -87,8 +66,38 @@ export class ThreeService {
             this.far
         );
         this.camera.position.set(0, 0, 30);
-        this.camera.lookAt(this.scene.position);
-        this.scene.add(this.camera);
+        this.camera.lookAt(this.webGLScene.position);
+
+        this.webGLScene.add(this.camera);
+        this.CSS3DScene.add(this.camera);
+    }
+
+
+    trackBallControl() {
+        this.controls = new THREE.TrackballControls(this.camera);
+
+        this.controls.rotateSpeed          = 2.0;
+        this.controls.zoomSpeed            = 2.2;
+        this.controls.panSpeed             = 0.8;
+        this.controls.noZoom               = false;
+        this.controls.noPan                = false;
+        this.controls.staticMoving         = false;//惯性
+        this.controls.dynamicDampingFactor = 0.2;//阻力
+        this.controls.keys                 = [65, 83, 68];
+
+        this.controls.addEventListener('change', ()=>this.renderBoth());
+    }
+
+
+    controlsAnimate() {
+        this.controls.update();
+        requestAnimationFrame(()=>this.controlsAnimate());
+    }
+
+
+    renderBoth() {
+        this.CSS3DRender.render(this.CSS3DScene, this.camera);
+        this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
 
@@ -114,36 +123,12 @@ export class ThreeService {
             group.add(sprite);
         }
 
-        this.scene.add(group);
+        this.webGLScene.add(group);
 
-        this.animate();
+        this.controlsAnimate();
 
-        this.render();
-    }
+        this.renderBoth();
 
-    trackBallControl() {
-        this.controls = new THREE.TrackballControls(this.camera);
-
-        this.controls.rotateSpeed          = 2.0;
-        this.controls.zoomSpeed            = 2.2;
-        this.controls.panSpeed             = 0.8;
-        this.controls.noZoom               = false;
-        this.controls.noPan                = false;
-        this.controls.staticMoving         = false;//惯性
-        this.controls.dynamicDampingFactor = 0.2;//阻力
-        this.controls.keys                 = [65, 83, 68];
-
-        this.controls.addEventListener('change', ()=>this.render());
-    }
-
-    animate() {
-
-        this.controls.update();
-        requestAnimationFrame(()=>this.animate());
-    }
-
-    render() {
-        this.renderer.render(this.scene, this.camera);
     }
 
 
