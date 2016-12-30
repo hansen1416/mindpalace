@@ -34,8 +34,22 @@ export class ThreeService {
 
     private controls;
 
+    setCamera() {
 
-    init() {
+        if (!this.camera) {
+            this.camera = new THREE.PerspectiveCamera(
+                this.view_angle,
+                this.width / this.height,
+                this.near,
+                this.far
+            );
+
+            this.camera.position.set(0, 0, 30);
+        }
+    }
+
+
+    initWebGL() {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
@@ -47,28 +61,26 @@ export class ThreeService {
         this.container.appendChild(this.webGLRenderer.domElement);
 
 
+        this.webGLScene = new THREE.Scene();
+
+        this.setCamera();
+        this.camera.lookAt(this.webGLScene.position);
+        this.webGLScene.add(this.camera);
+
+    }
+
+
+    initCSS3D() {
         this.CSS3DRender = new THREE.CSS3DRenderer();
         this.CSS3DRender.setSize(this.width, this.height);
         this.CSS3DRender.domElement.style.position = 'absolute';
+        this.CSS3DRender.domElement.style.top      = '0';
         this.container.appendChild(this.CSS3DRender.domElement);
-
-
-        this.webGLScene = new THREE.Scene();
-
 
         this.CSS3DScene = new THREE.Scene();
 
-
-        this.camera = new THREE.PerspectiveCamera(
-            this.view_angle,
-            this.width / this.height,
-            this.near,
-            this.far
-        );
-        this.camera.position.set(0, 0, 30);
-        this.camera.lookAt(this.webGLScene.position);
-
-        this.webGLScene.add(this.camera);
+        this.setCamera();
+        this.camera.lookAt(this.CSS3DScene.position);
         this.CSS3DScene.add(this.camera);
     }
 
@@ -85,7 +97,7 @@ export class ThreeService {
         this.controls.dynamicDampingFactor = 0.2;//阻力
         this.controls.keys                 = [65, 83, 68];
 
-        this.controls.addEventListener('change', ()=>this.renderBoth());
+        this.controls.addEventListener('change', ()=>this.renderWebGL());
     }
 
 
@@ -100,19 +112,47 @@ export class ThreeService {
         this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
+    renderWebGL() {
+        this.webGLRenderer.render(this.webGLScene, this.camera);
+    }
+
+    renderCSS3D() {
+        this.CSS3DRender.render(this.CSS3DScene, this.camera);
+    }
+
 
     project() {
 
         this.trackBallControl();
 
-        let material = new THREE.SpriteMaterial({
-            color: 0x0000ff
-        });
+        let group  = new THREE.Group();
+        let canvas = document.createElement('canvas');
 
-        let group = new THREE.Group();
+        canvas.width  = 64;
+        canvas.height = 16;
+
+        let context = canvas.getContext('2d');
+
+        context.textAlign = 'center';
+        context.fillStyle = 'rgb(0,0,0)';
 
         for (let i = 0; i < 100; i++) {
-            let sprite = new THREE.Sprite(material);
+            context.fillText('11', 25, 10);
+
+            let texture = new THREE.Texture(canvas);
+
+            texture.needsUpdate = true;
+
+            let material = new THREE.SpriteMaterial({
+                map: texture
+            });
+
+            material.needsUpdate = true;
+
+            let sprite   = new THREE.Sprite(material);
+
+            texture.dispose();
+            material.dispose();
 
             let x = Math.random() * 100 - 50;
             let y = Math.random() * 100 - 50;
@@ -125,22 +165,11 @@ export class ThreeService {
             group.add(sprite);
         }
 
-
-
-        let element = document.createElement('div');
-        element.innerHTML = 'hhhhh';
-
-        let div = new THREE.CSS3DSprite(element);
-
-
-
-
         this.webGLScene.add(group);
 
         this.controlsAnimate();
 
-        this.renderBoth();
-
+        this.renderWebGL();
     }
 
 
