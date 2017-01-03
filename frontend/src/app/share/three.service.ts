@@ -7,6 +7,20 @@ import {Injectable} from '@angular/core';
 // import * as TWEEN from "tween.js";
 declare var THREE: any;
 
+/**
+ * 空间中点的位置
+ * tx: translateX
+ * ty: translateY
+ * tz: translateZ
+ * ry: rotateY
+ * rx: rotateX
+ */
+class Position {
+    x: number;
+    y: number;
+    z: number;
+}
+
 @Injectable()
 export class ThreeService {
 
@@ -44,7 +58,7 @@ export class ThreeService {
                 this.far
             );
 
-            this.camera.position.set(0, 0, 30);
+            this.camera.position.set(0, 0, -1);
         }
     }
 
@@ -112,9 +126,11 @@ export class ThreeService {
         this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
+
     renderWebGL() {
         this.webGLRenderer.render(this.webGLScene, this.camera);
     }
+
 
     renderCSS3D() {
         this.CSS3DRender.render(this.CSS3DScene, this.camera);
@@ -128,39 +144,52 @@ export class ThreeService {
         let group  = new THREE.Group();
         let canvas = document.createElement('canvas');
 
-        canvas.width  = 64;
-        canvas.height = 16;
+        let c_w = 64;
+        let c_h = 32;
+
+        canvas.width  = c_w;
+        canvas.height = c_h;
 
         let context = canvas.getContext('2d');
 
-        context.textAlign = 'center';
-        context.fillStyle = 'rgb(0,0,0)';
+        context.font = "normal " + c_h + "px Serial";
+
+        let text       = '分类';
+        let metric     = context.measureText(text);
+        let text_pixel = metric.width;
+
+        context.textAlign    = 'center';
+        context.textBaseline = "middle";
+        context.fillStyle    = '#000000';
+
+        let positions = ThreeService.fibonacciSphere(100, 10);
 
         for (let i = 0; i < 100; i++) {
-            context.fillText('11', 25, 10);
+            context.fillText('分类', c_w / 2, c_h / 2);
 
             let texture = new THREE.Texture(canvas);
 
             texture.needsUpdate = true;
 
             let material = new THREE.SpriteMaterial({
-                map: texture
+                map                 : texture,
+                useScreenCoordinates: false
             });
 
-            material.needsUpdate = true;
+            material.transparent = true;
 
-            let sprite   = new THREE.Sprite(material);
+            let sprite = new THREE.Sprite(material);
+
+            sprite.scale.set(c_w / c_h * 0.25, 0.25, 1);
 
             texture.dispose();
             material.dispose();
 
-            let x = Math.random() * 100 - 50;
-            let y = Math.random() * 100 - 50;
-            let z = Math.random() * 100 - 50;
-
-            sprite.position.set(x, y, z);
-            // sprite.position.normalize();
-            // sprite.position.multiplyScalar(50);
+            sprite.position.set(
+                positions[i].x,
+                positions[i].y,
+                positions[i].z
+            );
 
             group.add(sprite);
         }
@@ -170,6 +199,64 @@ export class ThreeService {
         this.controlsAnimate();
 
         this.renderWebGL();
+    }
+
+
+    /**
+     * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
+     * positioning the points by spiral Fibonacci method
+     * 在球面做一条螺旋线，依照螺旋线按照黄金分割取点，获取近似的球面均匀分布的点位
+     * @param num 点的总数
+     * @param radius 球面半径
+     * @returns {Array}
+     */
+    private static fibonacciSphere(num: number, radius: number): Position[] {
+
+        let dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
+            dz    = 2.0 / num,
+            long  = 0,
+            z     = 1 - dz / 2,
+            r     = 0,
+            arr   = [],
+            tx    = 0,          //X方向的位移
+            ty    = 0,          //Y方向的位移
+            tz    = 0,          //Z方向的位移
+            // rx    = 0,          //X轴的旋转
+            // ry    = 0,          //Y轴的旋转
+            sz    = 0,          //Z位移的正负号
+            i     = 0;
+
+        do {
+
+            r    = Math.sqrt(1 - z * z);
+            tx   = Math.cos(long) * r * radius;
+            ty   = Math.sin(long) * r * radius;
+            tz   = z * radius;
+            z    = z - dz;
+            long = long + dlong;
+
+            //判断元素是在z轴正方向还是负方向
+            sz = tz / Math.abs(tz);
+            sz = isNaN(sz) ? 1 : sz;
+
+            // //如果是在Z轴正方向，
+            // //则把元素沿y轴多旋转180度，使得正面朝向圆心
+            // if (sz > 0) {
+            //     ry = Math.atan(tx / tz) + Math.PI;
+            // } else {
+            //     ry = Math.atan(tx / tz);
+            // }
+
+            // rx = Math.asin(ty / radius);
+
+            arr[i] = <Position>{x: tx, y: ty, z: tz};
+
+            i++;
+
+        } while (i < num);
+
+        return arr;
+
     }
 
 
