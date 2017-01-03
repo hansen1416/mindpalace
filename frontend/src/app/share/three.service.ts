@@ -48,7 +48,9 @@ export class ThreeService {
 
     private controls;
 
-    setCamera() {
+    private projector;
+
+    private setCamera() {
 
         if (!this.camera) {
             this.camera = new THREE.PerspectiveCamera(
@@ -63,7 +65,7 @@ export class ThreeService {
     }
 
 
-    initWebGL() {
+    private initWebGL() {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
@@ -80,6 +82,8 @@ export class ThreeService {
         this.setCamera();
         this.camera.lookAt(this.webGLScene.position);
         this.webGLScene.add(this.camera);
+
+        this.projector = new THREE.Projector();
 
     }
 
@@ -99,7 +103,7 @@ export class ThreeService {
     }
 
 
-    trackBallControl() {
+    private trackBallControl() {
         this.controls = new THREE.TrackballControls(this.camera);
 
         this.controls.rotateSpeed          = 2.0;
@@ -115,7 +119,7 @@ export class ThreeService {
     }
 
 
-    controlsAnimate() {
+    private controlsAnimate() {
         this.controls.update();
         requestAnimationFrame(()=>this.controlsAnimate());
     }
@@ -127,7 +131,7 @@ export class ThreeService {
     }
 
 
-    renderWebGL() {
+    private renderWebGL() {
         this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
@@ -141,19 +145,16 @@ export class ThreeService {
         let group  = new THREE.Group();
         let canvas = document.createElement('canvas');
 
-        let c_w = 64;
-        let c_h = 32;
+        //c_w & c_h must be power of 2
+        let c_w = 256;
+        let c_h = 64;
 
         canvas.width  = c_w;
         canvas.height = c_h;
 
         let context = canvas.getContext('2d');
 
-        context.font = "normal " + c_h + "px Serial";
-
-        let text   = '分类';
-        let metric = context.measureText(text);
-        // let c_w    = metric.width;
+        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
 
         context.fillStyle = 'rgba(255,255,255,0.7)';
         context.fillRect(0, 0, c_w, c_h);
@@ -172,15 +173,14 @@ export class ThreeService {
             texture.needsUpdate = true;
 
             let material = new THREE.SpriteMaterial({
-                map                 : texture,
-                useScreenCoordinates: false
+                map: texture
             });
 
             material.transparent = true;
 
             let sprite = new THREE.Sprite(material);
 
-            sprite.scale.set(c_w / c_h * 0.25, 0.25, 1);
+            sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
 
             texture.dispose();
             material.dispose();
@@ -199,6 +199,8 @@ export class ThreeService {
 
 
     project() {
+
+        this.initWebGL();
 
         this.drawText();
 
