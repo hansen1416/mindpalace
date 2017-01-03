@@ -137,10 +137,7 @@ export class ThreeService {
     }
 
 
-    project() {
-
-        this.trackBallControl();
-
+    private drawText(): void {
         let group  = new THREE.Group();
         let canvas = document.createElement('canvas');
 
@@ -154,9 +151,12 @@ export class ThreeService {
 
         context.font = "normal " + c_h + "px Serial";
 
-        let text       = '分类';
-        let metric     = context.measureText(text);
-        let text_pixel = metric.width;
+        let text   = '分类';
+        let metric = context.measureText(text);
+        // let c_w    = metric.width;
+
+        context.fillStyle = 'rgba(255,255,255,0.7)';
+        context.fillRect(0, 0, c_w, c_h);
 
         context.textAlign    = 'center';
         context.textBaseline = "middle";
@@ -195,6 +195,14 @@ export class ThreeService {
         }
 
         this.webGLScene.add(group);
+    }
+
+
+    project() {
+
+        this.drawText();
+
+        this.trackBallControl();
 
         this.controlsAnimate();
 
