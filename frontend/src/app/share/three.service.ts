@@ -38,17 +38,20 @@ export class ThreeService {
 
     private webGLRenderer;
 
-    private CSS3DRender;
-
     private webGLScene;
-
-    private CSS3DScene;
 
     private camera;
 
     private controls;
 
-    private projector;
+    private raycaster = new THREE.Raycaster();
+
+    private mouse = new THREE.Vector2();
+
+    private intersects;
+
+    // private CSS3DRender;
+    // private CSS3DScene;
 
     private setCamera() {
 
@@ -83,23 +86,6 @@ export class ThreeService {
         this.camera.lookAt(this.webGLScene.position);
         this.webGLScene.add(this.camera);
 
-        this.projector = new THREE.Projector();
-
-    }
-
-
-    initCSS3D() {
-        this.CSS3DRender = new THREE.CSS3DRenderer();
-        this.CSS3DRender.setSize(this.width, this.height);
-        this.CSS3DRender.domElement.style.position = 'absolute';
-        this.CSS3DRender.domElement.style.top      = '0';
-        this.container.appendChild(this.CSS3DRender.domElement);
-
-        this.CSS3DScene = new THREE.Scene();
-
-        this.setCamera();
-        this.camera.lookAt(this.CSS3DScene.position);
-        this.CSS3DScene.add(this.camera);
     }
 
 
@@ -125,90 +111,8 @@ export class ThreeService {
     }
 
 
-    renderBoth() {
-        this.CSS3DRender.render(this.CSS3DScene, this.camera);
-        this.webGLRenderer.render(this.webGLScene, this.camera);
-    }
-
-
     private renderWebGL() {
         this.webGLRenderer.render(this.webGLScene, this.camera);
-    }
-
-
-    renderCSS3D() {
-        this.CSS3DRender.render(this.CSS3DScene, this.camera);
-    }
-
-
-    private drawText(): void {
-        let group  = new THREE.Group();
-        let canvas = document.createElement('canvas');
-
-        //c_w & c_h must be power of 2
-        let c_w = 256;
-        let c_h = 64;
-
-        canvas.width  = c_w;
-        canvas.height = c_h;
-
-        let context = canvas.getContext('2d');
-
-        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
-
-        context.fillStyle = 'rgba(255,255,255,0.7)';
-        context.fillRect(0, 0, c_w, c_h);
-
-        context.textAlign    = 'center';
-        context.textBaseline = "middle";
-        context.fillStyle    = '#000000';
-
-        let positions = ThreeService.fibonacciSphere(100, 10);
-
-        for (let i = 0; i < 100; i++) {
-            context.fillText('分类', c_w / 2, c_h / 2);
-
-            let texture = new THREE.Texture(canvas);
-
-            texture.needsUpdate = true;
-
-            let material = new THREE.SpriteMaterial({
-                map: texture
-            });
-
-            material.transparent = true;
-
-            let sprite = new THREE.Sprite(material);
-
-            sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
-
-            texture.dispose();
-            material.dispose();
-
-            sprite.position.set(
-                positions[i].x,
-                positions[i].y,
-                positions[i].z
-            );
-
-            group.add(sprite);
-        }
-
-        this.webGLScene.add(group);
-    }
-
-
-    project() {
-
-        this.initWebGL();
-
-        this.drawText();
-
-        this.trackBallControl();
-
-        this.controlsAnimate();
-
-        this.renderWebGL();
     }
 
 
@@ -269,5 +173,119 @@ export class ThreeService {
 
     }
 
+
+    private drawText(): void {
+        let group  = new THREE.Group();
+        let canvas = document.createElement('canvas');
+
+        //c_w & c_h must be power of 2
+        let c_w = 256;
+        let c_h = 64;
+
+        canvas.width  = c_w;
+        canvas.height = c_h;
+
+        let context = canvas.getContext('2d');
+
+        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
+
+        context.fillStyle = 'rgba(255,255,255,0.7)';
+        context.fillRect(0, 0, c_w, c_h);
+
+        context.textAlign    = 'center';
+        context.textBaseline = "middle";
+        context.fillStyle    = '#000000';
+
+        let positions = ThreeService.fibonacciSphere(100, 10);
+
+        for (let i = 0; i < 100; i++) {
+            context.fillText('分类', c_w / 2, c_h / 2);
+
+            let texture = new THREE.Texture(canvas);
+
+            texture.needsUpdate = true;
+
+            let material = new THREE.SpriteMaterial({
+                map: texture
+            });
+
+            material.transparent = true;
+
+            let sprite = new THREE.Sprite(material);
+
+            sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
+
+            texture.dispose();
+            material.dispose();
+
+            sprite.position.set(
+                positions[i].x,
+                positions[i].y,
+                positions[i].z
+            );
+
+            group.add(sprite);
+        }
+
+        this.webGLScene.add(group);
+    }
+
+
+    private mouseMove(event) {
+        this.mouse.x = ( event.clientX / this.width ) * 2 - 1;
+        this.mouse.y = -( event.clientY / this.height ) * 2 + 1;
+
+        console.log(this.intersects);
+    }
+
+
+    private rayCasterRender() {
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        this.intersects = this.raycaster.intersectObjects(this.webGLScene.children);
+
+        this.renderWebGL();
+    }
+
+
+    project() {
+
+        this.initWebGL();
+
+        this.drawText();
+
+        this.trackBallControl();
+
+        this.controlsAnimate();
+
+        window.addEventListener('mousemove', ()=>this.mouseMove(event));
+
+        // this.renderWebGL();
+        window.requestAnimationFrame(()=>this.rayCasterRender());
+    }
+
+
+    // initCSS3D() {
+    //     this.CSS3DRender = new THREE.CSS3DRenderer();
+    //     this.CSS3DRender.setSize(this.width, this.height);
+    //     this.CSS3DRender.domElement.style.position = 'absolute';
+    //     this.CSS3DRender.domElement.style.top      = '0';
+    //     this.container.appendChild(this.CSS3DRender.domElement);
+    //
+    //     this.CSS3DScene = new THREE.Scene();
+    //
+    //     this.setCamera();
+    //     this.camera.lookAt(this.CSS3DScene.position);
+    //     this.CSS3DScene.add(this.camera);
+    // }
+    //
+    // renderBoth() {
+    //     this.CSS3DRender.render(this.CSS3DScene, this.camera);
+    //     this.webGLRenderer.render(this.webGLScene, this.camera);
+    // }
+    //
+    // renderCSS3D() {
+    //     this.CSS3DRender.render(this.CSS3DScene, this.camera);
+    // }
 
 }
