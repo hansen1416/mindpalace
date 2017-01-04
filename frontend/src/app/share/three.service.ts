@@ -50,7 +50,7 @@ export class ThreeService {
 
     private mouse;
 
-    private intersects;
+    private intersect;
 
 
     // private CSS3DRender;
@@ -238,12 +238,19 @@ export class ThreeService {
      */
     private raycast() {
 
+        let currentObject;
+        
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
-        this.intersects = this.raycaster.intersectObjects(this.group.children);
+        currentObject = this.raycaster.intersectObjects(this.group.children);
 
-        if (this.intersects.length > 0) {
-            this.intersects[0].object.material.color.set(0xff0000);
+        if (currentObject.length > 0) {
+
+            if (this.intersect && this.intersect.object.uuid != currentObject[0].object.uuid) {
+                this.intersect.object.material.color.set(0xffffff);
+            }
+            currentObject[0].object.material.color.set(0xff0000);
+            this.intersect = currentObject[0];
         }
     }
 
