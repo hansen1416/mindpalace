@@ -44,51 +44,50 @@ export class ThreeService {
 
     private controls;
 
+    private group;
+
     private raycaster;
 
     private mouse;
 
     private intersects;
 
+
     // private CSS3DRender;
     // private CSS3DScene;
 
-    private setCamera() {
-
-        if (!this.camera) {
-            this.camera = new THREE.PerspectiveCamera(
-                this.view_angle,
-                this.width / this.height,
-                this.near,
-                this.far
-            );
-
-            this.camera.position.set(0, 0, -1);
-        }
-    }
-
-
+    /**
+     * 初始化场景
+     */
     private initWebGL() {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
 
         this.webGLRenderer = new THREE.WebGLRenderer({antialias: true});
+        this.webGLScene    = new THREE.Scene();
+        this.camera        = new THREE.PerspectiveCamera(
+            this.view_angle,
+            this.width / this.height,
+            this.near,
+            this.far
+        );
+        this.mouse         = new THREE.Vector2();
+        this.raycaster     = new THREE.Raycaster();
+
         // Set the background color of the renderer to gray, with full opacity
         this.webGLRenderer.setClearColor(0xcccccc, 1);
         this.webGLRenderer.setSize(this.width, this.height);
         this.container.appendChild(this.webGLRenderer.domElement);
 
-
-        this.webGLScene = new THREE.Scene();
-
-        this.setCamera();
+        this.camera.position.set(0, 0, -1);
         this.camera.lookAt(this.webGLScene.position);
         this.webGLScene.add(this.camera);
-
     }
 
-
+    /**
+     * track ball control, rotate camera as mouse move
+     */
     private trackBallControl() {
         this.controls = new THREE.TrackballControls(this.camera);
 
@@ -102,17 +101,6 @@ export class ThreeService {
         this.controls.keys                 = [65, 83, 68];
 
         this.controls.addEventListener('change', ()=>this.renderWebGL());
-    }
-
-
-    private controlsAnimate() {
-        this.controls.update();
-        requestAnimationFrame(()=>this.controlsAnimate());
-    }
-
-
-    private renderWebGL() {
-        this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
 
@@ -173,9 +161,12 @@ export class ThreeService {
 
     }
 
-
+    /**
+     * draw text on sprite
+     */
     private drawText(): void {
-        let group  = new THREE.Group();
+        this.group = new THREE.Group();
+
         let canvas = document.createElement('canvas');
 
         //c_w & c_h must be power of 2
@@ -224,10 +215,51 @@ export class ThreeService {
                 positions[i].z
             );
 
-            group.add(sprite);
+            this.group.add(sprite);
         }
 
-        this.webGLScene.add(group);
+        this.webGLScene.add(this.group);
+    }
+
+    /**
+     * get mouse position
+     * @param event
+     */
+    private onMouseMove(event) {
+        event.preventDefault();
+
+        // normalize between -1 and +1
+        this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+    }
+
+    /**
+     * get the mouse over object
+     */
+    private raycast() {
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+
+        this.intersects = this.raycaster.intersectObjects(this.group.children);
+
+        if (this.intersects.length > 0) {
+            this.intersects[0].object.material.color.set(0xff0000);
+        }
+    }
+
+
+    private renderAnimate() {
+
+        requestAnimationFrame(()=>this.renderAnimate());
+
+        this.controls.update();
+        this.raycast();
+        this.renderWebGL();
+    }
+
+
+    private renderWebGL() {
+        this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
 
@@ -239,119 +271,9 @@ export class ThreeService {
 
         this.trackBallControl();
 
-        this.controlsAnimate();
+        this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(event), false);
 
-        this.renderWebGL();
-    }
-
-
-    ray() {
-
-        let width     = window.innerWidth;
-        let height    = window.innerHeight;
-        let scene     = new THREE.Scene();
-        let camera    = new THREE.PerspectiveCamera(this.view_angle,
-            width / height,
-            0.1,
-            1000);
-        let group     = new THREE.Group();
-        let raycaster = new THREE.Raycaster();
-        let renderer  = new THREE.WebGLRenderer({antialias: true});
-        let canvas    = document.createElement('canvas');
-        let container = document.getElementById('canvas-frame');
-        let mouse     = new THREE.Vector2();
-        let intersects;
-
-        renderer.setClearColor(0xcccccc, 1);
-        renderer.setSize(width, height);
-        container.appendChild(renderer.domElement);
-
-        camera.position.set(0, 0, 30);
-        camera.lookAt(scene.position);
-        scene.add(camera);
-
-        //c_w & c_h must be power of 2
-        let c_w = 128;
-        let c_h = 64;
-
-        canvas.width  = c_w;
-        canvas.height = c_h;
-
-        let context = canvas.getContext('2d');
-
-        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
-
-        context.fillStyle = 'rgba(255,255,255,0.7)';
-        context.fillRect(0, 0, c_w, c_h);
-
-        context.textAlign    = 'center';
-        context.textBaseline = "middle";
-        context.fillStyle    = '#000000';
-
-        for (let i = 0; i < 100; i++) {
-            context.fillText('分类', c_w / 2, c_h / 2);
-
-            let texture = new THREE.Texture(canvas);
-
-            texture.needsUpdate = true;
-
-            let material = new THREE.SpriteMaterial({
-                map: texture
-            });
-
-            material.transparent = true;
-
-            let sprite = new THREE.Sprite(material);
-
-            sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
-
-            texture.dispose();
-            material.dispose();
-
-            sprite.position.set(
-                Math.random() * 20 -10,
-                Math.random() * 20 -10,
-                10,
-            );
-
-            group.add(sprite);
-        }
-
-        scene.add(group);
-
-
-        function render() {
-
-            requestAnimationFrame(render);
-
-            raycastSprites();
-            renderer.render(scene, camera);
-
-        }
-
-        function raycastSprites() {
-
-            raycaster.setFromCamera(mouse, camera);
-
-            intersects = raycaster.intersectObjects(group.children);
-
-            if (intersects.length > 0) {
-                let item = intersects[0];
-                item.object.scale.set(1.1,0.6,1);
-            }
-        }
-
-        function onMouseMove(event) {
-            event.preventDefault();
-
-            // normalize between -1 and +1
-            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-            mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-        }
-
-        renderer.domElement.addEventListener('mousemove', onMouseMove, false);
-        render();
-
+        this.renderAnimate();
     }
 
 
