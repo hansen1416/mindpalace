@@ -62,10 +62,8 @@ export class CtgListComponent implements OnInit {
 
     private renderCtgList(ctgList: Ctg[]) {
         this.ctgService.setCtgList = ctgList;
-        
-        console.log(this.ctgService.getCtgList);
 
-        this.threeService.project();
+        this.threeService.ray();
 
     }
 

@@ -44,9 +44,9 @@ export class ThreeService {
 
     private controls;
 
-    private raycaster = new THREE.Raycaster();
+    private raycaster;
 
-    private mouse = new THREE.Vector2();
+    private mouse;
 
     private intersects;
 
@@ -231,23 +231,6 @@ export class ThreeService {
     }
 
 
-    private mouseMove(event) {
-        this.mouse.x = ( event.clientX / this.width ) * 2 - 1;
-        this.mouse.y = -( event.clientY / this.height ) * 2 + 1;
-
-        console.log(this.intersects);
-    }
-
-
-    private rayCasterRender() {
-
-        this.raycaster.setFromCamera(this.mouse, this.camera);
-        this.intersects = this.raycaster.intersectObjects(this.webGLScene.children);
-
-        this.renderWebGL();
-    }
-
-
     project() {
 
         this.initWebGL();
@@ -258,10 +241,117 @@ export class ThreeService {
 
         this.controlsAnimate();
 
-        window.addEventListener('mousemove', ()=>this.mouseMove(event));
+        this.renderWebGL();
+    }
 
-        // this.renderWebGL();
-        window.requestAnimationFrame(()=>this.rayCasterRender());
+
+    ray() {
+
+        let width     = window.innerWidth;
+        let height    = window.innerHeight;
+        let scene     = new THREE.Scene();
+        let camera    = new THREE.PerspectiveCamera(this.view_angle,
+            width / height,
+            0.1,
+            1000);
+        let group     = new THREE.Group();
+        let raycaster = new THREE.Raycaster();
+        let renderer  = new THREE.WebGLRenderer({antialias: true});
+        let canvas    = document.createElement('canvas');
+        let container = document.getElementById('canvas-frame');
+        let mouse     = new THREE.Vector2();
+        let intersects;
+
+        renderer.setClearColor(0xcccccc, 1);
+        renderer.setSize(width, height);
+        container.appendChild(renderer.domElement);
+
+        camera.position.set(0, 0, 30);
+        camera.lookAt(scene.position);
+        scene.add(camera);
+
+        //c_w & c_h must be power of 2
+        let c_w = 128;
+        let c_h = 64;
+
+        canvas.width  = c_w;
+        canvas.height = c_h;
+
+        let context = canvas.getContext('2d');
+
+        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
+
+        context.fillStyle = 'rgba(255,255,255,0.7)';
+        context.fillRect(0, 0, c_w, c_h);
+
+        context.textAlign    = 'center';
+        context.textBaseline = "middle";
+        context.fillStyle    = '#000000';
+
+        for (let i = 0; i < 100; i++) {
+            context.fillText('分类', c_w / 2, c_h / 2);
+
+            let texture = new THREE.Texture(canvas);
+
+            texture.needsUpdate = true;
+
+            let material = new THREE.SpriteMaterial({
+                map: texture
+            });
+
+            material.transparent = true;
+
+            let sprite = new THREE.Sprite(material);
+
+            sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
+
+            texture.dispose();
+            material.dispose();
+
+            sprite.position.set(
+                Math.random() * 20 -10,
+                Math.random() * 20 -10,
+                10,
+            );
+
+            group.add(sprite);
+        }
+
+        scene.add(group);
+
+
+        function render() {
+
+            requestAnimationFrame(render);
+
+            raycastSprites();
+            renderer.render(scene, camera);
+
+        }
+
+        function raycastSprites() {
+
+            raycaster.setFromCamera(mouse, camera);
+
+            intersects = raycaster.intersectObjects(group.children);
+
+            if (intersects.length > 0) {
+                let item = intersects[0];
+                item.object.scale.set(1.1,0.6,1);
+            }
+        }
+
+        function onMouseMove(event) {
+            event.preventDefault();
+
+            // normalize between -1 and +1
+            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+            mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+        }
+
+        renderer.domElement.addEventListener('mousemove', onMouseMove, false);
+        render();
+
     }
 
 
