@@ -7,6 +7,8 @@ import {Injectable} from '@angular/core';
 // import * as TWEEN from "tween.js";
 declare var THREE: any;
 
+import {Ctg} from '../ctg/ctg';
+
 /**
  * 空间中点的位置
  * tx: translateX
@@ -51,6 +53,8 @@ export class ThreeService {
     private mouse;
 
     private intersect;
+
+    private data = [];
 
 
     // private CSS3DRender;
@@ -101,6 +105,23 @@ export class ThreeService {
         this.controls.keys                 = [65, 83, 68];
 
         this.controls.addEventListener('change', ()=>this.renderWebGL());
+    }
+
+
+    processData(data: Ctg[]) {
+
+        let i = 0;
+        while (i < data.length) {
+
+            if (this.data[data[i].tier]) {
+                this.data[data[i].tier].push(data[i]);
+            } else {
+                this.data[data[i].tier] = [data[i]];
+            }
+
+            i++;
+        }
+
     }
 
 
@@ -165,6 +186,7 @@ export class ThreeService {
      * draw text on sprite
      */
     private drawText(): void {
+
         this.group = new THREE.Group();
 
         let canvas = document.createElement('canvas');
@@ -187,36 +209,76 @@ export class ThreeService {
         context.textBaseline = "middle";
         context.fillStyle    = '#000000';
 
-        let positions = ThreeService.fibonacciSphere(100, 10);
+        let r = 10;
+        let n = 1;
 
-        for (let i = 0; i < 100; i++) {
-            context.fillText('分类', c_w / 2, c_h / 2);
+        for (let item of this.data) {
+            if (item.length) {
+                let positions = ThreeService.fibonacciSphere(item.length, r * n);
 
-            let texture = new THREE.Texture(canvas);
+                for (let i = 0; i < item.length; i++) {
+                    context.fillText(item[i].title, c_w / 2, c_h / 2);
 
-            texture.needsUpdate = true;
+                    let texture = new THREE.Texture(canvas);
 
-            let material = new THREE.SpriteMaterial({
-                map: texture
-            });
+                    texture.needsUpdate = true;
 
-            material.transparent = true;
+                    let material = new THREE.SpriteMaterial({
+                        map: texture
+                    });
 
-            let sprite = new THREE.Sprite(material);
+                    material.transparent = true;
 
-            sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
+                    let sprite = new THREE.Sprite(material);
 
-            texture.dispose();
-            material.dispose();
+                    sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
 
-            sprite.position.set(
-                positions[i].x,
-                positions[i].y,
-                positions[i].z
-            );
+                    texture.dispose();
+                    material.dispose();
 
-            this.group.add(sprite);
+                    sprite.position.set(
+                        positions[i].x,
+                        positions[i].y,
+                        positions[i].z
+                    );
+
+                    this.group.add(sprite);
+                }
+            }
+
+            n++;
         }
+
+        // let positions = ThreeService.fibonacciSphere(100, 10);
+        //
+        // for (let i = 0; i < 100; i++) {
+        //     context.fillText('分类', c_w / 2, c_h / 2);
+        //
+        //     let texture = new THREE.Texture(canvas);
+        //
+        //     texture.needsUpdate = true;
+        //
+        //     let material = new THREE.SpriteMaterial({
+        //         map: texture
+        //     });
+        //
+        //     material.transparent = true;
+        //
+        //     let sprite = new THREE.Sprite(material);
+        //
+        //     sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
+        //
+        //     texture.dispose();
+        //     material.dispose();
+        //
+        //     sprite.position.set(
+        //         positions[i].x,
+        //         positions[i].y,
+        //         positions[i].z
+        //     );
+        //
+        //     this.group.add(sprite);
+        // }
 
         this.webGLScene.add(this.group);
     }
@@ -239,7 +301,7 @@ export class ThreeService {
     private raycast() {
 
         let currentObject;
-        
+
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         currentObject = this.raycaster.intersectObjects(this.group.children);
