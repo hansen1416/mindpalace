@@ -202,12 +202,8 @@ export class ThreeService {
 
         context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
 
-        context.fillStyle = 'rgba(255,255,255,0.7)';
-        context.fillRect(0, 0, c_w, c_h);
-
         context.textAlign    = 'center';
         context.textBaseline = "middle";
-        context.fillStyle    = '#000000';
 
         let r = 10;
         let n = 1;
@@ -216,7 +212,13 @@ export class ThreeService {
             if (item.length) {
                 let positions = ThreeService.fibonacciSphere(item.length, r * n);
 
+                context.fillStyle = 'rgba(255,255,' + n * 30 + ',0.7)';
+                context.fillRect(0, 0, c_w, c_h);
+
                 for (let i = 0; i < item.length; i++) {
+                    context.fillStyle    = '#000000';
+                    
+                    console.log(item[i].title);
                     context.fillText(item[i].title, c_w / 2, c_h / 2);
 
                     let texture = new THREE.Texture(canvas);
