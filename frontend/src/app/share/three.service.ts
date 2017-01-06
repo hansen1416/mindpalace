@@ -189,49 +189,63 @@ export class ThreeService {
 
         this.group = new THREE.Group();
 
-        let canvas = document.createElement('canvas');
-
+        let canvas: HTMLCanvasElement;
+        let context: CanvasRenderingContext2D;
+        let texture: THREE.Texture;
+        let material: THREE.Material;
+        let sprite: THREE.Sprite;
         //c_w & c_h must be power of 2
         let c_w = 256;
         let c_h = 64;
-
-        canvas.width  = c_w;
-        canvas.height = c_h;
-
-        let context = canvas.getContext('2d');
-
-        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
-
-        context.textAlign    = 'center';
-        context.textBaseline = "middle";
-
-        let r = 10;
+        //每一层之间的距离
+        let r = 4;
+        //层数
         let n = 1;
 
+        /**
+         * data is like this [1: [Sprite, Sprite, ..], 2 : [..], ..]
+         * each tier is an array
+         */
         for (let item of this.data) {
-            if (item.length) {
-                let positions = ThreeService.fibonacciSphere(item.length, r * n);
 
-                context.fillStyle = 'rgba(255,255,' + n * 30 + ',0.7)';
-                context.fillRect(0, 0, c_w, c_h);
+            /**
+             * in each tier, the sprite each tier is a sphere
+             */
+            if (item.length) {
+
+                let positions = ThreeService.fibonacciSphere(item.length, r * n+2);
 
                 for (let i = 0; i < item.length; i++) {
-                    context.fillStyle    = '#000000';
-                    
-                    console.log(item[i].title);
+
+                    canvas = document.createElement('canvas');
+
+                    canvas.width  = c_w;
+                    canvas.height = c_h;
+
+                    context = canvas.getContext('2d');
+
+                    context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
+
+                    context.textAlign    = 'center';
+                    context.textBaseline = "middle";
+
+                    context.fillStyle = 'rgba(255,255,' + n * 40 + ',0.7)';
+                    context.fillRect(0, 0, c_w, c_h);
+
+                    context.fillStyle = '#000000';
                     context.fillText(item[i].title, c_w / 2, c_h / 2);
 
-                    let texture = new THREE.Texture(canvas);
+                    texture = new THREE.Texture(canvas);
 
                     texture.needsUpdate = true;
 
-                    let material = new THREE.SpriteMaterial({
+                    material = new THREE.SpriteMaterial({
                         map: texture
                     });
 
                     material.transparent = true;
 
-                    let sprite = new THREE.Sprite(material);
+                    sprite = new THREE.Sprite(material);
 
                     sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
 
@@ -243,6 +257,8 @@ export class ThreeService {
                         positions[i].y,
                         positions[i].z
                     );
+                    
+                    sprite.userData = item[i];
 
                     this.group.add(sprite);
                 }
@@ -250,37 +266,6 @@ export class ThreeService {
 
             n++;
         }
-
-        // let positions = ThreeService.fibonacciSphere(100, 10);
-        //
-        // for (let i = 0; i < 100; i++) {
-        //     context.fillText('分类', c_w / 2, c_h / 2);
-        //
-        //     let texture = new THREE.Texture(canvas);
-        //
-        //     texture.needsUpdate = true;
-        //
-        //     let material = new THREE.SpriteMaterial({
-        //         map: texture
-        //     });
-        //
-        //     material.transparent = true;
-        //
-        //     let sprite = new THREE.Sprite(material);
-        //
-        //     sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
-        //
-        //     texture.dispose();
-        //     material.dispose();
-        //
-        //     sprite.position.set(
-        //         positions[i].x,
-        //         positions[i].y,
-        //         positions[i].z
-        //     );
-        //
-        //     this.group.add(sprite);
-        // }
 
         this.webGLScene.add(this.group);
     }
