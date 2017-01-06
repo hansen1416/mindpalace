@@ -182,6 +182,92 @@ export class ThreeService {
 
     }
 
+
+    /**
+     * 计算出每个球面上应该有多少个均匀分布的点
+     * 先算出该层的上一层的分类数，记为 f，再计算哪个父分类中的子分类最多，记为 s，
+     * 然后取 f*s，arr.length，n 中的最大者，作为该层球面包含的点的数量
+     * @param ctgList
+     * @param n
+     * @returns {number}
+     */
+    private static maxPoint(ctgList: Ctg[], n: number): number {
+        /**
+         * keys 储存父级分类的 id
+         * values 储存每一个父级分类包含的子分类的个数
+         * j 表示 values 的键名
+         */
+        let keys   = [],
+            values = [],
+            j      = -1,
+            i      = 0;
+
+        do {
+
+            let pid = ctgList[i]['pid'];
+
+            if (keys[pid] === undefined) {
+                j++;
+                keys[pid] = true;
+                values[j] = 1;
+            } else {
+                values[j]++;
+            }
+
+            i++;
+
+        } while (i < ctgList.length);
+
+        let f = values.length,
+            s = Math.max.apply(null, values);
+
+        return Math.max(f * s, ctgList.length, n);
+    }
+
+
+    /**
+     * 从位置数组中寻找离空间中指定点最近的点
+     * @param parentPos
+     * @param posArray
+     * @returns {number}
+     */
+    private static closestPoint(parentPos: Position, posArray: Position[]): number {
+        let dis = null,
+            d   = 0,
+            k   = 0,
+            x   = 0,
+            y   = 0,
+            z   = 0,
+            i   = 0;
+
+        do {
+
+            x = posArray[i]['tx'] - parentPos['x'];
+            y = posArray[i]['ty'] - parentPos['y'];
+            z = posArray[i]['tz'] - parentPos['z'];
+
+            d = Math.sqrt(x * x + y * y + z * z);
+            //如果还没有最小距离，则把当前点计算出的最小距离和数组中的键名记录下来
+            if (dis === null) {
+                dis = d;
+                k   = i;
+                continue;
+            }
+            //如果当前计算出的空间亮点距离小于之前的最小距离
+            //则记录当前的最小距离和数组中的键名
+            if (d < dis) {
+                dis = d;
+                k   = i;
+            }
+
+            i++;
+
+        } while (i < posArray.length);
+
+        return k;
+    }
+
+
     /**
      * draw text on sprite
      */
@@ -195,12 +281,18 @@ export class ThreeService {
         let material: THREE.Material;
         let sprite: THREE.Sprite;
         //c_w & c_h must be power of 2
-        let c_w = 256;
-        let c_h = 64;
+        let c_w    = 256;
+        let c_h    = 64;
         //每一层之间的距离
-        let r = 4;
+        let radius = 4;
         //层数
-        let n = 1;
+        let tier   = 1;
+        //the max points number on each tier
+        let N = 0;
+
+        let pos: Position;
+        //positions of all points, use ctg_id as index
+        let allPos = <Position[]>[];
 
         /**
          * data is like this [1: [Sprite, Sprite, ..], 2 : [..], ..]
@@ -209,11 +301,24 @@ export class ThreeService {
         for (let item of this.data) {
 
             /**
-             * in each tier, the sprite each tier is a sphere
+             * the sprite on each tier composed into a sphere
              */
-            if (item.length) {
+            if (item.length > 0) {
 
-                let positions = ThreeService.fibonacciSphere(item.length, r * n+2);
+                /**
+                 * points on the core tier is item.length
+                 * on other tiers, the number of points calculated by the maxPoint()
+                 * which will always equal or greater than the inner tier
+                 * @type {number}
+                 */
+                N = (tier == 1) ? item.length : ThreeService.maxPoint(item, N);
+
+                /**
+                 * position of the point on each tier has been calculated by the fibonacciSphere()
+                 * evenly distributed on the sphere
+                 * @type {Position[]}
+                 */
+                let positions = ThreeService.fibonacciSphere(N, radius * tier + 2);
 
                 for (let i = 0; i < item.length; i++) {
 
@@ -229,7 +334,7 @@ export class ThreeService {
                     context.textAlign    = 'center';
                     context.textBaseline = "middle";
 
-                    context.fillStyle = 'rgba(255,255,' + n * 40 + ',0.7)';
+                    context.fillStyle = 'rgba(255,255,' + tier * 40 + ',0.7)';
                     context.fillRect(0, 0, c_w, c_h);
 
                     context.fillStyle = '#000000';
@@ -252,19 +357,32 @@ export class ThreeService {
                     texture.dispose();
                     material.dispose();
 
+                    pos = positions[i];
+
+                    if (1 != tier && undefined !== allPos[item[i]['pid']]) {
+
+                        let k = ThreeService.closestPoint(allPos[item[i]['pid']], positions);
+
+                        pos = positions[k];
+                        //remove the occupied position
+                        positions.splice(k, 1);
+                    }
+
                     sprite.position.set(
-                        positions[i].x,
-                        positions[i].y,
-                        positions[i].z
+                        pos.x,
+                        pos.y,
+                        pos.z
                     );
-                    
+
                     sprite.userData = item[i];
+
+                    allPos[item[i]['ctg_id']] = pos;
 
                     this.group.add(sprite);
                 }
             }
 
-            n++;
+            tier++;
         }
 
         this.webGLScene.add(this.group);
