@@ -56,6 +56,8 @@ export class ThreeService {
 
     private data = <Array<Array<Ctg>>>[];
 
+    private tierCtgNum = 0;
+
 
     // private CSS3DRender;
     // private CSS3DScene;
@@ -86,7 +88,6 @@ export class ThreeService {
 
         this.camera.position.set(0, 0, -1);
         this.camera.lookAt(this.webGLScene.position);
-        this.webGLScene.add(this.camera);
     }
 
     /**
@@ -191,7 +192,7 @@ export class ThreeService {
      * @param n
      * @returns {number}
      */
-    private static maxPoint(ctgList: Ctg[], n: number): number {
+    private maxPoint(ctgList: Ctg[], n: number): number {
         /**
          * keys 储存父级分类的 id
          * values 储存每一个父级分类包含的子分类的个数
@@ -202,7 +203,7 @@ export class ThreeService {
             j      = -1,
             i      = 0;
 
-        do {
+        while (i < ctgList.length) {
 
             let pid = ctgList[i]['pid'];
 
@@ -215,13 +216,13 @@ export class ThreeService {
             }
 
             i++;
+        }
 
-        } while (i < ctgList.length);
+        let s = Math.max.apply(null, values);
 
-        let f = values.length,
-            s = Math.max.apply(null, values);
+        this.tierCtgNum = Math.max(this.tierCtgNum, s);
 
-        return Math.max(f * s, ctgList.length, n);
+        return Math.max(this.tierCtgNum * s, n);
     }
 
 
@@ -240,11 +241,11 @@ export class ThreeService {
             z   = 0,
             i   = 0;
 
-        do {
+        while (i < posArray.length) {
 
-            x = posArray[i]['tx'] - parentPos['x'];
-            y = posArray[i]['ty'] - parentPos['y'];
-            z = posArray[i]['tz'] - parentPos['z'];
+            x = posArray[i]['x'] - parentPos['x'];
+            y = posArray[i]['y'] - parentPos['y'];
+            z = posArray[i]['z'] - parentPos['z'];
 
             d = Math.sqrt(x * x + y * y + z * z);
             //如果还没有最小距离，则把当前点计算出的最小距离和数组中的键名记录下来
@@ -262,7 +263,7 @@ export class ThreeService {
 
             i++;
 
-        } while (i < posArray.length);
+        }
 
         return k;
     }
@@ -294,6 +295,9 @@ export class ThreeService {
         //positions of all points, use ctg_id as index
         let allPos = <Position[]>[];
 
+        let pid: number;
+        let ctg_id: number;
+
         /**
          * data is like this [1: [Sprite, Sprite, ..], 2 : [..], ..]
          * each tier is an array
@@ -311,7 +315,7 @@ export class ThreeService {
                  * which will always equal or greater than the inner tier
                  * @type {number}
                  */
-                N = (tier == 1) ? item.length : ThreeService.maxPoint(item, N);
+                N = (tier == 1) ? item.length : this.maxPoint(item, N);
 
                 /**
                  * position of the point on each tier has been calculated by the fibonacciSphere()
@@ -357,11 +361,13 @@ export class ThreeService {
                     texture.dispose();
                     material.dispose();
 
-                    pos = positions[i];
+                    pos    = positions[i];
+                    pid    = item[i]['pid'];
+                    ctg_id = item[i]['ctg_id'];
 
-                    if (1 != tier && undefined !== allPos[item[i]['pid']]) {
+                    if (1 != tier && undefined !== allPos[pid]) {
 
-                        let k = ThreeService.closestPoint(allPos[item[i]['pid']], positions);
+                        let k = ThreeService.closestPoint(allPos[pid], positions);
 
                         pos = positions[k];
                         //remove the occupied position
@@ -376,9 +382,25 @@ export class ThreeService {
 
                     sprite.userData = item[i];
 
-                    allPos[item[i]['ctg_id']] = pos;
+                    allPos[ctg_id] = pos;
 
                     this.group.add(sprite);
+
+                    //draw lines
+                    if (pid && allPos[pid]) {
+                        let lineMaterial = new THREE.LineBasicMaterial({
+                            color: 0x0000ff
+                        });
+
+                        let lineGeo = new THREE.Geometry();
+                        lineGeo.vertices.push(new THREE.Vector3(allPos[pid].x, allPos[pid].y, allPos[pid].z));
+                        lineGeo.vertices.push(new THREE.Vector3(allPos[ctg_id].x, allPos[ctg_id].y, allPos[ctg_id].z));
+
+                        let line = new THREE.Line(lineGeo, lineMaterial);
+
+                        this.group.add(line);
+                    }
+
                 }
             }
 
@@ -415,14 +437,22 @@ export class ThreeService {
         }
     }
 
-
+    /**
+     * get the mouse ray casted first element
+     * @returns THREE.Sprite | null
+     */
     private getFirstIntersectedObject(): THREE.Sprite | null {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         let intersected = this.raycaster.intersectObjects(this.group.children);
 
         if (intersected.length) {
-            return intersected[0].object;
+            switch (intersected[0].object.type) {
+                case 'Sprite':
+                    return <THREE.Sprite>intersected[0].object;
+                case 'Line':
+                    return null;
+            }
         }
 
         return null;
@@ -457,12 +487,11 @@ export class ThreeService {
             this.setSpriteToOrigin();
             this.intersect = null;
         }
-
-        console.log(this.intersect);
     }
 
     /**
-     * get the mouse over object
+     * when mouse moving, get the first ray cast sprite
+     * update this.intersect
      */
     private raycast(): void {
 
