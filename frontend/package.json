@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/core-js": "^0.9.32",
     "@types/node": "^6.0.38",
-    "@types/three": "0.0.27",
+    "@types/three": "0.81.0",
     "@types/tween.js": "0.0.31",
     "angular2-template-loader": "^0.4.0",
     "awesome-typescript-loader": "^1.1.1",

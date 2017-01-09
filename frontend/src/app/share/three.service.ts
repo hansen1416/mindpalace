@@ -38,23 +38,23 @@ export class ThreeService {
 
     private height: number;
 
-    private webGLRenderer;
+    private webGLRenderer: THREE.WebGLRenderer;
 
-    private webGLScene;
+    private webGLScene: THREE.Scene;
 
-    private camera;
+    private camera: THREE.Object3D & THREE.Camera & THREE.PerspectiveCamera;
 
-    private controls;
+    private controls: THREE.TrackballControls;
 
-    private group;
+    private group: THREE.Group & THREE.Object3D;
 
-    private raycaster;
+    private raycaster: THREE.Raycaster;
 
-    private mouse;
+    private mouse: THREE.Vector2 & {x: number, y: number};
 
-    private intersect;
+    private intersect: THREE.Sprite;
 
-    private data = [];
+    private data = <Array<Array<Ctg>>>[];
 
 
     // private CSS3DRender;
@@ -63,7 +63,7 @@ export class ThreeService {
     /**
      * 初始化场景
      */
-    private initWebGL() {
+    private initWebGL(): void {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
@@ -92,7 +92,7 @@ export class ThreeService {
     /**
      * track ball control, rotate camera as mouse move
      */
-    private trackBallControl() {
+    private trackBallControl(): void {
         this.controls = new THREE.TrackballControls(this.camera);
 
         this.controls.rotateSpeed          = 2.0;
@@ -108,7 +108,7 @@ export class ThreeService {
     }
 
 
-    processData(data: Ctg[]) {
+    processData(data: Ctg[]): void {
 
         let i = 0;
         while (i < data.length) {
@@ -279,7 +279,7 @@ export class ThreeService {
         let context: CanvasRenderingContext2D;
         let texture: THREE.Texture;
         let material: THREE.Material;
-        let sprite: THREE.Sprite;
+        let sprite: THREE.Object3D & THREE.Sprite;
         //c_w & c_h must be power of 2
         let c_w    = 256;
         let c_h    = 64;
@@ -288,7 +288,7 @@ export class ThreeService {
         //层数
         let tier   = 1;
         //the max points number on each tier
-        let N = 0;
+        let N      = 0;
 
         let pos: Position;
         //positions of all points, use ctg_id as index
@@ -389,40 +389,96 @@ export class ThreeService {
     }
 
     /**
-     * get mouse position
+     * update the mouse position
      * @param event
      */
-    private onMouseMove(event) {
-        event.preventDefault();
-
+    private updateMousePosition(event): void {
         // normalize between -1 and +1
         this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
     }
 
     /**
-     * get the mouse over object
+     * restore the colour and shape of the intersected sprite to the original status
+     * @param currentObject
      */
-    private raycast() {
+    private setSpriteToOrigin(currentObject?): void {
+        if (this.intersect) {
 
-        let currentObject;
-
-        this.raycaster.setFromCamera(this.mouse, this.camera);
-
-        currentObject = this.raycaster.intersectObjects(this.group.children);
-
-        if (currentObject.length > 0) {
-
-            if (this.intersect && this.intersect.object.uuid != currentObject[0].object.uuid) {
-                this.intersect.object.material.color.set(0xffffff);
+            if (currentObject && this.intersect.uuid != currentObject.uuid) {
+                this.intersect.material.color.set(0xffffff);
             }
-            currentObject[0].object.material.color.set(0xff0000);
-            this.intersect = currentObject[0];
+
+            if (!currentObject) {
+                this.intersect.material.color.set(0xffffff);
+            }
         }
     }
 
 
-    private renderAnimate() {
+    private getFirstIntersectedObject(): THREE.Sprite | null {
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+
+        let intersected = this.raycaster.intersectObjects(this.group.children);
+
+        if (intersected.length) {
+            return intersected[0].object;
+        }
+
+        return null;
+    }
+
+    /**
+     * mouse move event
+     * @param event
+     */
+    private onMouseMove(event: Event): void {
+        event.preventDefault();
+
+        this.updateMousePosition(event);
+    }
+
+    /**
+     * click event of the sprites
+     * @param event
+     */
+    private onClick(event: Event): void {
+        event.preventDefault();
+
+        this.updateMousePosition(event);
+
+        let currentObject = this.getFirstIntersectedObject();
+
+        if (currentObject) {
+            this.intersect = currentObject;
+
+            //todo sprite click event goes here
+        } else {
+            this.setSpriteToOrigin();
+            this.intersect = null;
+        }
+
+        console.log(this.intersect);
+    }
+
+    /**
+     * get the mouse over object
+     */
+    private raycast(): void {
+
+        let currentObject = this.getFirstIntersectedObject();
+
+        if (currentObject) {
+
+            this.setSpriteToOrigin(currentObject);
+
+            currentObject.material.color.set(0xff0000);
+            this.intersect = currentObject;
+        }
+    }
+
+
+    private renderAnimate(): void {
 
         requestAnimationFrame(()=>this.renderAnimate());
 
@@ -432,12 +488,12 @@ export class ThreeService {
     }
 
 
-    private renderWebGL() {
+    private renderWebGL(): void {
         this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
 
-    project() {
+    project(): void {
 
         this.initWebGL();
 
@@ -446,6 +502,8 @@ export class ThreeService {
         this.trackBallControl();
 
         this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(event), false);
+
+        this.webGLRenderer.domElement.addEventListener('click', ()=>this.onClick(event), false);
 
         this.renderAnimate();
     }
