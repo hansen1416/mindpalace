@@ -82,7 +82,7 @@ export class ThreeService {
         this.raycaster     = new THREE.Raycaster();
 
         // Set the background color of the renderer to gray, with full opacity
-        this.webGLRenderer.setClearColor(0xcccccc, 1);
+        this.webGLRenderer.setClearColor(0xffffff, 1);
         this.webGLRenderer.setSize(this.width, this.height);
         this.container.appendChild(this.webGLRenderer.domElement);
 
@@ -122,7 +122,6 @@ export class ThreeService {
 
             i++;
         }
-
     }
 
 
@@ -183,7 +182,6 @@ export class ThreeService {
 
     }
 
-
     /**
      * 计算出每个球面上应该有多少个均匀分布的点
      * 先算出该层的上一层的分类数，记为 f，再计算哪个父分类中的子分类最多，记为 s，
@@ -224,7 +222,6 @@ export class ThreeService {
 
         return Math.max(this.tierCtgNum * s, n);
     }
-
 
     /**
      * 从位置数组中寻找离空间中指定点最近的点
@@ -268,22 +265,84 @@ export class ThreeService {
         return k;
     }
 
+    /**
+     * draw a text sprite
+     * @param text
+     * @returns {THREE.Sprite}
+     */
+    private static drawTextSprite(text: string): THREE.Object3D & THREE.Sprite {
+        //c_w & c_h must be power of 2
+        let c_w    = 256;
+        let c_h    = 64;
+        let canvas = document.createElement('canvas');
+
+        canvas.width  = c_w;
+        canvas.height = c_h;
+
+        let context = canvas.getContext('2d');
+
+        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
+
+        context.textAlign    = 'center';
+        context.textBaseline = 'middle';
+
+        context.fillStyle = 'rgba(60,80,183,0.7)';
+        context.fillRect(0, 0, c_w, c_h);
+
+        context.fillStyle = '#000000';
+        context.fillText(text, c_w / 2, c_h / 2);
+
+        let spriteTexture = new THREE.Texture(canvas);
+
+        spriteTexture.needsUpdate = true;
+
+        let spriteMaterial = new THREE.SpriteMaterial({
+            map: spriteTexture
+        });
+
+        spriteMaterial.transparent = true;
+
+        let sprite = new THREE.Sprite(spriteMaterial);
+
+        sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
+
+        spriteTexture.dispose();
+        spriteMaterial.dispose();
+
+        return sprite;
+    }
+
+    /**
+     * draw a line between two ctg
+     * @param pos1
+     * @param pos2
+     * @returns {THREE.Line}
+     */
+    private static drawLineBetweenTwoCtg(pos1: Position, pos2: Position): THREE.Object3D & THREE.Line {
+        let lineMaterial = new THREE.LineBasicMaterial({
+            color  : 0x7708ad,
+            opacity: 0.3
+        });
+
+        lineMaterial.transparent = true;
+
+        let lineGeometry = new THREE.Geometry();
+        lineGeometry.vertices.push(new THREE.Vector3(pos1.x, pos1.y, pos1.z));
+        lineGeometry.vertices.push(new THREE.Vector3(pos2.x, pos2.y, pos2.z));
+
+        lineMaterial.dispose();
+        lineGeometry.dispose();
+
+        return new THREE.Line(lineGeometry, lineMaterial);
+    }
 
     /**
      * draw text on sprite
      */
-    private drawText(): void {
+    private buildSpheres(): void {
 
         this.group = new THREE.Group();
 
-        let canvas: HTMLCanvasElement;
-        let context: CanvasRenderingContext2D;
-        let texture: THREE.Texture;
-        let material: THREE.Material;
-        let sprite: THREE.Object3D & THREE.Sprite;
-        //c_w & c_h must be power of 2
-        let c_w    = 256;
-        let c_h    = 64;
         //每一层之间的距离
         let radius = 4;
         //层数
@@ -299,7 +358,7 @@ export class ThreeService {
         let ctg_id: number;
 
         /**
-         * data is like this [1: [Sprite, Sprite, ..], 2 : [..], ..]
+         * data is like this [2: [Sprite, Sprite, ..], 3 : [..], ..]
          * each tier is an array
          */
         for (let item of this.data) {
@@ -325,42 +384,13 @@ export class ThreeService {
                 let positions = ThreeService.fibonacciSphere(N, radius * tier + 2);
 
                 for (let i = 0; i < item.length; i++) {
+                    //draw text sprite
+                    let sprite = ThreeService.drawTextSprite(item[i].title);
 
-                    canvas = document.createElement('canvas');
-
-                    canvas.width  = c_w;
-                    canvas.height = c_h;
-
-                    context = canvas.getContext('2d');
-
-                    context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
-
-                    context.textAlign    = 'center';
-                    context.textBaseline = "middle";
-
-                    context.fillStyle = 'rgba(255,255,' + tier * 40 + ',0.7)';
-                    context.fillRect(0, 0, c_w, c_h);
-
-                    context.fillStyle = '#000000';
-                    context.fillText(item[i].title, c_w / 2, c_h / 2);
-
-                    texture = new THREE.Texture(canvas);
-
-                    texture.needsUpdate = true;
-
-                    material = new THREE.SpriteMaterial({
-                        map: texture
-                    });
-
-                    material.transparent = true;
-
-                    sprite = new THREE.Sprite(material);
-
-                    sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
-
-                    texture.dispose();
-                    material.dispose();
-
+                    /**
+                     * set a position for text sprite
+                     * if it has a parent ctg, find the closet point to its parent
+                     */
                     pos    = positions[i];
                     pid    = item[i]['pid'];
                     ctg_id = item[i]['ctg_id'];
@@ -380,25 +410,19 @@ export class ThreeService {
                         pos.z
                     );
 
+                    /**
+                     * save userData for text sprite
+                     * @type {Ctg}
+                     */
                     sprite.userData = item[i];
-
+                    //remember all positions
                     allPos[ctg_id] = pos;
 
                     this.group.add(sprite);
 
                     //draw lines
                     if (pid && allPos[pid]) {
-                        let lineMaterial = new THREE.LineBasicMaterial({
-                            color: 0x0000ff
-                        });
-
-                        let lineGeo = new THREE.Geometry();
-                        lineGeo.vertices.push(new THREE.Vector3(allPos[pid].x, allPos[pid].y, allPos[pid].z));
-                        lineGeo.vertices.push(new THREE.Vector3(allPos[ctg_id].x, allPos[ctg_id].y, allPos[ctg_id].z));
-
-                        let line = new THREE.Line(lineGeo, lineMaterial);
-
-                        this.group.add(line);
+                        this.group.add(ThreeService.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id]));
                     }
 
                 }
@@ -526,7 +550,7 @@ export class ThreeService {
 
         this.initWebGL();
 
-        this.drawText();
+        this.buildSpheres();
 
         this.trackBallControl();
 
@@ -536,29 +560,5 @@ export class ThreeService {
 
         this.renderAnimate();
     }
-
-
-    // initCSS3D() {
-    //     this.CSS3DRender = new THREE.CSS3DRenderer();
-    //     this.CSS3DRender.setSize(this.width, this.height);
-    //     this.CSS3DRender.domElement.style.position = 'absolute';
-    //     this.CSS3DRender.domElement.style.top      = '0';
-    //     this.container.appendChild(this.CSS3DRender.domElement);
-    //
-    //     this.CSS3DScene = new THREE.Scene();
-    //
-    //     this.setCamera();
-    //     this.camera.lookAt(this.CSS3DScene.position);
-    //     this.CSS3DScene.add(this.camera);
-    // }
-    //
-    // renderBoth() {
-    //     this.CSS3DRender.render(this.CSS3DScene, this.camera);
-    //     this.webGLRenderer.render(this.webGLScene, this.camera);
-    // }
-    //
-    // renderCSS3D() {
-    //     this.CSS3DRender.render(this.CSS3DScene, this.camera);
-    // }
 
 }
