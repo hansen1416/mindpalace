@@ -30,6 +30,7 @@ use Laravel\Passport\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Space[] $space
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $readNotifications
  */
 class User extends Authenticatable
 {

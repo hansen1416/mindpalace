@@ -21,4 +21,5 @@ interface SpaceServiceContract
 
 
     public function createSpace($name);
+
 }

@@ -55,4 +55,9 @@ class Ctg extends Model
         });
     }
 
+
+    public function space(){
+        return $this->belongsToMany('App\Space', 'space_ctg');
+    }
+
 }

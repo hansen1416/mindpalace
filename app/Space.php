@@ -40,4 +40,8 @@ class Space extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function ctg(){
+        return $this->belongsToMany('App\Ctg', 'space_ctg');
+    }
 }
