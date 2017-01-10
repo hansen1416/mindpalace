@@ -85,9 +85,6 @@ export class ThreeService {
         this.webGLRenderer.setClearColor(0xffffff, 1);
         this.webGLRenderer.setSize(this.width, this.height);
         this.container.appendChild(this.webGLRenderer.domElement);
-
-        this.camera.position.set(0, 0, -1);
-        this.camera.lookAt(this.webGLScene.position);
     }
 
     /**
@@ -96,9 +93,9 @@ export class ThreeService {
     private trackBallControl(): void {
         this.controls = new THREE.TrackballControls(this.camera);
 
-        this.controls.rotateSpeed          = 2.0;
-        this.controls.zoomSpeed            = 2.2;
-        this.controls.panSpeed             = 0.8;
+        this.controls.rotateSpeed          = 0.7;
+        this.controls.zoomSpeed            = 0.7;
+        this.controls.panSpeed             = 0.2;
         this.controls.noZoom               = false;
         this.controls.noPan                = false;
         this.controls.staticMoving         = false;//惯性
@@ -108,7 +105,10 @@ export class ThreeService {
         this.controls.addEventListener('change', ()=>this.renderWebGL());
     }
 
-
+    /**
+     * process the data, to two dimensional array
+     * @param data
+     */
     processData(data: Ctg[]): void {
 
         let i = 0;
@@ -289,7 +289,7 @@ export class ThreeService {
         context.fillStyle = 'rgba(60,80,183,0.7)';
         context.fillRect(0, 0, c_w, c_h);
 
-        context.fillStyle = '#000000';
+        context.fillStyle = '#ffffff';
         context.fillText(text, c_w / 2, c_h / 2);
 
         let spriteTexture = new THREE.Texture(canvas);
@@ -304,7 +304,7 @@ export class ThreeService {
 
         let sprite = new THREE.Sprite(spriteMaterial);
 
-        sprite.scale.set(c_w / c_h * 0.5, 0.5, 1);
+        sprite.scale.set(c_w / c_h * 0.7, 0.7, 1);
 
         spriteTexture.dispose();
         spriteMaterial.dispose();
@@ -343,6 +343,7 @@ export class ThreeService {
 
         this.group = new THREE.Group();
 
+        let item: Ctg[];
         //每一层之间的距离
         let radius = 4;
         //层数
@@ -361,12 +362,13 @@ export class ThreeService {
          * data is like this [2: [Sprite, Sprite, ..], 3 : [..], ..]
          * each tier is an array
          */
-        for (let item of this.data) {
+        for (let prop in this.data) {
+            item = this.data[prop];
 
             /**
              * the sprite on each tier composed into a sphere
              */
-            if (item.length > 0) {
+            if (item && item.length > 0) {
 
                 /**
                  * points on the core tier is item.length
@@ -391,7 +393,7 @@ export class ThreeService {
                      * set a position for text sprite
                      * if it has a parent ctg, find the closet point to its parent
                      */
-                    pos    = positions[i];
+                    pos = positions[i];
                     pid    = item[i]['pid'];
                     ctg_id = item[i]['ctg_id'];
 
@@ -404,12 +406,9 @@ export class ThreeService {
                         positions.splice(k, 1);
                     }
 
-                    sprite.position.set(
-                        pos.x,
-                        pos.y,
-                        pos.z
-                    );
-
+                    sprite.position.set(pos.x, pos.y, pos.z);
+                    //use ctg_id as the sprite's name
+                    sprite.name = item[i]['ctg_id'].toString();
                     /**
                      * save userData for text sprite
                      * @type {Ctg}
@@ -431,7 +430,27 @@ export class ThreeService {
             tier++;
         }
 
+        this.setCameraPositionAndZoomDistance(radius, tier);
+
         this.webGLScene.add(this.group);
+
+    }
+
+    /**
+     * set the camera initial position
+     * set the track ball control min & max zoom distance
+     * min distance can not be minus
+     * @param radius
+     * @param tier
+     */
+    private setCameraPositionAndZoomDistance(radius: number, tier: number) {
+        //set the camera zoom range and camera position
+        this.camera.position.set(0, 0, radius);
+        this.camera.lookAt(this.webGLScene.position);
+
+        // this.controls.target = new THREE.Vector3(0, 0, -10);
+        this.controls.minDistance = 0;
+        this.controls.maxDistance = (radius * tier + 2) * 1.8;
     }
 
     /**
@@ -550,9 +569,9 @@ export class ThreeService {
 
         this.initWebGL();
 
-        this.buildSpheres();
-
         this.trackBallControl();
+
+        this.buildSpheres();
 
         this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(event), false);
 
