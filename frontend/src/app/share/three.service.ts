@@ -82,7 +82,7 @@ export class ThreeService {
         this.raycaster     = new THREE.Raycaster();
 
         // Set the background color of the renderer to gray, with full opacity
-        this.webGLRenderer.setClearColor(0xffffff, 1);
+        this.webGLRenderer.setClearColor(0x3d51b7, 1);
         this.webGLRenderer.setSize(this.width, this.height);
         this.container.appendChild(this.webGLRenderer.domElement);
     }
@@ -93,9 +93,9 @@ export class ThreeService {
     private trackBallControl(): void {
         this.controls = new THREE.TrackballControls(this.camera);
 
-        this.controls.rotateSpeed          = 0.7;
-        this.controls.zoomSpeed            = 0.7;
-        this.controls.panSpeed             = 0.2;
+        this.controls.rotateSpeed          = 1;
+        this.controls.zoomSpeed            = 1;
+        this.controls.panSpeed             = 1;
         this.controls.noZoom               = false;
         this.controls.noPan                = false;
         this.controls.staticMoving         = false;//惯性
@@ -286,10 +286,10 @@ export class ThreeService {
         context.textAlign    = 'center';
         context.textBaseline = 'middle';
 
-        context.fillStyle = 'rgba(60,80,183,0.7)';
+        context.fillStyle = 'rgba(255,255,255,0.7)';
         context.fillRect(0, 0, c_w, c_h);
 
-        context.fillStyle = '#ffffff';
+        context.fillStyle = '#000000';
         context.fillText(text, c_w / 2, c_h / 2);
 
         let spriteTexture = new THREE.Texture(canvas);
@@ -304,7 +304,7 @@ export class ThreeService {
 
         let sprite = new THREE.Sprite(spriteMaterial);
 
-        sprite.scale.set(c_w / c_h * 0.7, 0.7, 1);
+        sprite.scale.set(c_w / c_h, 1, 1);
 
         spriteTexture.dispose();
         spriteMaterial.dispose();
@@ -444,13 +444,14 @@ export class ThreeService {
      * @param tier
      */
     private setCameraPositionAndZoomDistance(radius: number, tier: number) {
+        let d = (radius * tier + 2) * 1.8;
         //set the camera zoom range and camera position
-        this.camera.position.set(0, 0, radius);
+        this.camera.position.set(0, 0, d);
         this.camera.lookAt(this.webGLScene.position);
 
         // this.controls.target = new THREE.Vector3(0, 0, -10);
         this.controls.minDistance = 0;
-        this.controls.maxDistance = (radius * tier + 2) * 1.8;
+        this.controls.maxDistance = d;
     }
 
     /**
