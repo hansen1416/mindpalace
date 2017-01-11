@@ -4,12 +4,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
-import {CssService} from '../share/css.service';
 import {CtgService} from './ctg.service';
-import {ThreeService} from '../share/three.service';
+import {ThreeEventService} from '../three/three-event.service';
 import {Ctg} from "./ctg";
-import {CtgPosition} from "./ctg-position";
-
 
 @Component({
                selector   : 'ctg-list',
@@ -20,18 +17,11 @@ export class CtgListComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private cssService: CssService,
         private ctgService: CtgService,
-        private threeService: ThreeService
+        private threeEventService: ThreeEventService
     ) {
 
     }
-
-
-    // private ctgList: Ctg[];
-    //
-    //
-    // private ctgPositions: CtgPosition[];
 
 
     ngOnInit() {
@@ -41,12 +31,6 @@ export class CtgListComponent implements OnInit {
             this.ctgService.setCtgId   = params['ctg_id'];
         });
     }
-
-
-    // ngDoCheck() {
-    //     this.ctgList      = this.ctgService.getCtgList;
-    //     this.ctgPositions = this.ctgService.getCtgPositions;
-    // }
 
 
     ngAfterViewInit() {
@@ -63,8 +47,8 @@ export class CtgListComponent implements OnInit {
     private renderCtgList(ctgList: Ctg[]) {
         this.ctgService.setCtgList = ctgList;
 
-        this.threeService.processData(this.ctgService.getCtgList);
-        this.threeService.project();
+        this.threeEventService.processData(this.ctgService.getCtgList);
+        this.threeEventService.project();
     }
 
 

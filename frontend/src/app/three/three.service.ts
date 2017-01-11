@@ -46,9 +46,28 @@ export class ThreeService {
     protected tierCtgNum = 0;
 
     /**
+     * process the data, to two dimensional array
+     * @param data
+     */
+    processData(data: Ctg[]): void {
+
+        let i = 0;
+        while (i < data.length) {
+
+            if (this.data[data[i].tier]) {
+                this.data[data[i].tier].push(data[i]);
+            } else {
+                this.data[data[i].tier] = [data[i]];
+            }
+
+            i++;
+        }
+    }
+
+    /**
      * 初始化场景
      */
-    private initWebGL(): void {
+    protected initWebGL(): void {
         this.container = document.getElementById('canvas-frame');
         this.width     = this.container.clientWidth;
         this.height    = this.container.clientHeight;
@@ -73,7 +92,7 @@ export class ThreeService {
     /**
      * track ball control, rotate camera as mouse move
      */
-    private trackBallControl(): void {
+    protected trackBallControl(): void {
         this.controls = new THREE.TrackballControls(this.camera);
 
         this.controls.rotateSpeed          = 1;
@@ -86,25 +105,6 @@ export class ThreeService {
         this.controls.keys                 = [65, 83, 68];
 
         this.controls.addEventListener('change', ()=>this.renderWebGL());
-    }
-
-    /**
-     * process the data, to two dimensional array
-     * @param data
-     */
-    processData(data: Ctg[]): void {
-
-        let i = 0;
-        while (i < data.length) {
-
-            if (this.data[data[i].tier]) {
-                this.data[data[i].tier].push(data[i]);
-            } else {
-                this.data[data[i].tier] = [data[i]];
-            }
-
-            i++;
-        }
     }
 
     /**
@@ -327,7 +327,7 @@ export class ThreeService {
     /**
      * draw text on sprite
      */
-    private buildSpheres(): void {
+    protected buildSpheres(): void {
 
         this.group = new THREE.Group();
 
@@ -441,135 +441,10 @@ export class ThreeService {
         this.controls.maxDistance = d;
     }
 
-    /**
-     * update the mouse position
-     * @param event
-     */
-    private updateMousePosition(event): void {
-        // normalize between -1 and +1
-        this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-    }
 
-    /**
-     * restore the colour and shape of the intersected sprite to the original status
-     * @param currentObject
-     */
-    private setSpriteToOrigin(currentObject?): void {
-        if (this.intersect) {
-
-            if (currentObject && this.intersect.uuid != currentObject.uuid) {
-                this.intersect.material.color.set(0xffffff);
-            }
-
-            if (!currentObject) {
-                this.intersect.material.color.set(0xffffff);
-            }
-        }
-    }
-
-    /**
-     * get the mouse ray casted first element
-     * @returns THREE.Sprite | null
-     */
-    private getFirstIntersectedObject(): THREE.Sprite | null {
-        this.raycaster.setFromCamera(this.mouse, this.camera);
-
-        let intersected = this.raycaster.intersectObjects(this.group.children);
-
-        if (intersected.length) {
-            switch (intersected[0].object.type) {
-                case 'Sprite':
-                    return <THREE.Sprite>intersected[0].object;
-                case 'Line':
-                    return null;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * mouse move event
-     * @param event
-     */
-    private onMouseMove(event: Event): void {
-        event.preventDefault();
-
-        this.updateMousePosition(event);
-    }
-
-    /**
-     * click event of the sprites
-     * @param event
-     */
-    private onClick(event: Event): void {
-        event.preventDefault();
-
-        this.updateMousePosition(event);
-
-        let currentObject = this.getFirstIntersectedObject();
-
-        if (currentObject) {
-            this.intersect = currentObject;
-
-            //todo sprite click event goes here
-        } else {
-            this.setSpriteToOrigin();
-            this.intersect = null;
-        }
-    }
-
-    /**
-     * when mouse moving, get the first ray cast sprite
-     * update this.intersect
-     */
-    private raycast(): void {
-
-        let currentObject = this.getFirstIntersectedObject();
-
-        if (currentObject) {
-
-            this.webGLRenderer.domElement.style.cursor = 'pointer';
-
-            this.setSpriteToOrigin(currentObject);
-
-            currentObject.material.color.set(0xff0000);
-            this.intersect = currentObject;
-        } else {
-            this.webGLRenderer.domElement.style.cursor = 'default';
-        }
-    }
-
-
-    private renderAnimate(): void {
-
-        requestAnimationFrame(()=>this.renderAnimate());
-
-        this.controls.update();
-        this.raycast();
-        this.renderWebGL();
-    }
-
-
-    private renderWebGL(): void {
+    protected renderWebGL(): void {
         this.webGLRenderer.render(this.webGLScene, this.camera);
     }
 
-
-    project(): void {
-
-        this.initWebGL();
-
-        this.trackBallControl();
-
-        this.buildSpheres();
-
-        this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(event), false);
-
-        this.webGLRenderer.domElement.addEventListener('click', ()=>this.onClick(event), false);
-
-        this.renderAnimate();
-    }
 
 }
