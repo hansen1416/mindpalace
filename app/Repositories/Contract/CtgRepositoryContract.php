@@ -14,10 +14,4 @@ use Rinvex\Repository\Contracts\RepositoryContract;
 interface CtgRepositoryContract extends CacheableContract, RepositoryContract
 {
     public function getOne(int $ctg_id);
-
-
-    public function getBySpace(int $space_id);
-
-
-    public function getByCtg(int $ctg_id);
 }

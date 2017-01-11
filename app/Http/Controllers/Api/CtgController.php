@@ -15,6 +15,7 @@ class CtgController extends Controller
 {
     private $ctg;
 
+
     public function __construct(
         CtgServiceContract $ctgServiceContract
     )
@@ -22,15 +23,16 @@ class CtgController extends Controller
         $this->ctg = $ctgServiceContract;
     }
 
+
     public function spaceCtg($space_id)
     {
         return response()->json($this->ctg->spaceCtg($space_id));
     }
 
 
-    public function ctgDescendant($ctg_id)
+    public function ctgDescendant($space_id, $ctg_id)
     {
-        return response()->json($this->ctg->ctgDescendant($ctg_id));
+        return response()->json($this->ctg->ctgDescendant($space_id, $ctg_id));
     }
 
 

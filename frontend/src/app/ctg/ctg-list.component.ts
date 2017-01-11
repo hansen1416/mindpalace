@@ -28,10 +28,10 @@ export class CtgListComponent implements OnInit {
     }
 
 
-    private ctgList: Ctg[];
-
-
-    private ctgPositions: CtgPosition[];
+    // private ctgList: Ctg[];
+    //
+    //
+    // private ctgPositions: CtgPosition[];
 
 
     ngOnInit() {
@@ -43,18 +43,18 @@ export class CtgListComponent implements OnInit {
     }
 
 
-    ngDoCheck() {
-        this.ctgList      = this.ctgService.getCtgList;
-        this.ctgPositions = this.ctgService.getCtgPositions;
-    }
+    // ngDoCheck() {
+    //     this.ctgList      = this.ctgService.getCtgList;
+    //     this.ctgPositions = this.ctgService.getCtgPositions;
+    // }
 
 
     ngAfterViewInit() {
-        if (this.ctgService.getSpaceId) {
+        if (this.ctgService.getSpaceId && !this.ctgService.getCtgId) {
             this.ctgService.getCtgListBySpaceId().subscribe(response => this.renderCtgList(response));
         }
 
-        if (this.ctgService.getCtgId) {
+        if (this.ctgService.getSpaceId && this.ctgService.getCtgId) {
             this.ctgService.getCtgListByCtgId().subscribe(response => this.renderCtgList(response));
         }
     }

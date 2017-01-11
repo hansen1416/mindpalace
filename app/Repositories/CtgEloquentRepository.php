@@ -25,20 +25,4 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
             ->find($ctg_id)->toArray();
     }
 
-
-    public function getBySpace(int $space_id)
-    {
-        return $this
-            ->where('space_id', $space_id)
-            ->findAll()->toArray();
-    }
-
-
-    public function getByCtg(int $ctg_id)
-    {
-        return $this
-            ->where('path', 'LIKE', '%-' . $ctg_id . '-%')
-            ->findAll()->toArray();
-    }
-
 }

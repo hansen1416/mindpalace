@@ -387,7 +387,7 @@ export class ThreeService {
 
                 for (let i = 0; i < item.length; i++) {
                     //draw text sprite
-                    let sprite = ThreeService.drawTextSprite(item[i].title);
+                    let sprite = ThreeService.drawTextSprite(item[i].ctg.title);
 
                     /**
                      * set a position for text sprite

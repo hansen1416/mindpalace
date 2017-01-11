@@ -71,7 +71,7 @@ export class CtgService {
 
 
     getCtgListByCtgId(): Observable<Ctg[]> {
-        return this.http.get(this.routers.ctg(this.getCtgId));
+        return this.http.get(this.routers.ctg(this.getSpaceId, this.getCtgId));
     }
 
 
