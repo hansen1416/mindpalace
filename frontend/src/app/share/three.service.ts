@@ -8,59 +8,42 @@ import {Injectable} from '@angular/core';
 declare var THREE: any;
 
 import {Ctg} from '../ctg/ctg';
-
-/**
- * 空间中点的位置
- * tx: translateX
- * ty: translateY
- * tz: translateZ
- * ry: rotateY
- * rx: rotateX
- */
-class Position {
-    x: number;
-    y: number;
-    z: number;
-}
+import {Position} from './position';
 
 @Injectable()
 export class ThreeService {
 
-    private view_angle = 50;
+    protected view_angle = 50;
 
-    private near = 0.1;
+    protected near = 0.1;
 
-    private far = 1000;
+    protected far = 1000;
 
-    private container: HTMLElement;
+    protected container: HTMLElement;
 
-    private width: number;
+    protected width: number;
 
-    private height: number;
+    protected height: number;
 
-    private webGLRenderer: THREE.WebGLRenderer;
+    protected webGLRenderer: THREE.WebGLRenderer;
 
-    private webGLScene: THREE.Scene;
+    protected webGLScene: THREE.Scene;
 
-    private camera: THREE.Object3D & THREE.Camera & THREE.PerspectiveCamera;
+    protected camera: THREE.Object3D & THREE.Camera & THREE.PerspectiveCamera;
 
-    private controls: THREE.TrackballControls;
+    protected controls: THREE.TrackballControls;
 
-    private group: THREE.Group & THREE.Object3D;
+    protected group: THREE.Group & THREE.Object3D;
 
-    private raycaster: THREE.Raycaster;
+    protected raycaster: THREE.Raycaster;
 
-    private mouse: THREE.Vector2 & {x: number, y: number};
+    protected mouse: THREE.Vector2 & {x: number, y: number};
 
-    private intersect: THREE.Sprite;
+    protected intersect: THREE.Sprite;
 
-    private data = <Array<Array<Ctg>>>[];
+    protected data = <Array<Array<Ctg>>>[];
 
-    private tierCtgNum = 0;
-
-
-    // private CSS3DRender;
-    // private CSS3DScene;
+    protected tierCtgNum = 0;
 
     /**
      * 初始化场景
@@ -123,7 +106,6 @@ export class ThreeService {
             i++;
         }
     }
-
 
     /**
      * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
@@ -316,12 +298,14 @@ export class ThreeService {
      * draw a line between two ctg
      * @param pos1
      * @param pos2
+     * @param name
      * @returns {THREE.Line}
      */
-    private static drawLineBetweenTwoCtg(pos1: Position, pos2: Position): THREE.Object3D & THREE.Line {
+    private static drawLineBetweenTwoCtg(pos1: Position, pos2: Position, name: string): THREE.Object3D & THREE.Line {
         let lineMaterial = new THREE.LineBasicMaterial({
-            color  : 0x7708ad,
-            opacity: 0.3
+            linewidth   : 1.5,
+            opacity     : 0.3,
+            vertexColors: true
         });
 
         lineMaterial.transparent = true;
@@ -329,11 +313,15 @@ export class ThreeService {
         let lineGeometry = new THREE.Geometry();
         lineGeometry.vertices.push(new THREE.Vector3(pos1.x, pos1.y, pos1.z));
         lineGeometry.vertices.push(new THREE.Vector3(pos2.x, pos2.y, pos2.z));
+        lineGeometry.colors.push(new THREE.Color(0xffffff), new THREE.Color(0xA359FE));
 
         lineMaterial.dispose();
         lineGeometry.dispose();
 
-        return new THREE.Line(lineGeometry, lineMaterial);
+        let line = new THREE.Line(lineGeometry, lineMaterial);
+
+        line.name = name;
+        return line;
     }
 
     /**
@@ -421,7 +409,7 @@ export class ThreeService {
 
                     //draw lines
                     if (pid && allPos[pid]) {
-                        this.group.add(ThreeService.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id]));
+                        this.group.add(ThreeService.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id], pid + '-' + ctg_id));
                     }
 
                 }
@@ -433,7 +421,6 @@ export class ThreeService {
         this.setCameraPositionAndZoomDistance(radius, tier);
 
         this.webGLScene.add(this.group);
-
     }
 
     /**
@@ -543,10 +530,14 @@ export class ThreeService {
 
         if (currentObject) {
 
+            this.webGLRenderer.domElement.style.cursor = 'pointer';
+
             this.setSpriteToOrigin(currentObject);
 
             currentObject.material.color.set(0xff0000);
             this.intersect = currentObject;
+        } else {
+            this.webGLRenderer.domElement.style.cursor = 'default';
         }
     }
 
