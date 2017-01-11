@@ -8,8 +8,48 @@ import {ThreeService} from './three.service';
 @Injectable()
 export class ThreeEventService extends ThreeService {
 
+    private timer = 0;
+
+    private timerAnimation: number;
+
+    protected intersect: THREE.Sprite;
+
+    protected drag: THREE.Sprite;
+
     constructor() {
         super();
+    }
+
+    protected onMouseDown(event: Event): void {
+        event.preventDefault();
+
+        this.updateMousePosition(event);
+
+        this.countPressTime();
+    }
+
+
+    private countPressTime() {
+        this.timerAnimation = requestAnimationFrame(()=>this.countPressTime());
+
+        this.timer++;
+
+        if (this.timer >= 17) {
+            cancelAnimationFrame(this.timerAnimation);
+            if (this.intersect) {
+                this.drag = this.intersect;
+                this.webGLRenderer.domElement.removeEventListener('mousemove', ()=>this.onMouseMove(event), false);
+                this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouserDrag(event), false);
+            }
+        }
+    }
+
+
+    protected onMouseUp(event: Event): void {
+        event.preventDefault();
+
+        this.timer = 0;
+        cancelAnimationFrame(this.timerAnimation);
     }
 
     /**
@@ -20,6 +60,18 @@ export class ThreeEventService extends ThreeService {
         event.preventDefault();
 
         this.updateMousePosition(event);
+    }
+
+
+    protected onMouserDrag(event: Event): void {
+        event.preventDefault();
+
+        this.updateMousePosition(event);
+
+        let z = this.drag.position.z;
+
+        //todo let sprite follow the mouse
+        this.drag.position.set(this.mouse.x, this.mouse.y, z);
     }
 
     /**
@@ -134,6 +186,10 @@ export class ThreeEventService extends ThreeService {
         this.buildSpheres();
 
         this.renderAnimate();
+
+        this.webGLRenderer.domElement.addEventListener('mousedown', ()=>this.onMouseDown(event), false);
+
+        this.webGLRenderer.domElement.addEventListener('mouseup', ()=>this.onMouseUp(event), false);
 
         this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(event), false);
 

@@ -39,8 +39,6 @@ export class ThreeService {
 
     protected mouse: THREE.Vector2 & {x: number, y: number};
 
-    protected intersect: THREE.Sprite;
-
     protected data = <Array<Array<Ctg>>>[];
 
     protected tierCtgNum = 0;
