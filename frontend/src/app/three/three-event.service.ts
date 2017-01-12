@@ -20,65 +20,86 @@ export class ThreeEventService extends ThreeService {
         super();
     }
 
-    protected onMouseDown(event: Event): void {
+    /**
+     * mouse down event,
+     * update mouse position
+     * count time, if more than one second, start drag event
+     * @param event
+     */
+    protected onMouseDown (event: MouseEvent): void {
         event.preventDefault();
 
         this.updateMousePosition(event);
 
+        console.log('down');
+
         this.countPressTime();
-    }
+    };
 
+    /**
+     * mouse move event
+     * update this.mouse x,y position
+     * @param event
+     */
+    protected onMouseMove (event: MouseEvent): void {
+        event.preventDefault();
+        console.log('move');
+        this.updateMousePosition(event);
+    };
 
-    private countPressTime() {
-        this.timerAnimation = requestAnimationFrame(()=>this.countPressTime());
+    /**
+     * drag event,
+     *
+     * @param event
+     */
+    protected onMouserDrag (event: MouseEvent): void {
+        event.preventDefault();
+        console.log('drag');
+        this.updateMousePosition(event);
 
-        this.timer++;
+        let vector = new THREE.Vector3();
 
-        if (this.timer >= 17) {
-            cancelAnimationFrame(this.timerAnimation);
-            if (this.intersect) {
-                this.drag = this.intersect;
-                this.webGLRenderer.domElement.removeEventListener('mousemove', ()=>this.onMouseMove(event), false);
-                this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouserDrag(event), false);
-            }
-        }
-    }
+        vector.set(
+            this.mouse.x,
+            this.mouse.y,
+            0.5);
 
+        vector.unproject(this.camera);
 
-    protected onMouseUp(event: Event): void {
+        let dir = vector.sub(this.camera.position).normalize();
+
+        let distance = -this.camera.position.z / dir.z;
+
+        let pos = this.camera.position.clone().add(dir.multiplyScalar(distance));
+
+        this.drag.position.set(pos.x, pos.y, pos.z);
+
+    };
+
+    /**
+     * when mouse up
+     * set timer to 0, cancel countPressTime animation
+     * remove onMouserDrag event
+     * add onMouseMove event back
+     * @param event
+     */
+    protected onMouseUp (event: MouseEvent): void {
         event.preventDefault();
 
         this.timer = 0;
         cancelAnimationFrame(this.timerAnimation);
+        this.controls.enabled = true;
+        console.log('up');
+        this.webGLRenderer.domElement.removeEventListener('mousemove', ()=>this.onMouserDrag(<MouseEvent>event), false);
+        this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(<MouseEvent>event), false);
     }
 
-    /**
-     * mouse move event
-     * @param event
-     */
-    protected onMouseMove(event: Event): void {
-        event.preventDefault();
-
-        this.updateMousePosition(event);
-    }
-
-
-    protected onMouserDrag(event: Event): void {
-        event.preventDefault();
-
-        this.updateMousePosition(event);
-
-        let z = this.drag.position.z;
-
-        //todo let sprite follow the mouse
-        this.drag.position.set(this.mouse.x, this.mouse.y, z);
-    }
 
     /**
      * click event of the sprites
      * @param event
      */
-    protected onClick(event: Event): void {
+    protected onClick = (event: MouseEvent): void => {
         event.preventDefault();
 
         this.updateMousePosition(event);
@@ -93,13 +114,44 @@ export class ThreeEventService extends ThreeService {
             this.setSpriteToOrigin();
             this.intersect = null;
         }
+    };
+
+    /**
+     * after mouse down, count the time until 1 second
+     * disable trackball controls, cancel countPressTime animation
+     * get drag object
+     * remove onMouseMove event
+     * add onMouserDrag event
+     */
+    private countPressTime() {
+        this.timerAnimation = requestAnimationFrame(()=>this.countPressTime());
+
+        this.timer++;
+
+        /**
+         * press mouse more than 1 second,
+         * stop timer, disable trackball control
+         * add drag event, remove mouse move event
+         */
+        if (17 == this.timer) {
+            console.log(17);
+            this.controls.enabled = false;
+            cancelAnimationFrame(this.timerAnimation);
+            this.drag = this.getFirstIntersectedObject();
+            if (this.drag) {
+                console.log('this.drag');
+                this.webGLRenderer.domElement.removeEventListener('mousemove', ()=>this.onMouseMove(<MouseEvent>event), false);
+                this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouserDrag(<MouseEvent>event), false);
+            }
+        }
     }
+
 
     /**
      * update the mouse position
      * @param event
      */
-    private updateMousePosition(event): void {
+    private updateMousePosition(event: MouseEvent): void {
         // normalize between -1 and +1
         this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
@@ -187,13 +239,15 @@ export class ThreeEventService extends ThreeService {
 
         this.renderAnimate();
 
-        this.webGLRenderer.domElement.addEventListener('mousedown', ()=>this.onMouseDown(event), false);
+        this.webGLRenderer.domElement.addEventListener('mousedown', ()=>this.onMouseDown(<MouseEvent>event), false);
 
-        this.webGLRenderer.domElement.addEventListener('mouseup', ()=>this.onMouseUp(event), false);
+        this.webGLRenderer.domElement.addEventListener('mouseup', ()=>this.onMouseUp(<MouseEvent>event), false);
 
-        this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(event), false);
+        this.webGLRenderer.domElement.addEventListener('mousemove', ()=>this.onMouseMove(<MouseEvent>event), false);
 
-        this.webGLRenderer.domElement.addEventListener('click', ()=>this.onClick(event), false);
+        this.webGLRenderer.domElement.addEventListener('click', ()=>this.onClick(<MouseEvent>event), false);
+
+        this.webGLRenderer.domElement.removeEventListener('mousedown', this.onMouseDown, false);
     }
 
 
