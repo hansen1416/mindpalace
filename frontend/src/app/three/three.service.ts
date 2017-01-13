@@ -33,7 +33,9 @@ export class ThreeService {
 
     protected controls: THREE.TrackballControls;
 
-    protected group: THREE.Group & THREE.Object3D;
+    protected spriteGroup: THREE.Group & THREE.Object3D;
+
+    protected lineGroup: THREE.Group & THREE.Object3D;
 
     protected raycaster: THREE.Raycaster;
 
@@ -327,7 +329,8 @@ export class ThreeService {
      */
     protected buildSpheres(): void {
 
-        this.group = new THREE.Group();
+        this.spriteGroup = new THREE.Group();
+        this.lineGroup   = new THREE.Group();
 
         let item: Ctg[];
         //每一层之间的距离
@@ -403,11 +406,11 @@ export class ThreeService {
                     //remember all positions
                     allPos[ctg_id] = pos;
 
-                    this.group.add(sprite);
+                    this.spriteGroup.add(sprite);
 
                     //draw lines
                     if (pid && allPos[pid]) {
-                        this.group.add(ThreeService.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id], pid + '-' + ctg_id));
+                        this.lineGroup.add(ThreeService.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id], pid + '-' + ctg_id));
                     }
 
                 }
@@ -418,7 +421,8 @@ export class ThreeService {
 
         this.setCameraPositionAndZoomDistance(radius, tier);
 
-        this.webGLScene.add(this.group);
+        this.webGLScene.add(this.spriteGroup);
+        this.webGLScene.add(this.lineGroup);
     }
 
     /**
