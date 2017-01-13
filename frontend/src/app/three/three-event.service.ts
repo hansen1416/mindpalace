@@ -18,6 +18,8 @@ export class ThreeEventService extends ThreeService {
 
     protected dragLines: THREE.Line[];
 
+    protected originDragPosition: THREE.Vector3;
+
     constructor() {
         super();
     }
@@ -76,12 +78,14 @@ export class ThreeEventService extends ThreeService {
 
         this.drag.position.set(pos.x, pos.y, pos.z);
 
-        let i = 0;
+        if (this.dragLines) {
+            let i = 0;
 
-        while (i < this.dragLines.length) {
-            this.dragLines[i].geometry.vertices[0] = new THREE.Vector3(pos.x, pos.y, pos.z);
-            this.dragLines[i].geometry.verticesNeedUpdate = true;
-            i++;
+            while (i < this.dragLines.length) {
+                this.dragLines[i].geometry.vertices[0]        = new THREE.Vector3(pos.x, pos.y, pos.z);
+                this.dragLines[i].geometry.verticesNeedUpdate = true;
+                i++;
+            }
         }
 
     };
@@ -99,9 +103,39 @@ export class ThreeEventService extends ThreeService {
         this.timer = 0;
         cancelAnimationFrame(this.timerAnimation);
         this.controls.enabled = true;
-        console.log('up');
+
         this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
         this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
+
+        /**
+         * if there is drag sprite,
+         * restore its position to origin if it's not going to chage its parent
+         * if drag the sprite to a target ctg, and the sprite can be added under the target ctg,
+         * request api, and refresh the canvas.
+         */
+        if (this.drag) {
+
+            let target = this.getFirstIntersectedObject(1);
+
+            if (target) {
+                console.log(target.name, target.userData.ctg.title);
+                //todo request api, refresh canvas
+
+            } else {
+                this.drag.position.set(this.originDragPosition.x, this.originDragPosition.y, this.originDragPosition.z);
+
+                let i = 0;
+                while (i < this.dragLines.length) {
+                    this.dragLines[i].geometry.vertices[0]        = this.originDragPosition;
+                    this.dragLines[i].geometry.verticesNeedUpdate = true;
+                    i++;
+                }
+            }
+
+            this.drag               = undefined;
+            this.dragLines          = undefined;
+            this.originDragPosition = undefined;
+        }
     };
 
 
@@ -150,8 +184,10 @@ export class ThreeEventService extends ThreeService {
             this.drag = this.getFirstIntersectedObject();
 
             if (this.drag) {
-
-                this.dragLines = this.getDesLinesByCtgId(this.drag.name);
+                //must assign it to empty object, otherwise the position updates when dragging
+                this.originDragPosition = Object.assign({}, this.drag.position);
+                //dragLines are lines connect the drag Sprite and its sub ctg
+                this.dragLines          = this.getDesLinesByCtgId(this.drag.name);
 
                 this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseMove, false);
                 this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseDrag, false);
@@ -189,15 +225,17 @@ export class ThreeEventService extends ThreeService {
 
     /**
      * get the mouse ray casted first element
+     * @param index
      * @returns THREE.Sprite | null
      */
-    private getFirstIntersectedObject(): THREE.Sprite | null {
+    private getFirstIntersectedObject(index?: number): THREE.Sprite | null {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         let intersected = this.raycaster.intersectObjects(this.spriteGroup.children);
 
-        if (intersected.length) {
-            return <THREE.Sprite>intersected[0].object;
+        if (intersected && intersected.length) {
+            index = index || 0;
+            return intersected[index] ? <THREE.Sprite>intersected[index].object : null;
         }
 
         return null;
