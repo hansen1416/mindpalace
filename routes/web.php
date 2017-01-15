@@ -18,4 +18,7 @@ Route::get('/', function () {
 //Route::get('/', 'WelcomeController@index');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'WelcomeController@index');
+
+
+Route::get('/ctg/move/space/{space_id}/ctg/{ctg_id}/pid/{pid}', 'Api\CtgController@moveCtg');

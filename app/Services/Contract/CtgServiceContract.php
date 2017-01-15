@@ -14,4 +14,6 @@ interface CtgServiceContract
     public function spaceCtg(int $space_id);
 
     public function ctgDescendant(int $space_id, int $ctg_id);
+
+    public function moveCtg(int $space_id, int $ctg_id, int $pid);
 }

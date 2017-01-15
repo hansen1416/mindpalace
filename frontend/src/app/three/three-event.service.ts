@@ -35,7 +35,7 @@ export class ThreeEventService extends ThreeService {
 
         this.updateMousePosition(event);
 
-        console.log('down');
+        // console.log('down');
 
         this.countPressTime();
     };
@@ -47,7 +47,7 @@ export class ThreeEventService extends ThreeService {
      */
     protected onMouseMove = (event: MouseEvent): void => {
         event.preventDefault();
-        console.log('move');
+        // console.log('move');
         this.updateMousePosition(event);
     };
 
@@ -58,7 +58,7 @@ export class ThreeEventService extends ThreeService {
      */
     protected onMouseDrag = (event: MouseEvent): void => {
         event.preventDefault();
-        console.log('drag');
+        // console.log('drag');
         this.updateMousePosition(event);
 
         let vector = new THREE.Vector3();
@@ -82,8 +82,9 @@ export class ThreeEventService extends ThreeService {
             let i = 0;
 
             while (i < this.dragLines.length) {
-                this.dragLines[i].geometry.vertices[0]        = new THREE.Vector3(pos.x, pos.y, pos.z);
-                this.dragLines[i].geometry.verticesNeedUpdate = true;
+                let geometry = <THREE.Geometry>this.dragLines[i].geometry;
+                geometry.vertices[0]        = new THREE.Vector3(pos.x, pos.y, pos.z);
+                geometry.verticesNeedUpdate = true;
                 i++;
             }
         }
@@ -104,9 +105,6 @@ export class ThreeEventService extends ThreeService {
         cancelAnimationFrame(this.timerAnimation);
         this.controls.enabled = true;
 
-        this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
-        this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
-
         /**
          * if there is drag sprite,
          * restore its position to origin if it's not going to chage its parent
@@ -114,6 +112,9 @@ export class ThreeEventService extends ThreeService {
          * request api, and refresh the canvas.
          */
         if (this.drag) {
+
+            this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
+            this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
 
             let target = this.getFirstIntersectedObject(1);
 
@@ -126,8 +127,9 @@ export class ThreeEventService extends ThreeService {
 
                 let i = 0;
                 while (i < this.dragLines.length) {
-                    this.dragLines[i].geometry.vertices[0]        = this.originDragPosition;
-                    this.dragLines[i].geometry.verticesNeedUpdate = true;
+                    let geometry = <THREE.Geometry>this.dragLines[i].geometry;
+                    geometry.vertices[0]        = this.originDragPosition;
+                    geometry.verticesNeedUpdate = true;
                     i++;
                 }
             }
