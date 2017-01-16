@@ -8,6 +8,7 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {SpaceService} from "../space/space.service";
 import {ConcentricService} from "../space/concentric.service";
+import {StorageService} from '../share/storage.service';
 
 @Component({
                selector   : 'user-login',
@@ -21,7 +22,8 @@ export class UserLoginComponent {
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
         private spaceService: SpaceService,
-        private concentricService: ConcentricService
+        private concentricService: ConcentricService,
+        private storageService: StorageService,
     ) {
     }
 
@@ -38,6 +40,7 @@ export class UserLoginComponent {
      * authenticate failed
      */
     authError = false;
+
 
     /**
      * check email format
@@ -69,15 +72,13 @@ export class UserLoginComponent {
                  * if authenticated
                  */
                 if (this.user.access_token) {
+
+                    this.storageService.setItem('access_token', this.user.access_token);
+
                     this.apiHttp.get(this.apiRoutes.user).subscribe(
                         response => {
 
-                            let profile = response.profile;
-                            delete response.profile;
-                            delete profile.profile_id;
-
-                            this.userService.setUserProperties(response, profile);
-                            this.userService.sealUserModel();
+                            this.userService.saveUserModel(response);
 
                             this.spaceService.getHomeSpaceList().subscribe(response=> {
 

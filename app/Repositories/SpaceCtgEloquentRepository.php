@@ -32,7 +32,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     public function getCtgsBySpaceId(int $space_id)
     {
         return $this
-//            ->setCacheLifetime(0)
+            ->setCacheLifetime(0)
             ->where('space_id', $space_id)
             ->with(['ctg'])
             ->findAll()->toArray();

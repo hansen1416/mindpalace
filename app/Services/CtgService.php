@@ -79,7 +79,7 @@ class CtgService implements CtgServiceContract
             $this->spaceCtgRepo->massUpdate(
                 [
                     ['space_id', $space_id],
-                    ['ctg_id', $space_id],
+                    ['ctg_id', $ctg_id],
                 ],
                 [
                     'pid'  => $pid,

@@ -3,8 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {User} from './user';
-
-import {StorageService} from '../share/storage.service';
+import {OriginUserData} from './origin-user-data';
 
 export class UserServiceConfig {
     userName = 'Anonymous';
@@ -17,9 +16,7 @@ export class UserService {
     private userModel = new User();
 
 
-    constructor(
-        private storageService: StorageService
-    ) {}
+    constructor() {}
 
 
     sealUserModel(): void {
@@ -28,20 +25,26 @@ export class UserService {
 
 
     getUserModel(): User {
-        return this.storageService.getItem<User>('userModel') || this.userModel;
+        return this.userModel;
     }
 
 
     getUserProperty(userProperty): string {
-        let userModel = this.getUserModel();
-        return userModel[userProperty];
+        return this.userModel[userProperty];
     }
 
 
     setUserProperties(...userProperty: Object[]): void {
         Object.assign(this.userModel, ...userProperty);
-        this.storageService.setItem('userModel', this.userModel);
     }
 
+
+    saveUserModel(response: OriginUserData) {
+        let profile = response.profile;
+        delete response.profile;
+
+        this.setUserProperties(response, profile);
+        this.sealUserModel();
+    }
 
 }
