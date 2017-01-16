@@ -19,6 +19,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     protected $model = 'App\SpaceCtg';
 
 
+
     public function getOne(int $space_id, int $ctg_id, bool $array = true)
     {
         $data = $this
@@ -32,7 +33,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     public function getCtgsBySpaceId(int $space_id)
     {
         return $this
-            ->setCacheLifetime(0)
+//            ->setCacheLifetime(0)
             ->where('space_id', $space_id)
             ->with(['ctg'])
             ->findAll()->toArray();
@@ -60,7 +61,13 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
             $spaceCtg = $spaceCtg->where($attribute, $operator, $value, $boolean ? $boolean : 'and');
         }
 
-        return $spaceCtg->update($attributes);
+        $res = $spaceCtg->update($attributes);
+
+        if ($res) {
+            $this->getContainer('events')->fire($this->getRepositoryId().'.entity.updated', [$this, $spaceCtg]);
+        }
+
+        return $res;
     }
 
 
