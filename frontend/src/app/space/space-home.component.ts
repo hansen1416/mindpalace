@@ -8,6 +8,7 @@ import {ConcentricService} from './concentric.service';
 import {CssService} from '../share/css.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
+import {UserService} from '../core/user.service';
 import {Space} from './space';
 import {Position} from './position';
 
@@ -37,7 +38,8 @@ export class SpaceHomeComponent implements OnInit {
         private concentricService: ConcentricService,
         private cssService: CssService,
         private apiRoutes: ApiRoutesService,
-        private apiHttp: ApiHttpService
+        private apiHttp: ApiHttpService,
+        private userService: UserService,
     ) {
     }
 
@@ -52,6 +54,10 @@ export class SpaceHomeComponent implements OnInit {
              */
             this.spaceService.getHomeSpaceList().subscribe(response => {
                 this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+
+                if (this.userService.getUserProperty('access_token')) {
+                    this.spaceService.addEmptySpace();
+                }
             });
         }
     }
@@ -59,8 +65,8 @@ export class SpaceHomeComponent implements OnInit {
     /**
      * synchronous space and position data from service
      */
-    ngDoCheck(){
-        this.spaces = this.spaceService.getSpaces;
+    ngDoCheck() {
+        this.spaces    = this.spaceService.getSpaces;
         this.positions = this.concentricService.getPositions;
     }
 
@@ -68,7 +74,7 @@ export class SpaceHomeComponent implements OnInit {
     trackBySpaces(index: number, space: Space) {return space.space_id}
 
 
-    spaceStyles(x:number, y:number) {
+    spaceStyles(x: number, y: number) {
         let styles = {};
 
         styles[this.cssService.getTransform] = 'translate3d(' + x + 'rem, ' + y + 'rem, 0rem)';

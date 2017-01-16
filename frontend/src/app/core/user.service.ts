@@ -4,6 +4,7 @@
 import {Injectable} from '@angular/core';
 import {User} from './user';
 
+import {StorageService} from '../share/storage.service';
 
 export class UserServiceConfig {
     userName = 'Anonymous';
@@ -16,7 +17,9 @@ export class UserService {
     private userModel = new User();
 
 
-    constructor() {}
+    constructor(
+        private storageService: StorageService
+    ) {}
 
 
     sealUserModel(): void {
@@ -25,17 +28,19 @@ export class UserService {
 
 
     getUserModel(): User {
-        return this.userModel;
+        return this.storageService.getItem<User>('userModel') || this.userModel;
     }
 
 
     getUserProperty(userProperty): string {
-        return this.userModel[userProperty];
+        let userModel = this.getUserModel();
+        return userModel[userProperty];
     }
 
 
     setUserProperties(...userProperty: Object[]): void {
         Object.assign(this.userModel, ...userProperty);
+        this.storageService.setItem('userModel', this.userModel);
     }
 
 

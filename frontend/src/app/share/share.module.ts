@@ -11,6 +11,7 @@ import {ErrorDirective}  from './error.directive';
 import {ApiRoutesService} from './api-routes.service';
 import {ApiHttpService} from './api-http.service';
 import {CssService} from './css.service';
+import {StorageService} from './storage.service';
 
 @NgModule({
               imports     : [CommonModule],
@@ -27,6 +28,7 @@ import {CssService} from './css.service';
                   ApiRoutesService,
                   ApiHttpService,
                   CssService,
+                  StorageService,
               ],
           })
 export class SharedModule {
