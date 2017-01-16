@@ -19,15 +19,13 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     protected $model = 'App\SpaceCtg';
 
 
-    public function getOne(int $space_id, int $ctg_id)
+    public function getOne(int $space_id, int $ctg_id, bool $array = true)
     {
-        $where = [
-            'ctg_id', $ctg_id,
-        ];
-        return $this
+        $data = $this
             ->where('space_id', $space_id)
-            ->findWhere($where)
-            ->toArray();
+            ->findBy('ctg_id', $ctg_id);
+
+        return $array && $data ? $data->toArray() : $data;
     }
 
 
@@ -49,6 +47,20 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
             ->where('path', 'LIKE', '%-' . $ctg_id . '-%')
             ->with(['ctg'])
             ->findAll()->toArray();
+    }
+
+
+    public function massUpdate(array $condition, array $attributes)
+    {
+        /** @var \App\SpaceCtg $spaceCtg */
+        $spaceCtg = new $this->model;
+
+        foreach ($condition as $where) {
+            list($attribute, $operator, $value, $boolean) = array_pad($where, 4, null);
+            $spaceCtg = $spaceCtg->where($attribute, $operator, $value, $boolean ? $boolean : 'and');
+        }
+
+        return $spaceCtg->update($attributes);
     }
 
 

@@ -15,14 +15,14 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * App\SpaceCtg
  *
- * @property integer $ctg_id 分类ID
- * @property integer $pid 父分类ID
- * @property integer $space_id 空间ID
- * @property integer $tier 层序号
- * @property integer $sort 排序
- * @property string $path 分类的族谱
+ * @property integer         $ctg_id   分类ID
+ * @property integer         $pid      父分类ID
+ * @property integer         $space_id 空间ID
+ * @property integer         $tier     层序号
+ * @property integer         $sort     排序
+ * @property string          $path     分类的族谱
  * @property-read \App\Space $space
- * @property-read \App\Ctg $ctg
+ * @property-read \App\Ctg   $ctg
  * @method static \Illuminate\Database\Query\Builder|\App\SpaceCtg whereCtgId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\SpaceCtg wherePid($value)
  * @method static \Illuminate\Database\Query\Builder|\App\SpaceCtg whereSpaceId($value)
@@ -40,6 +40,9 @@ class SpaceCtg extends Model
 
 
     public $timestamps = false;
+
+
+    public $primaryKey = null;
 
 
     public $incrementing = false;

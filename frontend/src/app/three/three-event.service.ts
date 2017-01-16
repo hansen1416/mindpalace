@@ -4,6 +4,8 @@
 import {Injectable} from '@angular/core';
 
 import {ThreeService} from './three.service';
+import {ApiRoutesService} from '../share/api-routes.service';
+import {ApiHttpService} from '../share/api-http.service';
 
 @Injectable()
 export class ThreeEventService extends ThreeService {
@@ -20,7 +22,10 @@ export class ThreeEventService extends ThreeService {
 
     protected originDragPosition: THREE.Vector3;
 
-    constructor() {
+    constructor(
+        private apiRoutes: ApiRoutesService,
+        private apiHttp: ApiHttpService
+    ) {
         super();
     }
 
@@ -49,6 +54,9 @@ export class ThreeEventService extends ThreeService {
         event.preventDefault();
         // console.log('move');
         this.updateMousePosition(event);
+
+        this.timer = 0;
+        cancelAnimationFrame(this.timerAnimation);
     };
 
     /**
@@ -82,7 +90,7 @@ export class ThreeEventService extends ThreeService {
             let i = 0;
 
             while (i < this.dragLines.length) {
-                let geometry = <THREE.Geometry>this.dragLines[i].geometry;
+                let geometry                = <THREE.Geometry>this.dragLines[i].geometry;
                 geometry.vertices[0]        = new THREE.Vector3(pos.x, pos.y, pos.z);
                 geometry.verticesNeedUpdate = true;
                 i++;
@@ -103,31 +111,36 @@ export class ThreeEventService extends ThreeService {
 
         this.timer = 0;
         cancelAnimationFrame(this.timerAnimation);
-        this.controls.enabled = true;
 
         /**
          * if there is drag sprite,
-         * restore its position to origin if it's not going to chage its parent
+         * restore its position to origin if it's not going to change its parent
          * if drag the sprite to a target ctg, and the sprite can be added under the target ctg,
          * request api, and refresh the canvas.
          */
         if (this.drag) {
-
+            this.controls.enabled = true;
             this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
             this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
 
             let target = this.getFirstIntersectedObject(1);
 
             if (target) {
-                console.log(target.name, target.userData.ctg.title);
-                //todo request api, refresh canvas
+
+                this.apiHttp.get(this.apiRoutes.ctgMove(
+                    this.drag.userData.space_id,
+                    this.drag.userData.ctg_id,
+                    target.userData.ctg_id
+                )).subscribe(response => {
+                    console.log(response);
+                });
 
             } else {
                 this.drag.position.set(this.originDragPosition.x, this.originDragPosition.y, this.originDragPosition.z);
 
                 let i = 0;
                 while (i < this.dragLines.length) {
-                    let geometry = <THREE.Geometry>this.dragLines[i].geometry;
+                    let geometry                = <THREE.Geometry>this.dragLines[i].geometry;
                     geometry.vertices[0]        = this.originDragPosition;
                     geometry.verticesNeedUpdate = true;
                     i++;
@@ -311,8 +324,6 @@ export class ThreeEventService extends ThreeService {
         this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
 
         this.webGLRenderer.domElement.addEventListener('click', this.onClick, false);
-
-        // this.webGLRenderer.domElement.removeEventListener('mousedown', this.onMouseDown, false);
     }
 
 

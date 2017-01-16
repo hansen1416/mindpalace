@@ -38,7 +38,7 @@ class CtgController extends Controller
 
     public function moveCtg($space_id, $ctg_id, $pid)
     {
-        $this->ctg->moveCtg($space_id, $ctg_id, $pid);
+        return response()->json($this->ctg->moveCtg($space_id, $ctg_id, $pid));
     }
 
 

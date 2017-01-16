@@ -46,7 +46,6 @@ class CtgService implements CtgServiceContract
 
     public function moveCtg(int $space_id, int $ctg_id, int $pid)
     {
-
         DB::beginTransaction();
 
         try {
@@ -63,9 +62,8 @@ class CtgService implements CtgServiceContract
                  */
                 $pattern = '/\-' . $ctg['ctg_id'] . '\-/';
                 if (preg_match($pattern, $parent['path'])) {
-                    return ['status' => 0, 'message' => trans('errors.invalid_ctg_pid')];
+                    return ['result' => false, 'error' => 'invalid pid'];
                 }
-
 
                 $path = $parent['path'] . $pid . '-';
                 $tier = $parent['tier'] + 1;
@@ -77,43 +75,39 @@ class CtgService implements CtgServiceContract
             }
 
             $oldPath = $ctg['path'] . $ctg['ctg_id'] . '-';
+            //update the ctg
+            $this->spaceCtgRepo->massUpdate(
+                [
+                    ['space_id', $space_id],
+                    ['ctg_id', $space_id],
+                ],
+                [
+                    'pid'  => $pid,
+                    'path' => $path,
+                    'tier' => $tier,
+                ]
+            );
 
-            $ctgModel = new $this->spaceCtgRepo->getModel();
-
-
-            $ctgModel->pid  = $pid;
-            $ctgModel->path = $path;
-            $ctgModel->tier = $tier;
-            $ctgModel->save();
-
-            $newPath = $ctg['path'] . $ctg['ctg_id'] . '-';
+            $newPath = $path . $ctg['ctg_id'] . '-';
             $a       = count(explode('-', $oldPath)) - 3;
             $b       = count(explode('-', $newPath)) - 3;
 
             $update['path'] = DB::raw("REPLACE(path, '" . $oldPath . "', '" . $newPath . "')");
             $update['tier'] = DB::raw("(tier-{$a}+{$b})");
-
-            /**
-             * 如果 $private == 1
-             * 那么把该分类的所有子类都置为私有分类
-             * 如果 $private == 0
-             * 那么不需要去改变他的所有子类
-             */
-//            if ($ctg->private) {
-//                $update['private'] = $ctg->private;
-//            }
-
-            $ctgModel = new $this->spaceCtgRepo->getModel();
-
-            $res = $ctgModel->where('path', 'like', $oldPath . '%')
-                             ->update($update);
+            //update the descendant ctgs
+            $res = $this->spaceCtgRepo->massUpdate(
+                [
+                    ['path', 'like', $oldPath . '%'],
+                ],
+                $update
+            );
 
             DB::commit();
 
-            return ($res !== false);
+            return ['result' => $res];
         } catch (\Exception $e) {
             DB::rollBack();
-            return $e->getMessage();
+            return ['result' => false, 'error' => $e->getMessage()];
         }
     }
 
