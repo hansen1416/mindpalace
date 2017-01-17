@@ -22,6 +22,8 @@ export class ThreeEventService extends ThreeService {
 
     protected originDragPosition: THREE.Vector3;
 
+    public refreshCanvas = false;
+
     constructor(
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService
@@ -123,7 +125,7 @@ export class ThreeEventService extends ThreeService {
             this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
             this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
 
-            let target = this.getFirstIntersectedObject(1);
+            let target = this.getFirstIntersectedObject(1, true);
 
             if (target) {
 
@@ -132,6 +134,7 @@ export class ThreeEventService extends ThreeService {
                     this.drag.userData.ctg_id,
                     target.userData.ctg_id
                 )).subscribe(response => {
+                    this.refreshCanvas = true;
                     console.log(response);
                 });
 
@@ -167,7 +170,7 @@ export class ThreeEventService extends ThreeService {
 
         if (currentObject) {
             this.intersect = currentObject;
-
+            console.log(this.intersect.userData);
             //todo sprite click event goes here
         } else {
             this.setSpriteToOrigin();
@@ -194,11 +197,12 @@ export class ThreeEventService extends ThreeService {
          */
         if (this.timer >= 17) {
 
-            this.controls.enabled = false;
-            cancelAnimationFrame(this.timerAnimation);
             this.drag = this.getFirstIntersectedObject();
 
             if (this.drag) {
+
+                this.controls.enabled = false;
+                cancelAnimationFrame(this.timerAnimation);
                 //must assign it to empty object, otherwise the position updates when dragging
                 this.originDragPosition = Object.assign({}, this.drag.position);
                 //dragLines are lines connect the drag Sprite and its sub ctg
@@ -241,16 +245,18 @@ export class ThreeEventService extends ThreeService {
     /**
      * get the mouse ray casted first element
      * @param index
+     * @param allowRootCtg
      * @returns THREE.Sprite | null
      */
-    private getFirstIntersectedObject(index?: number): THREE.Sprite | null {
+    private getFirstIntersectedObject(index?: number, allowRootCtg ?: boolean): THREE.Sprite | null {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         let intersected = this.raycaster.intersectObjects(this.spriteGroup.children);
 
         if (intersected && intersected.length) {
             index = index || 0;
-            return intersected[index] ? <THREE.Sprite>intersected[index].object : null;
+            return (intersected[index] && intersected[index].object.type == 'Sprite' && (allowRootCtg || 0 != intersected[index].object.userData.tier))
+                ? <THREE.Sprite>intersected[index].object : null;
         }
 
         return null;

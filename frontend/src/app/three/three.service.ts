@@ -200,7 +200,7 @@ export class ThreeService {
 
         let s = Math.max.apply(null, values);
 
-        this.tierCtgNum = Math.max(this.tierCtgNum, s);
+        this.tierCtgNum = 1 == values.length ? 1 : Math.max(this.tierCtgNum, s);
 
         return Math.max(this.tierCtgNum * s, n);
     }
@@ -336,9 +336,9 @@ export class ThreeService {
         //每一层之间的距离
         let radius = 4;
         //层数
-        let tier   = 1;
+        let tier   = 0;
         //the max points number on each tier
-        let N      = 0;
+        let N           = 0;
 
         let pos: Position;
         //positions of all points, use ctg_id as index
@@ -365,14 +365,21 @@ export class ThreeService {
                  * which will always equal or greater than the inner tier
                  * @type {number}
                  */
-                N = (tier == 1) ? item.length : this.maxPoint(item, N);
+                N = (tier <= 1) ? item.length : this.maxPoint(item, N);
 
                 /**
+                 * every space has a root ctg, it;s position is 0,0,0  tier = 0, all the other ctg is the root's descendant
                  * position of the point on each tier has been calculated by the fibonacciSphere()
                  * evenly distributed on the sphere
                  * @type {Position[]}
                  */
-                let positions = ThreeService.fibonacciSphere(N, radius * tier + 2);
+                let positions = (tier == 0) ? <Position[]>[
+                    {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }
+                ] : ThreeService.fibonacciSphere(N, radius * (tier + 1));
 
                 for (let i = 0; i < item.length; i++) {
                     //draw text sprite
@@ -386,7 +393,7 @@ export class ThreeService {
                     pid    = item[i]['pid'];
                     ctg_id = item[i]['ctg_id'];
 
-                    if (1 != tier && undefined !== allPos[pid]) {
+                    if (1 <= tier && undefined !== allPos[pid]) {
 
                         let k = ThreeService.closestPoint(allPos[pid], positions);
 
@@ -433,7 +440,7 @@ export class ThreeService {
      * @param tier
      */
     private setCameraPositionAndZoomDistance(radius: number, tier: number) {
-        let d = (radius * tier + 2) * 1.8;
+        let d = (radius * (tier + 1)) * 1.8;
         //set the camera zoom range and camera position
         this.camera.position.set(0, 0, d);
         this.camera.lookAt(this.webGLScene.position);

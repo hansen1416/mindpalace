@@ -24,6 +24,9 @@ export class CtgListComponent implements OnInit {
     }
 
 
+    private refreshCanvas = this.threeEventService.refreshCanvas;
+
+
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
 
@@ -43,6 +46,11 @@ export class CtgListComponent implements OnInit {
         }
     }
 
+
+    ngAfterContentChecked() {
+        // console.log(this.threeEventService.refreshCanvas);
+    }
+    
 
     private renderCtgList(ctgList: Ctg[]) {
         this.ctgService.setCtgList = ctgList;
