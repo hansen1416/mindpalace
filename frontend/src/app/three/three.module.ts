@@ -6,20 +6,18 @@ import {CommonModule}        from '@angular/common';
 
 import {SharedModule} from '../share/share.module';
 
-import {ThreeService}  from './three.service';
-import {ThreeEventService}  from './three-event.service';
+import {AbstractThreeComponent} from './abstract-three.component';
 
 @NgModule({
               imports     : [
                   CommonModule,
                   SharedModule,
               ],
-              declarations: [],
-              exports     : [],
-              providers   : [
-                  ThreeService,
-                  ThreeEventService,
+              declarations: [
+                  AbstractThreeComponent,
               ],
+              exports     : [],
+              providers   : [],
           })
 export class ThreeModule {
 }

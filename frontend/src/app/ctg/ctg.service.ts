@@ -7,7 +7,6 @@ import {Observable} from "rxjs";
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {Ctg} from './ctg';
-import {CtgPosition} from './ctg-position';
 
 @Injectable()
 export class CtgService {
@@ -20,9 +19,6 @@ export class CtgService {
 
 
     private ctgList: Ctg[];
-
-
-    private ctgPositions = <Array<CtgPosition>>[];
 
 
     constructor(
@@ -61,17 +57,8 @@ export class CtgService {
     }
 
 
-    get getCtgPositions() {
-        return this.ctgPositions;
-    }
-
-    getCtgListBySpaceId(): Observable<Ctg[]> {
-        return this.http.get(this.routers.space(this.getSpaceId));
-    }
-
-
-    getCtgListByCtgId(): Observable<Ctg[]> {
-        return this.http.get(this.routers.ctg(this.getSpaceId, this.getCtgId));
+    getCtgListBySpaceIdCtgId(): Observable<Ctg[]> {
+        return this.http.get(this.routers.ctgList(this.getSpaceId, this.getCtgId));
     }
 
 

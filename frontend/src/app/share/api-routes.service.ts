@@ -17,10 +17,6 @@ export class ApiRoutesService {
         return this.api_url + 'user';
     }
 
-    space(space_id: number): string {
-        return this.api_url + 'space/' + space_id;
-    }
-
     get createSpace(): string {
         return this.api_url + 'space/create';
     }
@@ -30,8 +26,10 @@ export class ApiRoutesService {
         return this.api_url + 'space/search';
     }
 
-    ctg(space_id: number, ctg_id: number): string {
-        return this.api_url + 'space/' + space_id + '/ctg/' + ctg_id;
+    ctgList(space_id: number, ctg_id?: number): string {
+        return ctg_id
+            ? this.api_url + 'space/' + space_id + '/ctg/' + ctg_id
+            : this.api_url + 'space/' + space_id + '/ctg';
     }
 
     ctgMove(space_id: number, ctg_id: number, pid: number): string {
