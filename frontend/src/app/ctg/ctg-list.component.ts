@@ -2,7 +2,7 @@
  * Created by mok on 16-11-18.
  */
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 import {AbstractThreeComponent} from '../three/abstract-three.component';
 import {CtgService} from './ctg.service';
@@ -33,6 +33,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private ctgService: CtgService,
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService
@@ -221,6 +222,29 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         }
     };
 
+
+    protected onDoubleClick = (event: MouseEvent): void=> {
+        event.preventDefault();
+
+        this.updateMousePosition(event);
+
+        let currentObject = this.getFirstIntersectedObject();
+
+        if (currentObject) {
+            this.intersect = currentObject;
+
+            this.router.navigate([
+                                     '/space',
+                                     this.intersect.userData.space_id,
+                                     'ctg',
+                                     this.intersect.userData.ctg_id
+                                 ]);
+        } else {
+            this.setSpriteToOrigin();
+            this.intersect = null;
+        }
+    };
+
     /**
      * after mouse down, count the time until 1 second
      * disable trackball controls, cancel countPressTime animation
@@ -372,6 +396,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
 
         this.webGLRenderer.domElement.addEventListener('click', this.onClick, false);
+
+        this.webGLRenderer.domElement.addEventListener('dblclick', this.onDoubleClick, false);
     }
 
 
