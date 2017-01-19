@@ -56,7 +56,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     public function getDescendantsByCtgId(int $space_id, int $ctg_id)
     {
         return $this
-//            ->setCacheLifetime(0)
+            ->setCacheLifetime(0)
             ->where('space_id', $space_id)
             ->where(function ($q) use ($ctg_id) {
                 $q->where('path', 'LIKE', '%-' . $ctg_id . '-%')
