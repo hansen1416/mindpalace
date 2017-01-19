@@ -171,16 +171,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                             this.ctgService.setCtgList = response;
 
                             this.processData(this.ctgService.getCtgList);
-
+                            //rebuild the scene
                             this.buildSpheres();
 
                             cancelAnimationFrame(this.renderAnimation);
-                            // let ctx = this.webGLRenderer.domElement.getContext('2d');
-                            //
-                            // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
                             this.renderAnimate();
-
                         });
                     }
                 });

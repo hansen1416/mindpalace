@@ -93,7 +93,7 @@ export class AbstractThreeComponent {
      * track ball control, rotate camera as mouse move
      */
     protected trackBallControl(): void {
-        this.controls = new THREE.TrackballControls(this.camera);
+        this.controls = new THREE.TrackballControls(this.camera, this.webGLRenderer.domElement);
 
         this.controls.rotateSpeed          = 1;
         this.controls.zoomSpeed            = 1;
@@ -334,7 +334,7 @@ export class AbstractThreeComponent {
         }
 
         if (this.lineGroup) {
-            this.webGLScene.remove(this.spriteGroup);
+            this.webGLScene.remove(this.lineGroup);
         }
 
         this.spriteGroup = new THREE.Group();
@@ -388,7 +388,7 @@ export class AbstractThreeComponent {
                         z: 0
                     }
                 ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
-                console.log();
+
                 for (let i = 0; i < item.length; i++) {
                     //draw text sprite
                     let sprite = AbstractThreeComponent.drawTextSprite(item[i].ctg.title);
