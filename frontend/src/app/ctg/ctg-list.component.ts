@@ -21,6 +21,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     private timerAnimation: number;
 
+    private renderAnimation: number;
+
     protected intersect: THREE.Sprite;
 
     protected drag: THREE.Sprite;
@@ -48,6 +50,11 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
 
     ngAfterViewInit() {
+        this.getDataAndRender();
+    }
+
+
+    private getDataAndRender() {
         this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => this.renderCtgList(response));
     }
 
@@ -159,7 +166,23 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                     this.drag.userData.ctg_id,
                     target.userData.ctg_id
                 )).subscribe(response => {
-                    console.log(response);
+                    if (undefined !== response.result) {
+                        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => {
+                            this.ctgService.setCtgList = response;
+
+                            this.processData(this.ctgService.getCtgList);
+
+                            this.buildSpheres();
+
+                            cancelAnimationFrame(this.renderAnimation);
+                            // let ctx = this.webGLRenderer.domElement.getContext('2d');
+                            //
+                            // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+                            this.renderAnimate();
+
+                        });
+                    }
                 });
 
             } else {
@@ -307,7 +330,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
      */
     protected renderAnimate(): void {
 
-        requestAnimationFrame(()=>this.renderAnimate());
+        this.renderAnimation = requestAnimationFrame(()=>this.renderAnimate());
 
         this.controls.update();
         this.raycast();

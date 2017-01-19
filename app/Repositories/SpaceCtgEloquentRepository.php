@@ -86,7 +86,8 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
 
         if ($res) {
             //if updated successfully, fire the event, it will bust the cache
-            $this->getContainer('events')->fire($this->getRepositoryId() . '.entity.updated', [$this, $spaceCtg]);
+            $this->forgetCache();
+//            $this->getContainer('events')->fire($this->getRepositoryId() . '.entity.updated', [$this, $spaceCtg]);
         }
 
         return $res;

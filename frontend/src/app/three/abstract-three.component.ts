@@ -9,8 +9,8 @@ import {Ctg} from '../ctg/ctg';
 import {Position} from './position';
 
 @Component({
-               selector:'abstract-three',
-               template:''
+               selector: 'abstract-three',
+               template: ''
            })
 export class AbstractThreeComponent {
     protected view_angle = 50;
@@ -50,8 +50,8 @@ export class AbstractThreeComponent {
      * @param data
      */
     processData(data: Ctg[]): void {
-
-        let i = 0;
+        this.data = [];
+        let i     = 0;
         while (i < data.length) {
 
             if (this.data[data[i].tier]) {
@@ -329,6 +329,14 @@ export class AbstractThreeComponent {
      */
     protected buildSpheres(): void {
 
+        if (this.spriteGroup) {
+            this.webGLScene.remove(this.spriteGroup);
+        }
+
+        if (this.lineGroup) {
+            this.webGLScene.remove(this.spriteGroup);
+        }
+
         this.spriteGroup = new THREE.Group();
         this.lineGroup   = new THREE.Group();
 
@@ -338,7 +346,7 @@ export class AbstractThreeComponent {
         //层数
         let tier   = 0;
         //the max points number on each tier
-        let N           = 0;
+        let N      = 0;
 
         let pos: Position;
         //positions of all points, use ctg_id as index
@@ -380,7 +388,7 @@ export class AbstractThreeComponent {
                         z: 0
                     }
                 ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
-
+                console.log();
                 for (let i = 0; i < item.length; i++) {
                     //draw text sprite
                     let sprite = AbstractThreeComponent.drawTextSprite(item[i].ctg.title);
