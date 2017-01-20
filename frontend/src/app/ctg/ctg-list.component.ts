@@ -47,11 +47,15 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.ctgService.setSpaceId = params['space_id'];
             this.ctgService.setCtgId   = params['ctg_id'];
         });
+        
+        console.log('init');
     }
 
 
     ngAfterViewInit() {
         this.getDataAndRender();
+
+        console.log('view');
     }
 
 
@@ -200,7 +204,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         }
     };
 
-
     /**
      * click event of the sprites
      * @param event
@@ -238,7 +241,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                                      this.intersect.userData.space_id,
                                      'ctg',
                                      this.intersect.userData.ctg_id
-                                 ]);
+                                 ],
+                                 {relativeTo: this.route});
         } else {
             this.setSpriteToOrigin();
             this.intersect = null;
@@ -399,6 +403,5 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
         this.webGLRenderer.domElement.addEventListener('dblclick', this.onDoubleClick, false);
     }
-
 
 }
