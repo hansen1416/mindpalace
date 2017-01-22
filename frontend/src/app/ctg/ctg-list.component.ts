@@ -31,6 +31,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     protected originDragPosition: THREE.Vector3;
 
+    protected previous: {url: string,name: string} = {url: '/', name: '首页'};
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -47,7 +49,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.ctgService.setSpaceId = params['space_id'];
             this.ctgService.setCtgId   = params['ctg_id'];
         });
-        
+
         console.log('init');
     }
 
@@ -217,7 +219,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
         if (currentObject) {
             this.intersect = currentObject;
-            console.log(this.intersect.userData);
+            // console.log(this.intersect.userData);
             //todo sprite click event goes here
         } else {
             this.setSpriteToOrigin();
@@ -235,6 +237,16 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
         if (currentObject) {
             this.intersect = currentObject;
+
+            let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
+
+            this.previous = {
+                url : 'space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
+                name: parentCtg.userData.name
+            };
+
+            console.log(this.previous);
+            return;
 
             this.router.navigate([
                                      '/space',

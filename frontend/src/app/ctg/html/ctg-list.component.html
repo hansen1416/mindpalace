@@ -1,1 +1,7 @@
 <div id="canvas-frame"></div>
+<div class="ctg-back"
+     *ngIf="previous"
+     [routerLink]="previous.url"
+>
+    {{previous.name}}
+</div>
