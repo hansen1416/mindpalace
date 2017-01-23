@@ -37,6 +37,8 @@ export class AbstractThreeComponent {
 
     protected lineGroup: THREE.Group & THREE.Object3D;
 
+    protected controlGroup: THREE.Group & THREE.Object3D;
+
     protected raycaster: THREE.Raycaster;
 
     protected mouse: THREE.Vector2 & {x: number, y: number};
@@ -439,6 +441,58 @@ export class AbstractThreeComponent {
         this.webGLScene.add(this.spriteGroup);
         this.webGLScene.add(this.lineGroup);
     }
+
+
+    protected addControlGroup(): void {
+        //todo try to utilize the control group
+        let controlObject = new THREE.Object3D();
+
+        let i = 0;
+
+        while (i < 3) {
+
+            let c_w    = 256;
+            let c_h    = 256;
+            let canvas = document.createElement('canvas');
+
+            canvas.width  = c_w;
+            canvas.height = c_h;
+
+            let context = canvas.getContext('2d');
+
+            context.beginPath();
+            context.arc(128, 128, 100, 0, Math.PI * 2);
+
+            context.strokeStyle = '#ff0000';
+            context.stroke();
+
+            let spriteTexture = new THREE.Texture(canvas);
+
+            spriteTexture.needsUpdate = true;
+
+            let spriteMaterial = new THREE.SpriteMaterial({
+                map: spriteTexture
+            });
+
+            // spriteMaterial.transparent = true;
+
+            let sprite = new THREE.Sprite(spriteMaterial);
+
+            sprite.scale.set(c_w / c_h * 2.5, 2.5, 1);
+            sprite.position.set(0, i * 5, 0);
+
+            spriteTexture.dispose();
+            spriteMaterial.dispose();
+
+            controlObject.position.set(10, 0, 0);
+            controlObject.add(sprite);
+
+            i++;
+        }
+
+        this.webGLScene.add(controlObject);
+    }
+
 
     /**
      * set the camera initial position

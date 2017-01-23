@@ -8,6 +8,11 @@ import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {Ctg} from './ctg';
 
+class GoBack {
+    url: string;
+    name: string;
+}
+
 @Injectable()
 export class CtgService {
 
@@ -19,6 +24,9 @@ export class CtgService {
 
 
     private ctgList: Ctg[];
+
+
+    private goBack: GoBack = {url: '/', name: '首页'};
 
 
     constructor(
@@ -57,9 +65,21 @@ export class CtgService {
     }
 
 
+    get getGoBack() {
+        return this.goBack;
+    }
+
+
+    set setGoBack(object: GoBack) {
+        this.goBack = object;
+    }
+
+
     getCtgListBySpaceIdCtgId(): Observable<Ctg[]> {
         return this.http.get(this.routers.ctgList(this.getSpaceId, this.getCtgId));
     }
 
 
 }
+
+
