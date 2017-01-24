@@ -8,13 +8,22 @@
 <div class="control-panel"
      *ngIf="showControl"
 >
-    <div id="edit" class="btn">
+    <div id="plus" class="btn">
         <img src="assets/plus.svg" alt="">
     </div>
-    <div id="view" class="btn">
+    <div id="view" class="btn"
+    (click)="clickViewBtn()">
         <img src="assets/eyes.svg" alt="">
     </div>
     <div id="delete" class="btn">
         <img src="assets/delete.svg" alt="">
     </div>
+</div>
+<div id="view_ctg" class="text-box"
+     *ngIf="showViewBox">
+
+</div>
+<div id="edit_ctg" class="text-box"
+     *ngIf="showEditBox">
+
 </div>
