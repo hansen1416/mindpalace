@@ -10,6 +10,8 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {Ctg} from "./ctg";
 
+declare var marked: any;
+
 @Component({
                selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
@@ -23,7 +25,11 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     private renderAnimation: number;
 
+    private showControl = false;
+
     protected intersect: THREE.Sprite;
+
+    protected selected: THREE.Sprite;
 
     protected drag: THREE.Sprite;
 
@@ -233,8 +239,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         let currentObject = this.getFirstIntersectedObject();
 
         if (currentObject) {
-            this.intersect = currentObject;
-            console.log(this.intersect);
+            this.selected = currentObject;
+
+            this.showControl = true;
 
         } else {
             this.setSpriteToOrigin();
@@ -309,7 +316,11 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         }
     }
 
-
+    /**
+     * get the lines of a ctg that connect it with all its descendants
+     * @param name
+     * @returns {Array}
+     */
     private getDesLinesByCtgId(name: string) {
         let n     = this.lineGroup.children.length;
         let i     = 0;
@@ -414,8 +425,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         this.trackBallControl();
 
         this.buildSpheres();
-
-        this.addControlGroup();
 
         this.renderAnimate();
 
