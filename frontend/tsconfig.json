@@ -12,7 +12,8 @@
             "core-js",
             "node",
             "three",
-            "tween.js"
+            "tween.js",
+            "marked"
         ]
     },
     "exclude": [

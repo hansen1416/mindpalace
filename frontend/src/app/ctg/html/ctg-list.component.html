@@ -12,7 +12,7 @@
         <img src="assets/plus.svg" alt="">
     </div>
     <div id="view" class="btn"
-    (click)="clickViewBtn()">
+         (click)="clickViewBtn()">
         <img src="assets/eyes.svg" alt="">
     </div>
     <div id="delete" class="btn">
@@ -20,10 +20,15 @@
     </div>
 </div>
 <div id="view_ctg" class="text-box"
-     *ngIf="showViewBox">
-
+     *ngIf="showViewBox"
+     [innerHTML]="ctgContent">
 </div>
 <div id="edit_ctg" class="text-box"
      *ngIf="showEditBox">
+
+    <textarea cols="30" rows="10"
+              #textarea
+              (keyup)="editCtgTextAreaChange(textarea.value)"
+    ></textarea>
 
 </div>
