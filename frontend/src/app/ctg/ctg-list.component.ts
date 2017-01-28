@@ -10,12 +10,11 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {Ctg} from "./ctg";
 
-import * as marked from 'marked';
 
 @Component({
-               selector   : 'ctg-list',
+               selector:    'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles     : [require('./scss/ctg-list.component.scss')]
+               styles:      [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
@@ -77,23 +76,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.ctgService.setCtgId   = params['ctg_id'];
         });
 
-        marked.setOptions({
-                              renderer   : new marked.Renderer(),
-                              gfm        : true,
-                              tables     : true,
-                              breaks     : true,
-                              pedantic   : true,
-                              sanitize   : true,
-                              smartLists : true,
-                              smartypants: true,
-                              highlight  : function (code, lang, callback) {
-                                  require('pygmentize-bundled')({lang     : lang,
-                                                                    format: 'html'
-                                                                }, code, function (err, result) {
-                                      callback(err, result.toString());
-                                  });
-                              }
-                          });
+
+
+
+
     }
 
     /**
@@ -287,7 +273,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
 
             this.ctgService.setGoBack = {
-                url : '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
+                url:  '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
                 name: parentCtg.userData.ctg.title
             };
 
@@ -474,7 +460,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
 
     private editCtgTextAreaChange(value: string) {
-        this.ctgContent = marked(value);
+        this.ctgContent = value;
     }
 
 
