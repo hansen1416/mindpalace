@@ -35,7 +35,11 @@ export class SimplemdeComponent {
 
 
     contentChange() {
-        console.log(this.ctgService.simpleMDE.value());
+
+        let value = this.ctgService.simpleMDE.value();
+
+        this.showSaveBtn = true;
+        
     }
 
 }
