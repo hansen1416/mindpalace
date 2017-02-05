@@ -29,10 +29,14 @@ export class CtgService {
     private goBack: GoBack = {url: '/', name: '首页'};
 
 
+    public simpleMDE: any;
+
+
     constructor(
         private http: ApiHttpService,
         private routers: ApiRoutesService
-    ) {}
+    ) {
+    }
 
 
     set setSpaceId(spaceId: number) {

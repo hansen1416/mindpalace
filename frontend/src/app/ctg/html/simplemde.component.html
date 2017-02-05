@@ -1,2 +1,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-<textarea #simplemde></textarea>
+<div class="editor-box">
+    <textarea #simplemde></textarea>
+</div>
+<div *ngIf="showSaveBtn" id="save_content">
+    {{'action.save' | translate}}
+</div>

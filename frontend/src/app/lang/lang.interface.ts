@@ -13,6 +13,9 @@ export interface LangInterface {
     },
     space: {
         show_all: string,
+    },
+    action: {
+        save: string,
     }
 
 }

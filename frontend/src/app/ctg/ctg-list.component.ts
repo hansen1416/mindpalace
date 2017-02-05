@@ -38,9 +38,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     private showControl = false;
 
-    private showViewBox = false;
-
-    private showEditBox = false;
+    private showContentBox = false;
 
     private ctgContent: string;
 
@@ -75,9 +73,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.ctgService.setSpaceId = params['space_id'];
             this.ctgService.setCtgId   = params['ctg_id'];
         });
-
-
-
 
 
     }
@@ -454,8 +449,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
         this.ctgContent = '';
 
-        this.showEditBox = true;
-        this.showViewBox = true;
+        this.showContentBox = true;
+
+        console.log(this.ctgService.simpleMDE);
     }
 
 

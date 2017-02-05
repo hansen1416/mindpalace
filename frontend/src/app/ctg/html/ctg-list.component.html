@@ -19,16 +19,8 @@
         <img src="assets/delete.svg" alt="">
     </div>
 </div>
-<div id="view_ctg" class="text-box"
-     *ngIf="showViewBox">
+<div id="ctg_content" class="text-box"
+     *ngIf="showContentBox">
     <mdeditor></mdeditor>
 </div>
-<div id="edit_ctg" class="text-box"
-     *ngIf="showEditBox">
 
-    <textarea cols="30" rows="10"
-              #textarea
-              (keyup)="editCtgTextAreaChange(textarea.value)"
-    ></textarea>
-
-</div>
