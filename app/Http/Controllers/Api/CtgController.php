@@ -38,4 +38,9 @@ class CtgController extends Controller
     }
 
 
+    public function ctgContent($ctg_id)
+    {
+        return response()->json($this->ctg->ctgContent($ctg_id));
+    }
+
 }

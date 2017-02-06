@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
+use App\Repositories\Contract\ItemRepositoryContract;
 use DB;
 
 class CtgService implements CtgServiceContract
@@ -22,13 +23,18 @@ class CtgService implements CtgServiceContract
     protected $spaceCtgRepo;
 
 
+    protected $itemRepo;
+
+
     public function __construct(
         CtgRepositoryContract $ctgRepositoryContract,
-        SpaceCtgRepositoryContract $spaceCtgRepositoryContract
+        SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
+        ItemRepositoryContract $itemRepositoryContract
     )
     {
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
+        $this->itemRepo     = $itemRepositoryContract;
     }
 
 
@@ -111,5 +117,10 @@ class CtgService implements CtgServiceContract
         }
     }
 
+
+    public function ctgContent(int $ctg_id)
+    {
+        return $this->itemRepo->getOne($ctg_id);
+    }
 
 }

@@ -12,9 +12,9 @@ import {Ctg} from "./ctg";
 
 
 @Component({
-               selector:    'ctg-list',
+               selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles:      [require('./scss/ctg-list.component.scss')]
+               styles     : [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
@@ -40,14 +40,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     private showContentBox = false;
 
-    private ctgContent: string;
-
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private ctgService: CtgService,
-        private apiRoutes: ApiRoutesService,
-        private apiHttp: ApiHttpService
+        private apiRoutesService: ApiRoutesService,
+        private apiHttpService: ApiHttpService
     ) {
         super();
 
@@ -194,7 +192,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
             if (target) {
 
-                this.apiHttp.get(this.apiRoutes.ctgMove(
+                this.apiHttpService.get(this.apiRoutesService.ctgMove(
                     this.drag.userData.space_id,
                     this.drag.userData.ctg_id,
                     target.userData.ctg_id
@@ -247,7 +245,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.selected = currentObject;
 
             this.showControl = true;
-
         } else {
             this.setSpriteToOrigin();
             this.intersect = null;
@@ -268,7 +265,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
 
             this.ctgService.setGoBack = {
-                url:  '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
+                url : '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
                 name: parentCtg.userData.ctg.title
             };
 
@@ -446,17 +443,15 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
 
     private clickViewBtn() {
-
-        this.ctgContent = '';
-
         this.showContentBox = true;
 
-        console.log(this.ctgService.simpleMDE);
-    }
+        this.ctgService.setCtgId = this.selected.userData.ctg_id;
 
-
-    private editCtgTextAreaChange(value: string) {
-        this.ctgContent = value;
+        this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctgService.getCtgId)).subscribe(
+            response => {
+                this.ctgService.simpleMDE.value(response);
+            }
+        )
     }
 
 

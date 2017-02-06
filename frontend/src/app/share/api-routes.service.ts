@@ -36,4 +36,8 @@ export class ApiRoutesService {
         return this.api_url + 'ctg/move/space/' + space_id + '/ctg/' + ctg_id + '/pid/' + pid;
     }
 
+    ctgContent(ctg_id: number): string {
+        return this.api_url + 'ctg/content/' + ctg_id;
+    }
+
 }

@@ -11,9 +11,9 @@ let SimpleMDE: any = require('simplemde');
 
 // Define Editor Component
 @Component({
-               selector:    'mdeditor',
+               selector   : 'mdeditor',
                templateUrl: './html/simplemde.component.html',
-               styles:      [require('./scss/simplemde.component.scss')]
+               styles     : [require('./scss/simplemde.component.scss')]
            })
 export class SimplemdeComponent {
     @ViewChild('simplemde') textarea: ElementRef;
@@ -35,11 +35,8 @@ export class SimplemdeComponent {
 
 
     contentChange() {
-
-        let value = this.ctgService.simpleMDE.value();
-
-        this.showSaveBtn = true;
         
+        this.showSaveBtn = true;
     }
 
 }
