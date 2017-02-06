@@ -26,18 +26,26 @@ export class ApiRoutesService {
         return this.api_url + 'space/search';
     }
 
+
     ctgList(space_id: number, ctg_id?: number): string {
         return ctg_id
             ? this.api_url + 'space/' + space_id + '/ctg/' + ctg_id
             : this.api_url + 'space/' + space_id + '/ctg';
     }
 
+
     ctgMove(space_id: number, ctg_id: number, pid: number): string {
         return this.api_url + 'ctg/move/space/' + space_id + '/ctg/' + ctg_id + '/pid/' + pid;
     }
 
+
     ctgContent(ctg_id: number): string {
         return this.api_url + 'ctg/content/' + ctg_id;
+    }
+
+
+    get saveCtgContent(): string {
+        return this.api_url + 'ctg/saveContent';
     }
 
 }

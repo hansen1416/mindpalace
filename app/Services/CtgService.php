@@ -123,4 +123,10 @@ class CtgService implements CtgServiceContract
         return $this->itemRepo->getOne($ctg_id);
     }
 
+
+    public function saveCtgContent(int $ctg_id, string $content, int $item_id = null)
+    {
+        return $this->itemRepo->saveItem($ctg_id, $content, $item_id);
+    }
+
 }

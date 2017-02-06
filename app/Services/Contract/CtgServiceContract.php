@@ -18,4 +18,6 @@ interface CtgServiceContract
     public function moveCtg(int $space_id, int $ctg_id, int $pid);
 
     public function ctgContent(int $ctg_id);
+
+    public function saveCtgContent(int $ctg_id, string $content, int $item_id = null);
 }

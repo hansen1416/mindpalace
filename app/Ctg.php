@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereCreatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Item $item
  */
 class Ctg extends Model
 {
@@ -41,7 +42,7 @@ class Ctg extends Model
 
     public function item()
     {
-        return $this->hasOne('App/Item');
+        return $this->hasOne('App\Item');
     }
 
 }

@@ -2,6 +2,9 @@
 <div class="editor-box">
     <textarea #simplemde></textarea>
 </div>
-<div *ngIf="showSaveBtn" id="save_content">
+<div *ngIf="showSaveBtn"
+     id="save_content"
+     (click)="saveContent()"
+>
     {{'action.save' | translate}}
 </div>

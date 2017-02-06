@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\Contract\CtgServiceContract;
+use Illuminate\Http\Request;
 
 class CtgController extends Controller
 {
@@ -41,6 +42,16 @@ class CtgController extends Controller
     public function ctgContent($ctg_id)
     {
         return response()->json($this->ctg->ctgContent($ctg_id));
+    }
+
+
+    public function saveCtgContent(Request $request)
+    {
+        $ctg_id  = $request->input('ctg_id');
+        $item_id = $request->input('item_id');
+        $content = $request->input('content');
+
+        return response()->json($this->ctg->saveCtgContent($ctg_id, $content, $item_id));
     }
 
 }
