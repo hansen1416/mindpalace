@@ -12,9 +12,9 @@ import {Ctg} from "./ctg";
 
 
 @Component({
-               selector   : 'ctg-list',
+               selector:    'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles     : [require('./scss/ctg-list.component.scss')]
+               styles:      [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
@@ -265,7 +265,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
 
             this.ctgService.setGoBack = {
-                url : '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
+                url:  '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
                 name: parentCtg.userData.ctg.title
             };
 
@@ -277,8 +277,14 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                                  ],
                                  {relativeTo: this.route});
         } else {
+
             this.setSpriteToOrigin();
-            this.intersect = null;
+
+            this.intersect      = null;
+            //hide the control buttons
+            this.showControl    = false;
+            //hide the content editor
+            this.showContentBox = false;
         }
     };
 
@@ -442,7 +448,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
     }
 
 
-    private clickViewBtn() {
+    protected clickViewBtn() {
         this.showContentBox = true;
 
         this.ctgService.setCtgId = this.selected.userData.ctg_id;
@@ -452,6 +458,13 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                 this.ctgService.simpleMDE.value(response);
             }
         )
+    }
+
+
+    protected clickAddBtn() {
+        this.ctgService.setCtgId = this.selected.userData.ctg_id;
+
+
     }
 
 

@@ -19,14 +19,16 @@
     }
 }
 
+$btn-width: 2.5em;
+
 .control-panel {
     position: absolute;
     width: 0;
     height: 0;
-    top: 30%;
+    top: 25%;
     left: 50%;
     overflow: visible;
-    $btn-width: 2.5em;
+
     .btn {
         position: absolute;
         width: $btn-width;
@@ -40,7 +42,7 @@
         }
     }
     #plus {
-        top: $btn-width * -1.6 + $btn-width * 0.1;
+        top: 0;
         img {
             margin: 10% 0 0 10%;
             width: 80%;
@@ -48,14 +50,14 @@
         }
     }
     #view {
-        top: 0;
+        top: $btn-width * 1.6;
         img {
             width: 100%;
             height: 100%;
         }
     }
     #delete {
-        top: $btn-width * 1.6;
+        top: $btn-width * 3.2;
         img {
             margin: 10% 0 0 10%;
             width: 80%;
@@ -72,8 +74,22 @@
     height: $box-height;
     background-color: #FFFFFF;
     top: 15%;
+    left: 12%;
 }
 
-#ctg_content {
-    left: 12%;
+.text-input {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: $btn-width * 5;
+    height: $btn-width * 0.8;
+    line-height: $btn-width * 0.8;
+    margin: $btn-width * 0.8 / -2 0 0 $btn-width;
+    background-color: #fff;
+
+    input{
+        width: 100%;
+        height: 100%;
+        line-height: inherit;
+    }
 }
