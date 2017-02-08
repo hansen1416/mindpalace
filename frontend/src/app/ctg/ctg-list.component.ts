@@ -12,9 +12,9 @@ import {Ctg} from "./ctg";
 
 
 @Component({
-               selector:    'ctg-list',
+               selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles:      [require('./scss/ctg-list.component.scss')]
+               styles     : [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
@@ -39,6 +39,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
     private showControl = false;
 
     private showContentBox = false;
+
+    private showAddCtgInput = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -252,7 +254,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
     };
 
 
-    protected onDoubleClick = (event: MouseEvent): void=> {
+    protected onDoubleClick = (event: MouseEvent): void => {
         event.preventDefault();
 
         this.updateMousePosition(event);
@@ -265,7 +267,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
 
             this.ctgService.setGoBack = {
-                url:  '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
+                url : '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
                 name: parentCtg.userData.ctg.title
             };
 
@@ -296,7 +298,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
      * add onMouseDrag event
      */
     private countPressTime() {
-        this.timerAnimation = requestAnimationFrame(()=>this.countPressTime());
+        this.timerAnimation = requestAnimationFrame(() => this.countPressTime());
 
         this.timer++;
 
@@ -397,7 +399,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
      */
     protected renderAnimate(): void {
 
-        this.renderAnimation = requestAnimationFrame(()=>this.renderAnimate());
+        this.renderAnimation = requestAnimationFrame(() => this.renderAnimate());
 
         this.controls.update();
         this.raycast();
@@ -448,7 +450,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
     }
 
 
-    protected clickViewBtn() {
+    clickViewBtn() {
         this.showContentBox = true;
 
         this.ctgService.setCtgId = this.selected.userData.ctg_id;
@@ -461,11 +463,20 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
     }
 
 
-    protected clickAddBtn() {
+    clickAddBtn() {
         this.ctgService.setCtgId = this.selected.userData.ctg_id;
 
-
+        this.showAddCtgInput = true;
     }
 
+
+    addNewCtg(title: string) {
+
+        if (!title) {
+            return;
+        }
+        console.log(title);
+        console.log(this.ctgService.getCtgId, this.ctgService.getSpaceId);
+    }
 
 }

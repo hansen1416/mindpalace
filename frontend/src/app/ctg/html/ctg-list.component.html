@@ -24,7 +24,10 @@
      *ngIf="showContentBox">
     <mdeditor></mdeditor>
 </div>
-<div id="add_ctg" class="text-input">
-    <input type="text" placeholder="">
+<div id="add_ctg" class="text-input"
+     *ngIf="showAddCtgInput">
+    <input type="text" placeholder=""
+           #title
+           (keyup.enter)="addNewCtg(title.value)">
 </div>
 
