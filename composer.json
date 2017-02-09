@@ -6,9 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
-        "rinvex/repository": "2.0.*",
-        "laravel/passport": "*"
+        "laravel/framework": "5.4.*",
+        "hansen1416/laravel-repository": "*",
+        "laravel/passport": "2.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -53,5 +53,11 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

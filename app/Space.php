@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Space
  *
- * @property integer $space_id 空间ID
- * @property integer $user_id
- * @property integer $sort
- * @property string $name 空间名称
- * @property boolean $share
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $created_at
- * @property-read \App\User $user
+ * @property integer                                                  $space_id 空间ID
+ * @property integer                                                  $user_id
+ * @property integer                                                  $sort
+ * @property string                                                   $name     空间名称
+ * @property boolean                                                  $share
+ * @property \Carbon\Carbon                                           $updated_at
+ * @property \Carbon\Carbon                                           $created_at
+ * @property-read \App\User                                           $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ctg[] $ctg
  * @method static \Illuminate\Database\Query\Builder|\App\Space whereSpaceId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Space whereUserId($value)
@@ -42,7 +42,8 @@ class Space extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function ctg(){
-        return $this->belongsToMany('App\Ctg', 'space_ctg');
+    public function ctg()
+    {
+        return $this->belongsToMany('App\Ctg', 'space_ctg', 'space_id', 'ctg_id');
     }
 }

@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereCreatedAt($value)
  * @mixin \Eloquent
- * @property-read \App\Item $item
+ * @property-read \App\Item                                             $item
  */
 class Ctg extends Model
 {
@@ -36,7 +36,13 @@ class Ctg extends Model
 
     public function space()
     {
-        return $this->belongsToMany('App\Space', 'space_ctg');
+        return $this->belongsToMany('App\Space', 'space_ctg', 'ctg_id', 'space_id');
+    }
+
+
+    public function spaceCtg()
+    {
+        return $this->hasMany('App\SpaceCtg', 'ctg_id');
     }
 
 

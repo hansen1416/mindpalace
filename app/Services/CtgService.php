@@ -8,13 +8,15 @@
 
 namespace App\Services;
 
+use App\Exceptions\CantFindException;
 use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 use App\Repositories\Contract\ItemRepositoryContract;
 use DB;
+use Auth;
 
-class CtgService implements CtgServiceContract
+class CtgService extends BaseService implements CtgServiceContract
 {
 
     protected $ctgRepo;
@@ -145,21 +147,38 @@ class CtgService implements CtgServiceContract
         return $this->itemRepo->saveItem($ctg_id, $content, $item_id);
     }
 
-
+    /**
+     * create a ctg,
+     * fetch the parent ctg first
+     * insert it into ctg table, get the ctg_id thereafter
+     * insert it into spaceCtg table, get pid, tier, path value from parent ctg
+     * @param string $title
+     * @param int    $pid
+     * @param int    $space_id
+     */
     public function createCtg(string $title, int $pid, int $space_id)
     {
-        DB::beginTransaction();
-
-        try{
+        try {
+            DB::beginTransaction();
 
             $parent = $this->ctgRepo->getOneWithSpace($pid);
 
+            if (!$parent) {
+                throw new CantFindException();
+            }
 
+            $ctg = $this->ctgRepo->createCtg([
+                                              'user_id' => Auth::guard('api')->user()->user_id,
+                                              'title'   => $title,
+                                          ]);
 
-            DB::commit();
-        }catch(\Exception $e){
+            return [$ctg];
+
+        } catch (\Exception $e) {
             DB::rollBack();
+            return $this->responseArray(500, $e->getMessage());
         }
+
     }
 
 
