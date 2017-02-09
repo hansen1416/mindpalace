@@ -20,4 +20,6 @@ interface CtgServiceContract
     public function ctgContent(int $ctg_id);
 
     public function saveCtgContent(int $ctg_id, string $content, int $item_id = null);
+
+    public function createCtg(string $title, int $pid, int $space_id);
 }

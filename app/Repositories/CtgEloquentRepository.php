@@ -21,8 +21,15 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
 
     public function getOne(int $ctg_id)
     {
-        return $this
-            ->find($ctg_id)->toArray();
+        $res = $this->find($ctg_id);
+        return $res ? $res->toArray() : [];
+    }
+
+
+    public function getOneWithSpace(int $ctg_id)
+    {
+        $res = $this->with(['space'])->find($ctg_id);
+        return $res ? $res->toArray() : [];
     }
 
 }

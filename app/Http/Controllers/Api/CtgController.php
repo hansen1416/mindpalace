@@ -54,4 +54,15 @@ class CtgController extends Controller
         return response()->json($this->ctg->saveCtgContent($ctg_id, $content, $item_id));
     }
 
+
+    public function createCtg(Request $request)
+    {
+        //ctg_id space_id title
+        $pid      = $request->input('ctg_id');
+        $space_id = $request->input('space_id');
+        $title    = $request->input('title');
+
+        return response()->json($this->ctg->createCtg($title, $pid, $space_id));
+    }
+
 }

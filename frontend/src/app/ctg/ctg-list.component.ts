@@ -475,8 +475,17 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         if (!title) {
             return;
         }
-        console.log(title);
-        console.log(this.ctgService.getCtgId, this.ctgService.getSpaceId);
+
+        let data = new FormData();
+        data.append('title', title);
+        data.append('ctg_id', this.ctgService.getCtgId);
+        data.append('space_id', this.ctgService.getSpaceId);
+        
+        this.apiHttpService.post(this.apiRoutesService.createCtg, data).subscribe(
+            response => {
+                console.log(response);
+            }
+        )
     }
 
 }

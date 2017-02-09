@@ -45,7 +45,12 @@ export class ApiRoutesService {
 
 
     get saveCtgContent(): string {
-        return this.api_url + 'ctg/saveContent';
+        return this.api_url + 'ctg/saveCtgContent';
+    }
+
+
+    get createCtg(): string {
+        return this.api_url + 'ctg/createCtg';
     }
 
 }

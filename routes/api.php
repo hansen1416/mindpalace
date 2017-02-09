@@ -51,5 +51,6 @@ Route::group([
              ->where('space_id', '[0-9]+')
              ->where('ctg_id', '[0-9]+')
              ->where('pid', '[0-9]+');
-        Route::post('ctg/saveContent', 'CtgController@saveCtgContent');
+        Route::post('ctg/saveCtgContent', 'CtgController@saveCtgContent');
+        Route::post('ctg/createCtg', 'CtgController@createCtg');
     });

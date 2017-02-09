@@ -49,7 +49,13 @@ class CtgService implements CtgServiceContract
         return $this->spaceCtgRepo->getDescendantsByCtgId($space_id, $ctg_id);
     }
 
-
+    /**
+     * change the pid of a ctg and it's path, tier and all it's descendant's path tier
+     * @param int $space_id
+     * @param int $ctg_id
+     * @param int $pid
+     * @return array
+     */
     public function moveCtg(int $space_id, int $ctg_id, int $pid)
     {
         DB::beginTransaction();
@@ -117,16 +123,44 @@ class CtgService implements CtgServiceContract
         }
     }
 
-
+    /**
+     * get ctg content by ctg_id from item table
+     * @param int $ctg_id
+     * @return mixed
+     */
     public function ctgContent(int $ctg_id)
     {
         return $this->itemRepo->getOne($ctg_id);
     }
 
-
+    /**
+     * save ctg content to item table
+     * @param int      $ctg_id
+     * @param string   $content
+     * @param int|null $item_id
+     * @return mixed
+     */
     public function saveCtgContent(int $ctg_id, string $content, int $item_id = null)
     {
         return $this->itemRepo->saveItem($ctg_id, $content, $item_id);
     }
+
+
+    public function createCtg(string $title, int $pid, int $space_id)
+    {
+        DB::beginTransaction();
+
+        try{
+
+            $parent = $this->ctgRepo->getOneWithSpace($pid);
+
+
+
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+        }
+    }
+
 
 }
