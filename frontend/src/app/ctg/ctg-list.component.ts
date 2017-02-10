@@ -42,6 +42,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     private showAddCtgInput = false;
 
+    private urlSpaceId: number;
+
+    private urlCtgId: number;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -70,10 +74,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
         this.route.params.forEach((params: Params) => {
 
-            this.ctgService.setSpaceId = params['space_id'];
-            this.ctgService.setCtgId   = params['ctg_id'];
+            this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
+            this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
         });
-
 
     }
 
@@ -200,17 +203,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                     target.userData.ctg_id
                 )).subscribe(response => {
                     if (undefined !== response.result) {
-                        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => {
-                            this.ctgService.setCtgList = response;
-
-                            this.processData(this.ctgService.getCtgList);
-                            //rebuild the scene
-                            this.buildSpheres();
-
-                            cancelAnimationFrame(this.renderAnimation);
-
-                            this.renderAnimate();
-                        });
+                        this.rebuildScene();
                     }
                 });
 
@@ -287,8 +280,33 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.showControl    = false;
             //hide the content editor
             this.showContentBox = false;
+            //hide the title input
+            this.showAddCtgInput = false;
         }
     };
+
+    /**
+     * after ctg list updated,
+     * fetch data from server
+     * rebuild the scene
+     */
+    private rebuildScene() {
+
+        this.ctgService.setSpaceId = this.urlSpaceId;
+        this.ctgService.setCtgId   = this.urlCtgId;
+
+        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => {
+            this.ctgService.setCtgList = response;
+
+            this.processData(this.ctgService.getCtgList);
+            //rebuild the scene
+            this.buildSpheres();
+
+            cancelAnimationFrame(this.renderAnimation);
+
+            this.renderAnimate();
+        });
+    }
 
     /**
      * after mouse down, count the time until 1 second
@@ -459,7 +477,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             response => {
                 this.ctgService.simpleMDE.value(response);
             }
-        )
+        );
     }
 
 
@@ -480,12 +498,14 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         data.append('title', title);
         data.append('ctg_id', this.ctgService.getCtgId);
         data.append('space_id', this.ctgService.getSpaceId);
-        
+
         this.apiHttpService.post(this.apiRoutesService.createCtg, data).subscribe(
             response => {
-                console.log(response);
+                if (200 == response.status) {
+                    this.rebuildScene();
+                }
             }
-        )
+        );
     }
 
 }

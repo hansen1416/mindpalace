@@ -58,8 +58,8 @@ class CtgController extends Controller
     public function createCtg(Request $request)
     {
         //ctg_id space_id title
-        $pid      = $request->input('ctg_id');
-        $space_id = $request->input('space_id');
+        $pid      = (int)$request->input('ctg_id');
+        $space_id = (int)$request->input('space_id');
         $title    = $request->input('title');
 
         return response()->json($this->ctg->createCtg($title, $pid, $space_id));
