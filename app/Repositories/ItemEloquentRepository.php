@@ -10,7 +10,6 @@ namespace App\Repositories;
 
 use Rinvex\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\ItemRepositoryContract;
-use Illuminate\Http\Request;
 
 class ItemEloquentRepository extends EloquentRepository implements ItemRepositoryContract
 {
