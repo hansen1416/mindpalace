@@ -23,4 +23,6 @@ interface SpaceCtgRepositoryContract extends CacheableContract, RepositoryContra
 
 
     public function massUpdate(array $condition, array $attributes);
+
+    public function createSpaceCtg(array $data);
 }

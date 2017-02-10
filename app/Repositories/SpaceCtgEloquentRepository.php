@@ -94,4 +94,10 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     }
 
 
+    public function createSpaceCtg(array $data)
+    {
+        return $this->create($data);
+    }
+
+
 }

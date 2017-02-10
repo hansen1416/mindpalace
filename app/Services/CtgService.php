@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
 use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
@@ -155,24 +156,41 @@ class CtgService extends BaseService implements CtgServiceContract
      * @param string $title
      * @param int    $pid
      * @param int    $space_id
+     * @return array
      */
     public function createCtg(string $title, int $pid, int $space_id)
     {
         try {
             DB::beginTransaction();
 
-            $parent = $this->ctgRepo->getOneWithSpace($pid);
+            $parent = $this->spaceCtgRepo->getOne($space_id, $pid, false);
 
             if (!$parent) {
                 throw new CantFindException();
             }
 
             $ctg = $this->ctgRepo->createCtg([
-                                              'user_id' => Auth::guard('api')->user()->user_id,
-                                              'title'   => $title,
-                                          ]);
+                                                 'user_id' => Auth::guard('api')->user()->user_id,
+                                                 'title'   => $title,
+                                             ]);
 
-            return [$ctg];
+            if (!isset($ctg[1])) {
+                throw new SaveFailedException();
+            }
+
+            $spaceCtg = $this->spaceCtgRepo->createSpaceCtg([
+                                                                'ctg_id'   => $ctg[1]->ctg_id,
+                                                                'space_id' => $space_id,
+                                                                'pid'      => $pid,
+                                                                'tier'     => (int)$parent->tier + 1,
+                                                                'path'     => $parent->path . $pid . '-',
+                                                            ]);
+            if (!isset($spaceCtg[1])) {
+                throw new SaveFailedException();
+            }
+
+            DB::commit();
+            return $this->responseArray();
 
         } catch (\Exception $e) {
             DB::rollBack();
