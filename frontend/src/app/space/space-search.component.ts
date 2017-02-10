@@ -3,6 +3,8 @@
  */
 import {Component} from '@angular/core';
 
+import {ApiHttpService} from '../share/api-http.service';
+import {ApiRoutesService} from '../share/api-routes.service';
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
 
@@ -23,6 +25,8 @@ export class SpaceSearchComponent {
     private searched = false;
 
     constructor(
+        private apiHttpService: ApiHttpService,
+        private apiRoutesService: ApiRoutesService,
         private spaceService: SpaceService,
         private concentricService: ConcentricService
     ) {}
@@ -66,6 +70,18 @@ export class SpaceSearchComponent {
             this.searched         = false;
             this.searchInProgress = false;
         });
+    }
+
+
+    fetchUrl(url: string) {
+        let data = new FormData();
+        data.append('url', url);
+
+        this.apiHttpService.post(this.apiRoutesService.fetchUrl, data).subscribe(
+            response => {
+                console.log(response);
+            }
+        );
     }
 
 

@@ -27,7 +27,7 @@ class SpaceService implements SpaceServiceContract
         UserServiceContract $userServiceContract
     )
     {
-        $this->spaceRepo = $spaceRepositoryContract;
+        $this->spaceRepo   = $spaceRepositoryContract;
         $this->userService = $userServiceContract;
     }
 
@@ -56,6 +56,12 @@ class SpaceService implements SpaceServiceContract
                                             'name'       => $name,
                                             'created_at' => date('Y-m-d H:i:s'),
                                         ]);
+    }
+
+
+    public function fetchUrl($url)
+    {
+
     }
 
 

@@ -13,6 +13,8 @@ export interface LangInterface {
     },
     space: {
         show_all: string,
+        search_space: string,
+        fetch_url:string
     },
     action: {
         save: string,

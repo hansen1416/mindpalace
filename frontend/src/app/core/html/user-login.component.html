@@ -19,7 +19,7 @@
                    placeholder="{{'user.password_placeholder' | translate}}"
                    required
                    [(ngModel)]="user.password"
-                    #password="ngModel"
+                   #password="ngModel"
             >
         </div>
 
@@ -44,8 +44,13 @@
 
 
     <div *ngIf="user.access_token" class="user-info">
-        <img src="" alt="" class="portrait">
-        <div class="user-name">{{user.name}}</div>
+        <div class="user-info-content">
+            <img src="" alt="" class="portrait">
+            <div class="user-profile">
+                <p>{{user.name}}</p>
+                <p>{{user.language}}</p>
+            </div>
+        </div>
     </div>
 
     <space-search></space-search>

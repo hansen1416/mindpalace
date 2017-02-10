@@ -3,7 +3,7 @@
     $search-height: 2.4rem;
     width: $search-width;
     height: $search-height;
-    margin: 0 auto;
+    margin: $search-height / 2 auto 0;
     position: relative;
 
     .search-input {

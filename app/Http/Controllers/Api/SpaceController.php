@@ -48,4 +48,12 @@ class SpaceController extends Controller
         );
     }
 
+
+    public function fetchUrl(Request $request)
+    {
+        $url = $request->input('url');
+
+
+    }
+
 }

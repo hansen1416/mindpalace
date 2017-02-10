@@ -53,4 +53,9 @@ export class ApiRoutesService {
         return this.api_url + 'ctg/createCtg';
     }
 
+
+    get fetchUrl(): string {
+        return this.api_url + 'space/fetchUrl';
+    }
+
 }

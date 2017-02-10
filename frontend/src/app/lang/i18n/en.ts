@@ -15,6 +15,8 @@ export const EN: LangInterface = {
     },
     space:  {
         show_all: 'Show all',
+        search_space: 'Search by space name',
+        fetch_url   : 'Create a space from a web page',
     },
     action: {
         save: 'Save',

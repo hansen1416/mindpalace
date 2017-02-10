@@ -8,7 +8,8 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
         "rinvex/repository":"~2.0",
-        "laravel/passport": "1.0.*"
+        "laravel/passport": "1.0.*",
+        "hansen1416/create-space-from-website": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -59,5 +60,7 @@
             "type": "composer",
             "url": "https://packagist.phpcomposer.com"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
