@@ -53,7 +53,9 @@ class SpaceController extends Controller
     {
         $url = $request->input('url');
 
-
+        return response()->json(
+            $this->space->fetchUrl($url)
+        );
     }
 
 }

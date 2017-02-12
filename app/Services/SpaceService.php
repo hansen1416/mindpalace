@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Services\Contract\UserServiceContract;
+use Hansen1416\WebSpace\Services\WebSpaceService;
 
 
 class SpaceService implements SpaceServiceContract
@@ -43,13 +44,13 @@ class SpaceService implements SpaceServiceContract
     }
 
 
-    public function updateSpace($space_id)
+    public function updateSpace(int $space_id)
     {
         $this->spaceRepo->update($space_id, ['name' => 'PHP5']);
     }
 
 
-    public function createSpace($name)
+    public function createSpace(string $name)
     {
         return $this->spaceRepo->create([
                                             'user_id'    => $this->userService->userId(),
@@ -59,8 +60,18 @@ class SpaceService implements SpaceServiceContract
     }
 
 
-    public function fetchUrl($url)
+    public function fetchUrl(string $url)
     {
+
+        try{
+
+            $webSpace = new WebSpaceService($url);
+
+            return [$webSpace->test()];
+
+        }catch(\Exception $e){
+            return [$e->getMessage()];
+        }
 
     }
 

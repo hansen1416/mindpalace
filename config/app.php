@@ -168,6 +168,7 @@ return [
          */
         Rinvex\Repository\Providers\RepositoryServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        Hansen1416\WebSpace\Providers\WebSpaceServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -17,9 +17,12 @@ interface SpaceServiceContract
     public function searchSpace(string $name);
 
 
-    public function updateSpace($space_id);
+    public function updateSpace(int $space_id);
 
 
-    public function createSpace($name);
+    public function createSpace(string $name);
+
+
+    public function fetchUrl(string $url);
 
 }
