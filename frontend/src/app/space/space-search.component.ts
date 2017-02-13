@@ -7,6 +7,7 @@ import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
+import {WebSpaceService} from './web-space.service';
 
 @Component({
                selector   : 'space-search',
@@ -28,7 +29,8 @@ export class SpaceSearchComponent {
         private apiHttpService: ApiHttpService,
         private apiRoutesService: ApiRoutesService,
         private spaceService: SpaceService,
-        private concentricService: ConcentricService
+        private concentricService: ConcentricService,
+        private webSpaceService: WebSpaceService,
     ) {}
 
     /**
@@ -74,14 +76,16 @@ export class SpaceSearchComponent {
 
 
     fetchUrl(url: string) {
-        let data = new FormData();
-        data.append('url', url);
 
-        this.apiHttpService.post(this.apiRoutesService.fetchUrl, data).subscribe(
-            response => {
-                console.log(response);
-            }
-        );
+        // let worker = new Worker();
+
+        this.webSpaceService.getContent(url);
+
+        // this.apiHttpService.post(this.apiRoutesService.fetchUrl, data).subscribe(
+        //     response => {
+        //         console.log(response);
+        //     }
+        // );
     }
 
 
