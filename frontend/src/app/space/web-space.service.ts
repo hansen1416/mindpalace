@@ -5,6 +5,8 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 
+let webWorkerService = require('angular2-web-worker');
+
 @Injectable()
 export class WebSpaceService {
 
@@ -17,6 +19,8 @@ export class WebSpaceService {
 
     
     getContent(url: string) {
+
+        console.log(webWorkerService.WebWorkerService);
 
         let doctype = document.implementation.createDocumentType('html', '', '');
         let doc    = document.implementation.createDocument('', 'html', doctype);
