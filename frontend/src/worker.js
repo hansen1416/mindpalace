@@ -19,12 +19,24 @@ function updateProgress(oEvent) {
     }
 }
 
+
 function transferComplete(evt) {
     var target = evt.target;
 
     if (target.status == 200) {
-        
-        console.log(target.response);
+
+        console.log(this);
+
+       //  let doctype = document.implementation.createDocumentType('html', '', '');
+       //  let doc     = document.implementation.createDocument('', 'html', doctype);
+       //
+       //  doc.documentElement.innerHTML = '<head></head><body></body>';
+       //
+       //  var contentBody = doc.documentElement.querySelector('body');
+       //
+       //  let match = target.response.match(/<body(.*?)<\/body>/gi);
+       //
+       // console.log(match);
         
     } else {
         console.log(target.statusText);
