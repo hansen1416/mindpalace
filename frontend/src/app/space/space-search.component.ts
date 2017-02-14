@@ -1,7 +1,7 @@
 /**
  * Created by mok on 16-12-7.
  */
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
@@ -14,7 +14,7 @@ import {WebSpaceService} from './web-space.service';
                templateUrl: './html/space-search.component.html',
                styles     : [require('./scss/space-search.component.scss')]
            })
-export class SpaceSearchComponent {
+export class SpaceSearchComponent implements OnInit {
 
 
     private spaceName = '';
@@ -25,6 +25,9 @@ export class SpaceSearchComponent {
 
     private searched = false;
 
+
+    private worker: Worker;
+
     constructor(
         private apiHttpService: ApiHttpService,
         private apiRoutesService: ApiRoutesService,
@@ -32,6 +35,10 @@ export class SpaceSearchComponent {
         private concentricService: ConcentricService,
         private webSpaceService: WebSpaceService,
     ) {}
+
+    ngOnInit() {
+
+    }
 
     /**
      * search spaces by space name
@@ -77,15 +84,13 @@ export class SpaceSearchComponent {
 
     fetchUrl(url: string) {
 
-        // let worker = new Worker();
+        this.worker = new Worker('worker.js');
 
-        this.webSpaceService.getContent(url);
+        this.worker.addEventListener('message', (e: MessageEvent) => {
+            console.log(e);
+        });
 
-        // this.apiHttpService.post(this.apiRoutesService.fetchUrl, data).subscribe(
-        //     response => {
-        //         console.log(response);
-        //     }
-        // );
+        this.worker.postMessage({url: url});
     }
 
 

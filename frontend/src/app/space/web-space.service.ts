@@ -5,8 +5,6 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 
-let webWorkerService = require('angular2-web-worker');
-
 @Injectable()
 export class WebSpaceService {
 
@@ -17,13 +15,11 @@ export class WebSpaceService {
 
     private contentBody: any;
 
-    
+
     getContent(url: string) {
 
-        console.log(webWorkerService.WebWorkerService);
-
         let doctype = document.implementation.createDocumentType('html', '', '');
-        let doc    = document.implementation.createDocument('', 'html', doctype);
+        let doc     = document.implementation.createDocument('', 'html', doctype);
 
         doc.documentElement.innerHTML = '<head></head><body></body>';
 
@@ -32,14 +28,14 @@ export class WebSpaceService {
         this.http.get(url)
             .catch((error: any) => Observable.throw(error.json() || 'request url failed'))
             .subscribe(
-                (response) => {
+                (response: Response) => {
                     this.analyzeContent(response);
                 }
             )
     }
 
 
-    private analyzeContent(response) {
+    private analyzeContent(response: Response) {
 
         /**
          * request successful
@@ -49,7 +45,7 @@ export class WebSpaceService {
             let text = response.text();
 
             // console.log(text);
-            
+
             let match = text.match(/<body(.*?)<\/body>/gi);
 
             console.log(match);

@@ -38,7 +38,6 @@
         "@angular/router": "~3.4.0",
         "@angular/upgrade": "~2.4.0",
         "angular2-in-memory-web-api": "0.0.20",
-        "angular2-web-worker": "0.0.5",
         "core-js": "^2.4.1",
         "ie-shim": "^0.1.0",
         "reflect-metadata": "^0.1.3",
