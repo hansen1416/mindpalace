@@ -7,7 +7,7 @@ import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
-import {WebSpaceService} from './web-space.service';
+import {UserService} from '../core/user.service';
 
 @Component({
                selector   : 'space-search',
@@ -19,21 +19,20 @@ export class SpaceSearchComponent implements OnInit {
 
     private spaceName = '';
 
-
     private searchInProgress = false;
-
 
     private searched = false;
 
-
     private worker: Worker;
+
+    private showWorkerMessage = false;
 
     constructor(
         private apiHttpService: ApiHttpService,
         private apiRoutesService: ApiRoutesService,
         private spaceService: SpaceService,
         private concentricService: ConcentricService,
-        private webSpaceService: WebSpaceService,
+        private userService: UserService,
     ) {}
 
     ngOnInit() {
@@ -85,12 +84,18 @@ export class SpaceSearchComponent implements OnInit {
     fetchUrl(url: string) {
 
         this.worker = new Worker('worker.js');
-
+        //post message to worker.js
+        this.worker.postMessage({
+                                    url : url,
+                                    lang: this.userService.getUserProperty('language')
+                                });
+        //receive the message from worker.js
         this.worker.addEventListener('message', (e: MessageEvent) => {
-            console.log(e);
+            if (e.data.length) {
+                this.showWorkerMessage = true;
+            }
         });
 
-        this.worker.postMessage({url: url});
     }
 
 

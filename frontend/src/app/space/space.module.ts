@@ -9,7 +9,6 @@ import {SpiralModule} from '../spiral/spiral.module';
 
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
-import {WebSpaceService} from './web-space.service';
 
 @NgModule({
               imports     : [
@@ -22,7 +21,6 @@ import {WebSpaceService} from './web-space.service';
               providers   : [
                   ConcentricService,
                   SpaceService,
-                  WebSpaceService,
               ],
           })
 export class SpaceModule {

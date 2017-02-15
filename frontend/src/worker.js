@@ -5,7 +5,36 @@ oReq.addEventListener("load", transferComplete);
 oReq.addEventListener("error", transferFailed);
 oReq.addEventListener("abort", transferCanceled);
 
-// ...
+
+onmessage = function (e) {
+
+    var webSpace = new WebSpace(e.data);
+
+    postMessage({'message': webSpace.messages('request_url')});
+
+    oReq.open('GET', e.data.url);
+
+    oReq.responseType = 'text';
+
+    oReq.send(null);
+
+};
+
+function WebSpace(param) {
+    this.lang = param.lang || 'en';
+
+    this.en = {
+        'request_url': 'connecting ' + param.url
+    };
+
+    this.zh = {
+        'request_url': '正在连接 ' + param.url
+    };
+
+    this.messages = function (key) {
+        return this.lang == 'en' ? this.en[key] : this.zh[key];
+    }
+};
 
 // progress on transfers from the server to the client (downloads)
 function updateProgress(oEvent) {
@@ -25,19 +54,10 @@ function transferComplete(evt) {
 
     if (target.status == 200) {
 
-        console.log(this);
+        var match = target.response.match(/<body[\s\S]+<\/body>/gi);
 
-       //  let doctype = document.implementation.createDocumentType('html', '', '');
-       //  let doc     = document.implementation.createDocument('', 'html', doctype);
-       //
-       //  doc.documentElement.innerHTML = '<head></head><body></body>';
-       //
-       //  var contentBody = doc.documentElement.querySelector('body');
-       //
-       //  let match = target.response.match(/<body(.*?)<\/body>/gi);
-       //
-       // console.log(match);
-        
+        console.log(match);
+
     } else {
         console.log(target.statusText);
     }
@@ -50,15 +70,3 @@ function transferFailed(evt) {
 function transferCanceled(evt) {
     console.log("The transfer has been canceled by the user.");
 }
-
-onmessage = function (e) {
-
-    console.log(e.data.url);
-
-    oReq.open('GET', e.data.url);
-
-    oReq.responseType = 'text';
-
-    oReq.send(null);
-
-};
