@@ -12,23 +12,25 @@ import {ApiRoutesService} from './api-routes.service';
 import {ApiHttpService} from './api-http.service';
 import {CssService} from './css.service';
 import {StorageService} from './storage.service';
+import {MessageService} from './message.service';
 
 @NgModule({
-              imports     : [CommonModule],
+              imports:      [CommonModule],
               declarations: [
-                  ErrorDirective
+                  ErrorDirective,
               ],
-              exports     : [
+              exports:      [
                   ErrorDirective,
                   CommonModule,
                   FormsModule,
                   LangModule,
               ],
-              providers   : [
+              providers:    [
                   ApiRoutesService,
                   ApiHttpService,
                   CssService,
                   StorageService,
+                  MessageService,
               ],
           })
 export class SharedModule {

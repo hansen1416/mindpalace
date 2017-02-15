@@ -8,11 +8,12 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {SpaceService} from './space.service';
 import {ConcentricService} from './concentric.service';
 import {UserService} from '../core/user.service';
+import {MessageService} from '../share/message.service';
 
 @Component({
-               selector   : 'space-search',
+               selector:    'space-search',
                templateUrl: './html/space-search.component.html',
-               styles     : [require('./scss/space-search.component.scss')]
+               styles:      [require('./scss/space-search.component.scss')]
            })
 export class SpaceSearchComponent implements OnInit {
 
@@ -25,15 +26,15 @@ export class SpaceSearchComponent implements OnInit {
 
     private worker: Worker;
 
-    private showWorkerMessage = false;
-
     constructor(
         private apiHttpService: ApiHttpService,
         private apiRoutesService: ApiRoutesService,
         private spaceService: SpaceService,
         private concentricService: ConcentricService,
         private userService: UserService,
-    ) {}
+        private messageService: MessageService,
+    ) {
+    }
 
     ngOnInit() {
 
@@ -86,13 +87,14 @@ export class SpaceSearchComponent implements OnInit {
         this.worker = new Worker('worker.js');
         //post message to worker.js
         this.worker.postMessage({
-                                    url : url,
+                                    url:  url,
                                     lang: this.userService.getUserProperty('language')
                                 });
         //receive the message from worker.js
         this.worker.addEventListener('message', (e: MessageEvent) => {
             if (e.data.length) {
-                this.showWorkerMessage = true;
+                this.messageService.message     = e.data.message;
+                this.messageService.change();
             }
         });
 

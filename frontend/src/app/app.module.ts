@@ -10,6 +10,8 @@ import {CoreModule} from './core/core.module';
 import {SpaceModule} from './space/space.module';
 import {CtgModule} from './ctg/ctg.module';
 
+import {MessageComponent} from './share/message.component';
+
 /* App root */
 import {AppComponent}  from './app.component';
 
@@ -27,6 +29,7 @@ import {AppComponent}  from './app.component';
               ],
               declarations: [
                   AppComponent,
+                  MessageComponent,
               ],
               bootstrap   : [
                   AppComponent
