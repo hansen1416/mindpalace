@@ -1,26 +1,36 @@
 /**
  * Created by hlz on 17-2-15.
  */
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 
 import {MessageService} from './message.service';
+import {Subscription}   from 'rxjs/Subscription';
 
 @Component({
-               selector:    'message',
+               selector   : 'message',
                templateUrl: './html/message.component.html',
-               styles:      [require('./scss/message.component.scss')]
+               styles     : [require('./scss/message.component.scss')]
            })
-export class MessageComponent {
+export class MessageComponent implements OnDestroy {
 
     showMessage: boolean;
 
     message: string = 'ddd';
 
+    subscription: Subscription;
+
     constructor(
         private messageService: MessageService
     ) {
-        this.showMessage = messageService.showMessage;
+        this.subscription = messageService.message$.subscribe(
+            message => {
+                this.showMessage = this.messageService.showMessage;
+                this.message     = message;
+            }
+        )
     }
 
-
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 }

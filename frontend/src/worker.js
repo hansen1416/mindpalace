@@ -1,72 +1,149 @@
-var oReq = new XMLHttpRequest();
-
-oReq.addEventListener("progress", updateProgress);
-oReq.addEventListener("load", transferComplete);
-oReq.addEventListener("error", transferFailed);
-oReq.addEventListener("abort", transferCanceled);
-
-
 onmessage = function (e) {
 
     var webSpace = new WebSpace(e.data);
 
-    postMessage({'message': webSpace.messages('request_url')});
+    postMessage({message: webSpace.messages('request_url', webSpace.url)});
 
-    oReq.open('GET', e.data.url);
+    webSpace.bindEvent();
 
-    oReq.responseType = 'text';
+    webSpace.oReq.open('GET', e.data.url);
 
-    oReq.send(null);
+    webSpace.oReq.responseType = 'text';
+
+    webSpace.oReq.send(null);
 
 };
 
 function WebSpace(param) {
     this.lang = param.lang || 'en';
 
+    this.url = param.url;
+
     this.en = {
-        'request_url': 'connecting ' + param.url
+        request_url            : 'connecting %%',
+        loading_progress       : 'loading content, %%',
+        unable_get_progress    : 'Unable to compute progress information since the total size is unknown',
+        transfer_failed        : 'An error occurred while transferring the file',
+        transfer_canceled      : 'The transfer has been canceled by the user',
+        transfer_complete_error: 'Transfer completed and an error occurred %%',
+        transfer_complete      : 'Transfer completed and processing the content',
+        no_body                : 'unable to read the content'
     };
 
     this.zh = {
-        'request_url': '正在连接 ' + param.url
+        request_url            : '正在连接 %%',
+        loading_progress       : '加载内容， %%',
+        unable_get_progress    : '总大小未知，无法计算已加载部分',
+        transfer_failed        : '连接错误',
+        transfer_canceled      : '连接已取消',
+        transfer_complete_error: '连接完成，产生错误 %%',
+        transfer_complete      : '连接完成，处理内容',
+        no_body                : '无法读取内容'
     };
 
-    this.messages = function (key) {
-        return this.lang == 'en' ? this.en[key] : this.zh[key];
-    }
-};
+    this.messages = function (key, variable) {
 
-// progress on transfers from the server to the client (downloads)
-function updateProgress(oEvent) {
-    if (oEvent.lengthComputable) {
-        var percentComplete = oEvent.loaded / oEvent.total;
-        console.log(percentComplete);
-        // ...
-    } else {
-        // Unable to compute progress information since the total size is unknown
-        console.log('Unable to compute progress information since the total size is unknown');
-    }
+        var str;
+
+        switch (this.lang) {
+            case 'zh':
+                str = this.zh[key];
+                break;
+            default:
+                str = this.en[key];
+        }
+
+        return variable === undefined
+            ? str
+            : str.replace(/%%/g, variable);
+    };
+
+    this.oReq = new XMLHttpRequest();
+
+    var space = this;
+
+    this.bindEvent = function () {
+        this.oReq.addEventListener("progress", this.updateProgress);
+        this.oReq.addEventListener("load", this.transferComplete);
+        this.oReq.addEventListener("error", this.transferFailed);
+        this.oReq.addEventListener("abort", this.transferCanceled);
+    };
+
+    // progress on transfers from the server to the client (downloads)
+    this.updateProgress = function (oEvent) {
+        if (oEvent.lengthComputable) {
+            var percentComplete = (oEvent.loaded / oEvent.total) * 100;
+            postMessage({message: space.messages('loading_progress', percentComplete + '%')});
+        } else {
+            // Unable to compute progress information since the total size is unknown
+            postMessage({message: space.messages('unable_get_progress')});
+        }
+    };
+
+    this.transferFailed = function (evt) {
+        postMessage({message: space.messages('transfer_failed')});
+    };
+
+    this.transferCanceled = function (evt) {
+        postMessage({message: space.messages('transfer_canceled')});
+    };
+
+    this.transferComplete = function (evt) {
+        var target = evt.target;
+
+        if (target.status == 200) {
+
+            postMessage({message: space.messages('transfer_complete')});
+            //get the body part
+            var body = target.response.match(/<body.*?>([\s\S]+)<\/body>/m);
+
+            if (!body) {
+                return postMessage({message: space.messages('no_body')});
+            }
+
+            //remove header and footer
+            var bodyStr = body[1].replace(/<header[\s\S]+<\/header>|<footer[\s\S]+<\/footer>/m, '');
+            //split string by </h\d>
+            var bodyArr = bodyStr.split(/<h\d\s/gm);
+
+            if (bodyArr.length <= 1) {
+                return postMessage({message: space.messages('no_body')});
+            }
+            //remove the first element, it probably not contain any actual content, usually the list
+            bodyArr.shift();
+
+            var i      = 0;
+            var titles = [];
+
+            while (i < bodyArr.length) {
+                
+                console.log(bodyArr[i]);
+                console.log('----------------------------------');
+
+                // var titleTag = bodyArr[i].match(/<h(\d+)([\s\S]+)>/m);
+                //
+                // if (titleTag) {
+                //
+                //     var classMatch = titleTag[2].match(/class="(\w+)"/);
+                //     var cls        = classMatch ? classMatch[1] : '';
+                //
+                //     titles.push({
+                //                     num: titleTag[1],
+                //                     cls: cls
+                //                 });
+                // }
+
+                i++;
+            }
+
+            console.log(titles);
+
+
+        } else {
+            postMessage({message: space.messages('transfer_complete_error', target.statusText)});
+        }
+    };
+
 }
 
 
-function transferComplete(evt) {
-    var target = evt.target;
-
-    if (target.status == 200) {
-
-        var match = target.response.match(/<body[\s\S]+<\/body>/gi);
-
-        console.log(match);
-
-    } else {
-        console.log(target.statusText);
-    }
-}
-
-function transferFailed(evt) {
-    console.log("An error occurred while transferring the file.");
-}
-
-function transferCanceled(evt) {
-    console.log("The transfer has been canceled by the user.");
-}

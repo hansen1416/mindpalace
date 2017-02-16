@@ -34,6 +34,7 @@ export class SpaceSearchComponent implements OnInit {
         private userService: UserService,
         private messageService: MessageService,
     ) {
+
     }
 
     ngOnInit() {
@@ -92,9 +93,9 @@ export class SpaceSearchComponent implements OnInit {
                                 });
         //receive the message from worker.js
         this.worker.addEventListener('message', (e: MessageEvent) => {
-            if (e.data.length) {
-                this.messageService.message     = e.data.message;
-                this.messageService.change();
+
+            if (e.data.message) {
+                this.messageService.show(e.data.message);
             }
         });
 
