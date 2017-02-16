@@ -62,6 +62,8 @@ function WebSpace(param) {
 
     var space = this;
 
+    this.C = [];
+
     this.bindEvent = function () {
         this.oReq.addEventListener("progress", this.updateProgress);
         this.oReq.addEventListener("load", this.transferComplete);
@@ -94,6 +96,13 @@ function WebSpace(param) {
         if (target.status == 200) {
 
             postMessage({message: space.messages('transfer_complete')});
+            //get the title of the website, use it as the base ctg
+            var title = target.response.match(/<head[\s\S]+<title>(.*?)<\/title>/m);
+
+            title = title ? title[1] : this.url;
+
+            this.C.push({title: title, content: ''});
+
             //get the body part
             var body = target.response.match(/<body.*?>([\s\S]+)<\/body>/m);
 
@@ -103,6 +112,11 @@ function WebSpace(param) {
 
             //remove header and footer
             var bodyStr = body[1].replace(/<header[\s\S]+<\/header>|<footer[\s\S]+<\/footer>/m, '');
+            //get all the inside links on the page
+            var links = bodyStr.match(/href="\/(?!\/).*?"/g);
+
+            return console.log(links);
+
             //split string by </h\d>
             var bodyArr = bodyStr.split(/<h\d\s/gm);
 
@@ -116,7 +130,7 @@ function WebSpace(param) {
             var titles = [];
 
             while (i < bodyArr.length) {
-                
+
                 console.log(bodyArr[i]);
                 console.log('----------------------------------');
 
