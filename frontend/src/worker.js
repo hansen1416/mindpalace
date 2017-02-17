@@ -27,7 +27,8 @@ function WebSpace(param) {
         transfer_canceled      : 'The transfer has been canceled by the user',
         transfer_complete_error: 'Transfer completed and an error occurred %%',
         transfer_complete      : 'Transfer completed and processing the content',
-        no_body                : 'unable to read the content'
+        no_body                : 'unable to read the content',
+        progress_complete      : 'data process complete'
     };
 
     this.zh = {
@@ -38,7 +39,8 @@ function WebSpace(param) {
         transfer_canceled      : '连接已取消',
         transfer_complete_error: '连接完成，产生错误 %%',
         transfer_complete      : '连接完成，处理内容',
-        no_body                : '无法读取内容'
+        no_body                : '无法读取内容',
+        progress_complete      : '数据处理完毕'
     };
 
     this.messages = function (key, variable) {
@@ -61,8 +63,6 @@ function WebSpace(param) {
     this.oReq = new XMLHttpRequest();
 
     var space = this;
-
-    this.C = [];
 
     this.bindEvent = function () {
         this.oReq.addEventListener("progress", this.updateProgress);
@@ -99,9 +99,7 @@ function WebSpace(param) {
             //get the title of the website, use it as the base ctg
             var title = target.response.match(/<head[\s\S]+<title>(.*?)<\/title>/m);
 
-            title = title ? title[1] : this.url;
-
-            space.C.push({title: title, content: ''});
+            spaceName = title ? title[1] : this.url;
 
             //get the body part
             var body = target.response.match(/<body.*?>([\s\S]+)<\/body>/m);
@@ -140,7 +138,11 @@ function WebSpace(param) {
                 }
             }
 
-            return makeDataTree(data);
+            return postMessage({
+                                   message   : space.messages('progress_complete'),
+                                   data      : JSON.stringify(makeDataTree(data)),
+                                   space_name: spaceName
+                               });
 
         } else {
             postMessage({message: space.messages('transfer_complete_error', target.statusText)});

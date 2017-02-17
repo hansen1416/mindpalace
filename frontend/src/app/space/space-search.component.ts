@@ -96,6 +96,9 @@ export class SpaceSearchComponent implements OnInit {
 
             if (e.data.message) {
                 this.messageService.show(e.data.message);
+                if (e.data.data) {
+                    console.log(e.data.data, e.data.space_name);
+                }
             }
         });
 
