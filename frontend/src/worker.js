@@ -138,7 +138,7 @@ function WebSpace(param) {
                 }
             }
 
-            return postMessage({
+            postMessage({
                                    message   : space.messages('progress_complete'),
                                    data      : JSON.stringify(makeDataTree(data)),
                                    space_name: spaceName

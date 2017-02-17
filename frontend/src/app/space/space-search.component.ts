@@ -91,17 +91,21 @@ export class SpaceSearchComponent implements OnInit {
                                     url:  url,
                                     lang: this.userService.getUserProperty('language')
                                 });
+
         //receive the message from worker.js
-        this.worker.addEventListener('message', (e: MessageEvent) => {
+        this.worker.addEventListener('message', this.workerMessageListener);
+    }
 
-            if (e.data.message) {
-                this.messageService.show(e.data.message);
-                if (e.data.data) {
-                    console.log(e.data.data, e.data.space_name);
-                }
+
+    workerMessageListener = (e: MessageEvent) => {
+        if (e.data.message) {
+            this.messageService.show(e.data.message);
+
+            if (e.data.data) {
+                this.worker.terminate();
+                console.log(e.data.data, e.data.space_name);
             }
-        });
-
+        }
     }
 
 
