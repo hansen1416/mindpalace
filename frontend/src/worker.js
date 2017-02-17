@@ -124,27 +124,23 @@ function WebSpace(param) {
             //remove the first element, it probably not contain any actual content, usually the list
             bodyArr.shift();
 
-            var titles = [];
+            var data = [];
 
             for (var i = 0; i < bodyArr.length; i++) {
                 //1.title, 2.num, 3.content
-                var titleTag = bodyArr[i].match(/>(.*?)<\/h(\d)>([\s\S]+)$/m);
+                var matches = bodyArr[i].match(/>(.*?)<\/h(\d)>([\s\S]+)$/m);
 
-                if (titleTag) {
-
-                    titles.push({
-                                    title  : titleTag[1],
-                                    num    : titleTag[2],
-                                    content: titleTag[3],
-                                    son    : []
-                                });
+                if (matches) {
+                    data.push({
+                                  title  : matches[1],
+                                  num    : matches[2],
+                                  content: matches[3],
+                                  desc   : []
+                              });
                 }
             }
 
-            titles = makeDataTree(titles);
-
-            console.log(titles);
-
+            return makeDataTree(data);
 
         } else {
             postMessage({message: space.messages('transfer_complete_error', target.statusText)});
@@ -164,7 +160,7 @@ function makeDataTree(data) {
                 for (var j = i; j >= 0; j--) {
 
                     if (data[j] && data[j].num < h) {
-                        data[j].son.push(data[i]);
+                        data[j].desc.push(data[i]);
                         data[i] = null;
                         break;
                     }
