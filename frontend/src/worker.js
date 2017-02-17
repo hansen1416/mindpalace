@@ -101,7 +101,7 @@ function WebSpace(param) {
 
             title = title ? title[1] : this.url;
 
-            this.C.push({title: title, content: ''});
+            space.C.push({title: title, content: ''});
 
             //get the body part
             var body = target.response.match(/<body.*?>([\s\S]+)<\/body>/m);
@@ -113,9 +113,7 @@ function WebSpace(param) {
             //remove header and footer
             var bodyStr = body[1].replace(/<header[\s\S]+<\/header>|<footer[\s\S]+<\/footer>/m, '');
             //get all the inside links on the page
-            var links = bodyStr.match(/href="\/(?!\/).*?"/g);
-
-            return console.log(links);
+            var links   = bodyStr.match(/href="\/(?!\/).*?"/g);
 
             //split string by </h\d>
             var bodyArr = bodyStr.split(/<h\d\s/gm);
@@ -126,29 +124,24 @@ function WebSpace(param) {
             //remove the first element, it probably not contain any actual content, usually the list
             bodyArr.shift();
 
-            var i      = 0;
             var titles = [];
 
-            while (i < bodyArr.length) {
+            for (var i = 0; i < bodyArr.length; i++) {
+                //1.title, 2.num, 3.content
+                var titleTag = bodyArr[i].match(/>(.*?)<\/h(\d)>([\s\S]+)$/m);
 
-                console.log(bodyArr[i]);
-                console.log('----------------------------------');
+                if (titleTag) {
 
-                // var titleTag = bodyArr[i].match(/<h(\d+)([\s\S]+)>/m);
-                //
-                // if (titleTag) {
-                //
-                //     var classMatch = titleTag[2].match(/class="(\w+)"/);
-                //     var cls        = classMatch ? classMatch[1] : '';
-                //
-                //     titles.push({
-                //                     num: titleTag[1],
-                //                     cls: cls
-                //                 });
-                // }
-
-                i++;
+                    titles.push({
+                                    title  : titleTag[1],
+                                    num    : titleTag[2],
+                                    content: titleTag[3],
+                                    son    : []
+                                });
+                }
             }
+
+            titles = makeDataTree(titles);
 
             console.log(titles);
 
@@ -160,4 +153,30 @@ function WebSpace(param) {
 
 }
 
+function makeDataTree(data) {
+
+    for (var h = 6; h >= 1; h--) {
+
+        for (var i = 0; i < data.length; i++) {
+
+            if (data[i] && data[i].num == h) {
+
+                for (var j = i; j >= 0; j--) {
+
+                    if (data[j] && data[j].num < h) {
+                        data[j].son.push(data[i]);
+                        data[i] = null;
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+
+    return data.filter(function (value) {
+        return value != null;
+    });
+
+}
 
