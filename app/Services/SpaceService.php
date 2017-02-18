@@ -60,14 +60,14 @@ class SpaceService implements SpaceServiceContract
     }
 
 
-    public function fetchUrl(string $url)
+    public function saveWebsite($data)
     {
 
         try{
 
-            $webSpace = new WebSpaceService($url);
+            $webSpace = new WebSpaceService();
 
-            return [$webSpace->test()];
+            return [$webSpace->test($data)];
 
         }catch(\Exception $e){
             return [$e->getMessage()];

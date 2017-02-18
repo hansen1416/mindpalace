@@ -49,12 +49,12 @@ class SpaceController extends Controller
     }
 
 
-    public function fetchUrl(Request $request)
+    public function saveWebsite(Request $request)
     {
-        $url = $request->input('url');
+        $data = $request->input('data');
 
         return response()->json(
-            $this->space->fetchUrl($url)
+            $this->space->saveWebsite($data)
         );
     }
 

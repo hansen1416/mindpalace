@@ -139,10 +139,10 @@ function WebSpace(param) {
             }
 
             postMessage({
-                                   message   : space.messages('progress_complete'),
-                                   data      : JSON.stringify(makeDataTree(data)),
-                                   space_name: spaceName
-                               });
+                            message   : space.messages('progress_complete'),
+                            data      : JSON.stringify(makeDataTree(data)),
+                            space_name: spaceName
+                        });
 
         } else {
             postMessage({message: space.messages('transfer_complete_error', target.statusText)});

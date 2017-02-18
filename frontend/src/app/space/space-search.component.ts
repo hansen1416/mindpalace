@@ -103,7 +103,16 @@ export class SpaceSearchComponent implements OnInit {
 
             if (e.data.data) {
                 this.worker.terminate();
-                console.log(e.data.data, e.data.space_name);
+
+                let data = new FormData();
+
+                data.append('data', e.data.data);
+
+                this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
+                    response => {
+                        console.log(response);
+                    }
+                )
             }
         }
     }

@@ -53,5 +53,5 @@ Route::group([
              ->where('pid', '[0-9]+');
         Route::post('ctg/saveCtgContent', 'CtgController@saveCtgContent');
         Route::post('ctg/createCtg', 'CtgController@createCtg');
-        Route::post('space/fetchUrl', 'SpaceController@fetchUrl');
+        Route::post('space/saveWebsite', 'SpaceController@saveWebsite');
     });

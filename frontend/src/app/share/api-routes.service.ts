@@ -54,8 +54,8 @@ export class ApiRoutesService {
     }
 
 
-    get fetchUrl(): string {
-        return this.api_url + 'space/fetchUrl';
+    get saveWebsite(): string {
+        return this.api_url + 'space/saveWebsite';
     }
 
 }
