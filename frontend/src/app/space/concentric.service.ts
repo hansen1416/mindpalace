@@ -12,12 +12,12 @@ import {Position} from './position';
 export class ConcentricService {
 
     //中心空白的宽度,unit rem
-    private a = 20;
+    private a = 25;
     //中心空白的高度,unit rem
     private b = 18;
-
+    //with of single space block
     private k = 5;
-
+    //height of single space block
     private g = 3;
     //在当前层的个数
     private i = 0;

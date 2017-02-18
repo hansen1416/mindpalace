@@ -48,7 +48,13 @@
             <img src="" alt="" class="portrait">
             <div class="user-profile">
                 <p>{{user.name}}</p>
-                <p>{{user.language}}</p>
+                <ul>
+                    <li *ngFor="let language of languages"
+                        (click)="switchLang($event)"
+                    >
+                        {{language}}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

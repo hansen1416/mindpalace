@@ -11,9 +11,9 @@ import {ConcentricService} from "../space/concentric.service";
 import {StorageService} from '../share/storage.service';
 
 @Component({
-               selector   : 'user-login',
+               selector:    'user-login',
                templateUrl: './html/user-login.component.html',
-               styles     : [require('./scss/user-login.component.scss')]
+               styles:      [require('./scss/user-login.component.scss')]
            })
 export class UserLoginComponent {
 
@@ -28,19 +28,21 @@ export class UserLoginComponent {
     }
 
 
-    user = this.userService.getUserModel();
+    private user = this.userService.getUserModel();
 
     /**
      * invalid email format
      * @type {boolean}
      */
-    invalidEmail = false;
+    private invalidEmail = false;
 
     /**
      * authenticate failed
      */
-    authError = false;
+    private authError = false;
 
+
+    private languages = ['中', 'EN'];
 
     /**
      * check email format
@@ -64,7 +66,7 @@ export class UserLoginComponent {
         this.apiHttp.post(this.apiRoutes.login, formData).subscribe(
             response => {
                 this.userService.setUserProperties({
-                                                       access_token : response.access_token,
+                                                       access_token:  response.access_token,
                                                        refresh_token: response.refresh_token,
                                                    });
 
@@ -95,6 +97,11 @@ export class UserLoginComponent {
             }
         );
 
+    }
+
+
+    switchLang(e) {
+        console.log(e)
     }
 
 }
