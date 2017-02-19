@@ -1,5 +1,5 @@
 /**
- * Created by mok on 16-10-11.
+ * Created by hlz on 16-10-11.
  */
 export class User {
 

@@ -12,11 +12,12 @@ export const EN: LangInterface = {
         password_required:    'Enter your password please',
         login:                'Login',
         login_failed:         'Email and password does not match',
+        web_link:             'provide a link from web',
     },
     space:  {
-        show_all: 'Show all',
+        show_all:     'Show all',
         search_space: 'Search by space name',
-        fetch_url   : 'Create a space from a web page',
+        fetch_url:    'Create a space from a web page',
     },
     action: {
         save: 'Save',

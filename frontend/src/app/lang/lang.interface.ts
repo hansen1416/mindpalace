@@ -10,6 +10,7 @@ export interface LangInterface {
         password_required: string,
         login: string,
         login_failed: string,
+        web_link:string,
     },
     space: {
         show_all: string,

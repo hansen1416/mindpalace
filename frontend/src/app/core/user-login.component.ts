@@ -1,5 +1,5 @@
 /**
- * Created by mok on 16-10-12.
+ * Created by hlz on 16-10-12.
  */
 import {Component} from '@angular/core';
 
@@ -42,7 +42,11 @@ export class UserLoginComponent {
     private authError = false;
 
 
-    private languages = ['中', 'EN'];
+    private languages = [
+        {'key': 'zh', 'name': '中'},
+        {'key': 'en', 'name': 'EN'}
+    ]
+        ;
 
     /**
      * check email format
@@ -99,9 +103,9 @@ export class UserLoginComponent {
 
     }
 
-
-    switchLang(e) {
-        console.log(e)
+    //switch user language
+    switchLang(language) {
+        this.userService.setUserProperties({language: language.key});
     }
 
 }

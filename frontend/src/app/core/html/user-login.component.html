@@ -45,14 +45,16 @@
 
     <div *ngIf="user.access_token" class="user-info">
         <div class="user-info-content">
-            <img src="" alt="" class="portrait">
+            <img src="" alt="" class="portrait"
+                 routerLink="/profile/1"
+            >
             <div class="user-profile">
                 <p>{{user.name}}</p>
                 <ul>
                     <li *ngFor="let language of languages"
-                        (click)="switchLang($event)"
+                        (click)="switchLang(language)"
                     >
-                        {{language}}
+                        {{language.name}}
                     </li>
                 </ul>
             </div>

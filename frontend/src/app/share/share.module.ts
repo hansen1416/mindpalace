@@ -1,5 +1,5 @@
 /**
- * Created by mok on 16-10-18.
+ * Created by hlz on 16-10-18.
  */
 import {NgModule}            from '@angular/core';
 import {CommonModule}        from '@angular/common';

@@ -1,5 +1,5 @@
 /**
- * Created by mok on 16-11-21.
+ * Created by hlz on 16-11-21.
  */
 export class Ctg {
     ctg_id:number;

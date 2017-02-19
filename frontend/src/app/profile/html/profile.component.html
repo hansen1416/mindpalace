@@ -1,0 +1,13 @@
+<div class="profile-box">
+    <div class="portrait-box">
+        <img src="{{user.portrait}}" alt=""
+             (click)="clickPortrait()"
+        >
+        <div class="portrait-edit"
+             *ngIf="showPortraitEdit"
+        >
+            <input type="file">
+            <input type="text" placeholder="{{'web_link' | translate}}">
+        </div>
+    </div>
+</div>

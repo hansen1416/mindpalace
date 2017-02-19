@@ -1,5 +1,5 @@
 /**
- * Created by mok on 17-1-16.
+ * Created by hlz on 17-1-16.
  */
 export class OriginUserData {
     created_at: string;

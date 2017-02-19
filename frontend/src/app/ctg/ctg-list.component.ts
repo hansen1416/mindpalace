@@ -1,5 +1,5 @@
 /**
- * Created by mok on 16-11-18.
+ * Created by hlz on 16-11-18.
  */
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
