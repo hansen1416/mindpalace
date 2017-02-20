@@ -10,13 +10,14 @@ export interface LangInterface {
         password_required: string,
         login: string,
         login_failed: string,
-        web_link:string,
-        choose_file:string,
+        web_link: string,
+        choose_file: string,
+        logout: string,
     },
     space: {
         show_all: string,
         search_space: string,
-        fetch_url:string
+        fetch_url: string
     },
     action: {
         save: string,

@@ -13,7 +13,8 @@ export const EN: LangInterface = {
         login:                'Login',
         login_failed:         'Email and password does not match',
         web_link:             'provide a link from web',
-        choose_file         : 'choose a local image',
+        choose_file:          'choose a local image',
+        logout:               'logout',
     },
     space:  {
         show_all:     'Show all',

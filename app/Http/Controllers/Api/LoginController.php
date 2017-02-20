@@ -33,7 +33,9 @@ class LoginController extends Controller
     /**
      * Create a new controller instance.
      */
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
 
     protected function guard()
@@ -85,6 +87,14 @@ class LoginController extends Controller
         );
 
         return Route::dispatch($proxy);
+    }
+
+
+    protected function logout(Request $request)
+    {
+        $res = $this->guard()->logout();
+
+        return response()->json([$res]);
     }
 
 

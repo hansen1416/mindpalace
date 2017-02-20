@@ -22,14 +22,21 @@
                     [(ngModel)]="user.language"
             >
                 <option *ngFor="let language of languages"
-                        value="{{language.key}}">
+                        [(ngValue)]="language.key"
+                        [selected]="language.key == user.language">
                     {{language.fullName}}
                 </option>
             </select>
         </div>
         <div class="form-panel">
-            <input type="button" (click)="logOut()">
-            <input type="button" (click)="profileSubmit(profileForm)">
+            <input type="button" class="logout-button"
+                   (click)="logOut()"
+                   value="{{'user.logout' | translate}}"
+            >
+            <input type="button" class="submit-button"
+                   (click)="profileSubmit(profileForm)"
+                   value="{{'action.save' | translate}}"
+            >
         </div>
 
     </form>

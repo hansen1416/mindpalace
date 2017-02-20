@@ -26,5 +26,39 @@ $height: 40rem;
         }
 
     }
+    .form-label {
+
+    }
+    .form-panel {
+        position: absolute;
+        width: 100%;
+        height: 4rem;
+        bottom: 0;
+        &:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        input[type="button"] {
+            width: $width * 0.35;
+            height: $height * 0.075;
+            margin: 0 $width * 0.1;
+            font-size: 1.2rem;
+            float: left;
+            line-height: $height * 0.075;
+            text-align: center;
+            color: #fff;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        input[type="button"].logout-button {
+            background-color: #ff4538;
+        }
+        input[type="button"].submit-button {
+            background-color: #2a88bd;
+            margin-left: 0;
+        }
+    }
 
 }

@@ -5,23 +5,28 @@ import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
 
 import {UserService} from '../core/user.service';
+import {ApiHttpService} from '../share/api-http.service';
+import {ApiRoutesService} from '../share/api-routes.service';
 
 import {languages} from '../lang/lang-available';
 
 @Component({
-               selector   : 'profile',
+               selector:    'profile',
                templateUrl: './html/profile.component.html',
-               styles     : [require('./scss/profile.component.scss')]
+               styles:      [require('./scss/profile.component.scss')]
            })
 export class ProfileComponent {
 
     constructor(
-        private userService: UserService
+        private userService: UserService,
+        private apiHttpService: ApiHttpService,
+        private apiRoutesService: ApiRoutesService
     ) {
         console.log(this.user);
     }
 
     private user = this.userService.getUserModel();
+
 
     private languages = languages;
 
@@ -51,7 +56,11 @@ export class ProfileComponent {
 
 
     logOut() {
-
+        this.apiHttpService.get(this.apiRoutesService.logout).subscribe(
+            response => {
+                console.log(response);
+            }
+        );
     }
 
 
