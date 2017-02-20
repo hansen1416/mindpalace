@@ -10,10 +10,12 @@ import {SpaceService} from "../space/space.service";
 import {ConcentricService} from "../space/concentric.service";
 import {StorageService} from '../share/storage.service';
 
+import {languages} from '../lang/lang-available';
+
 @Component({
-               selector:    'user-login',
+               selector   : 'user-login',
                templateUrl: './html/user-login.component.html',
-               styles:      [require('./scss/user-login.component.scss')]
+               styles     : [require('./scss/user-login.component.scss')]
            })
 export class UserLoginComponent {
 
@@ -42,11 +44,7 @@ export class UserLoginComponent {
     private authError = false;
 
 
-    private languages = [
-        {'key': 'zh', 'name': '中'},
-        {'key': 'en', 'name': 'EN'}
-    ]
-        ;
+    private languages = languages;
 
     /**
      * check email format
@@ -70,7 +68,7 @@ export class UserLoginComponent {
         this.apiHttp.post(this.apiRoutes.login, formData).subscribe(
             response => {
                 this.userService.setUserProperties({
-                                                       access_token:  response.access_token,
+                                                       access_token : response.access_token,
                                                        refresh_token: response.refresh_token,
                                                    });
 
@@ -86,7 +84,7 @@ export class UserLoginComponent {
 
                             this.userService.saveUserModel(response);
 
-                            this.spaceService.getHomeSpaceList().subscribe(response=> {
+                            this.spaceService.getHomeSpaceList().subscribe(response => {
 
                                 this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
                                 this.spaceService.addEmptySpace();

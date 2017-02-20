@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
 }
+img {
+    border: none;
+}
 html {
     font-size: 15px;
 }

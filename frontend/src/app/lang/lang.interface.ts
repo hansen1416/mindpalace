@@ -11,6 +11,7 @@ export interface LangInterface {
         login: string,
         login_failed: string,
         web_link:string,
+        choose_file:string,
     },
     space: {
         show_all: string,

@@ -1,5 +1,5 @@
-$width: 20em;
-$height: 40em;
+$width: 20rem;
+$height: 40rem;
 .profile-box {
     width: $width;
     min-height: $height;
@@ -21,19 +21,8 @@ $height: 40em;
                 cursor: pointer;
             }
         }
-        .portrait-edit {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            input {
-                display: block;
-                width: 90%;
-                height: 2em;
-                margin: $width * 0.3 auto 0;
-            }
-            input[type="file"]{
-
-            }
+        input[type="file"] {
+            display: none;
         }
 
     }

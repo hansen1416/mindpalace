@@ -1,13 +1,36 @@
 <div class="profile-box">
-    <div class="portrait-box">
-        <img src="{{user.portrait}}" alt=""
-             (click)="clickPortrait()"
-        >
-        <div class="portrait-edit"
-             *ngIf="showPortraitEdit"
-        >
-            <input type="file">
-            <input type="text" placeholder="{{'web_link' | translate}}">
+    <form action="" #profileForm="ngForm">
+        <div class="portrait-box">
+            <img src="{{user.portrait}}" alt="" id="portrait"
+                 (click)="chooseFile()"
+            >
+            <input type="file" id="file-input"
+                   #fileInput
+                   (change)="readFile(fileInput)"
+            >
         </div>
-    </div>
+        <div class="form-label">
+            <span>{{user.email}}</span>
+        </div>
+        <div class="form-label">
+            <input type="text" name="name" value="{{user.name}}" placeholder=""
+                   [(ngModel)]="user.name"
+            >
+        </div>
+        <div class="form-label">
+            <select name="language" id="language"
+                    [(ngModel)]="user.language"
+            >
+                <option *ngFor="let language of languages"
+                        value="{{language.key}}">
+                    {{language.fullName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-panel">
+            <input type="button" (click)="logOut()">
+            <input type="button" (click)="profileSubmit(profileForm)">
+        </div>
+
+    </form>
 </div>
