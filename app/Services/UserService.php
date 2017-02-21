@@ -10,17 +10,22 @@ namespace App\Services;
 
 use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\UserRepositoryContract;
+use App\Repositories\Contract\ProfileRepositoryContract;
 use Auth;
 
 class UserService implements UserServiceContract
 {
     protected $userRepo;
 
+    protected $profileRepo;
+
     public function __construct(
-        UserRepositoryContract $userRepositoryContract
+        UserRepositoryContract $userRepositoryContract,
+        ProfileRepositoryContract $profileRepositoryContract
     )
     {
-        $this->userRepo = $userRepositoryContract;
+        $this->userRepo    = $userRepositoryContract;
+        $this->profileRepo = $profileRepositoryContract;
     }
 
 
@@ -36,6 +41,24 @@ class UserService implements UserServiceContract
 //        $user->profile;
 //        $user->space;
         return $this->userRepo->userProfile($this->userId());
+    }
+
+
+    public function updateUserProfile(array $profile)
+    {
+        $user = Auth::guard('api')->user();
+
+        if (!$user) {
+            return 401;
+        }
+
+        $res = $this->profileRepo->updateUserProfile($user->profile->profile_id, $profile);
+
+        if ($res[0]) {
+            return $profile;
+        } else {
+            return 500;
+        }
     }
 
 

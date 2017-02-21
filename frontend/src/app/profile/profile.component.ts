@@ -14,11 +14,11 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {languages} from '../lang/lang-available';
 
 @Component({
-               selector   : 'profile',
+               selector:    'profile',
                templateUrl: './html/profile.component.html',
-               styles     : [require('./scss/profile.component.scss')]
+               styles:      [require('./scss/profile.component.scss')]
            })
-export class ProfileComponent implements OnDestroy{
+export class ProfileComponent implements OnDestroy {
 
     private subscription: Subscription;
 
@@ -61,7 +61,17 @@ export class ProfileComponent implements OnDestroy{
     }
 
     profileSubmit(form: NgForm) {
-        console.log(form);
+        let data = new FormData();
+
+        for (let prop in form.value) {
+            data.append(prop, form.value[prop]);
+        }
+
+        this.apiHttpService.post(this.apiRoutesService.updateProfile, data).subscribe(
+            response => {
+                this.userService.setUserProperties(response);
+            }
+        );
     }
 
 
@@ -71,7 +81,7 @@ export class ProfileComponent implements OnDestroy{
     }
 
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 

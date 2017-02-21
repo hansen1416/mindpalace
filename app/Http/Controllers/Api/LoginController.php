@@ -90,12 +90,4 @@ class LoginController extends Controller
     }
 
 
-    protected function logout(Request $request)
-    {
-        Auth::logout();
-
-        return response()->json([]);
-    }
-
-
 }

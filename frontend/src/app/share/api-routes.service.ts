@@ -62,4 +62,8 @@ export class ApiRoutesService {
         return this.api_url + 'user/logout';
     }
 
+    get updateProfile(): string {
+        return this.api_url + 'profile/update';
+    }
+
 }

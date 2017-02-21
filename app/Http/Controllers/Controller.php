@@ -10,4 +10,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+
+    public function responseJson($data)
+    {
+        if (is_int($data)) {
+            return response()->json([], $data);
+        }
+
+        return response()->json($data);
+    }
 }

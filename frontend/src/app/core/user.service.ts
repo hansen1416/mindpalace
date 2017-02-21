@@ -64,6 +64,7 @@ export class UserService {
 
         this.setUserProperties(response, profile);
         this.sealUserModel();
+        console.log(this.userModel);
         this.userModelSource.next(this.userModel);
     }
 
@@ -74,7 +75,7 @@ export class UserService {
 
 
     getLocalAccessToken() {
-        this.storageService.getItem('access_token');
+        return this.storageService.getItem('access_token');
     }
 
 

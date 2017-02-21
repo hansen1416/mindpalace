@@ -31,4 +31,10 @@ class UserController extends Controller
     }
 
 
+    public function updateUserProfile(Request $request)
+    {
+        return $this->responseJson($this->user->updateUserProfile($request->all()));
+    }
+
+
 }

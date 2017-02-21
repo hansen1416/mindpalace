@@ -20,4 +20,7 @@ interface UserServiceContract
      * @return mixed
      */
     public function userProfile();
+
+
+    public function updateUserProfile(array $profile);
 }

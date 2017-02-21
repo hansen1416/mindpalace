@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         let token = this.userService.getLocalAccessToken();
+
         if (!this.userService.getUserProperty('access_token') && token) {
 
             this.userService.setUserProperties({'access_token': token});
