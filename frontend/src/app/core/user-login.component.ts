@@ -1,14 +1,15 @@
 /**
  * Created by hlz on 16-10-12.
  */
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
+
+import {Subscription}   from 'rxjs/Subscription';
 
 import {UserService} from "./user.service";
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {SpaceService} from "../space/space.service";
 import {ConcentricService} from "../space/concentric.service";
-import {StorageService} from '../share/storage.service';
 
 import {languages} from '../lang/lang-available';
 
@@ -17,7 +18,9 @@ import {languages} from '../lang/lang-available';
                templateUrl: './html/user-login.component.html',
                styles     : [require('./scss/user-login.component.scss')]
            })
-export class UserLoginComponent {
+export class UserLoginComponent implements OnDestroy{
+    
+    private subscription: Subscription;
 
     constructor(
         private userService: UserService,
@@ -25,10 +28,13 @@ export class UserLoginComponent {
         private apiHttp: ApiHttpService,
         private spaceService: SpaceService,
         private concentricService: ConcentricService,
-        private storageService: StorageService,
     ) {
+        this.subscription = userService.userModel$.subscribe(
+            userModel => {
+                this.user = userModel;
+            }
+        )
     }
-
 
     private user = this.userService.getUserModel();
 
@@ -77,7 +83,7 @@ export class UserLoginComponent {
                  */
                 if (this.user.access_token) {
 
-                    this.storageService.setItem('access_token', this.user.access_token);
+                    this.userService.saveLocalAccessToken(this.user.access_token);
 
                     this.apiHttp.get(this.apiRoutes.user).subscribe(
                         response => {
@@ -106,4 +112,8 @@ export class UserLoginComponent {
         this.userService.setUserProperties({language: language.key});
     }
 
+
+    ngOnDestroy(){
+        this.subscription.unsubscribe();
+    }
 }

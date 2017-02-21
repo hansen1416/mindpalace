@@ -15,7 +15,7 @@ export class MessageComponent implements OnDestroy {
 
     showMessage: boolean;
 
-    message: string = 'ddd';
+    message: string;
 
     subscription: Subscription;
 

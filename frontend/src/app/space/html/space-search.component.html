@@ -12,7 +12,9 @@
         {{'space.show_all' | translate}}
     </div>
 </div>
-<div class="search-box">
+<div class="search-box"
+     *ngIf="user.access_token"
+>
     <input type="text" class="search-input"
            placeholder="{{'space.fetch_url' | translate}}"
            #url

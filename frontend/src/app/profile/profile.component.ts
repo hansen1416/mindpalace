@@ -1,8 +1,11 @@
 /**
  * Created by hlz on 17-2-19.
  */
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {NgForm} from '@angular/forms';
+import {Router}  from '@angular/router';
+
+import {Subscription}   from 'rxjs/Subscription';
 
 import {UserService} from '../core/user.service';
 import {ApiHttpService} from '../share/api-http.service';
@@ -11,18 +14,25 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {languages} from '../lang/lang-available';
 
 @Component({
-               selector:    'profile',
+               selector   : 'profile',
                templateUrl: './html/profile.component.html',
-               styles:      [require('./scss/profile.component.scss')]
+               styles     : [require('./scss/profile.component.scss')]
            })
-export class ProfileComponent {
+export class ProfileComponent implements OnDestroy{
+
+    private subscription: Subscription;
 
     constructor(
+        private router: Router,
         private userService: UserService,
         private apiHttpService: ApiHttpService,
         private apiRoutesService: ApiRoutesService
     ) {
-        console.log(this.user);
+        this.subscription = userService.userModel$.subscribe(
+            userModel => {
+                this.user = userModel;
+            }
+        )
     }
 
     private user = this.userService.getUserModel();
@@ -56,12 +66,13 @@ export class ProfileComponent {
 
 
     logOut() {
-        this.apiHttpService.get(this.apiRoutesService.logout).subscribe(
-            response => {
-                console.log(response);
-            }
-        );
+        this.userService.clearUserModel();
+        this.router.navigate(['/home']);
     }
 
+
+    ngOnDestroy(){
+        this.subscription.unsubscribe();
+    }
 
 }

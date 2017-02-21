@@ -4,6 +4,9 @@
 import {Injectable} from '@angular/core';
 import {User} from './user';
 import {OriginUserData} from './origin-user-data';
+import {Subject}    from 'rxjs/Subject';
+
+import {StorageService} from '../share/storage.service';
 
 export class UserServiceConfig {
     userName = 'Anonymous';
@@ -12,11 +15,19 @@ export class UserServiceConfig {
 @Injectable()
 export class UserService {
 
+    constructor(
+        private storageService: StorageService
+    ) {
+
+    }
 
     private userModel = new User();
 
 
-    constructor() {}
+    private userModelSource = new Subject<User>();
+
+
+    public userModel$ = this.userModelSource.asObservable();
 
 
     sealUserModel(): void {
@@ -29,6 +40,13 @@ export class UserService {
     }
 
 
+    clearUserModel(): void {
+        this.userModel = new User();
+        this.storageService.setItem('access_token', null);
+        this.userModelSource.next(this.userModel);
+    }
+
+
     getUserProperty(userProperty): string {
         return this.userModel[userProperty];
     }
@@ -36,6 +54,7 @@ export class UserService {
 
     setUserProperties(...userProperty: Object[]): void {
         Object.assign(this.userModel, ...userProperty);
+        this.userModelSource.next(this.userModel);
     }
 
 
@@ -45,6 +64,18 @@ export class UserService {
 
         this.setUserProperties(response, profile);
         this.sealUserModel();
+        this.userModelSource.next(this.userModel);
     }
+
+
+    saveLocalAccessToken(access_token: string) {
+        this.storageService.setItem('access_token', access_token);
+    }
+
+
+    getLocalAccessToken() {
+        this.storageService.getItem('access_token');
+    }
+
 
 }

@@ -92,9 +92,9 @@ class LoginController extends Controller
 
     protected function logout(Request $request)
     {
-        $res = $this->guard()->logout();
+        Auth::logout();
 
-        return response()->json([$res]);
+        return response()->json([]);
     }
 
 
