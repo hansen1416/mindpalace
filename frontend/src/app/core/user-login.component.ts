@@ -33,7 +33,7 @@ export class UserLoginComponent implements OnDestroy{
             userModel => {
                 this.user = userModel;
             }
-        )
+        );
     }
 
     private user = this.userService.getUserModel();
@@ -97,7 +97,7 @@ export class UserLoginComponent implements OnDestroy{
                             });
 
                         }
-                    )
+                    );
                 } else {
                     this.authError = true;
                 }

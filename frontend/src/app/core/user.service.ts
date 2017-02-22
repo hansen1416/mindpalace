@@ -64,7 +64,7 @@ export class UserService {
 
         this.setUserProperties(response, profile);
         this.sealUserModel();
-        console.log(this.userModel);
+
         this.userModelSource.next(this.userModel);
     }
 

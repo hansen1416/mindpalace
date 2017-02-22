@@ -32,7 +32,7 @@ export class ProfileComponent implements OnDestroy {
             userModel => {
                 this.user = userModel;
             }
-        )
+        );
     }
 
     private user = this.userService.getUserModel();
@@ -60,11 +60,20 @@ export class ProfileComponent implements OnDestroy {
         reader.readAsDataURL(input.files[0]);
     }
 
+
     profileSubmit(form: NgForm) {
         let data = new FormData();
 
         for (let prop in form.value) {
-            data.append(prop, form.value[prop]);
+            if (form.value.hasOwnProperty(prop)) {
+                data.append(prop, form.value[prop]);
+            }
+        }
+
+        let fileInput = <HTMLInputElement>document.getElementById('file-input');
+
+        if (fileInput.files.length) {
+            data.append('portrait', fileInput.files[0]);
         }
 
         this.apiHttpService.post(this.apiRoutesService.updateProfile, data).subscribe(

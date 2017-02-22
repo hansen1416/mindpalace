@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "rinvex/repository":"~2.0",
         "laravel/passport": "1.0.*",
-        "hansen1416/create-space-from-website": "*"
+        "hansen1416/create-space-from-website": "*",
+        "intervention/image": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\Contract\UserServiceContract;
+use App\Services\Contract\ImageServiceContract;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -17,11 +18,15 @@ class UserController extends Controller
 
     public $user;
 
+    public $img;
+
     public function __construct(
-        UserServiceContract $userServiceContract
+        UserServiceContract $userServiceContract,
+        ImageServiceContract $imageServiceContract
     )
     {
         $this->user = $userServiceContract;
+        $this->img  = $imageServiceContract;
     }
 
 
@@ -33,7 +38,20 @@ class UserController extends Controller
 
     public function updateUserProfile(Request $request)
     {
-        return $this->responseJson($this->user->updateUserProfile($request->all()));
+        $data = $request->all();
+
+        if ($request->hasFile('portrait') && $request->file('portrait')->isValid()) {
+
+            $path = $portrait = $this->img->savePortrait($request->file('portrait'));
+
+            if (is_int($path)) {
+                $this->responseJson($path);
+            }
+
+            $data['portrait'] = $path;
+        }
+
+        return $this->responseJson($this->user->updateUserProfile($data));
     }
 
 
