@@ -44,7 +44,7 @@ $height: 40rem;
             display: block;
             clear: both;
         }
-        input[type="button"] {
+        button {
             width: $width * 0.35;
             height: $height * 0.075;
             margin: 0 $width * 0.1;
@@ -57,10 +57,10 @@ $height: 40rem;
                 cursor: pointer;
             }
         }
-        input[type="button"].logout-button {
+        button.logout-button {
             background-color: #ff4538;
         }
-        input[type="button"].submit-button {
+        button[type="submit"].submit-button {
             background-color: #2a88bd;
             margin-left: 0;
         }

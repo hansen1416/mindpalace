@@ -5,7 +5,7 @@
 </div>
 
 <div class="profile-box">
-    <form action="" #profileForm="ngForm">
+    <form action="" (ngSubmit)="profileSubmit(profileForm)" #profileForm="ngForm">
         <div class="portrait-box">
             <img src="{{user.portrait}}" alt="" id="portrait"
                  (click)="chooseFile()"
@@ -36,14 +36,12 @@
             </select>
         </div>
         <div class="form-panel">
-            <input type="button" class="logout-button"
-                   (click)="logOut()"
-                   value="{{'user.logout' | translate}}"
-            >
-            <input type="button" class="submit-button"
-                   (click)="profileSubmit(profileForm)"
-                   value="{{'action.save' | translate}}"
-            >
+            <button class="logout-button" (click)="logOut()">
+                {{'user.logout' | translate}}
+            </button>
+            <button type="submit" class="submit-button">
+                {{'action.save' | translate}}
+            </button>
         </div>
 
     </form>
