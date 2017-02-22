@@ -11,6 +11,7 @@ export const EN: LangInterface = {
         password_placeholder: 'Enter your password please',
         password_required:    'Enter your password please',
         login:                'Login',
+        register:             'Register',
         login_failed:         'Email and password does not match',
         web_link:             'provide a link from web',
         choose_file:          'choose a local image',

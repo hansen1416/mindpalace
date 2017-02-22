@@ -45,7 +45,7 @@ class UserController extends Controller
             $path = $this->img->savePortrait($request->file('portrait'));
 
             if (is_int($path)) {
-                $this->responseJson($path);
+                return $this->responseJson($path);
             }
 
             $data['portrait'] = $path;

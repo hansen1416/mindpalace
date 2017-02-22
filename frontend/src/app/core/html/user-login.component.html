@@ -23,7 +23,10 @@
             >
         </div>
 
-        <button type="submit" [disabled]="!loginForm.form.valid">{{'user.login' | translate}}</button>
+        <div class="form-panel">
+            <button type="button">{{'user.register' | translate}}</button>
+            <button type="submit" [disabled]="!loginForm.form.valid">{{'user.login' | translate}}</button>
+        </div>
 
         <div class="message-box">
             <p *ngIf="!(email.valid || email.pristine)" error>

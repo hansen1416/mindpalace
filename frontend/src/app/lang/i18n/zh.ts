@@ -11,6 +11,7 @@ export const ZH: LangInterface = {
         password_placeholder: '请输入您的密码',
         password_required:    '请输入您的密码',
         login:                '登录',
+        register:             '注册',
         login_failed:         '登录验证失败',
         web_link:             '提供一个图片链接',
         choose_file:          '选择一个本地文件',
