@@ -24,6 +24,13 @@ class ImageService extends BaseService implements ImageServiceContract
         $this->user = $userServiceContract;
     }
 
+    /**
+     * 保存头像，原图 300x300
+     * 缩略图 50x50
+     * 图片名称是 用户ID
+     * @param $file
+     * @return int|string
+     */
     public function savePortrait($file)
     {
         try {
@@ -35,13 +42,18 @@ class ImageService extends BaseService implements ImageServiceContract
 
             $img = Image::make($file);
 
-            $path = storage_path();
+            $path = public_path();
 
-            $name = 'portrait/' . $user_id . '.jpg';
+            $name  = '/portrait/' . $user_id . '.jpg';
+            $thumb = '/portrait/t-' . $user_id . '.jpg';
 
             $img->resize(300, 300, function ($constraint) {
                 $constraint->upsize();
-            })->save($path . $user_id . '.jpg', 100);
+            })->save($path . $name, 100);
+
+            $img->resize(50, 50, function ($constraint) {
+                $constraint->upsize();
+            })->save($path . $thumb, 100);
 
             return env('API_URL') . $name;
         } catch (\Exception $e) {

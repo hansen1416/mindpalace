@@ -42,7 +42,7 @@ class UserController extends Controller
 
         if ($request->hasFile('portrait') && $request->file('portrait')->isValid()) {
 
-            $path = $portrait = $this->img->savePortrait($request->file('portrait'));
+            $path = $this->img->savePortrait($request->file('portrait'));
 
             if (is_int($path)) {
                 $this->responseJson($path);
