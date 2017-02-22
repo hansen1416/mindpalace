@@ -63,6 +63,13 @@ export class UserService {
         delete response.profile;
 
         this.setUserProperties(response, profile);
+
+        if (this.userModel.portrait) {
+            this.userModel.thumb = this.userModel.portrait.replace(/(\.\w+)$/, function(match, p1){
+                return '-t' + p1;
+            })
+        }
+
         this.sealUserModel();
 
         this.userModelSource.next(this.userModel);

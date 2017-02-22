@@ -1,0 +1,15 @@
+.go-back {
+    position: absolute;
+    width: 4em;
+    height: 2em;
+    top: 2em;
+    left: 4em;
+    text-overflow: ellipsis;
+    text-align: center;
+    line-height: 2em;
+    font-size: 1em;
+    background-color: white;
+    &:hover {
+        cursor: pointer;
+    }
+}

@@ -45,7 +45,7 @@ class ImageService extends BaseService implements ImageServiceContract
             $path = public_path();
 
             $name  = '/portrait/' . $user_id . '.jpg';
-            $thumb = '/portrait/t-' . $user_id . '.jpg';
+            $thumb = '/portrait/' . $user_id . '-t.jpg';
 
             $img->resize(300, 300, function ($constraint) {
                 $constraint->upsize();

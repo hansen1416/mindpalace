@@ -13,6 +13,7 @@ export class User {
     updated_at: string;
     language: string;
     portrait: string;
+    thumb: string;
     theme_id: string;
 
     constructor(

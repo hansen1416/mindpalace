@@ -45,8 +45,8 @@
 
     <div *ngIf="user.access_token" class="user-info">
         <div class="user-info-content">
-            <img src="" alt="" class="portrait"
-                 routerLink="/profile/1"
+            <img src="{{user.thumb}}" alt="" class="portrait"
+                 [routerLink]="'/profile/1'"
             >
             <div class="user-profile">
                 <p>{{user.name}}</p>
