@@ -2,7 +2,6 @@
  * Created by hlz on 16-10-12.
  */
 import {Component, OnDestroy} from '@angular/core';
-
 import {Subscription}   from 'rxjs/Subscription';
 
 import {UserService} from "./user.service";

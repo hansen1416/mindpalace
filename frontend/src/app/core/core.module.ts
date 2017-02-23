@@ -2,12 +2,12 @@
  * Created by hlz on 16-10-18.
  */
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
-import {CommonModule}      from '@angular/common';
+import {CommonModule} from '@angular/common';
 
 import {CoreRoutingModule} from './core-routing.module';
 import {SharedModule} from '../share/share.module';
 
-import {UserLoginComponent}    from './user-login.component';
+import {UserLoginComponent} from './user-login.component';
 import {SpaceHomeComponent} from '../space/space-home.component';
 import {SpaceSearchComponent} from '../space/space-search.component';
 import {UserService}       from './user.service';
@@ -24,9 +24,7 @@ import {UserServiceConfig} from './user.service';
                   SpaceHomeComponent,
                   SpaceSearchComponent,
               ],
-              exports     : [
-
-              ],
+              exports     : [],
               providers   : [
                   UserService,
               ]

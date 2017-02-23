@@ -1,7 +1,7 @@
 /**
  * Created by hlz on 16-11-18.
  */
-import {NgModule}       from '@angular/core';
+import {NgModule, Optional, SkipSelf}       from '@angular/core';
 import {CommonModule}   from '@angular/common';
 
 import {SharedModule}    from '../share/share.module';
@@ -30,4 +30,10 @@ import {CtgStyleDirective} from './ctg-style.directive';
               ],
           })
 export class CtgModule {
+    constructor(@Optional() @SkipSelf() parentModule: CtgModule) {
+        if (parentModule) {
+            throw new Error(
+                'CtgModule is already loaded. Import it in the AppModule only');
+        }
+    }
 }
