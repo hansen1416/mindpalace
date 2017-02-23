@@ -169,7 +169,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Hansen1416\WebSpace\Providers\WebSpaceServiceProvider::class,
-        Rinvex\Repository\Providers\RepositoryServiceProvider::class,
+//        Rinvex\Repository\Providers\RepositoryServiceProvider::class,
 
         /*
          * Application Service Providers...
