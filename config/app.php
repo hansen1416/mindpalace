@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Passport\PassportServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Hansen1416\WebSpace\Providers\WebSpaceServiceProvider::class,
         Hansen1416\Repository\Providers\RepositoryServiceProvider::class,
@@ -231,6 +232,7 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
+        'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 
