@@ -8,8 +8,8 @@
 
 namespace App\Repositories\Contract;
 
-use Rinvex\Repository\Contracts\CacheableContract;
-use Rinvex\Repository\Contracts\RepositoryContract;
+use Hansen1416\Repository\Contracts\CacheableContract;
+use Hansen1416\Repository\Contracts\RepositoryContract;
 
 interface ItemRepositoryContract extends CacheableContract, RepositoryContract
 {

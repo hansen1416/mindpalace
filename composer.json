@@ -14,7 +14,7 @@
         "intervention/image": "^2.3",
         "laravel/socialite": "^3.0",
         "hansen1416/create-space-from-website": "*",
-        "hansen1416/laravel-repository": "*"
+        "hansen1416/laravel-cache-repository": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -60,12 +60,6 @@
     "config": {
         "preferred-install": "dist"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/hansen1416/laravel-repository"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

@@ -8,7 +8,7 @@
 
 namespace App\Repositories;
 
-use Rinvex\Repository\Repositories\EloquentRepository;
+use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceRepositoryContract;
 
 class SpaceEloquentRepository extends EloquentRepository implements SpaceRepositoryContract

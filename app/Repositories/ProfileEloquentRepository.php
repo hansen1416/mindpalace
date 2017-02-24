@@ -8,7 +8,7 @@
 
 namespace App\Repositories;
 
-use Rinvex\Repository\Repositories\EloquentRepository;
+use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\ProfileRepositoryContract;
 use App\Repositories\UserEloquentRepository;
 
