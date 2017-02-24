@@ -5,20 +5,25 @@ import {NgModule}     from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {UserLoginComponent}    from './user-login.component';
+import {UserRegisterComponent} from './user-register.component';
 import {ProfileComponent} from '../profile/profile.component';
 
 const routes: Routes = [
     {
-        path:       '',
+        path      : '',
         redirectTo: '/home',
-        pathMatch:  'full'
+        pathMatch : 'full'
     },
     {
-        path:      'home',
+        path     : 'home',
         component: UserLoginComponent
     },
     {
-        path:      'profile/:user_id',
+        path     : 'register',
+        component: UserRegisterComponent
+    },
+    {
+        path     : 'profile/:user_id',
         component: ProfileComponent
     }
 ];

@@ -9,6 +9,10 @@ export class ApiRoutesService {
         return this.api_url + 'login';
     }
 
+    get gitLogin(): string {
+        return this.api_url + 'login/github';
+    }
+
     get home(): string {
         return this.api_url + 'home';
     }

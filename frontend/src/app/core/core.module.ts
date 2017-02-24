@@ -8,6 +8,7 @@ import {CoreRoutingModule} from './core-routing.module';
 import {SharedModule} from '../share/share.module';
 
 import {UserLoginComponent} from './user-login.component';
+import {UserRegisterComponent} from './user-register.component';
 import {SpaceHomeComponent} from '../space/space-home.component';
 import {SpaceSearchComponent} from '../space/space-search.component';
 import {UserService}       from './user.service';
@@ -21,6 +22,7 @@ import {UserServiceConfig} from './user.service';
               ],
               declarations: [
                   UserLoginComponent,
+                  UserRegisterComponent,
                   SpaceHomeComponent,
                   SpaceSearchComponent,
               ],

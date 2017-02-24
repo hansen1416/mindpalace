@@ -19,4 +19,13 @@ export class UserRegisterComponent {
     ) {
 
     }
+
+    gitLogin() {
+        this.apiHttpService.get(this.apiRoutesService.gitLogin).subscribe(
+            response => {
+                console.log(response);
+            }
+        )
+    }
+
 }

@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-panel">
-            <button type="button">{{'user.register' | translate}}</button>
+            <button type="button" [routerLink]="'/register'">{{'user.register' | translate}}</button>
             <button type="submit" [disabled]="!loginForm.form.valid">{{'user.login' | translate}}</button>
         </div>
 

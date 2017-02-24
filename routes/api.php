@@ -28,6 +28,8 @@ Route::group([
              ],
     function () {
         Route::post('login', 'LoginController@login');
+        Route::get('login/github', 'LoginController@redirectToProvider');
+        Route::get('login/github/callback', 'LoginController@handleProviderCallback');
         Route::get('home', 'SpaceController@home');
         Route::get('create', 'SpaceController@create');
         Route::post('space/search', 'SpaceController@search');
