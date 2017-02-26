@@ -7,6 +7,7 @@ export interface LangInterface {
         email_required: string,
         email_validation: string,
         password_placeholder: string,
+        confirm_password_placeholder:string,
         password_required: string,
         login: string,
         register: string,
