@@ -71,6 +71,9 @@
             <p *ngIf="invalidConfirmPassword" error>
                 {{'user.confirm_password_invalid' | translate}}
             </p>
+            <p *ngIf="serverError" error>
+                {{serverErrorMessage}}
+            </p>
         </div>
 
     </form>

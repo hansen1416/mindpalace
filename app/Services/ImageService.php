@@ -57,7 +57,7 @@ class ImageService extends BaseService implements ImageServiceContract
 
             return env('API_URL') . $name;
         } catch (\Exception $e) {
-            return 500;
+            return ['status' => 500, 'error' => $e->getMessage()];
         }
 
     }

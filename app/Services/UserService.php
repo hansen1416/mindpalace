@@ -89,15 +89,15 @@ class UserService implements UserServiceContract
         $user = Auth::guard('api')->user();
 
         if (!$user) {
-            return 401;
+            return ['status' => 500, 'error' => 'can\'t find user'];
         }
 
         $res = $this->profileRepo->updateUserProfile($user->profile->profile_id, $profile);
 
         if ($res[0]) {
-            return $profile;
+            return $res[1];
         } else {
-            return 500;
+            return ['status' => 500, 'error' => 'save profile failed'];
         }
     }
 

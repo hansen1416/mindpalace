@@ -9,9 +9,9 @@ import {ApiHttpService} from "../share/api-http.service";
 import {UserService} from './user.service';
 
 @Component({
-               selector   : 'user-register',
+               selector:    'user-register',
                templateUrl: './html/user-register.component.html',
-               styles     : [require('./scss/user-register.component.scss')]
+               styles:      [require('./scss/user-register.component.scss')]
            })
 export class UserRegisterComponent {
 
@@ -26,10 +26,10 @@ export class UserRegisterComponent {
 
 
     private registerModel = {
-        email           : '',
-        password        : '',
+        email:            '',
+        password:         '',
         confirm_password: '',
-        name            : ''
+        name:             ''
     };
 
 
@@ -37,6 +37,12 @@ export class UserRegisterComponent {
 
 
     private invalidConfirmPassword = false;
+
+
+    private serverError = false;
+
+
+    private serverErrorMessage = '';
 
 
     checkEmail() {
@@ -60,10 +66,23 @@ export class UserRegisterComponent {
         this.apiHttpService.post(this.apiRoutesService.register, formData).subscribe(
             response => {
                 if (response.status == 500) {
-                    console.log(response);
-                }else{
+                    
+                    this.serverError = true;
+                    
+                    if (response.error) {
+                        if (response.error instanceof Array) {
+                            this.serverErrorMessage = response.error[0];
+                        }else if (response.error instanceof String) {
+                            this.serverErrorMessage = response.error;
+                        }
+                    }
+
+                } else {
+
+                    this.serverError = true;
+                    
                     this.userService.setUserProperties({
-                                                           access_token : response.access_token,
+                                                           access_token:  response.access_token,
                                                            refresh_token: response.refresh_token,
                                                        });
 

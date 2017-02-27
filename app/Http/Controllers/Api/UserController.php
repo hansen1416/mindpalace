@@ -44,7 +44,7 @@ class UserController extends Controller
 
             $path = $this->img->savePortrait($request->file('portrait'));
 
-            if (is_int($path)) {
+            if (isset($path['status']) && $path['status'] == 500) {
                 return $this->responseJson($path);
             }
 
