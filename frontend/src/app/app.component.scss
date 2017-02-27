@@ -5,16 +5,18 @@ button {
 
 .go-back {
     position: absolute;
-    width: 4em;
-    height: 2em;
+    width: 3.5em;
+    height: 3.5em;
     top: 2em;
     left: 4em;
-    text-overflow: ellipsis;
-    text-align: center;
-    line-height: 2em;
-    font-size: 1em;
-    background-color: white;
+    line-height: 4em;
+    background-color: transparent;
+    background-size: 100% 100%;
     &:hover {
         cursor: pointer;
     }
+}
+
+.go-back.home{
+    background-image: url("assets/home.svg");
 }
