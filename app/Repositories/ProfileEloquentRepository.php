@@ -32,4 +32,11 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
 
         return $this->update($profile_id, $attributes);
     }
+
+
+    public function createProfile(array $attributes)
+    {
+        return $this->create($attributes);
+    }
+
 }

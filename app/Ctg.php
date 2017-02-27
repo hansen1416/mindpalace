@@ -48,7 +48,7 @@ class Ctg extends Model
 
     public function item()
     {
-        return $this->hasOne('App\Item');
+        return $this->hasOne('App\Item', 'item_id');
     }
 
 }

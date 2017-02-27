@@ -27,6 +27,7 @@ Route::group([
                  'prefix'    => 'api',
              ],
     function () {
+        Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
         Route::get('login/github', 'LoginController@redirectToProvider');
         Route::get('login/github/callback', 'LoginController@handleProviderCallback');

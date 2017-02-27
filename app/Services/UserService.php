@@ -12,6 +12,7 @@ use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\UserRepositoryContract;
 use App\Repositories\Contract\ProfileRepositoryContract;
 use Auth;
+use DB;
 
 class UserService implements UserServiceContract
 {
@@ -26,6 +27,45 @@ class UserService implements UserServiceContract
     {
         $this->userRepo    = $userRepositoryContract;
         $this->profileRepo = $profileRepositoryContract;
+    }
+
+
+    public function createUser(array $data)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $userData = [
+                'email'    => $data['email'],
+                'password' => bcrypt($data['password']),
+            ];
+
+            $user = $this->userRepo->createUser($userData);
+
+            //save not complete
+            if (!$user[0]) {
+                return ['status' => 500, 'error' => 'unable to save user'];
+            }
+
+            $profileData = [
+                'user_id' => $user[1]->user_id,
+                'name'    => $data['name'],
+            ];
+
+            $profile = $this->profileRepo->createProfile($profileData);
+
+            if (!$profile[0]) {
+                return ['status' => 500, 'error' => 'unable to save profile'];
+            }
+
+            DB::commit();
+
+            return $user[1];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return ['status' => 500, 'error' => $e->getMessage()];
+        }
     }
 
 

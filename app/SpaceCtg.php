@@ -62,12 +62,12 @@ class SpaceCtg extends Model
 
     public function space()
     {
-        return $this->belongsTo('App\Space');
+        return $this->belongsTo('App\Space', 'space_id');
     }
 
 
     public function ctg()
     {
-        return $this->belongsTo('App\Ctg');
+        return $this->belongsTo('App\Ctg', 'ctg_id');
     }
 }

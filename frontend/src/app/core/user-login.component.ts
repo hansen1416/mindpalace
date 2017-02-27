@@ -55,9 +55,7 @@ export class UserLoginComponent implements OnDestroy{
      * check email format
      */
     checkEmail() {
-        let pattern = /@([a-zA-Z0-9\-])+\./;
-
-        this.invalidEmail = pattern.test(this.user.email) ? false : true;
+        this.invalidEmail = !this.userService.emailPattern.test(this.user.email);
     }
 
     /**

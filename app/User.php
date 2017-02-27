@@ -66,7 +66,7 @@ class User extends Authenticatable
      */
     public function profile()
     {
-        return $this->hasOne('App\Profile');
+        return $this->hasOne('App\Profile', 'user_id');
     }
 
     /**
@@ -74,7 +74,7 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function space(){
-        return $this->hasMany('App\Space');
+        return $this->hasMany('App\Space', 'user_id');
     }
 
 }

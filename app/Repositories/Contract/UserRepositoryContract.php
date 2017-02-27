@@ -20,4 +20,10 @@ interface UserRepositoryContract extends RepositoryContract, CacheableContract
      */
     public function userProfile(int $user_id);
 
+    /**
+     * @param array $attributes
+     * @return string | int user_id
+     */
+    public function createUser(array $attributes);
+
 }

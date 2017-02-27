@@ -23,4 +23,10 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     }
 
 
+    public function createUser(array $attributes)
+    {
+        return $this->create($attributes);
+    }
+
+
 }

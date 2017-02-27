@@ -13,5 +13,16 @@ use Hansen1416\Repository\Contracts\RepositoryContract;
 
 interface ProfileRepositoryContract extends CacheableContract, RepositoryContract
 {
+    /**
+     * @param int   $profile_id
+     * @param array $attributes
+     * @return mixed
+     */
     public function updateUserProfile(int $profile_id, array $attributes);
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function createProfile(array $attributes);
 }

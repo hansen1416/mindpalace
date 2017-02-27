@@ -38,6 +38,6 @@ class Item extends Model
 
     public function ctg()
     {
-        return $this->belongsTo('App\Ctg');
+        return $this->belongsTo('App\Ctg', 'item_id');
     }
 }

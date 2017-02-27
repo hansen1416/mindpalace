@@ -30,6 +30,9 @@ export class UserService {
     public userModel$ = this.userModelSource.asObservable();
 
 
+    public emailPattern = /@([a-zA-Z0-9\-])+\./;
+
+
     sealUserModel(): void {
         Object.seal(this.userModel);
     }

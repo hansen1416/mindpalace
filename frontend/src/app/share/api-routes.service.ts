@@ -5,6 +5,10 @@ export class ApiRoutesService {
 
     private api_url = 'http://api.mindpalaces.com/api/';
 
+    get register(): string {
+        return this.api_url + 'register';
+    }
+
     get login(): string {
         return this.api_url + 'login';
     }

@@ -12,6 +12,12 @@ namespace App\Services\Contract;
 interface UserServiceContract
 {
     /**
+     * @param array $data
+     * @return mixed
+     */
+    public function createUser(array $data);
+
+    /**
      * @return int
      */
     public function userId();
