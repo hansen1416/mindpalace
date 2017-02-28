@@ -204,7 +204,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                 )).subscribe(response => {
                     if (response.status && response.status == 500) {
                         console.log(response);
-                    }else{
+                    } else {
                         this.rebuildScene();
                     }
                 });
@@ -248,7 +248,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         }
     };
 
-
+    /**
+     * double click, view the descendants of selected ctg
+     * @param event
+     */
     protected onDoubleClick = (event: MouseEvent): void => {
         event.preventDefault();
 
@@ -277,13 +280,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
             this.setSpriteToOrigin();
 
-            this.intersect      = null;
-            //hide the control buttons
-            this.showControl    = false;
-            //hide the content editor
-            this.showContentBox = false;
-            //hide the title input
-            this.showAddCtgInput = false;
+            this.intersect = null;
+
+            this.hideControls();
         }
     };
 
@@ -378,6 +377,17 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
     }
 
     /**
+     * resize event
+     */
+    protected onWindowResize = (): void => {
+
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+
+        this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    /**
      * get the mouse ray casted first element
      * @param index
      * @param allowRootCtg
@@ -467,9 +477,14 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         this.webGLRenderer.domElement.addEventListener('click', this.onClick, false);
 
         this.webGLRenderer.domElement.addEventListener('dblclick', this.onDoubleClick, false);
+
+        window.addEventListener('resize', this.onWindowResize, false);
     }
 
-
+    /**
+     * ctg control panel
+     * view ctg content button
+     */
     clickViewBtn() {
         this.showContentBox = true;
 
@@ -482,14 +497,20 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         );
     }
 
-
+    /**
+     * ctg control panel
+     * add new ctg button
+     */
     clickAddBtn() {
         this.ctgService.setCtgId = this.selected.userData.ctg_id;
 
         this.showAddCtgInput = true;
     }
 
-
+    /**
+     * add a new child ctg to selected ctg
+     * @param title
+     */
     addNewCtg(title: string) {
 
         if (!title) {
@@ -505,11 +526,25 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             response => {
                 if (response.status && response.status == 500) {
                     console.log(response);
-                }else{
+                } else {
                     this.rebuildScene();
+
+                    this.hideControls();
                 }
             }
         );
+    }
+
+    /**
+     * hide control panel and content editor
+     */
+    private hideControls() {
+        //hide the control buttons
+        this.showControl     = false;
+        //hide the content editor
+        this.showContentBox  = false;
+        //hide the title input
+        this.showAddCtgInput = false;
     }
 
 }
