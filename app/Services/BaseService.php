@@ -11,11 +11,5 @@ namespace App\Services;
 
 abstract class BaseService
 {
-    protected function responseArray($status = 200, $message = '')
-    {
-        return [
-            'status'  => $status,
-            'message' => $message,
-        ];
-    }
+
 }

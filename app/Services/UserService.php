@@ -8,6 +8,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
 use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\UserRepositoryContract;
 use App\Repositories\Contract\ProfileRepositoryContract;
@@ -45,7 +47,7 @@ class UserService implements UserServiceContract
 
             //save not complete
             if (!$user[0]) {
-                return ['status' => 500, 'error' => 'unable to save user'];
+                throw new SaveFailedException();
             }
 
             $profileData = [
@@ -56,7 +58,7 @@ class UserService implements UserServiceContract
             $profile = $this->profileRepo->createProfile($profileData);
 
             if (!$profile[0]) {
-                return ['status' => 500, 'error' => 'unable to save profile'];
+                throw new SaveFailedException();
             }
 
             DB::commit();
@@ -86,18 +88,23 @@ class UserService implements UserServiceContract
 
     public function updateUserProfile(array $profile)
     {
-        $user = Auth::guard('api')->user();
+        try {
 
-        if (!$user) {
-            return ['status' => 500, 'error' => 'can\'t find user'];
-        }
+            $user = Auth::guard('api')->user();
 
-        $res = $this->profileRepo->updateUserProfile($user->profile->profile_id, $profile);
+            if (!$user) {
+                throw new CantFindException();
+            }
 
-        if ($res[0]) {
-            return $res[1];
-        } else {
-            return ['status' => 500, 'error' => 'save profile failed'];
+            $res = $this->profileRepo->updateUserProfile($user->profile->profile_id, $profile);
+
+            if ($res[0]) {
+                return $res[1];
+            } else {
+                throw new SaveFailedException();
+            }
+        } catch (\Exception $e) {
+            return ['status' => 500, $e->getMessage()];
         }
     }
 

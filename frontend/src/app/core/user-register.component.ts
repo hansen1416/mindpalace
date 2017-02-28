@@ -2,7 +2,7 @@
  * Created by hlz on 17-2-23.
  */
 import {Component} from '@angular/core';
-import {Router} from '@angular/router'
+import {Router} from '@angular/router';
 
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";

@@ -91,7 +91,7 @@ class CtgService extends BaseService implements CtgServiceContract
 
             $oldPath = $ctg['path'] . $ctg['ctg_id'] . '-';
             //update the ctg
-            $this->spaceCtgRepo->massUpdate(
+            $res = $this->spaceCtgRepo->massUpdate(
                 [
                     ['space_id', $space_id],
                     ['ctg_id', $ctg_id],
@@ -102,6 +102,11 @@ class CtgService extends BaseService implements CtgServiceContract
                     'tier' => $tier,
                 ]
             );
+
+
+            if (!$res) {
+                throw new SaveFailedException();
+            }
 
             $newPath = $path . $ctg['ctg_id'] . '-';
             $a       = count(explode('-', $oldPath)) - 3;
@@ -117,12 +122,16 @@ class CtgService extends BaseService implements CtgServiceContract
                 $update
             );
 
+            if ($res === false) {
+                throw new SaveFailedException();
+            }
+
             DB::commit();
 
-            return ['result' => $res];
+            return ['message' => 'saved'];
         } catch (\Exception $e) {
             DB::rollBack();
-            return ['result' => false, 'error' => $e->getMessage()];
+            return ['status' => 500, 'error' => $e->getMessage()];
         }
     }
 
@@ -174,7 +183,7 @@ class CtgService extends BaseService implements CtgServiceContract
                                                  'title'   => $title,
                                              ]);
 
-            if (!isset($ctg[1])) {
+            if (!$ctg[0]) {
                 throw new SaveFailedException();
             }
 
@@ -185,16 +194,16 @@ class CtgService extends BaseService implements CtgServiceContract
                                                                 'tier'     => (int)$parent->tier + 1,
                                                                 'path'     => $parent->path . $pid . '-',
                                                             ]);
-            if (!isset($spaceCtg[1])) {
+            if (!$spaceCtg[0]) {
                 throw new SaveFailedException();
             }
 
             DB::commit();
-            return $this->responseArray();
+            return $spaceCtg[0];
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->responseArray(500, $e->getMessage());
+            return ['status' => 500, 'error' => $e->getMessage()];
         }
 
     }

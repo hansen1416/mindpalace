@@ -51,6 +51,9 @@ export class UserLoginComponent implements OnDestroy{
 
     private languages = languages;
 
+
+    private timeString = new Date().getTime();
+
     /**
      * check email format
      */

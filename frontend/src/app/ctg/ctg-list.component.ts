@@ -202,7 +202,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                     this.drag.userData.ctg_id,
                     target.userData.ctg_id
                 )).subscribe(response => {
-                    if (undefined !== response.result) {
+                    if (response.status && response.status == 500) {
+                        console.log(response);
+                    }else{
                         this.rebuildScene();
                     }
                 });
@@ -501,7 +503,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
         this.apiHttpService.post(this.apiRoutesService.createCtg, data).subscribe(
             response => {
-                if (200 == response.status) {
+                if (response.status && response.status == 500) {
+                    console.log(response);
+                }else{
                     this.rebuildScene();
                 }
             }
