@@ -1,13 +1,15 @@
 /**
  * Created by hlz on 16-11-18.
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Subscription}   from 'rxjs/Subscription';
 
 import {AbstractThreeComponent} from '../three/abstract-three.component';
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
+import {MessageService} from '../share/message.service';
 import {Ctg} from "./ctg";
 
 
@@ -16,7 +18,7 @@ import {Ctg} from "./ctg";
                templateUrl: './html/ctg-list.component.html',
                styles     : [require('./scss/ctg-list.component.scss')]
            })
-export class CtgListComponent extends AbstractThreeComponent implements OnInit {
+export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
     private timer = 0;
 
@@ -46,12 +48,15 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
 
     private urlCtgId: number;
 
+    private subscription: Subscription;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private ctgService: CtgService,
         private apiRoutesService: ApiRoutesService,
-        private apiHttpService: ApiHttpService
+        private apiHttpService: ApiHttpService,
+        private messageService: MessageService
     ) {
         super();
 
@@ -77,6 +82,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
             this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
             this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
         });
+
 
     }
 
@@ -203,9 +209,11 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
                     target.userData.ctg_id
                 )).subscribe(response => {
                     if (response.status && response.status == 500) {
-                        console.log(response);
+                        this.messageService.show(response.error);
                     } else {
                         this.rebuildScene();
+
+                        this.hideControls();
                     }
                 });
 
@@ -525,7 +533,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         this.apiHttpService.post(this.apiRoutesService.createCtg, data).subscribe(
             response => {
                 if (response.status && response.status == 500) {
-                    console.log(response);
+                    this.messageService.show(response.error);
                 } else {
                     this.rebuildScene();
 
@@ -547,4 +555,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit {
         this.showAddCtgInput = false;
     }
 
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 }
