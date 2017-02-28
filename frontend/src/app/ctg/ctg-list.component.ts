@@ -3,7 +3,8 @@
  */
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Subscription}   from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
 
 import {AbstractThreeComponent} from '../three/abstract-three.component';
 import {CtgService} from './ctg.service';
@@ -14,9 +15,9 @@ import {Ctg} from "./ctg";
 
 
 @Component({
-               selector   : 'ctg-list',
+               selector:    'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles     : [require('./scss/ctg-list.component.scss')]
+               styles:      [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
@@ -77,11 +78,17 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         //     }
         // );
 
-        this.route.params.forEach((params: Params) => {
+        // this.route.params.forEach((params: Params) => {
+        //
+        //     this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
+        //     this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
+        // });
 
-            this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
-            this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
-        });
+        this.subscription = this.route.params
+                                .subscribe((params: Params)=> {
+                                    this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
+                                    this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
+                                });
 
 
     }
@@ -93,6 +100,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     ngAfterViewInit() {
         this.getDataAndRender();
+        //todo use navigate
+        console.log('v');
     }
 
 
@@ -273,7 +282,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
 
             this.ctgService.setGoBack = {
-                url : '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
+                url:  '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
                 name: parentCtg.userData.ctg.title
             };
 
@@ -557,6 +566,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        // this.subscription.unsubscribe();
     }
 }
