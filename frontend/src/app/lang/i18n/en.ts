@@ -29,5 +29,6 @@ export const EN: LangInterface = {
     },
     action: {
         save: 'Save',
+        home: 'Home',
     }
 };

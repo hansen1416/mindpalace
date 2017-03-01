@@ -1,9 +1,14 @@
 <div id="canvas-frame"></div>
-<div class="go-back"
-     *ngIf="previous"
-     [routerLink]="previous.url"
+<div class="go-back home"
+     [routerLink]="'/home'"
 >
-    {{previous.name}}
+    {{'action.home' | translate}}
+</div>
+<div class="go-back previous"
+     *ngIf="previous"
+     (click)="goPreviousCtg()"
+>
+    {{previous}}
 </div>
 <div class="control-panel"
      *ngIf="showControl"

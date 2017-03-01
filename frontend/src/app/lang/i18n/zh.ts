@@ -29,5 +29,6 @@ export const ZH: LangInterface = {
     },
     action: {
         save: '保存',
+        home: '首页'
     }
 };

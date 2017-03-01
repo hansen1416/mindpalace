@@ -2,6 +2,7 @@
  * Created by hlz on 16-11-18.
  */
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Location} from '@angular/common';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
@@ -15,9 +16,9 @@ import {Ctg} from "./ctg";
 
 
 @Component({
-               selector:    'ctg-list',
+               selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles:      [require('./scss/ctg-list.component.scss')]
+               styles     : [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
@@ -49,9 +50,14 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
     private urlCtgId: number;
 
-    private subscription: Subscription;
+    private subscriptionParam: Subscription;
+
+    private subscriptionPrevious: Subscription;
+
+    private projected = false;
 
     constructor(
+        private location: Location,
         private route: ActivatedRoute,
         private router: Router,
         private ctgService: CtgService,
@@ -60,36 +66,24 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         private messageService: MessageService
     ) {
         super();
-
-        this.previous = this.ctgService.getGoBack;
     }
 
     ngOnInit() {
-        //todo move the initialize here, in subscribe
-        // this.route.params.subscribe(
-        //     params => {
-        //         console.log(params);
-        //     },
-        //     error => {
-        //         console.log(error);
-        //     },
-        //     () => {
-        //         console.log('finished');
-        //     }
-        // );
+        this.subscriptionParam = this.route.params
+                                     .subscribe((params: Params) => {
+                                         this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
+                                         this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
 
-        // this.route.params.forEach((params: Params) => {
-        //
-        //     this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
-        //     this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
-        // });
+                                         if (this.projected) {
+                                             this.rebuildScene();
+                                         }
+                                     });
 
-        this.subscription = this.route.params
-                                .subscribe((params: Params)=> {
-                                    this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
-                                    this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
-                                });
-
+        this.subscriptionPrevious = this.ctgService.previous$.subscribe(
+            previous => {
+                this.previous = previous.length ? previous[0] : null;
+            }
+        );
 
     }
 
@@ -100,10 +94,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     ngAfterViewInit() {
         this.getDataAndRender();
-        //todo use navigate
-        console.log('v');
     }
-
 
     private getDataAndRender() {
         this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => this.renderCtgList(response));
@@ -281,10 +272,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
             let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
 
-            this.ctgService.setGoBack = {
-                url:  '/space/' + this.intersect.userData.space_id + '/ctg/' + this.intersect.userData.pid,
-                name: parentCtg.userData.ctg.title
-            };
+            this.ctgService.addPrevious = parentCtg.userData.ctg.title;
 
             this.router.navigate([
                                      '/space',
@@ -496,6 +484,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         this.webGLRenderer.domElement.addEventListener('dblclick', this.onDoubleClick, false);
 
         window.addEventListener('resize', this.onWindowResize, false);
+
+        this.projected = true;
     }
 
     /**
@@ -565,7 +555,15 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     }
 
 
+    protected goPreviousCtg() {
+        this.ctgService.shiftPrevious();
+        this.location.back();
+    }
+
+
     ngOnDestroy() {
-        // this.subscription.unsubscribe();
+        this.subscriptionParam.unsubscribe();
+
+        this.subscriptionPrevious.unsubscribe();
     }
 }

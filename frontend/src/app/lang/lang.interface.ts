@@ -8,11 +8,11 @@ export interface LangInterface {
         email_validation: string,
         password_placeholder: string,
         password_required: string,
-        confirm_password_placeholder:string,
-        confirm_password_required:string,
-        confirm_password_invalid:string,
-        name_placeholder:string,
-        name_required:string,
+        confirm_password_placeholder: string,
+        confirm_password_required: string,
+        confirm_password_invalid: string,
+        name_placeholder: string,
+        name_required: string,
         login: string,
         register: string,
         login_failed: string,
@@ -27,6 +27,7 @@ export interface LangInterface {
     },
     action: {
         save: string,
+        home: string,
     }
 
 }

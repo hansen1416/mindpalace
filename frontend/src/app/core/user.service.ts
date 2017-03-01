@@ -4,7 +4,7 @@
 import {Injectable} from '@angular/core';
 import {User} from './user';
 import {OriginUserData} from './origin-user-data';
-import {Subject}    from 'rxjs/Subject';
+import {Subject} from 'rxjs/Subject';
 
 import {StorageService} from '../share/storage.service';
 

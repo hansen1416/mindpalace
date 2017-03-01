@@ -2,21 +2,23 @@ button {
     border: 0;
     box-shadow: none;
 }
-
 .go-back {
     position: absolute;
-    width: 3.5em;
-    height: 3.5em;
-    top: 2em;
-    left: 4em;
-    line-height: 4em;
-    background-color: transparent;
-    background-size: 100% 100%;
+    width: 4rem;
+    height: 2.5rem;
+    top: 2rem;
+    left: 4rem;
+    line-height: 2.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
     &:hover {
         cursor: pointer;
     }
 }
+.go-back.home {
 
-.go-back.home{
-    background-image: url("assets/home.svg");
+}
+.go-back.previous {
+    left: 9rem;
 }

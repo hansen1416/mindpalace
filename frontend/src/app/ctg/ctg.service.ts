@@ -3,15 +3,12 @@
  */
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
+import {Subject} from 'rxjs/Subject';
 
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {Ctg} from './ctg';
 
-class GoBack {
-    url: string;
-    name: string;
-}
 
 @Injectable()
 export class CtgService {
@@ -26,7 +23,13 @@ export class CtgService {
     private ctgList: Ctg[];
 
 
-    private goBack: GoBack = {url: '/', name: '首页'};
+    private previous = <Array<string>>[];
+
+
+    private previousSource = new Subject<Array<string>>();
+    
+    
+    public previous$ = this.previousSource.asObservable();
 
 
     public simpleMDE: any;
@@ -69,13 +72,17 @@ export class CtgService {
     }
 
 
-    get getGoBack() {
-        return this.goBack;
+    set addPrevious(title: string) {
+        this.previous.unshift(title);
+        this.previousSource.next(this.previous);
     }
 
 
-    set setGoBack(object: GoBack) {
-        this.goBack = object;
+    shiftPrevious(): void {
+        if (this.previous.length) {
+            this.previous.shift();
+            this.previousSource.next(this.previous);
+        }
     }
 
 
