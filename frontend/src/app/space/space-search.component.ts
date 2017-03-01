@@ -121,7 +121,7 @@ export class SpaceSearchComponent implements OnDestroy {
                 )
             }
         }
-    }
+    };
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Ctg whereCreatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Item                                             $item
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\SpaceCtg[] $spaceCtg
  */
 class Ctg extends Model
 {

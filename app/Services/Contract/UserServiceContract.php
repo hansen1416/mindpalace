@@ -27,6 +27,17 @@ interface UserServiceContract
      */
     public function userProfile();
 
-
+    /**
+     * @param array $profile
+     * @return mixed
+     */
     public function updateUserProfile(array $profile);
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function search(string $name);
+
+
 }

@@ -25,4 +25,10 @@ interface ProfileRepositoryContract extends CacheableContract, RepositoryContrac
      * @return mixed
      */
     public function createProfile(array $attributes);
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function searchUserByName(string $name);
 }

@@ -55,4 +55,10 @@ class UserController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
+        return $this->responseJson($this->user->search($request->input('name')));
+    }
+
+
 }

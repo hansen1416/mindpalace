@@ -554,7 +554,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         this.showAddCtgInput = false;
     }
 
-
+    /**
+     * go back to previous url,
+     * shift previous array of ctg service
+     */
     protected goPreviousCtg() {
         this.ctgService.shiftPrevious();
         this.location.back();
@@ -566,4 +569,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         this.subscriptionPrevious.unsubscribe();
     }
+
+
 }

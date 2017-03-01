@@ -1,0 +1,11 @@
+$width: 4rem;
+$height: 4rem;
+.friends-item {
+    position: absolute;
+    width: $width;
+    height: $height;
+    margin: $height/-2 0 0 $width/-2;
+    top: 50%;
+    left: 50%;
+    background-color: #81b2ff;
+}

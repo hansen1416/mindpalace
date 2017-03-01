@@ -4,9 +4,7 @@
 import {Injectable} from '@angular/core';
 
 import {CssService} from '../share/css.service';
-import {Space} from './space';
 import {Position} from './position';
-
 
 @Injectable()
 export class ConcentricService {
@@ -29,6 +27,19 @@ export class ConcentricService {
     constructor(
         private css: CssService
     ) {}
+
+
+    defineSize(
+        innerBlankWidth: number,
+        innerBlankHeight: number,
+        itemWidth: number,
+        itemHeight: number
+    ) {
+        this.a = innerBlankWidth;
+        this.b = innerBlankHeight;
+        this.k = itemWidth;
+        this.g = itemHeight;
+    }
 
 
     get innerWidth() {
@@ -76,7 +87,7 @@ export class ConcentricService {
     }
 
 
-    setConcentricCircles(spaces: Space[]): Space[] {
+    setConcentricCircles<T>(spaces: Array<T>): Array<T> {
 
         //横向排列数目
         let w: number;

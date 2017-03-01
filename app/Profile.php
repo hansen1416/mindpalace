@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property string $language 用户语言
  * @method static \Illuminate\Database\Query\Builder|\App\Profile whereLanguage($value)
+ * @property string $name
+ * @method static \Illuminate\Database\Query\Builder|\App\Profile whereName($value)
  */
 class Profile extends Model
 {

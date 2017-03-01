@@ -50,6 +50,7 @@ Route::group([
     function () {
         Route::get('user', 'UserController@profile');
         Route::post('profile/update', 'UserController@updateUserProfile');
+        Route::post('user/search', 'UserController@search');
         Route::post('space/create', 'SpaceController@create');
         Route::get('ctg/move/space/{space_id}/ctg/{ctg_id}/pid/{pid}', 'CtgController@moveCtg')
              ->where('space_id', '[0-9]+')

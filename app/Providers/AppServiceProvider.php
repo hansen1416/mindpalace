@@ -11,10 +11,12 @@ use App\Repositories\Contract\UserRepositoryContract;
 use App\Repositories\UserEloquentRepository;
 use App\Repositories\Contract\ProfileRepositoryContract;
 use App\Repositories\ProfileEloquentRepository;
-use App\Repositories\SpaceCtgEloquentRepository;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
+use App\Repositories\SpaceCtgEloquentRepository;
 use App\Repositories\Contract\ItemRepositoryContract;
 use App\Repositories\ItemEloquentRepository;
+use App\Repositories\Contract\FriendsRepositoryContract;
+use App\Repositories\FriendsEloquentRepository;
 use App\Services\Contract\CtgServiceContract;
 use App\Services\CtgService;
 use App\Services\Contract\SpaceServiceContract;
@@ -50,10 +52,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SpaceCtgRepositoryContract::class, SpaceCtgEloquentRepository::class);
         $this->app->bind(ItemRepositoryContract::class, ItemEloquentRepository::class);
         $this->app->bind(ProfileRepositoryContract::class, ProfileEloquentRepository::class);
+        $this->app->bind(FriendsRepositoryContract::class, FriendsEloquentRepository::class);
 
         $this->app->bind(UserServiceContract::class, UserService::class);
         $this->app->bind(SpaceServiceContract::class, SpaceService::class);
         $this->app->bind(CtgServiceContract::class, CtgService::class);
         $this->app->bind(ImageServiceContract::class, ImageService::class);
     }
+
 }

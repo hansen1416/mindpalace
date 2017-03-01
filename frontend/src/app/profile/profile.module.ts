@@ -8,17 +8,21 @@ import {SharedModule}    from '../share/share.module';
 import {ProfileRoutingModule} from './profile-routing.module';
 
 import {ProfileComponent} from './profile.component';
+import {FriendsSearchComponent} from '../friends/friends-search.component';
+import {FriendsComponent} from '../friends/friends.component';
 
 @NgModule({
-              imports:      [
+              imports     : [
                   CommonModule,
                   SharedModule,
                   ProfileRoutingModule,
               ],
               declarations: [
-                  ProfileComponent
+                  ProfileComponent,
+                  FriendsSearchComponent,
+                  FriendsComponent,
               ],
-              providers:    [],
+              providers   : [],
           })
 export class ProfileModule {
     constructor(@Optional() @SkipSelf() parentModule: ProfileModule) {

@@ -33,10 +33,22 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
         return $this->update($profile_id, $attributes);
     }
 
-
+    /**
+     * @param array $attributes
+     * @return array
+     */
     public function createProfile(array $attributes)
     {
         return $this->create($attributes);
+    }
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function searchUserByName(string $name)
+    {
+        return $this->where('name', 'like', $name)->findAll()->toArray();
     }
 
 }

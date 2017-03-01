@@ -74,4 +74,8 @@ export class ApiRoutesService {
         return this.api_url + 'profile/update';
     }
 
+    get searchUser(): string {
+        return this.api_url + 'user/search';
+    }
+
 }

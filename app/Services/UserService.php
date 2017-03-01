@@ -108,5 +108,17 @@ class UserService implements UserServiceContract
         }
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function search(string $name)
+    {
+        try {
+            return $this->profileRepo->searchUserByName('%' . $name . '%');
+        } catch (\Exception $e) {
+            return ['status' => 500, $e->getMessage()];
+        }
+    }
 
 }

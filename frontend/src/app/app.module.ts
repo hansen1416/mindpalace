@@ -10,6 +10,7 @@ import {CoreModule} from './core/core.module';
 import {SpaceModule} from './space/space.module';
 import {CtgModule} from './ctg/ctg.module';
 import {ProfileModule} from './profile/profile.module';
+import {FriendsModule} from './friends/friends.module';
 
 import {MessageComponent} from './share/message.component';
 
@@ -18,7 +19,7 @@ import {AppComponent}  from './app.component';
 
 
 @NgModule({
-              imports:      [
+              imports     : [
                   BrowserModule,
                   HttpModule,
                   FormsModule,
@@ -28,12 +29,13 @@ import {AppComponent}  from './app.component';
                   SpaceModule,
                   CtgModule,
                   ProfileModule,
+                  FriendsModule,
               ],
               declarations: [
                   AppComponent,
                   MessageComponent,
               ],
-              bootstrap:    [
+              bootstrap   : [
                   AppComponent
               ],
           })
