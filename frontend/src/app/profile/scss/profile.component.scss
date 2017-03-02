@@ -1,10 +1,10 @@
 @import "../../app.component";
 
-$width: 20rem;
-$height: 40rem;
+$width: 16rem;
+$height: 30rem;
 .profile-box {
     width: $width;
-    min-height: $height;
+    height: $height;
     position: absolute;
     top: 50%;
     left: 50%;

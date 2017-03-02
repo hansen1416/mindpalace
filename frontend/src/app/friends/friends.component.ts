@@ -34,10 +34,11 @@ export class FriendsComponent implements OnInit, OnDestroy {
         private friendsService: FriendsService,
         private cssService: CssService,
     ) {
+
         this.subscription = friendsService.friendsList$.subscribe(
             friendsList => {
                 this.friendsList = friendsList;
-                this.concentricService.defineSize(25, 25, 4, 4);
+
                 this.concentricService.setConcentricCircles(this.friendsList);
                 this.positions = this.concentricService.getPositions;
             }
@@ -45,7 +46,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
+        this.concentricService.defineSize(24, 40, 8, 10);
     }
 
 
