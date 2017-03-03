@@ -2,7 +2,6 @@
  * Created by hlz on 16-11-11.
  */
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
 
 import {CssService} from '../share/css.service';
 import {Position} from './position';
@@ -23,33 +22,10 @@ export class ConcentricService {
     //node[n]
     private n = 0;
 
-    private positions = <Position[]>[];
 
     constructor(
         private cssService: CssService
     ) {}
-
-
-    defineSize(
-        innerBlankWidth: number,
-        innerBlankHeight: number,
-        itemWidth: number,
-        itemHeight: number
-    ) {
-        // this.a = innerBlankWidth;
-        // this.b = innerBlankHeight;
-        // this.k = itemWidth;
-        // this.g = itemHeight;
-        let box = document.querySelector('.inner-box');
-        let w   = box.clientWidth;
-        let h   = box.clientHeight;
-        let rem = this.cssService.remPx;
-
-        // let iw = item.clientWidth;
-        // let ih = item.clientHeight;
-        //
-        // console.log(iw,ih);
-    }
 
 
     get innerWidth() {
@@ -92,10 +68,6 @@ export class ConcentricService {
     }
 
 
-    // get getPositions() {
-    //     return this.positions;
-    // }
-
     /**
      * positioning all len
      * @param len
@@ -123,6 +95,8 @@ export class ConcentricService {
         let k = this.itemWidth;
         //单个node占据的高度, 包括margin
         let g = this.itemHeight;
+
+        let positions = <Position[]>[];
 
         while (this.n < len) {
 
@@ -174,13 +148,13 @@ export class ConcentricService {
                 continue;
             }
 
-            this.positions[this.n] = {x: x, y: y};
+            positions[this.n] = {x: x, y: y};
 
             this.i++;
             this.n++;
         }
 
-        return this.positions;
+        return positions;
     }
 
 

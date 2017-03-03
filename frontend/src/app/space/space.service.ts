@@ -30,7 +30,8 @@ export class SpaceService {
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
         private concentricService: ConcentricService,
-    ) {}
+    ) {
+    }
 
 
     getHomeSpaceList(): Observable<Space[]> {
