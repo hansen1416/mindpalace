@@ -2,6 +2,7 @@
  * Created by hlz on 16-11-11.
  */
 import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
 
 import {CssService} from '../share/css.service';
 import {Position} from './position';
@@ -22,10 +23,10 @@ export class ConcentricService {
     //node[n]
     private n = 0;
 
-    private positions = <Array<Position>>[];
+    private positions = <Position[]>[];
 
     constructor(
-        private css: CssService
+        private cssService: CssService
     ) {}
 
 
@@ -35,10 +36,19 @@ export class ConcentricService {
         itemWidth: number,
         itemHeight: number
     ) {
-        this.a = innerBlankWidth;
-        this.b = innerBlankHeight;
-        this.k = itemWidth;
-        this.g = itemHeight;
+        // this.a = innerBlankWidth;
+        // this.b = innerBlankHeight;
+        // this.k = itemWidth;
+        // this.g = itemHeight;
+        let box = document.querySelector('.inner-box');
+        let w   = box.clientWidth;
+        let h   = box.clientHeight;
+        let rem = this.cssService.remPx;
+
+        // let iw = item.clientWidth;
+        // let ih = item.clientHeight;
+        //
+        // console.log(iw,ih);
     }
 
 
@@ -82,12 +92,24 @@ export class ConcentricService {
     }
 
 
-    get getPositions() {
-        return this.positions;
-    }
+    // get getPositions() {
+    //     return this.positions;
+    // }
 
+    /**
+     * positioning all len
+     * @param len
+     * @param params
+     */
+    setConcentricCircles(len, params: {a: number, b: number, k: number, g: number}): Position[] {
 
-    setConcentricCircles<T>(spaces: Array<T>): Array<T> {
+        this.a = params.a;
+        this.b = params.b;
+        this.k = params.k;
+        this.g = params.g;
+
+        this.i = 0;
+        this.n = 0;
 
         //横向排列数目
         let w: number;
@@ -102,7 +124,7 @@ export class ConcentricService {
         //单个node占据的高度, 包括margin
         let g = this.itemHeight;
 
-        while (this.n < spaces.length) {
+        while (this.n < len) {
 
             w = this.horizontalNum;
             h = this.verticalNum;
@@ -140,14 +162,14 @@ export class ConcentricService {
                 this.setInnerHeight = this.innerHeight + g * 2;
                 continue;
                 /**
-                 * 一圈转弯了,将中心空白扩大一圈开始转下一圈
+                 * 一圈转完了,将中心空白扩大一圈开始转下一圈
                  */
             }
 
             /**
              * 以顶部和左右为界,不可超出
              */
-            if (Math.abs(x) * this.css.remPx * 2 > this.css.bw || (y < 0 && Math.abs(y) * this.css.remPx * 2 > this.css.bh)) {
+            if (Math.abs(x) * this.cssService.remPx * 2 > this.cssService.bw || (y < 0 && Math.abs(y) * this.cssService.remPx * 2 > this.cssService.bh)) {
                 this.i++;
                 continue;
             }
@@ -158,7 +180,7 @@ export class ConcentricService {
             this.n++;
         }
 
-        return spaces;
+        return this.positions;
     }
 
 

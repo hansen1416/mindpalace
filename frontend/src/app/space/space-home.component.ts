@@ -1,10 +1,10 @@
 /**
  * Created by hlz on 16-11-8.
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
 import {SpaceService} from './space.service';
-import {ConcentricService} from './concentric.service';
 import {CssService} from '../share/css.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
@@ -18,13 +18,13 @@ import {Position} from './position';
                templateUrl: './html/space-home.component.html',
                styles     : [require('./scss/space-home.component.scss')]
            })
-export class SpaceHomeComponent implements OnInit {
+export class SpaceHomeComponent implements OnInit, OnDestroy {
 
     //spaces on the home page
     private spaces: Space[];
 
     //position of all the spaces
-    private positions: Array<Position>;
+    private positions: Position[];
 
 
     private addInProgress = false;
@@ -33,41 +33,50 @@ export class SpaceHomeComponent implements OnInit {
     private newSpaceName = '';
 
 
+    private subscriptionSpaces: Subscription;
+
+
+    private subscriptionPositions: Subscription;
+
+
     constructor(
         private spaceService: SpaceService,
-        private concentricService: ConcentricService,
         private cssService: CssService,
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
         private userService: UserService,
     ) {
+        this.subscriptionSpaces = spaceService.spaces$.subscribe(
+            spaces => {
+                this.spaces = spaces;
+            }
+        );
+
+        this.subscriptionPositions = spaceService.spacePositions$.subscribe(
+            positions => {
+                this.positions = positions;
+            }
+        );
     }
 
+
     ngOnInit() {
-        if (this.spaceService.getSpaces && this.concentricService.getPositions) {
-            this.spaces    = this.spaceService.getSpaces;
-            this.positions = this.concentricService.getPositions;
+        if (this.spaceService.spaces && this.spaceService.spacePositions) {
+            this.spaces    = this.spaceService.spaces;
+            this.positions = this.spaceService.spacePositions;
         } else {
             /**
              * get the spaces data from api
              * set the position for each space item
              */
             this.spaceService.getHomeSpaceList().subscribe(response => {
-                this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+                this.spaceService.setSpaces(response);
 
                 if (this.userService.getUserProperty('access_token')) {
                     this.spaceService.addEmptySpace();
                 }
             });
         }
-    }
-
-    /**
-     * synchronous space and position data from service
-     */
-    ngDoCheck() {
-        this.spaces    = this.spaceService.getSpaces;
-        this.positions = this.concentricService.getPositions;
     }
 
 
@@ -101,12 +110,17 @@ export class SpaceHomeComponent implements OnInit {
 
         data.append('name', this.newSpaceName);
 
-        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response=> {
+        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response => {
             this.spaceService.addNewSpace(<Space>response[1]);
             this.newSpaceName  = '';
             this.addInProgress = false;
         });
     }
 
+
+    ngOnDestroy() {
+        this.subscriptionSpaces.unsubscribe();
+        this.subscriptionPositions.unsubscribe();
+    }
 
 }

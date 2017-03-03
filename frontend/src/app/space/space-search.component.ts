@@ -7,7 +7,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {SpaceService} from './space.service';
-import {ConcentricService} from './concentric.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../share/message.service';
 
@@ -33,7 +32,6 @@ export class SpaceSearchComponent implements OnDestroy {
         private apiHttpService: ApiHttpService,
         private apiRoutesService: ApiRoutesService,
         private spaceService: SpaceService,
-        private concentricService: ConcentricService,
         private userService: UserService,
         private messageService: MessageService,
     ) {
@@ -63,7 +61,7 @@ export class SpaceSearchComponent implements OnDestroy {
         this.searchInProgress = true;
 
         this.spaceService.getSearchSpaceList(this.spaceName).subscribe(response => {
-            this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+            this.spaceService.setSpaces(response);
 
             this.searched         = true;
             this.searchInProgress = false;
@@ -81,7 +79,7 @@ export class SpaceSearchComponent implements OnDestroy {
         this.searchInProgress = true;
 
         this.spaceService.getHomeSpaceList().subscribe(response => {
-            this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+            this.spaceService.setSpaces(response);
 
             this.searched         = false;
             this.searchInProgress = false;

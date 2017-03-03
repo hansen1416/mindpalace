@@ -3,16 +3,28 @@
  */
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
+import {Subject} from 'rxjs/Subject';
 
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {ConcentricService} from './concentric.service';
 import {Space} from './space';
+import {Position} from './position';
 
 @Injectable()
 export class SpaceService {
 
-    private spaces: Space[];
+    public spaces: Space[];
+
+    private spacesSource = new Subject<Space[]>();
+
+    public spaces$ = this.spacesSource.asObservable();
+
+    public spacePositions = <Position[]>[];
+
+    private spacePositionsSource = new Subject<Position[]>();
+
+    public spacePositions$ = this.spacePositionsSource.asObservable();
 
     constructor(
         private apiRoutes: ApiRoutesService,
@@ -26,30 +38,32 @@ export class SpaceService {
     }
 
 
-    getSearchSpaceList(spaceName:string): Observable<Space[]> {
+    getSearchSpaceList(spaceName: string): Observable<Space[]> {
         let data = new FormData();
         data.append('name', spaceName);
         return this.apiHttp.post(this.apiRoutes.searchSpace, data);
     }
 
 
-    get getSpaces() {
-        return this.spaces;
-    }
+    setSpaces(spaces?: Space[]) {
+        this.spacePositions = this.concentricService.setConcentricCircles(spaces.length, {a: 25, b: 18, k: 5, g: 3});
+        this.spacePositionsSource.next(this.spacePositions);
 
-
-    set setSpaces(spaces: Space[]) {
-        this.spaces = spaces;
+        if (spaces) {
+            this.spaces = spaces;
+            this.spacesSource.next(this.spaces);
+        }
     }
 
 
     addEmptySpace() {
         this.spaces.unshift(new Space());
-        this.concentricService.setConcentricCircles(this.getSpaces);
+        this.spacesSource.next(this.spaces);
+        this.setSpaces(this.spaces);
     }
 
 
-    addNewSpace(space:Space) {
+    addNewSpace(space: Space) {
         this.spaces[0] = space;
         this.addEmptySpace();
     }

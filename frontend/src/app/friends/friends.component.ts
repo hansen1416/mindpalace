@@ -10,6 +10,7 @@ import {ApiHttpService} from '../share/api-http.service';
 import {FriendsService} from './friends.service';
 import {CssService} from '../share/css.service';
 import {Friend} from './friend';
+import {Position} from '../space/position';
 
 @Component({
                selector   : 'friends',
@@ -18,13 +19,16 @@ import {Friend} from './friend';
            })
 export class FriendsComponent implements OnInit, OnDestroy {
 
-    protected friendsList: Array<Friend>;
+    protected friendsList: Friend[];
 
 
-    protected positions;
+    protected positions: Position[];
 
 
-    private subscription: Subscription;
+    private subscriptionFriends: Subscription;
+
+
+    private subscriptionPositions: Subscription;
 
 
     constructor(
@@ -35,18 +39,22 @@ export class FriendsComponent implements OnInit, OnDestroy {
         private cssService: CssService,
     ) {
 
-        this.subscription = friendsService.friendsList$.subscribe(
+        this.subscriptionFriends = friendsService.friendsList$.subscribe(
             friendsList => {
                 this.friendsList = friendsList;
-
-                this.concentricService.setConcentricCircles(this.friendsList);
-                this.positions = this.concentricService.getPositions;
             }
         );
+
+        this.subscriptionPositions = friendsService.friendsPositions$.subscribe(
+            positions => {
+                this.positions = positions;
+            }
+        )
     }
 
     ngOnInit() {
-        this.concentricService.defineSize(24, 40, 8, 10);
+        this.friendsList = this.friendsService.friendsList;
+        this.positions   = this.friendsService.friendsPositions;
     }
 
 
@@ -63,7 +71,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.subscriptionFriends.unsubscribe();
+        this.subscriptionPositions.unsubscribe();
     }
 
 }

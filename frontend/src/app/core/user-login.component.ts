@@ -1,14 +1,13 @@
 /**
  * Created by hlz on 16-10-12.
  */
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {Subscription}   from 'rxjs/Subscription';
 
 import {UserService} from "./user.service";
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {SpaceService} from "../space/space.service";
-import {ConcentricService} from "../space/concentric.service";
 
 import {languages} from '../lang/lang-available';
 
@@ -17,7 +16,7 @@ import {languages} from '../lang/lang-available';
                templateUrl: './html/user-login.component.html',
                styles     : [require('./scss/user-login.component.scss')]
            })
-export class UserLoginComponent implements OnInit, OnDestroy {
+export class UserLoginComponent implements OnDestroy {
 
     private subscription: Subscription;
 
@@ -26,7 +25,6 @@ export class UserLoginComponent implements OnInit, OnDestroy {
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
         private spaceService: SpaceService,
-        private concentricService: ConcentricService,
     ) {
 
         this.subscription = userService.userModel$.subscribe(
@@ -36,9 +34,6 @@ export class UserLoginComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnInit() {
-        this.concentricService.defineSize(25, 18, 5, 3);
-    }
 
     private user = this.userService.getUserModel();
 
@@ -97,7 +92,7 @@ export class UserLoginComponent implements OnInit, OnDestroy {
 
                             this.spaceService.getHomeSpaceList().subscribe(response => {
 
-                                this.spaceService.setSpaces = this.concentricService.setConcentricCircles(response);
+                                this.spaceService.setSpaces(response);
                                 this.spaceService.addEmptySpace();
                             });
 
