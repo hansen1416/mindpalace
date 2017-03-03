@@ -1,3 +1,5 @@
+@import "../../app.component";
+
 $width: 6rem;
 $height: 8rem;
 .friends-item {
@@ -7,5 +9,17 @@ $height: 8rem;
     margin: $height/-2 0 0 $width/-2;
     top: 50%;
     left: 50%;
-    background-color: #81b2ff;
+    background-color: #9d9d9d;
+
+    img {
+        width: $width;
+        height: $width;
+    }
+
+    p {
+        height: $height - $width;
+        line-height: $height - $width;
+        text-align: center;
+        color: #fff;
+    }
 }

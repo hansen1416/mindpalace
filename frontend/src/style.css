@@ -4,6 +4,7 @@
 }
 img {
     border: none;
+    display:block;
 }
 html {
     font-size: 15px;

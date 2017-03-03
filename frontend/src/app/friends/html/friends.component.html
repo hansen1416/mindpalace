@@ -3,5 +3,6 @@
      [ngStyle]="friendsStyles(positions[i].x, positions[i].y)"
      title="{{friend.name}}"
 >
-    {{friend.name}}
+    <img src="{{friend.portrait | thumb}}" alt="">
+    <p>{{friend.name}}</p>
 </div>

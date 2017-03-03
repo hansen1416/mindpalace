@@ -13,17 +13,20 @@ import {ApiHttpService} from './api-http.service';
 import {CssService} from './css.service';
 import {StorageService} from './storage.service';
 import {MessageService} from './message.service';
+import {ThumbPipe} from './thumb.pipe';
 
 @NgModule({
               imports:      [CommonModule],
               declarations: [
                   ErrorDirective,
+                  ThumbPipe,
               ],
               exports:      [
                   ErrorDirective,
                   CommonModule,
                   FormsModule,
                   LangModule,
+                  ThumbPipe,
               ],
               providers:    [
                   ApiRoutesService,
