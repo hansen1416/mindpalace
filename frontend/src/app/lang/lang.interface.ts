@@ -19,6 +19,7 @@ export interface LangInterface {
         web_link: string,
         choose_file: string,
         logout: string,
+        search_friends_placeholder:string,
     },
     space: {
         show_all: string,

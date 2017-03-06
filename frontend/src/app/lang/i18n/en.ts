@@ -21,6 +21,7 @@ export const EN: LangInterface = {
         web_link                    : 'provide a link from web',
         choose_file                 : 'choose a local image',
         logout                      : 'logout',
+        search_friends_placeholder  : 'Search a friend by name',
     },
     space : {
         show_all    : 'Show all',

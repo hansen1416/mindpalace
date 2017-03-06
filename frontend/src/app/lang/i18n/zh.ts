@@ -21,6 +21,7 @@ export const ZH: LangInterface = {
         web_link                    : '提供一个图片链接',
         choose_file                 : '选择一个本地文件',
         logout                      : '退出',
+        search_friends_placeholder  : '通过名字查找朋友',
     },
     space : {
         show_all    : '显示全部',
