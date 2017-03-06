@@ -25,6 +25,8 @@ use App\Services\Contract\UserServiceContract;
 use App\Services\UserService;
 use App\Services\Contract\ImageServiceContract;
 use App\Services\ImageService;
+use App\Services\Contract\FriendsServiceContract;
+use App\Services\FriendsService;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -58,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SpaceServiceContract::class, SpaceService::class);
         $this->app->bind(CtgServiceContract::class, CtgService::class);
         $this->app->bind(ImageServiceContract::class, ImageService::class);
+        $this->app->bind(FriendsServiceContract::class, FriendsService::class);
     }
 
 }
