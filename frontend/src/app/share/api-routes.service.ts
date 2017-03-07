@@ -78,4 +78,8 @@ export class ApiRoutesService {
         return this.api_url + 'user/search';
     }
 
+    get createFriend(): string {
+        return this.api_url + 'friends/create';
+    }
+
 }

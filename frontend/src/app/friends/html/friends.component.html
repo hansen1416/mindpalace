@@ -3,7 +3,11 @@
      [ngStyle]="friendsStyles(positions[i].x, positions[i].y)"
      title="{{friend.name}}"
 >
-    <img src="{{friend.portrait | thumb}}" alt="">
-    <p>{{friend.name}}</p>
-    <div class="add-friend"></div>
+    <div class="friend-profile">
+        <img src="{{friend.portrait | thumb}}" alt="">
+        <p>{{friend.name}}</p>
+    </div>
+    <div class="add-friend"
+         (click)="addFriend(friend.user_id)"
+    ></div>
 </div>

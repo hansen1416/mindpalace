@@ -4,7 +4,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {ConcentricService} from '../space/concentric.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {FriendsService} from './friends.service';
@@ -32,7 +31,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
 
     constructor(
-        private concentricService: ConcentricService,
         private apiRoutesService: ApiRoutesService,
         private apiHttpService: ApiHttpService,
         private friendsService: FriendsService,
@@ -67,6 +65,18 @@ export class FriendsComponent implements OnInit, OnDestroy {
         styles[this.cssService.getTransform] = 'translate3d(' + x + 'rem, ' + y + 'rem, 0rem)';
 
         return styles;
+    }
+
+
+    addFriend(friend_id: number) {
+        let data = new FormData();
+        data.append('friend_id', friend_id);
+
+        this.apiHttpService.post(this.apiRoutesService.createFriend, data).subscribe(
+            response => {
+                console.log(response);
+            }
+        )
     }
 
 

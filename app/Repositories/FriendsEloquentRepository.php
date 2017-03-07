@@ -18,5 +18,13 @@ class FriendsEloquentRepository extends EloquentRepository implements FriendsRep
 
     protected $model = 'App\Friends';
 
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function friendRepositoryCreate(array $data)
+    {
+        return $this->create($data);
+    }
 
 }

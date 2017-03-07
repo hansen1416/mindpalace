@@ -11,5 +11,5 @@ namespace App\Services\Contract;
 
 interface FriendsServiceContract
 {
-
+    public function friendServiceCreate($friend_id);
 }

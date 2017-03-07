@@ -22,4 +22,13 @@ class FriendsController extends Controller
     {
         $this->friends = $friendsServiceContract;
     }
+
+
+    public function create(Request $request)
+    {
+        $friend_id = $request->input('friend_id');
+
+        return $this->responseJson($this->friends->friendServiceCreate($friend_id));
+    }
+
 }
