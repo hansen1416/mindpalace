@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
 use App\Services\Contract\FriendsServiceContract;
 use App\Repositories\Contract\FriendsRepositoryContract;
@@ -50,4 +51,36 @@ class FriendsService extends BaseService implements FriendsServiceContract
         }
 
     }
+
+
+    public function friendServiceLists()
+    {
+
+        try {
+
+            $user_id = Auth::guard('api')->user()->user_id;
+
+            $data = $this->friendsRepo->friendRepositoryLists($user_id);
+
+            if ($data === false) {
+                throw new CantFindException();
+            }
+
+            $friends = [];
+
+            foreach ($data as $key => $value) {
+                $friends[$key]['user_id']   = $value['friend_id'];
+                $friends[$key]['name']      = $value['profile']['name'];
+                $friends[$key]['portrait']  = $value['profile']['portrait'];
+                $friends[$key]['is_friend'] = 1;
+            }
+
+            return array_values($friends);
+
+        } catch (\Exception $e) {
+            return ['status' => 500, 'error' => $e->getMessage()];
+        }
+    }
+
+
 }

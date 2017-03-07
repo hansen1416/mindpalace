@@ -77,4 +77,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Space', 'user_id');
     }
 
+
+    public function friends(){
+        return $this->hasMany('App\Friends', 'friend_id', 'user_id');
+    }
+
 }

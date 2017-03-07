@@ -7,7 +7,8 @@
         <img src="{{friend.portrait | thumb}}" alt="">
         <p>{{friend.name}}</p>
     </div>
-    <div class="add-friend"
+    <div *ngIf="!friend.is_friend"
+         class="add-friend"
          (click)="addFriend(friend.user_id)"
     ></div>
 </div>

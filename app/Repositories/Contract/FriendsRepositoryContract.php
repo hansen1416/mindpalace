@@ -18,4 +18,10 @@ interface FriendsRepositoryContract extends CacheableContract, RepositoryContrac
      * @return mixed
      */
     public function friendRepositoryCreate(array $data);
+
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public function friendRepositoryLists($user_id);
 }

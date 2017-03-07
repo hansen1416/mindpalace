@@ -11,9 +11,15 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class ThumbPipe implements PipeTransform {
 
     transform(src: string): string {
-        return src.replace(/(\.\w+)$/, function(match, p1){
-            return '-t' + p1;
-        });
+
+        console.log(src);
+        if (src == '0') {
+            return src.replace(/(\.\w+)$/, function(match, p1){
+                return '-t' + p1;
+            });
+        }else{
+            // console.log(src);
+        }
     }
 
 }

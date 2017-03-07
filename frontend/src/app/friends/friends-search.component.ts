@@ -35,8 +35,10 @@ export class FriendsSearchComponent {
         data.append('name', searchName);
 
         this.apiHttpService.post(this.apiRoutesService.searchUser, data).subscribe(
-            userList => this.friendsService.setFriendsList(userList)
-        )
+            userList => {
+                this.friendsService.setFriendsList(userList);
+            }
+        );
     }
 
 }

@@ -56,4 +56,10 @@ class Friends extends Model
     }
 
 
+    public function profile()
+    {
+        return $this->belongsTo('App\Profile', 'friend_id', 'user_id');
+    }
+
+
 }

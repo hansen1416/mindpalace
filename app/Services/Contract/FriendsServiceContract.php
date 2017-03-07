@@ -11,5 +11,14 @@ namespace App\Services\Contract;
 
 interface FriendsServiceContract
 {
+    /**
+     * @param $friend_id
+     * @return mixed
+     */
     public function friendServiceCreate($friend_id);
+
+    /**
+     * @return mixed
+     */
+    public function friendServiceLists();
 }

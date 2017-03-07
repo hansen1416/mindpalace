@@ -51,8 +51,19 @@ export class FriendsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.friendsList = this.friendsService.friendsList;
-        this.positions   = this.friendsService.friendsPositions;
+
+        if (this.friendsService.friendsList && this.friendsService.friendsPositions) {
+            this.friendsList = this.friendsService.friendsList;
+            this.positions   = this.friendsService.friendsPositions;
+        } else {
+
+            this.apiHttpService.get(this.apiRoutesService.friendsList).subscribe(
+                response => {
+                    this.friendsService.setFriendsList(response);
+                }
+            );
+        }
+
     }
 
 

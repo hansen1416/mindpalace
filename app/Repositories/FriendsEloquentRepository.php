@@ -27,4 +27,15 @@ class FriendsEloquentRepository extends EloquentRepository implements FriendsRep
         return $this->create($data);
     }
 
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public function friendRepositoryLists($user_id){
+        return $this
+            ->where('user_id', $user_id)
+            ->with(['profile'])
+            ->findAll()->toArray();
+    }
+
 }

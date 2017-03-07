@@ -46,9 +46,13 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
      * @param string $name
      * @return array
      */
-    public function searchUserByName(string $name)
+    public function searchUserByName(string $name, $user_id)
     {
-        return $this->where('name', 'like', $name)->findAll()->toArray();
+        return $this
+            ->where('name', 'like', $name)
+            ->where('user_id', '<>', $user_id)
+            ->with(['friends'])
+            ->findAll(['user_id', 'name', 'portrait'])->toArray();
     }
 
 }

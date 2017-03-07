@@ -23,12 +23,23 @@ class FriendsController extends Controller
         $this->friends = $friendsServiceContract;
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $friend_id = $request->input('friend_id');
 
         return $this->responseJson($this->friends->friendServiceCreate($friend_id));
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function lists()
+    {
+        return $this->responseJson($this->friends->friendServiceLists());
     }
 
 }

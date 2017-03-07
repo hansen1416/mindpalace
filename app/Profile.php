@@ -42,4 +42,9 @@ class Profile extends Model
     {
         return $this->belongsTo('App\User', 'profile_id');
     }
+
+
+    public function friends(){
+        return $this->hasMany('App\Friends', 'friend_id', 'user_id');
+    }
 }

@@ -115,7 +115,26 @@ class UserService implements UserServiceContract
     public function search(string $name)
     {
         try {
-            return $this->profileRepo->searchUserByName('%' . $name . '%');
+            $user_id = Auth::guard('api')->user()->user_id;
+
+            $data = $this->profileRepo->searchUserByName('%' . $name . '%', $user_id);
+
+            if ($data === false) {
+                throw new CantFindException();
+            }
+
+            foreach ($data as $key => $value) {
+                $data[$key]['is_friend'] = 0;
+                foreach ($value['friends'] as $k => $v) {
+                    if ($v['user_id'] == $user_id) {
+                        $data[$key]['is_friend'] = 1;
+                    }
+                }
+                unset($data[$key]['friends']);
+            }
+
+            return $data;
+
         } catch (\Exception $e) {
             return ['status' => 500, $e->getMessage()];
         }

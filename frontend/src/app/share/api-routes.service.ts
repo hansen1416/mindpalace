@@ -82,4 +82,8 @@ export class ApiRoutesService {
         return this.api_url + 'friends/create';
     }
 
+    get friendsList(): string {
+        return this.api_url + 'friends/lists';
+    }
+
 }

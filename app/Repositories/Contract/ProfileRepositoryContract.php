@@ -30,5 +30,5 @@ interface ProfileRepositoryContract extends CacheableContract, RepositoryContrac
      * @param string $name
      * @return mixed
      */
-    public function searchUserByName(string $name);
+    public function searchUserByName(string $name, $user_id);
 }
