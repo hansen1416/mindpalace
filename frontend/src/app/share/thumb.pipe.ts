@@ -12,13 +12,14 @@ export class ThumbPipe implements PipeTransform {
 
     transform(src: string): string {
 
-        console.log(src);
-        if (src == '0') {
-            return src.replace(/(\.\w+)$/, function(match, p1){
+        if (src !== '0') {
+            return src.replace(/(\.\w+)$/, function (match, p1) {
                 return '-t' + p1;
             });
-        }else{
-            // console.log(src);
+        } else {
+            let hostname = location.hostname;
+
+            return 'http://' + hostname.replace('www', 'api') + '/portrait/0.jpg';
         }
     }
 

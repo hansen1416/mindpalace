@@ -8,6 +8,7 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {FriendsService} from './friends.service';
 import {CssService} from '../share/css.service';
+import {MessageService} from '../share/message.service';
 import {Friend} from './friend';
 import {Position} from '../space/position';
 
@@ -35,6 +36,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
         private apiHttpService: ApiHttpService,
         private friendsService: FriendsService,
         private cssService: CssService,
+        private messageService: MessageService
     ) {
 
         this.subscriptionFriends = friendsService.friendsList$.subscribe(
@@ -79,13 +81,17 @@ export class FriendsComponent implements OnInit, OnDestroy {
     }
 
 
-    addFriend(friend_id: number) {
+    addFriend(friend:Friend) {
         let data = new FormData();
-        data.append('friend_id', friend_id);
+        data.append('friend_id', friend.user_id);
 
         this.apiHttpService.post(this.apiRoutesService.createFriend, data).subscribe(
             response => {
-                console.log(response);
+                if (response.status && response.status == 500) {
+                    this.messageService.show(response.error);
+                }else{
+                    friend.is_friend = 1;
+                }
             }
         )
     }
