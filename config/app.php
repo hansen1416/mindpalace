@@ -171,6 +171,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Hansen1416\WebSpace\Providers\WebSpaceServiceProvider::class,
         Hansen1416\Repository\Providers\RepositoryServiceProvider::class,
+        Askedio\LaravelRatchet\Providers\LaravelRatchetServiceProvider::class,
 
         /*
          * Application Service Providers...
