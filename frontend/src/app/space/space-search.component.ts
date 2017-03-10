@@ -10,6 +10,8 @@ import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../share/message.service';
 
+import {WebSocketService, WebSocketSendMode, WebSocketConfig} from '../websocket/websocket.service';
+
 @Component({
                selector   : 'space-search',
                templateUrl: './html/space-search.component.html',
@@ -89,15 +91,55 @@ export class SpaceSearchComponent implements OnDestroy {
 
     fetchUrl(url: string) {
 
-        this.worker = new Worker('worker.js');
-        //post message to worker.js
-        this.worker.postMessage({
-                                    url : url,
-                                    lang: this.userService.getUserProperty('language')
-                                });
+        let ws = new WebSocketService('ws://127.0.0.1:8080');
 
-        //receive the message from worker.js
-        this.worker.addEventListener('message', this.workerMessageListener);
+        // set received message callback
+        ws.onMessage(
+            (msg: MessageEvent)=> {
+                console.log("onMessage ", msg.data);
+            },
+            {autoApply: false}
+        );
+
+// set received message stream
+        ws.getDataStream().subscribe(
+            (msg)=> {
+                console.log("next", msg.data);
+                ws.close(false);
+            },
+            (msg)=> {
+                console.log("error", msg);
+            },
+            ()=> {
+                console.log("complete");
+            }
+        );
+
+// send with default send mode (now default send mode is Observer)
+        ws.send("some thing").subscribe(
+            (msg)=> {
+                console.log("next", msg.data);
+            },
+            (msg)=> {
+                console.log("error", msg);
+            },
+            ()=> {
+                console.log("complete");
+            }
+        );
+
+        // ws.close(false);
+
+
+        // this.worker = new Worker('worker.js');
+        // //post message to worker.js
+        // this.worker.postMessage({
+        //                             url : url,
+        //                             lang: this.userService.getUserProperty('language')
+        //                         });
+        //
+        // //receive the message from worker.js
+        // this.worker.addEventListener('message', this.workerMessageListener);
     }
 
 
