@@ -26,6 +26,7 @@ class RatchetWebSocketServer implements WampServerInterface {
 
 
     public function onEntry($entry) {
+        echo 'entry';
         $entryData = json_decode($entry, true);
 
         // If the lookup topic object isn't set there is no one to publish to

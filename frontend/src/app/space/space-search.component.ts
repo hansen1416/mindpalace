@@ -10,12 +10,12 @@ import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../share/message.service';
 
-import {WebSocketService} from '../websocket/websocket.service';
+import {PushService} from '../websocket/push.service';
 
 @Component({
-               selector   : 'space-search',
+               selector:    'space-search',
                templateUrl: './html/space-search.component.html',
-               styles     : [require('./scss/space-search.component.scss')]
+               styles:      [require('./scss/space-search.component.scss')]
            })
 export class SpaceSearchComponent implements OnDestroy {
 
@@ -36,6 +36,7 @@ export class SpaceSearchComponent implements OnDestroy {
         private spaceService: SpaceService,
         private userService: UserService,
         private messageService: MessageService,
+        private pushService: PushService,
     ) {
         this.subscription = userService.userModel$.subscribe(
             userModel => {
@@ -91,14 +92,10 @@ export class SpaceSearchComponent implements OnDestroy {
 
     fetchUrl(url: string) {
 
-        let ws = new WebSocketService();
-
-        ws.connect('ws://127.0.0.1:8080')
-          .subscribe(
-              response => {
-                  console.log(response);
-              }
-          );
+        this.pushService.messages.next({
+                                           author:  '1',
+                                           message: 'aaa'
+                                       });
 
 
         // let data = new FormData();

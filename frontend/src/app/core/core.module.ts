@@ -6,6 +6,7 @@ import {CommonModule} from '@angular/common';
 
 import {CoreRoutingModule} from './core-routing.module';
 import {SharedModule} from '../share/share.module';
+import {WebSocketModule} from '../websocket/web-socket.module';
 
 import {UserLoginComponent} from './user-login.component';
 import {UserRegisterComponent} from './user-register.component';
@@ -15,10 +16,11 @@ import {UserService}       from './user.service';
 import {UserServiceConfig} from './user.service';
 
 @NgModule({
-              imports     : [
+              imports:      [
                   CommonModule,
                   CoreRoutingModule,
                   SharedModule,
+                  WebSocketModule,
               ],
               declarations: [
                   UserLoginComponent,
@@ -26,8 +28,8 @@ import {UserServiceConfig} from './user.service';
                   SpaceHomeComponent,
                   SpaceSearchComponent,
               ],
-              exports     : [],
-              providers   : [
+              exports:      [],
+              providers:    [
                   UserService,
               ]
           })
@@ -42,7 +44,7 @@ export class CoreModule {
 
     static forRoot(config: UserServiceConfig): ModuleWithProviders {
         return {
-            ngModule : CoreModule,
+            ngModule:  CoreModule,
             providers: [
                 {provide: UserServiceConfig, useValue: config}
             ]

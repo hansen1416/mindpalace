@@ -3,7 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
-import {WebSocketService} from './websocket.service';
+import {WebSocketService} from './web-socket.service';
 
 const CHAT_URL = 'ws://127.0.0.1:8080/';
 
