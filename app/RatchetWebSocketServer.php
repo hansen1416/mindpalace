@@ -10,54 +10,54 @@ namespace App;
 
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
-use Askedio\LaravelRatchet\RatchetServer;
+use Hansen1416\LaravelRatchet\RatchetServer;
 
 class RatchetWebSocketServer extends RatchetServer implements WampServerInterface
 {
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'aaaaaaa');
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'bbbbb');
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'ccccc');
     }
 
     public function onClose(ConnectionInterface $conn)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'ddddd');
     }
 
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'eeeee');
         // In this application if clients send data it's because the user hacked around in console
         $conn->callError($id, $topic, 'You are not allowed to make calls')->close();
     }
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'fffff');
         // In this application if clients send data it's because the user hacked around in console
         $conn->close();
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        $this->send($conn, 'iiiiiiiiiiiiiii');
+        $this->send($conn, 'gggg');
     }
 
     public function onMessage(ConnectionInterface $conn, $input)
     {
         parent::onMessage($conn, $input);
 
-        $this->send($conn, 'dasdasdasdasdasdasdasdasd');
+        $this->send($conn, 'hhhhhhh');
 
         if (!$this->throttled) {
             $this->send($conn, 'Hello you.');
