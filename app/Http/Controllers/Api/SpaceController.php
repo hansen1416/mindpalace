@@ -11,10 +11,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\Contract\SpaceServiceContract;
 use Illuminate\Http\Request;
-use Ratchet\Server\IoServer;
-use Ratchet\Http\HttpServer;
-use Ratchet\WebSocket\WsServer;
-use App\Services\WebSocketService;
 
 class SpaceController extends Controller
 {
@@ -55,11 +51,11 @@ class SpaceController extends Controller
 
     public function saveWebsite(Request $request)
     {
-        $data = $request->input('data');
-
-        return response()->json(
-            $this->space->saveWebsite($data)
-        );
+//        $data = $request->input('data');
+//
+//        return response()->json(
+//            $this->space->saveWebsite($data)
+//        );
     }
 
 }

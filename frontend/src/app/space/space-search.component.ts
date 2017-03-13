@@ -10,7 +10,7 @@ import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../share/message.service';
 
-import {WebSocketService, WebSocketSendMode, WebSocketConfig} from '../websocket/websocket.service';
+import {WebSocketService} from '../websocket/websocket.service';
 
 @Component({
                selector   : 'space-search',
@@ -91,44 +91,24 @@ export class SpaceSearchComponent implements OnDestroy {
 
     fetchUrl(url: string) {
 
-        let ws = new WebSocketService('ws://127.0.0.1:8080');
+        let ws = new WebSocketService();
 
-        // set received message callback
-        ws.onMessage(
-            (msg: MessageEvent)=> {
-                console.log("onMessage ", msg.data);
-            },
-            {autoApply: false}
-        );
+        ws.connect('ws://127.0.0.1:8080')
+          .subscribe(
+              response => {
+                  console.log(response);
+              }
+          );
 
-// set received message stream
-        ws.getDataStream().subscribe(
-            (msg)=> {
-                console.log("next", msg.data);
-                ws.close(false);
-            },
-            (msg)=> {
-                console.log("error", msg);
-            },
-            ()=> {
-                console.log("complete");
-            }
-        );
 
-// send with default send mode (now default send mode is Observer)
-        ws.send("some thing").subscribe(
-            (msg)=> {
-                console.log("next", msg.data);
-            },
-            (msg)=> {
-                console.log("error", msg);
-            },
-            ()=> {
-                console.log("complete");
-            }
-        );
-
-        // ws.close(false);
+        // let data = new FormData();
+        // data.append('url', url);
+        //
+        // this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
+        //     response => {
+        //         console.log(response);
+        //     }
+        // );
 
 
         // this.worker = new Worker('worker.js');
