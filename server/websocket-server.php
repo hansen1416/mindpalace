@@ -5,7 +5,24 @@
  * Date: 17-3-13
  * Time: 下午5:18
  */
+
+use Ratchet\Server\IoServer;
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
+use App\RatchetWebSocketServer;
+
 require dirname(__DIR__) . '/vendor/autoload.php';
+
+$server = IoServer::factory(
+    new HttpServer(
+        new WsServer(
+            new RatchetWebSocketServer()
+        )
+    ),
+    8080
+);
+
+$server->run();
 
 $loop   = React\EventLoop\Factory::create();
 $pusher = new App\RatchetWebSocketServer;

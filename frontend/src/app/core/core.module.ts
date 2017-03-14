@@ -6,7 +6,6 @@ import {CommonModule} from '@angular/common';
 
 import {CoreRoutingModule} from './core-routing.module';
 import {SharedModule} from '../share/share.module';
-import {WebSocketModule} from '../websocket/web-socket.module';
 
 import {UserLoginComponent} from './user-login.component';
 import {UserRegisterComponent} from './user-register.component';
@@ -20,7 +19,6 @@ import {UserServiceConfig} from './user.service';
                   CommonModule,
                   CoreRoutingModule,
                   SharedModule,
-                  WebSocketModule,
               ],
               declarations: [
                   UserLoginComponent,

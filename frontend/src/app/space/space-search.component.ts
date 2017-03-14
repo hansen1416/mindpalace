@@ -10,15 +10,12 @@ import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../share/message.service';
 
-import {PushService} from '../websocket/push.service';
-
 @Component({
-               selector:    'space-search',
+               selector   : 'space-search',
                templateUrl: './html/space-search.component.html',
-               styles:      [require('./scss/space-search.component.scss')]
+               styles     : [require('./scss/space-search.component.scss')]
            })
 export class SpaceSearchComponent implements OnDestroy {
-
 
     private spaceName = '';
 
@@ -26,7 +23,7 @@ export class SpaceSearchComponent implements OnDestroy {
 
     private searched = false;
 
-    private worker: Worker;
+    // private worker: Worker;
 
     private subscription: Subscription;
 
@@ -36,7 +33,6 @@ export class SpaceSearchComponent implements OnDestroy {
         private spaceService: SpaceService,
         private userService: UserService,
         private messageService: MessageService,
-        private pushService: PushService,
     ) {
         this.subscription = userService.userModel$.subscribe(
             userModel => {
@@ -92,20 +88,16 @@ export class SpaceSearchComponent implements OnDestroy {
 
     fetchUrl(url: string) {
 
-        this.pushService.messages.next({
-                                           author:  '1',
-                                           message: 'aaa'
-                                       });
+        let data = new FormData();
+        data.append('url', url);
 
+        this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
+            response => {
+                console.log(response);
+            }
+        );
 
-        // let data = new FormData();
-        // data.append('url', url);
-        //
-        // this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
-        //     response => {
-        //         console.log(response);
-        //     }
-        // );
+        // this.messageService.webSocket.send4Direct(url);
 
 
         // this.worker = new Worker('worker.js');
@@ -120,25 +112,25 @@ export class SpaceSearchComponent implements OnDestroy {
     }
 
 
-    workerMessageListener = (e: MessageEvent) => {
-        if (e.data.message) {
-            this.messageService.show(e.data.message);
-
-            if (e.data.data) {
-                this.worker.terminate();
-
-                let data = new FormData();
-
-                data.append('data', e.data.data);
-
-                this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
-                    response => {
-                        console.log(response);
-                    }
-                )
-            }
-        }
-    };
+    // workerMessageListener = (e: MessageEvent) => {
+    //     if (e.data.message) {
+    //         this.messageService.show(e.data.message);
+    //
+    //         if (e.data.data) {
+    //             this.worker.terminate();
+    //
+    //             let data = new FormData();
+    //
+    //             data.append('data', e.data.data);
+    //
+    //             this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
+    //                 response => {
+    //                     console.log(response);
+    //                 }
+    //             )
+    //         }
+    //     }
+    // };
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

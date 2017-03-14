@@ -51,11 +51,19 @@ class SpaceController extends Controller
 
     public function saveWebsite(Request $request)
     {
-//        $data = $request->input('data');
-//
-//        return response()->json(
+        $data = $request->input('url');
+
+        $context = new \ZMQContext();
+        $socket  = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+        $socket->connect("tcp://localhost:5555");
+
+        $socket->send(json_encode($data));
+
+
+        return response()->json(
+            $data
 //            $this->space->saveWebsite($data)
-//        );
+        );
     }
 
 }
