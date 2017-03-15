@@ -51,7 +51,9 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
 
         $space = resolve('App\Services\Contract\SpaceServiceContract');
 
-        $conn->send(json_encode($space->saveWebsite()));
+
+        $space->saveWebsite($conn, $msg);
+
     }
 
 

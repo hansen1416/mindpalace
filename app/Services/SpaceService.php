@@ -12,7 +12,7 @@ use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Services\Contract\UserServiceContract;
 use Hansen1416\WebSpace\Services\WebSpaceService;
-
+use Ratchet\ConnectionInterface;
 
 class SpaceService implements SpaceServiceContract
 {
@@ -60,12 +60,17 @@ class SpaceService implements SpaceServiceContract
     }
 
 
-    public function saveWebsite($url)
+    public function saveWebsite(ConnectionInterface $conn, $url)
     {
+
+        $conn->send('in side service');
 
         return [$url . '------', 'dasdasd'=>'dasdasd'];
 
     }
+
+
+
 
 
 }

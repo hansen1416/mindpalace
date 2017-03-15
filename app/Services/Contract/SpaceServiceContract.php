@@ -8,6 +8,7 @@
 
 namespace App\Services\Contract;
 
+use Ratchet\ConnectionInterface;
 
 interface SpaceServiceContract
 {
@@ -23,6 +24,6 @@ interface SpaceServiceContract
     public function createSpace(string $name);
 
 
-    public function saveWebsite($url);
+    public function saveWebsite(ConnectionInterface $conn, $url);
 
 }
