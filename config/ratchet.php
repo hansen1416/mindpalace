@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'class'           => \App\RatchetWebSocketServer::class,
+    'class'           => \App\Server\RatchetWebSocketServer::class,
     'host'            => '0.0.0.0',
     'port'            => '8080',
     'connectionLimit' => false,

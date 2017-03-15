@@ -23,6 +23,6 @@ interface SpaceServiceContract
     public function createSpace(string $name);
 
 
-    public function saveWebsite($data);
+    public function saveWebsite($url);
 
 }

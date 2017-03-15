@@ -9,7 +9,7 @@
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
-use App\RatchetWebSocketServer;
+use App\Server\RatchetWebSocketServer;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -25,7 +25,7 @@ $server = IoServer::factory(
 $server->run();
 
 $loop   = React\EventLoop\Factory::create();
-$pusher = new App\RatchetWebSocketServer;
+$pusher = new RatchetWebSocketServer;
 
 // Listen for the web server to make a ZeroMQ push after an ajax request
 $context = new React\ZMQ\Context($loop);

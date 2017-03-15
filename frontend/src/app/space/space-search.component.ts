@@ -88,16 +88,7 @@ export class SpaceSearchComponent implements OnDestroy {
 
     fetchUrl(url: string) {
 
-        let data = new FormData();
-        data.append('url', url);
-
-        this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
-            response => {
-                console.log(response);
-            }
-        );
-
-        // this.messageService.webSocket.send4Direct(url);
+        this.messageService.webSocket.send4Direct(url);
 
 
         // this.worker = new Worker('worker.js');

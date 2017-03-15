@@ -62,10 +62,6 @@ export class ApiRoutesService {
     }
 
 
-    get saveWebsite(): string {
-        return this.api_url + 'space/saveWebsite';
-    }
-
     get logout(): string {
         return this.api_url + 'user/logout';
     }

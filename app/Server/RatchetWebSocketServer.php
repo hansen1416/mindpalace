@@ -6,11 +6,21 @@
  * Time: 下午4:22
  */
 
-namespace App;
+namespace App\Server;
 
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Ratchet\MessageComponentInterface;
+use App\Repositories\Contract\SpaceRepositoryContract;
+use App\Repositories\SpaceEloquentRepository;
+use App\Repositories\Contract\UserRepositoryContract;
+use App\Repositories\UserEloquentRepository;
+use App\Repositories\Contract\ProfileRepositoryContract;
+use App\Repositories\ProfileEloquentRepository;
+use App\Services\Contract\UserServiceContract;
+use App\Services\UserService;
+use App\Services\Contract\SpaceServiceContract;
+use App\Services\SpaceService;
 
 class RatchetWebSocketServer implements WampServerInterface, MessageComponentInterface
 {
@@ -32,8 +42,16 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
     public function onMessage(ConnectionInterface $conn, $msg)
     {
         echo "onMessage\n";
-        $conn->send("sever {$msg} onmessage back");
-        // TODO: Implement onMessage() method.
+
+        app()->bind(SpaceRepositoryContract::class, SpaceEloquentRepository::class);
+        app()->bind(UserRepositoryContract::class, UserEloquentRepository::class);
+        app()->bind(ProfileRepositoryContract::class, ProfileEloquentRepository::class);
+        app()->bind(UserServiceContract::class, UserService::class);
+        app()->bind(SpaceServiceContract::class, SpaceService::class);
+
+        $space = resolve('App\Services\Contract\SpaceServiceContract');
+
+        $conn->send(json_encode($space->saveWebsite()));
     }
 
 
@@ -42,8 +60,6 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
         echo "entry\n";
 
         $entryData = json_decode($entry, true);
-
-        print_r($this->subscribedTopics);
 
         // If the lookup topic object isn't set there is no one to publish to
         if (!isset($entryData['category']) || !array_key_exists($entryData['category'], $this->subscribedTopics)) {
@@ -86,6 +102,6 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        echo "error\n";
+        echo $e->getMessage();
     }
 }
