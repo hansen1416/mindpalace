@@ -4,8 +4,6 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {ApiHttpService} from '../share/api-http.service';
-import {ApiRoutesService} from '../share/api-routes.service';
 import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../share/message.service';
@@ -28,8 +26,6 @@ export class SpaceSearchComponent implements OnDestroy {
     private subscription: Subscription;
 
     constructor(
-        private apiHttpService: ApiHttpService,
-        private apiRoutesService: ApiRoutesService,
         private spaceService: SpaceService,
         private userService: UserService,
         private messageService: MessageService,
@@ -102,26 +98,6 @@ export class SpaceSearchComponent implements OnDestroy {
         // this.worker.addEventListener('message', this.workerMessageListener);
     }
 
-
-    // workerMessageListener = (e: MessageEvent) => {
-    //     if (e.data.message) {
-    //         this.messageService.show(e.data.message);
-    //
-    //         if (e.data.data) {
-    //             this.worker.terminate();
-    //
-    //             let data = new FormData();
-    //
-    //             data.append('data', e.data.data);
-    //
-    //             this.apiHttpService.post(this.apiRoutesService.saveWebsite, data).subscribe(
-    //                 response => {
-    //                     console.log(response);
-    //                 }
-    //             )
-    //         }
-    //     }
-    // };
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

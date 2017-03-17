@@ -43,15 +43,16 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
     {
         echo "onMessage\n";
 
-        app()->bind(SpaceRepositoryContract::class, SpaceEloquentRepository::class);
-        app()->bind(UserRepositoryContract::class, UserEloquentRepository::class);
-        app()->bind(ProfileRepositoryContract::class, ProfileEloquentRepository::class);
-        app()->bind(UserServiceContract::class, UserService::class);
-        app()->bind(SpaceServiceContract::class, SpaceService::class);
+        $app = app();
+        $app->bind(SpaceRepositoryContract::class, SpaceEloquentRepository::class);
+        $app->bind(UserRepositoryContract::class, UserEloquentRepository::class);
+        $app->bind(ProfileRepositoryContract::class, ProfileEloquentRepository::class);
+        $app->bind(UserServiceContract::class, UserService::class);
+        $app->bind(SpaceServiceContract::class, SpaceService::class);
 
         $space = resolve('App\Services\Contract\SpaceServiceContract');
 
-        $conn->send(json_encode($space->saveWebsite()));
+        $space->saveWebsite($conn, $msg);
     }
 
 

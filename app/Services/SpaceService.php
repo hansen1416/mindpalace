@@ -11,8 +11,8 @@ namespace App\Services;
 use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Services\Contract\UserServiceContract;
+use Ratchet\ConnectionInterface;
 use Hansen1416\WebSpace\Services\WebSpaceService;
-
 
 class SpaceService implements SpaceServiceContract
 {
@@ -23,14 +23,20 @@ class SpaceService implements SpaceServiceContract
     protected $userService;
 
 
+    protected $webSpaceService;
+
+
     public function __construct(
         SpaceRepositoryContract $spaceRepositoryContract,
-        UserServiceContract $userServiceContract
+        UserServiceContract $userServiceContract,
+        WebSpaceService $webSpaceService
     )
     {
-        $this->spaceRepo   = $spaceRepositoryContract;
-        $this->userService = $userServiceContract;
+        $this->spaceRepo       = $spaceRepositoryContract;
+        $this->userService     = $userServiceContract;
+        $this->webSpaceService = $webSpaceService;
     }
+
 
     public function allSpace()
     {
@@ -60,12 +66,21 @@ class SpaceService implements SpaceServiceContract
     }
 
 
-    public function saveWebsite($url)
+    public function saveWebsite(ConnectionInterface $conn, $url)
     {
 
-        return [$url . '------', 'dasdasd'=>'dasdasd'];
+        $this->webSpaceService->setConnection($conn);
+
+        $spaceName = $this->webSpaceService->getTitleFromDocument($url);
+
+        $urls = $this->webSpaceService->pickAllUrlFromBody();
+
+
 
     }
+
+
+
 
 
 }
