@@ -88,18 +88,18 @@ echo 3;
         $success = 0;
         $failed  = 0;
 echo 4;
-        foreach ($urls as $url) {
-            $data = $this->webSpaceService->getContentFromUrl($url);
-
-            if (false === $data) {
-                $failed += 1;
-                $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
-            }
-
-
-            $success += 1;
-            $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
-        }
+//        foreach ($urls as $url) {
+//            $data = $this->webSpaceService->getContentFromUrl($url);
+//
+//            if (false === $data) {
+//                $failed += 1;
+//                $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
+//            }
+//
+//
+//            $success += 1;
+//            $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
+//        }
 
     }
 
