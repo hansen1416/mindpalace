@@ -43,6 +43,8 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
     {
         echo "onMessage\n";
 
+        $conn->send(date('Y-m-d H:i:s'));
+
         $app = app();
         $app->bind(SpaceRepositoryContract::class, SpaceEloquentRepository::class);
         $app->bind(UserRepositoryContract::class, UserEloquentRepository::class);
@@ -52,7 +54,17 @@ class RatchetWebSocketServer implements WampServerInterface, MessageComponentInt
 
         $space = resolve('App\Services\Contract\SpaceServiceContract');
 
-        $space->saveWebsite($conn, $msg);
+//        $space->saveWebsite($conn, $msg);
+
+
+        $r = 0;
+        foreach (range(0,100000000) as $k => $v){
+//            $r++;
+        }
+
+        $conn->send(date('Y-m-d H:i:s'));
+
+
     }
 
 

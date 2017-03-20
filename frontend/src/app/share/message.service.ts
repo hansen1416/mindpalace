@@ -34,7 +34,7 @@ export class MessageService {
         this.webSocket.getDataStream().subscribe(
             (msg) => {
                 this.show(msg.data);
-                console.log(msg.data);
+                console.log('Server time:'+msg.data +'--Client time:'+new Date().getTime());
             },
             (msg) => {
                 console.log("error", msg);
