@@ -68,19 +68,40 @@ class SpaceService implements SpaceServiceContract
 
     public function saveWebsite(ConnectionInterface $conn, $url)
     {
-
+echo 1;
         $this->webSpaceService->setConnection($conn);
 
         $spaceName = $this->webSpaceService->getTitleFromDocument($url);
 
+        $conn->send($spaceName);
+echo 2;
         $urls = $this->webSpaceService->pickAllUrlFromBody();
 
+        if (!$urls) {
+            $conn->send('no valid url, connection closed');
+            $conn->close();
+        }
+echo 3;
+        $conn->send(count($urls));
 
+        $total   = count($urls);
+        $success = 0;
+        $failed  = 0;
+echo 4;
+        foreach ($urls as $url) {
+            $data = $this->webSpaceService->getContentFromUrl($url);
+
+            if (false === $data) {
+                $failed += 1;
+                $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
+            }
+
+
+            $success += 1;
+            $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
+        }
 
     }
-
-
-
 
 
 }

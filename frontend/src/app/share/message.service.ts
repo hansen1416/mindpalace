@@ -22,26 +22,27 @@ export class MessageService {
 
         // this.webSocket.connect();
 
-        // this.webSocket.onMessage(
-        //     (msg: MessageEvent) => {
-        //         this.show(msg.data);
-        //     },
-        //     {autoApply: false}
-        // );
-
-// // set received message stream
-        this.webSocket.getDataStream().subscribe(
-            (msg) => {
+        this.webSocket.onMessage(
+            (msg: MessageEvent) => {
                 this.show(msg.data);
                 console.log(msg.data);
             },
-            (msg) => {
-                console.log("error", msg);
-            },
-            () => {
-                console.log("complete");
-            }
+            {autoApply: false}
         );
+
+// // set received message stream
+//         this.webSocket.getDataStream().subscribe(
+//             (msg) => {
+//                 this.show(msg.data);
+//                 console.log(msg.data);
+//             },
+//             (msg) => {
+//                 console.log("error", msg);
+//             },
+//             () => {
+//                 console.log("complete");
+//             }
+//         );
     }
 
     show(value: string) {
