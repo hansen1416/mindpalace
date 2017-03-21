@@ -15,8 +15,6 @@ class WelcomeController extends Controller
 {
     public function index(CtgRepositoryContract $ctgRepositoryContract)
     {
-        $data = $ctgRepositoryContract->getOne(1);
-
-        var_dump($data);
+        echo phpinfo();
     }
 }

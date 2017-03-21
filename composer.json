@@ -15,7 +15,8 @@
         "laravel/socialite": "^3.0",
         "hansen1416/create-space-from-website": "*",
         "hansen1416/laravel-cache-repository": "dev-master",
-        "hansen1416/laravel-ratchet": "dev-master"
+        "hansen1416/laravel-ratchet": "dev-master",
+        "garveen/laravoole": "^0.5.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
