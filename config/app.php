@@ -172,7 +172,7 @@ return [
         Hansen1416\WebSpace\Providers\WebSpaceServiceProvider::class,
         Hansen1416\Repository\Providers\RepositoryServiceProvider::class,
         Hansen1416\LaravelRatchet\Providers\LaravelRatchetServiceProvider::class,
-        Laravoole\LaravooleServiceProvider::class,
+//        Laravoole\LaravooleServiceProvider::class,
 
         /*
          * Application Service Providers...

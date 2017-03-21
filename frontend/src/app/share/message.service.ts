@@ -18,7 +18,7 @@ export class MessageService {
     public webSocket: WebSocketService;
 
     constructor() {
-//         this.webSocket = new WebSocketService('ws://127.0.0.1:8080');
+        this.webSocket = new WebSocketService('ws://127.0.0.1:9501');
 //
 //         // this.webSocket.connect();
 //
@@ -31,40 +31,40 @@ export class MessageService {
 //         // );
 //
 // // // set received message stream
-//         this.webSocket.getDataStream().subscribe(
-//             (msg) => {
-//                 this.show(msg.data);
-//                 console.log('Server time:'+msg.data +'--Client time:'+new Date().getTime());
-//             },
-//             (msg) => {
-//                 console.log("error", msg);
-//             },
-//             () => {
-//                 console.log("complete");
-//             }
-//         );
+        this.webSocket.getDataStream().subscribe(
+            (msg) => {
+                this.show(msg.data);
+                console.log('Server time:'+msg.data +'--Client time:'+new Date().getTime());
+            },
+            (msg) => {
+                console.log("error", msg);
+            },
+            () => {
+                console.log("complete");
+            }
+        );
 
-        let wsUri     = "ws://localhost:9050/websocket";
-        let protocols = ['jsonrpc'];
-        let websocket = new WebSocket(wsUri, protocols);
-
-        function send(message) {
-            websocket.send(message);
-            console.log(message);
-        }
-
-        websocket.onopen    = function (evt) {
-            console.log('Connection opened' + evt);
-        };
-        websocket.onclose   = function (evt) {
-            console.log(evt);
-        };
-        websocket.onmessage = function (evt) {
-            console.log(evt);
-        };
-        websocket.onerror   = function (evt) {
-            console.log(evt);
-        };
+        // let wsUri     = "ws://127.0.0.1:9501";
+        //
+        // let websocket = new WebSocket(wsUri);
+        //
+        // function send(message) {
+        //     websocket.send(message);
+        //     console.log(message);
+        // }
+        //
+        // websocket.onopen    = function (evt) {
+        //     console.log('Connection opened' + evt);
+        // };
+        // websocket.onclose   = function (evt) {
+        //     console.log(evt);
+        // };
+        // websocket.onmessage = function (evt) {
+        //     console.log(evt);
+        // };
+        // websocket.onerror   = function (evt) {
+        //     console.log(evt);
+        // };
 
     }
 
