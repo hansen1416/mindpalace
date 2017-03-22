@@ -8,7 +8,7 @@
 
 namespace App\Services\Contract;
 
-use Ratchet\ConnectionInterface;
+use swoole_websocket_server;
 
 interface SpaceServiceContract
 {
@@ -24,6 +24,6 @@ interface SpaceServiceContract
     public function createSpace(string $name);
 
 
-    public function saveWebsite(ConnectionInterface $conn, $url);
+    public function saveWebsite(swoole_websocket_server $server, $frame);
 
 }

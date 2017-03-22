@@ -11,8 +11,8 @@ namespace App\Services;
 use App\Services\Contract\SpaceServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Services\Contract\UserServiceContract;
-use Ratchet\ConnectionInterface;
 use Hansen1416\WebSpace\Services\WebSpaceService;
+use swoole_websocket_server;
 
 class SpaceService implements SpaceServiceContract
 {
@@ -37,25 +37,35 @@ class SpaceService implements SpaceServiceContract
         $this->webSpaceService = $webSpaceService;
     }
 
-
+    /**
+     * @return array
+     */
     public function allSpace()
     {
         return $this->spaceRepo->allSpace($this->userService->userId());
     }
 
-
+    /**
+     * @param string $name
+     * @return array
+     */
     public function searchSpace(string $name)
     {
         return $this->spaceRepo->searchUserSpaceByName($name, $this->userService->userId());
     }
 
-
+    /**
+     * @param int $space_id
+     */
     public function updateSpace(int $space_id)
     {
         $this->spaceRepo->update($space_id, ['name' => 'PHP5']);
     }
 
-
+    /**
+     * @param string $name
+     * @return array
+     */
     public function createSpace(string $name)
     {
         return $this->spaceRepo->create([
@@ -65,41 +75,61 @@ class SpaceService implements SpaceServiceContract
                                         ]);
     }
 
-
-    public function saveWebsite(ConnectionInterface $conn, $url)
+    /**
+     * @param swoole_websocket_server $server
+     * @param                         $frame
+     * @param                         $message
+     * @param string                  $type message | error
+     * @return bool
+     */
+    private function sendWebSocketMessage(swoole_websocket_server $server, $frame, $message, $type = 'message')
     {
-echo 1;
-        $this->webSpaceService->setConnection($conn);
+        $data[$type] = $message;
 
-        $spaceName = $this->webSpaceService->getTitleFromDocument($url);
+        return $server->push($frame->fd, json_encode($data));
+    }
 
-        $conn->send($spaceName);
-echo 2;
-        $urls = $this->webSpaceService->pickAllUrlFromBody();
+    /**
+     * @param swoole_websocket_server $server
+     * @param                         $frame
+     */
+    public function saveWebsite(swoole_websocket_server $server, $frame)
+    {
 
-        if (!$urls) {
-            $conn->send('no valid url, connection closed');
-            $conn->close();
+        try {
+            $this->sendWebSocketMessage($server, $frame, 'getting content from url');
+
+            $this->webSpaceService->setConnection($server, $frame);
+
+            $spaceName = $this->webSpaceService->getTitleFromDocument($frame->data);
+
+            $urls = $this->webSpaceService->pickAllUrlFromBody();
+
+            $total   = count($urls);
+            $success = 0;
+            $failed  = 0;
+            $string  = "totally %d, %d success, %d failed";
+
+            $this->sendWebSocketMessage($server, $frame, $total);
+
+            foreach ($urls as $url) {
+                $content = $this->webSpaceService->getContentFromUrl($url);
+
+                if (false === $content) {
+                    $failed++;
+                    $this->sendWebSocketMessage($server, $frame, sprintf($string, $total, $success, $failed));
+                    continue;
+                }
+
+
+                $success++;
+                $this->sendWebSocketMessage($server, $frame, sprintf($string, $total, $success, $failed));
+            }
+
+
+        } catch (\Exception $e) {
+            $server->push($frame->fd, json_encode(['error' => $e->getMessage()]));
         }
-echo 3;
-        $conn->send(count($urls));
-
-        $total   = count($urls);
-        $success = 0;
-        $failed  = 0;
-echo 4;
-//        foreach ($urls as $url) {
-//            $data = $this->webSpaceService->getContentFromUrl($url);
-//
-//            if (false === $data) {
-//                $failed += 1;
-//                $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
-//            }
-//
-//
-//            $success += 1;
-//            $conn->send('total ' . $total . ', ' . $success . ' success, ' . $failed . ' failed');
-//        }
 
     }
 
