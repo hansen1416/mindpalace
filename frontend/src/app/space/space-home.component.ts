@@ -111,7 +111,7 @@ export class SpaceHomeComponent implements OnInit, OnDestroy {
         data.append('name', this.newSpaceName);
 
         this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response => {
-            this.spaceService.addNewSpace(<Space>response[1]);
+            this.spaceService.addNewSpace(<Space>response);
             this.newSpaceName  = '';
             this.addInProgress = false;
         });

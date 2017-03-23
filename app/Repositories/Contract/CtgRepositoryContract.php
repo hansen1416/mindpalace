@@ -13,7 +13,16 @@ use Hansen1416\Repository\Contracts\RepositoryContract;
 
 interface CtgRepositoryContract extends CacheableContract, RepositoryContract
 {
+    /**
+     * @param int $ctg_id
+     * @return mixed
+     */
     public function getOne(int $ctg_id);
 
-    public function createCtg(array $data);
+    /**
+     * @param array $data
+     * @return \App\Ctg
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function ctgRepositoryCreate(array $data);
 }

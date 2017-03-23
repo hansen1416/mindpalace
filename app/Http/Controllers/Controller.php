@@ -11,7 +11,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-
+    /**
+     * @param $data
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function responseJson($data)
     {
         if (isset($data['status']) && $data['status'] == 500) {

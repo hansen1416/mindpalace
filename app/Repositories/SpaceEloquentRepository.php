@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceRepositoryContract;
 
@@ -17,6 +18,26 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
 
     protected $model = 'App\Space';
 
+    /**
+     * @param array $data
+     * @return \App\Space
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function spaceRepositoryCreate(array $data)
+    {
+        $res = $this->create($data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
+    }
+
+    /**
+     * @param $user_id
+     * @return $this
+     */
     private function availableSpaces($user_id)
     {
         if ($user_id) {
@@ -35,6 +56,10 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
                     ->orderBy('space_id', 'DESC');
     }
 
+    /**
+     * @param int $user_id
+     * @return array
+     */
     public function allSpace(int $user_id)
     {
         $model = $this->availableSpaces($user_id);

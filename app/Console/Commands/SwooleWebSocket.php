@@ -25,7 +25,7 @@ class SwooleWebSocket extends Command
     /** @var  swoole_websocket_server */
     private $server;
 
-
+    /** @var SpaceServiceContract  */
     private $space;
 
     /**

@@ -23,28 +23,35 @@ class SpaceController extends Controller
         $this->space = $spaceServiceContract;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function home()
     {
-        return response()->json($this->space->allSpace());
+        return $this->responseJson(
+            $this->space->allSpace()
+        );
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search(Request $request)
     {
-        return response()->json($this->space->searchSpace($request->input('name', '')));
+        return $this->responseJson(
+            $this->space->searchSpace($request->input('name', ''))
+        );
     }
 
-
-    public function update()
-    {
-        $this->space->updateSpace(1);
-    }
-
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
-        return response()->json(
-            $this->space->createSpace($request->input('name'))
+        return $this->responseJson(
+            $this->space->spaceServiceCreate($request->input('name'))
         );
     }
 

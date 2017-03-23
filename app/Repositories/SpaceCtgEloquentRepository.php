@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 
@@ -93,10 +94,20 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
         return $res;
     }
 
-
-    public function createSpaceCtg(array $data)
+    /**
+     * @param array $data
+     * @return \App\SpaceCtg
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function spaceCtgRepositoryCreate(array $data)
     {
-        return $this->create($data);
+        $res= $this->create($data);
+
+        if (!$res) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
 

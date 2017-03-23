@@ -27,4 +27,10 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
      * @return array
      */
     public function searchUserSpaceByName(string $name, int $user_id);
+
+    /**
+     * @param array $data
+     * @return \App\Space
+     */
+    public function spaceRepositoryCreate(array $data);
 }

@@ -16,7 +16,7 @@ use App\Repositories\Contract\ProfileRepositoryContract;
 use Auth;
 use DB;
 
-class UserService implements UserServiceContract
+class UserService extends BaseService implements UserServiceContract
 {
     protected $userRepo;
 
@@ -27,6 +27,7 @@ class UserService implements UserServiceContract
         ProfileRepositoryContract $profileRepositoryContract
     )
     {
+        parent::__construct();
         $this->userRepo    = $userRepositoryContract;
         $this->profileRepo = $profileRepositoryContract;
     }
@@ -70,10 +71,13 @@ class UserService implements UserServiceContract
         }
     }
 
-
+    /**
+     * @return int
+     */
     public function userId()
     {
-        return Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : 0;
+        $user = Auth::guard('api')->user();
+        return $user ? $user->user_id : 0;
     }
 
 

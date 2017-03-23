@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\CtgRepositoryContract;
 
@@ -18,17 +19,30 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
 
     protected $model = 'App\Ctg';
 
-
+    /**
+     * @param int $ctg_id
+     * @return array
+     */
     public function getOne(int $ctg_id)
     {
         $res = $this->find($ctg_id);
         return $res ? $res->toArray() : [];
     }
 
-
-    public function createCtg(array $data)
+    /**
+     * @param array $data
+     * @return \App\Ctg
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function ctgRepositoryCreate(array $data)
     {
-        return $this->create($data);
+        $res = $this->create($data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
 }

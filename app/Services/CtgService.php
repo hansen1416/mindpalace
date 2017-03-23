@@ -11,30 +11,33 @@ namespace App\Services;
 use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
 use App\Services\Contract\CtgServiceContract;
+use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 use App\Repositories\Contract\ItemRepositoryContract;
 use DB;
-use Auth;
 
 class CtgService extends BaseService implements CtgServiceContract
 {
 
+    protected $userService;
+
     protected $ctgRepo;
 
-
     protected $spaceCtgRepo;
-
 
     protected $itemRepo;
 
 
     public function __construct(
+        UserServiceContract $userServiceContract,
         CtgRepositoryContract $ctgRepositoryContract,
         SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
         ItemRepositoryContract $itemRepositoryContract
     )
     {
+        parent::__construct();
+        $this->userService  = $userServiceContract;
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
         $this->itemRepo     = $itemRepositoryContract;
@@ -165,47 +168,59 @@ class CtgService extends BaseService implements CtgServiceContract
      * @param string $title
      * @param int    $pid
      * @param int    $space_id
-     * @return array
+     * @return \App\SpaceCtg | array
      */
-    public function createCtg(string $title, int $pid, int $space_id)
+    public function ctgServiceCreate(string $title, int $pid, int $space_id)
     {
         try {
             DB::beginTransaction();
 
-            $parent = $this->spaceCtgRepo->getOne($space_id, $pid, false);
-
-            if (!$parent) {
-                throw new CantFindException();
-            }
-
-            $ctg = $this->ctgRepo->createCtg([
-                                                 'user_id' => Auth::guard('api')->user()->user_id,
-                                                 'title'   => $title,
-                                             ]);
-
-            if (!$ctg[0]) {
-                throw new SaveFailedException();
-            }
-
-            $spaceCtg = $this->spaceCtgRepo->createSpaceCtg([
-                                                                'ctg_id'   => $ctg[1]->ctg_id,
-                                                                'space_id' => $space_id,
-                                                                'pid'      => $pid,
-                                                                'tier'     => (int)$parent->tier + 1,
-                                                                'path'     => $parent->path . $pid . '-',
-                                                            ]);
-            if (!$spaceCtg[0]) {
-                throw new SaveFailedException();
-            }
-
+            $spaceCtg = $this->ctgServiceCreateNestable($title, $pid, $space_id);
             DB::commit();
-            return $spaceCtg[0];
+            return $spaceCtg;
 
         } catch (\Exception $e) {
             DB::rollBack();
             return ['status' => 500, 'error' => $e->getMessage()];
         }
 
+    }
+
+    /**
+     * @param string $title
+     * @param int    $pid
+     * @param int    $space_id
+     * @return \App\SpaceCtg
+     * @throws \App\Exceptions\CantFindException
+     */
+    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id)
+    {
+        $tier = 0;
+        $path = '-0-';
+
+        if ($pid) {
+            $parent = $this->spaceCtgRepo->getOne($space_id, $pid, false);
+
+            if (!$parent) {
+                throw new CantFindException();
+            }
+
+            $tier = (int)$parent->tier + 1;
+            $path = $parent->path . $pid . '-';
+        }
+
+        $ctg = $this->ctgRepo->ctgRepositoryCreate([
+                                                       'user_id' => $this->userService->userId(),
+                                                       'title'   => $title,
+                                                   ]);
+
+        return $this->spaceCtgRepo->spaceCtgRepositoryCreate([
+                                                                 'ctg_id'   => $ctg->ctg_id,
+                                                                 'space_id' => $space_id,
+                                                                 'pid'      => $pid,
+                                                                 'tier'     => $tier,
+                                                                 'path'     => $path,
+                                                             ]);
     }
 
 

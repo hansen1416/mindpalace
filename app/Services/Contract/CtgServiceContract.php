@@ -21,5 +21,24 @@ interface CtgServiceContract
 
     public function saveCtgContent(int $ctg_id, string $content, int $item_id = null);
 
-    public function createCtg(string $title, int $pid, int $space_id);
+    /**
+     * create a ctg,
+     * fetch the parent ctg first
+     * insert it into ctg table, get the ctg_id thereafter
+     * insert it into spaceCtg table, get pid, tier, path value from parent ctg
+     * @param string $title
+     * @param int    $pid
+     * @param int    $space_id
+     * @return \App\SpaceCtg | array
+     */
+    public function ctgServiceCreate(string $title, int $pid, int $space_id);
+
+    /**
+     * @param string $title
+     * @param int    $pid
+     * @param int    $space_id
+     * @return \App\SpaceCtg
+     * @throws \App\Exceptions\CantFindException
+     */
+    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id);
 }

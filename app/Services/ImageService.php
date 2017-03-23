@@ -9,19 +9,15 @@
 namespace App\Services;
 
 use App\Services\Contract\ImageServiceContract;
-use App\Services\Contract\UserServiceContract;
 use Intervention\Image\Facades\Image;
-use Auth;
 
 class ImageService extends BaseService implements ImageServiceContract
 {
-    protected $user;
 
     public function __construct(
-        UserServiceContract $userServiceContract
     )
     {
-        $this->user = $userServiceContract;
+        parent::__construct();
     }
 
     /**
@@ -34,9 +30,8 @@ class ImageService extends BaseService implements ImageServiceContract
     public function savePortrait($file)
     {
         try {
-            $user_id = $this->user->userId();
 
-            if (!$user_id) {
+            if (!$this->user_id) {
                 return 401;
             }
 
@@ -44,8 +39,8 @@ class ImageService extends BaseService implements ImageServiceContract
 
             $path = public_path();
 
-            $name  = '/portrait/' . $user_id . '.jpg';
-            $thumb = '/portrait/' . $user_id . '-t.jpg';
+            $name  = '/portrait/' . $this->user_id . '.jpg';
+            $thumb = '/portrait/' . $this->user_id . '-t.jpg';
 
             $img->resize(300, 300, function ($constraint) {
                 $constraint->upsize();

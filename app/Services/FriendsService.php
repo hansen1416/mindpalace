@@ -23,6 +23,7 @@ class FriendsService extends BaseService implements FriendsServiceContract
         FriendsRepositoryContract $friendsRepositoryContract
     )
     {
+        parent::__construct();
         $this->friendsRepo = $friendsRepositoryContract;
     }
 

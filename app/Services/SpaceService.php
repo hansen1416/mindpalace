@@ -8,33 +8,36 @@
 
 namespace App\Services;
 
+use App\Exceptions\SaveFailedException;
 use App\Services\Contract\SpaceServiceContract;
-use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Services\Contract\UserServiceContract;
+use App\Services\Contract\CtgServiceContract;
+use App\Repositories\Contract\SpaceRepositoryContract;
 use Hansen1416\WebSpace\Services\WebSpaceService;
 use swoole_websocket_server;
+use DB;
 
-class SpaceService implements SpaceServiceContract
+class SpaceService extends BaseService implements SpaceServiceContract
 {
 
     protected $spaceRepo;
 
-
-    protected $userService;
-
+    protected $ctgService;
 
     protected $webSpaceService;
 
 
     public function __construct(
         SpaceRepositoryContract $spaceRepositoryContract,
-        UserServiceContract $userServiceContract,
+        CtgServiceContract $ctgServiceContract,
         WebSpaceService $webSpaceService
     )
     {
+        parent::__construct();
         $this->spaceRepo       = $spaceRepositoryContract;
-        $this->userService     = $userServiceContract;
+        $this->ctgService      = $ctgServiceContract;
         $this->webSpaceService = $webSpaceService;
+
     }
 
     /**
@@ -42,7 +45,7 @@ class SpaceService implements SpaceServiceContract
      */
     public function allSpace()
     {
-        return $this->spaceRepo->allSpace($this->userService->userId());
+        return $this->spaceRepo->allSpace($this->user_id);
     }
 
     /**
@@ -51,28 +54,40 @@ class SpaceService implements SpaceServiceContract
      */
     public function searchSpace(string $name)
     {
-        return $this->spaceRepo->searchUserSpaceByName($name, $this->userService->userId());
-    }
-
-    /**
-     * @param int $space_id
-     */
-    public function updateSpace(int $space_id)
-    {
-        $this->spaceRepo->update($space_id, ['name' => 'PHP5']);
+        return $this->spaceRepo->searchUserSpaceByName($name, $this->user_id);
     }
 
     /**
      * @param string $name
      * @return array
      */
-    public function createSpace(string $name)
+    public function spaceServiceCreate(string $name)
     {
-        return $this->spaceRepo->create([
-                                            'user_id'    => $this->userService->userId(),
-                                            'name'       => $name,
-                                            'created_at' => date('Y-m-d H:i:s'),
-                                        ]);
+        try {
+            DB::beginTransaction();
+
+            $spaceCtg = $this->spaceServiceCreateNestable($name);
+
+            DB::commit();
+
+            return $this->returnModel($spaceCtg);
+        } catch (\Exception $e) {
+            return $this->returnException($e);
+        }
+    }
+
+    /**
+     * @param string $name
+     * @return \App\SpaceCtg
+     */
+    public function spaceServiceCreateNestable(string $name)
+    {
+        $space = $this->spaceRepo->spaceRepositoryCreate([
+                                                             'user_id' => $this->user_id,
+                                                             'name'    => $name,
+                                                         ]);
+
+        return $this->ctgService->ctgServiceCreateNestable($name, 0, $space->space_id);
     }
 
     /**
@@ -99,38 +114,57 @@ class SpaceService implements SpaceServiceContract
         try {
             $this->sendWebSocketMessage($server, $frame, 'getting content from url');
 
-            $this->webSpaceService->setConnection($server, $frame);
-
             $spaceName = $this->webSpaceService->getTitleFromDocument($frame->data);
-
-            $urls = $this->webSpaceService->pickAllUrlFromBody();
-
-            $total   = count($urls);
-            $success = 0;
-            $failed  = 0;
-            $string  = "totally %d, %d success, %d failed";
+            $urls      = $this->webSpaceService->pickAllUrlFromBody();
+            $total     = count($urls);
+            $success   = 0;
+            $failed    = 0;
+            $string    = "totally %d, %d success, %d failed";
 
             $this->sendWebSocketMessage($server, $frame, $total);
+
+            DB::beginTransaction();
+
+            $spaceCtg = $this->spaceServiceCreateNestable($spaceName);
+
+            $space_id = $spaceCtg->space_id;
+            $user_id  = $this->user_id;
+            $pid      = $spaceCtg->ctg_id;
+            $path     = $spaceCtg->path;
 
             foreach ($urls as $url) {
                 $content = $this->webSpaceService->getContentFromUrl($url);
 
-                if (false === $content) {
+                if (!$content) {
                     $failed++;
                     $this->sendWebSocketMessage($server, $frame, sprintf($string, $total, $success, $failed));
                     continue;
                 }
 
+                $this->sendWebSocketMessage($server, $frame, json_encode([$space_id, $user_id, $pid, $path]));
+
+                $this->saveCtgTree($content, $space_id, $user_id, $pid, $path);
 
                 $success++;
                 $this->sendWebSocketMessage($server, $frame, sprintf($string, $total, $success, $failed));
             }
 
+//            DB::commit();
 
         } catch (\Exception $e) {
+            DB::rollBack();
             $server->push($frame->fd, json_encode(['error' => $e->getMessage()]));
         }
 
+    }
+
+
+    private function saveCtgTree(array $ctgTree, $space_id, $user_id, $pid, $path)
+    {
+        foreach ($ctgTree as $key => $value) {
+
+
+        }
     }
 
 
