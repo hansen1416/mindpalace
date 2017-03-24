@@ -18,9 +18,11 @@ abstract class BaseService
 
     public function __construct()
     {
-        $user = Auth::guard('api')->user();
+        $this->user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : 0;
 
-        $this->user_id = $user ? $user->user_id : 0;
+        if (!$this->user_id) {
+            $this->user_id = Auth::user() ? Auth::user()->user_id : 0;
+        }
     }
 
     /**

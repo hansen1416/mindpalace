@@ -8,9 +8,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\SaveFailedException;
 use App\Services\Contract\SpaceServiceContract;
-use App\Services\Contract\UserServiceContract;
 use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use Hansen1416\WebSpace\Services\WebSpaceService;
@@ -114,7 +112,9 @@ class SpaceService extends BaseService implements SpaceServiceContract
         try {
             $this->sendWebSocketMessage($server, $frame, 'getting content from url');
 
-            $spaceName = $this->webSpaceService->getTitleFromDocument($frame->data);
+            $data = json_decode($frame->data);
+
+            $spaceName = $this->webSpaceService->getTitleFromDocument($data->url);
             $urls      = $this->webSpaceService->pickAllUrlFromBody();
             $total     = count($urls);
             $success   = 0;
@@ -128,7 +128,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
             $spaceCtg = $this->spaceServiceCreateNestable($spaceName);
 
             $space_id = $spaceCtg->space_id;
-            $user_id  = $this->user_id;
+            $user_id  = $data->user_id;
             $pid      = $spaceCtg->ctg_id;
             $path     = $spaceCtg->path;
 
@@ -143,7 +143,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
 
                 $this->sendWebSocketMessage($server, $frame, json_encode([$space_id, $user_id, $pid, $path]));
 
-                $this->saveCtgTree($content, $space_id, $user_id, $pid, $path);
+                $this->saveCtgTree($content, $space_id, $pid);
 
                 $success++;
                 $this->sendWebSocketMessage($server, $frame, sprintf($string, $total, $success, $failed));
@@ -153,16 +153,19 @@ class SpaceService extends BaseService implements SpaceServiceContract
 
         } catch (\Exception $e) {
             DB::rollBack();
-            $server->push($frame->fd, json_encode(['error' => $e->getMessage()]));
+            $this->sendWebSocketMessage($server, $frame, $e->getMessage(), 'error');
         }
 
     }
 
 
-    private function saveCtgTree(array $ctgTree, $space_id, $user_id, $pid, $path)
+    private function saveCtgTree(array $ctgTree, $space_id, $pid)
     {
         foreach ($ctgTree as $key => $value) {
 
+            echo $this->ctgService->user_id;die;
+
+            $this->ctgService->ctgServiceCreateNestable($value['title'], $pid, $space_id);
 
         }
     }

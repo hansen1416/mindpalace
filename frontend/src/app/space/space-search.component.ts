@@ -21,8 +21,6 @@ export class SpaceSearchComponent implements OnDestroy {
 
     private searched = false;
 
-    // private worker: Worker;
-
     private subscription: Subscription;
 
     constructor(
@@ -84,7 +82,12 @@ export class SpaceSearchComponent implements OnDestroy {
 
     fetchUrl(url: string) {
 
-        this.messageService.webSocket.send4Direct(url);
+        this.messageService.webSocket.send4Direct(
+            JSON.stringify({
+                               user_id: this.userService.getUserProperty('user_id'),
+                               url    : url
+                           })
+        );
 
 
         // this.worker = new Worker('worker.js');

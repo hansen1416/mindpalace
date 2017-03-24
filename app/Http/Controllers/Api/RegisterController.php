@@ -29,7 +29,6 @@ class RegisterController extends Controller
         $this->user = $userServiceContract;
     }
 
-
     use RegistersUsers;
 
     protected function guard()
@@ -37,7 +36,10 @@ class RegisterController extends Controller
         return Auth::guard('api');
     }
 
-
+    /**
+     * @param array $data
+     * @return \Illuminate\Validation\Validator
+     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -47,7 +49,10 @@ class RegisterController extends Controller
         ]);
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|string
+     */
     protected function register(Request $request)
     {
         $validator = $this->validator($request->all());

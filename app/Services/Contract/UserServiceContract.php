@@ -18,11 +18,6 @@ interface UserServiceContract
     public function createUser(array $data);
 
     /**
-     * @return int
-     */
-    public function userId();
-
-    /**
      * @return mixed
      */
     public function userProfile();

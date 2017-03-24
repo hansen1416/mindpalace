@@ -44,10 +44,12 @@ class LoginController extends Controller
         return Auth::guard('api');
     }
 
-
+    /**
+     * @param Request $request
+     * @return string
+     */
     protected function login(Request $request)
     {
-
         $email    = $request->input('email');
         $password = $request->input('password');
 
@@ -101,17 +103,13 @@ class LoginController extends Controller
     }
 
     /**
-     * Obtain the user information from GitHub.
-     *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function handleProviderCallback()
     {
         $user = Socialite::driver('github')->stateless()->user();
 
         return $this->responseJson($user);
-
-        // $user->token;
     }
 
 

@@ -20,21 +20,6 @@ export class UserLoginComponent implements OnDestroy {
 
     private subscription: Subscription;
 
-    constructor(
-        private userService: UserService,
-        private apiRoutes: ApiRoutesService,
-        private apiHttp: ApiHttpService,
-        private spaceService: SpaceService,
-    ) {
-
-        this.subscription = userService.userModel$.subscribe(
-            userModel => {
-                this.user = userModel;
-            }
-        );
-    }
-
-
     private user = this.userService.getUserModel();
 
     /**
@@ -48,11 +33,24 @@ export class UserLoginComponent implements OnDestroy {
      */
     private authError = false;
 
-
     private languages = languages;
 
-
     private timeString = new Date().getTime();
+
+
+    constructor(
+        private userService: UserService,
+        private apiRoutes: ApiRoutesService,
+        private apiHttp: ApiHttpService,
+        private spaceService: SpaceService,
+    ) {
+
+        this.subscription = userService.userModel$.subscribe(
+            userModel => {
+                this.user = userModel;
+            }
+        );
+    }
 
     /**
      * check email format

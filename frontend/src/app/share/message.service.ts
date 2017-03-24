@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {Subject}    from 'rxjs/Subject';
 
 import {WebSocketService} from '../websocket/web-socket.service';
+import {UserService} from '../core/user.service';
 
 @Injectable()
 export class MessageService {
@@ -17,8 +18,22 @@ export class MessageService {
 
     public webSocket: WebSocketService;
 
-    constructor() {
-        this.webSocket = new WebSocketService('ws://127.0.0.1:9501');
+    constructor(
+        private userService: UserService
+    ) {
+        this.setWebSocket();
+    }
+
+    setWebSocket(): void {
+        let token = this.userService.getUserProperty('access_token');
+
+        console.log(token);
+        
+        if (!token) {
+            return;
+        }
+
+        this.webSocket = new WebSocketService('ws://' + token + '@127.0.0.1:9501');
 
         // set received message stream
         this.webSocket.getDataStream().subscribe(
@@ -33,17 +48,6 @@ export class MessageService {
                 console.log("complete");
             }
         );
-
-//         // this.webSocket.connect();
-//
-//         // this.webSocket.onMessage(
-//         //     (msg: MessageEvent) => {
-//         //         this.show(msg.data);
-//         //         console.log(msg.data);
-//         //     },
-//         //     {autoApply: false}
-//         // );
-
     }
 
     show(value: string) {

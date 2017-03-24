@@ -72,24 +72,20 @@ class UserService extends BaseService implements UserServiceContract
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function userId()
-    {
-        $user = Auth::guard('api')->user();
-        return $user ? $user->user_id : 0;
-    }
-
-
     public function userProfile()
     {
 //        $user = Auth::guard('api')->user();
 //        $user->profile;
 //        $user->space;
-        return $this->userRepo->userProfile($this->userId());
+        return $this->userRepo->userProfile($this->user_id);
     }
 
-
+    /**
+     * @param array $profile
+     * @return array
+     */
     public function updateUserProfile(array $profile)
     {
         try {

@@ -29,13 +29,18 @@ class UserController extends Controller
         $this->img  = $imageServiceContract;
     }
 
-
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function profile()
     {
-        return response()->json($this->user->userProfile());
+        return $this->responseJson($this->user->userProfile());
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateUserProfile(Request $request)
     {
         $data = $request->all();
