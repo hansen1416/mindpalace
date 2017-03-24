@@ -31,7 +31,7 @@ class ImageService extends BaseService implements ImageServiceContract
     {
         try {
 
-            if (!$this->user_id) {
+            if (!$this->getUserId()) {
                 return 401;
             }
 
@@ -39,8 +39,8 @@ class ImageService extends BaseService implements ImageServiceContract
 
             $path = public_path();
 
-            $name  = '/portrait/' . $this->user_id . '.jpg';
-            $thumb = '/portrait/' . $this->user_id . '-t.jpg';
+            $name  = '/portrait/' . $this->getUserId() . '.jpg';
+            $thumb = '/portrait/' . $this->getUserId() . '-t.jpg';
 
             $img->resize(300, 300, function ($constraint) {
                 $constraint->upsize();

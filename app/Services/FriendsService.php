@@ -34,10 +34,8 @@ class FriendsService extends BaseService implements FriendsServiceContract
     public function friendServiceCreate($friend_id)
     {
         try {
-            $user_id = Auth::guard('api')->user()->user_id;
-
             $res = $this->friendsRepo->friendRepositoryCreate([
-                                                                  'user_id'   => $user_id,
+                                                                  'user_id'   => $this->getUserId(),
                                                                   'friend_id' => $friend_id,
                                                               ]);
 
@@ -59,9 +57,7 @@ class FriendsService extends BaseService implements FriendsServiceContract
 
         try {
 
-            $user_id = Auth::guard('api')->user()->user_id;
-
-            $data = $this->friendsRepo->friendRepositoryLists($user_id);
+            $data = $this->friendsRepo->friendRepositoryLists($this->getUserId());
 
             if ($data === false) {
                 throw new CantFindException();

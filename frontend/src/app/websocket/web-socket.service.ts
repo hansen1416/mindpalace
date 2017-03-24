@@ -26,20 +26,20 @@ export class WebSocketService {
         }
     };
 
-    private reconnectAttempts = 0;
-    private sendQueue = [];
-    private onOpenCallbacks = [];
-    private onMessageCallbacks = [];
-    private onErrorCallbacks = [];
-    private onCloseCallbacks = [];
-    private readyStateConstants = {
-        'CONNECTING': 0,
-        'OPEN': 1,
-        'CLOSING': 2,
-        'CLOSED': 3,
+    private reconnectAttempts        = 0;
+    private sendQueue                = [];
+    private onOpenCallbacks          = [];
+    private onMessageCallbacks       = [];
+    private onErrorCallbacks         = [];
+    private onCloseCallbacks         = [];
+    private readyStateConstants      = {
+        'CONNECTING':        0,
+        'OPEN':              1,
+        'CLOSING':           2,
+        'CLOSED':            3,
         'RECONNECT_ABORTED': 4
     };
-    private normalCloseCode = 1000;
+    private normalCloseCode          = 1000;
     private reconnectableStatusCodes = [4000];
     private socket: WebSocket;
     private dataStream: Subject<any>;
@@ -50,7 +50,7 @@ export class WebSocketService {
         if (!match) {
             throw new Error('Invalid url provided');
         }
-        this.config = config || {initialTimeout: 500, maxTimeout: 300000, reconnectIfNotNormalClose: false};
+        this.config     = config || {initialTimeout: 500, maxTimeout: 300000, reconnectIfNotNormalClose: false};
         this.binaryType = binaryType || "blob";
         this.dataStream = new Subject();
         this.connect(true);
@@ -60,10 +60,10 @@ export class WebSocketService {
         // console.log("WebSocket connecting...");
         let self = this;
         if (force || !this.socket || this.socket.readyState !== this.readyStateConstants.OPEN) {
-            self.socket = this.protocols ? new WebSocket(this.url, this.protocols) : new WebSocket(this.url);
+            self.socket            = this.protocols ? new WebSocket(this.url, this.protocols) : new WebSocket(this.url);
             self.socket.binaryType = self.binaryType.toString();
 
-            self.socket.onopen = (ev: Event) => {
+            self.socket.onopen    = (ev: Event) => {
                 // console.log('onOpen: ', ev);
                 this.onOpenHandler(ev);
             };
@@ -72,7 +72,7 @@ export class WebSocketService {
                 self.onMessageHandler(ev);
                 this.dataStream.next(ev);
             };
-            this.socket.onclose = (ev: CloseEvent) => {
+            this.socket.onclose   = (ev: CloseEvent) => {
                 // console.log('onClose ', ev);
                 self.onCloseHandler(ev);
             };
@@ -235,8 +235,8 @@ export class WebSocketService {
         }
 
         this.onMessageCallbacks.push({
-                                         fn: callback,
-                                         pattern: options ? options.filter : undefined,
+                                         fn:        callback,
+                                         pattern:   options ? options.filter : undefined,
                                          autoApply: options ? options.autoApply : true
                                      });
         return this;

@@ -43,7 +43,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
      */
     public function allSpace()
     {
-        return $this->spaceRepo->allSpace($this->user_id);
+        return $this->spaceRepo->allSpace($this->getUserId());
     }
 
     /**
@@ -52,7 +52,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
      */
     public function searchSpace(string $name)
     {
-        return $this->spaceRepo->searchUserSpaceByName($name, $this->user_id);
+        return $this->spaceRepo->searchUserSpaceByName($name, $this->getUserId());
     }
 
     /**
@@ -81,7 +81,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
     public function spaceServiceCreateNestable(string $name)
     {
         $space = $this->spaceRepo->spaceRepositoryCreate([
-                                                             'user_id' => $this->user_id,
+                                                             'user_id' => $this->getUserId(),
                                                              'name'    => $name,
                                                          ]);
 
@@ -110,6 +110,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
     {
 
         try {
+
             $this->sendWebSocketMessage($server, $frame, 'getting content from url');
 
             $data = json_decode($frame->data);
@@ -162,8 +163,6 @@ class SpaceService extends BaseService implements SpaceServiceContract
     private function saveCtgTree(array $ctgTree, $space_id, $pid)
     {
         foreach ($ctgTree as $key => $value) {
-
-            echo $this->ctgService->user_id;die;
 
             $this->ctgService->ctgServiceCreateNestable($value['title'], $pid, $space_id);
 

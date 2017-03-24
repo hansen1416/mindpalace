@@ -21,19 +21,17 @@ export class MessageService {
     constructor(
         private userService: UserService
     ) {
-        this.setWebSocket();
+
     }
 
     setWebSocket(): void {
-        let token = this.userService.getUserProperty('access_token');
+        let user_id = this.userService.getUserProperty('user_id');
 
-        console.log(token);
-        
-        if (!token) {
+        if (!user_id) {
             return;
         }
 
-        this.webSocket = new WebSocketService('ws://' + token + '@127.0.0.1:9501');
+        this.webSocket = new WebSocketService('ws://127.0.0.1:9501?user_id=' + user_id);
 
         // set received message stream
         this.webSocket.getDataStream().subscribe(

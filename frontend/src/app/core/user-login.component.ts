@@ -1,7 +1,7 @@
 /**
  * Created by hlz on 16-10-12.
  */
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription}   from 'rxjs/Subscription';
 
 import {UserService} from "./user.service";
@@ -12,11 +12,11 @@ import {SpaceService} from "../space/space.service";
 import {languages} from '../lang/lang-available';
 
 @Component({
-               selector   : 'user-login',
+               selector:    'user-login',
                templateUrl: './html/user-login.component.html',
-               styles     : [require('./scss/user-login.component.scss')]
+               styles:      [require('./scss/user-login.component.scss')]
            })
-export class UserLoginComponent implements OnDestroy {
+export class UserLoginComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
@@ -52,6 +52,10 @@ export class UserLoginComponent implements OnDestroy {
         );
     }
 
+    ngOnInit() {
+
+    }
+
     /**
      * check email format
      */
@@ -72,7 +76,7 @@ export class UserLoginComponent implements OnDestroy {
         this.apiHttp.post(this.apiRoutes.login, formData).subscribe(
             response => {
                 this.userService.setUserProperties({
-                                                       access_token : response.access_token,
+                                                       access_token:  response.access_token,
                                                        refresh_token: response.refresh_token,
                                                    });
 

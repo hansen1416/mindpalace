@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use swoole_websocket_server;
 use App\Services\Contract\SpaceServiceContract;
+use Auth;
 
 class SwooleWebSocket extends Command
 {
@@ -76,18 +77,15 @@ class SwooleWebSocket extends Command
 
         $this->server->on('open', function (swoole_websocket_server $server, $request) {
 
-            print_r($request);
+            $user_id = $request->get['user_id'];
+
+            Auth::loginUsingId($user_id);
 
             $this->info("server: handshake success with fd{$request->fd}\n");
         });
 
         $this->server->on('message', function (swoole_websocket_server $server, $frame) {
             $this->info("receive from {$frame->fd}: {$frame->data}, opcode: {$frame->opcode}, fin: {$frame->finish}\n");
-
-            $data = json_decode($frame->data);
-
-            \Auth::loginUsingId($data->user_id);
-            echo \Auth::user()->user_id;die;
 
             $this->space->saveWebsite($server, $frame);
         });

@@ -210,7 +210,7 @@ class CtgService extends BaseService implements CtgServiceContract
         }
 
         $ctg = $this->ctgRepo->ctgRepositoryCreate([
-                                                       'user_id' => $this->user_id,
+                                                       'user_id' => $this->getUserId(),
                                                        'title'   => $title,
                                                    ]);
 

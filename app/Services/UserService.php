@@ -79,7 +79,7 @@ class UserService extends BaseService implements UserServiceContract
 //        $user = Auth::guard('api')->user();
 //        $user->profile;
 //        $user->space;
-        return $this->userRepo->userProfile($this->user_id);
+        return $this->userRepo->userProfile($this->getUserId());
     }
 
     /**

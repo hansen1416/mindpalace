@@ -14,15 +14,8 @@ use Auth;
 abstract class BaseService
 {
 
-    public $user_id;
-
     public function __construct()
     {
-        $this->user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : 0;
-
-        if (!$this->user_id) {
-            $this->user_id = Auth::user() ? Auth::user()->user_id : 0;
-        }
     }
 
     /**
@@ -42,4 +35,18 @@ abstract class BaseService
     {
         return $model->toArray();
     }
+
+
+    public function getUserId()
+    {
+        $user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : 0;
+
+        if (!$user_id) {
+            $user_id = Auth::user() ? Auth::user()->user_id : 0;
+        }
+
+        return $user_id;
+    }
+
+
 }
