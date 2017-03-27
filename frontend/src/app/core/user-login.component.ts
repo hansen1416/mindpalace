@@ -8,6 +8,7 @@ import {UserService} from "./user.service";
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {SpaceService} from "../space/space.service";
+import {MessageService} from '../share/message.service';
 
 import {languages} from '../lang/lang-available';
 
@@ -43,6 +44,7 @@ export class UserLoginComponent implements OnInit, OnDestroy {
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
         private spaceService: SpaceService,
+        private messageService: MessageService,
     ) {
 
         this.subscription = userService.userModel$.subscribe(
@@ -86,11 +88,13 @@ export class UserLoginComponent implements OnInit, OnDestroy {
                 if (this.user.access_token) {
 
                     this.userService.saveLocalAccessToken(this.user.access_token);
-
+                    //get user profile form server
                     this.apiHttp.get(this.apiRoutes.user).subscribe(
                         response => {
 
                             this.userService.saveUserModel(response);
+                            //open web socket which has been closed while logout
+                            this.messageService.setWebSocket();
 
                             this.spaceService.getHomeSpaceList().subscribe(response => {
 

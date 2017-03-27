@@ -10,11 +10,33 @@ namespace App\Repositories\Contract;
 
 use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
+use App\Item;
 
 interface ItemRepositoryContract extends CacheableContract, RepositoryContract
 {
-    public function getOne(int $ctg_id, int $item_id = null);
 
+    /**
+     * @param int      $ctg_id
+     * @param int|null $item_id
+     * @return mixed
+     * @throws \App\Exceptions\CantFindException
+     */
+    public function getOne(int $ctg_id, int $item_id = null): Item;
 
-    public function saveItem(int $ctg_id, string $content, int $item_id = null);
+    /**
+     * @param int    $ctg_id
+     * @param string $content
+     * @return \App\Item
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function itemRepositoryCreate(int $ctg_id, string $content): Item;
+
+    /**
+     * @param int    $item_id
+     * @param string $content
+     * @return \App\Item
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function itemRepositoryUpdate(int $item_id, string $content): Item;
+
 }

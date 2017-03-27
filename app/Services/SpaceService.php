@@ -129,11 +129,12 @@ class SpaceService extends BaseService implements SpaceServiceContract
             $spaceCtg = $this->spaceServiceCreateNestable($spaceName);
 
             $space_id = $spaceCtg->space_id;
-            $user_id  = $data->user_id;
             $pid      = $spaceCtg->ctg_id;
-            $path     = $spaceCtg->path;
+            $tier     = $spaceCtg->tier + 1;
+            $path     = $spaceCtg->path . $pid . '-';
+            $count    = 0;
 
-            foreach ($urls as $url) {
+            foreach ([$urls[0]] as $url) {
                 $content = $this->webSpaceService->getContentFromUrl($url);
 
                 if (!$content) {
@@ -142,15 +143,14 @@ class SpaceService extends BaseService implements SpaceServiceContract
                     continue;
                 }
 
-                $this->sendWebSocketMessage($server, $frame, json_encode([$space_id, $user_id, $pid, $path]));
-
-                $this->saveCtgTree($content, $space_id, $pid);
+                $this->createCtgTreeData($content, $pid, $space_id, $tier, $path, $count);
 
                 $success++;
                 $this->sendWebSocketMessage($server, $frame, sprintf($string, $total, $success, $failed));
             }
 
-//            DB::commit();
+            $this->sendWebSocketMessage($server, $frame, $count . ' ctg saved');
+            DB::commit();
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -159,13 +159,33 @@ class SpaceService extends BaseService implements SpaceServiceContract
 
     }
 
-
-    private function saveCtgTree(array $ctgTree, $space_id, $pid)
+    /**
+     * @param array $ctgTree
+     * @param       $pid
+     * @param       $space_id
+     * @param       $tier
+     * @param       $path
+     * @param       $count
+     */
+    private function createCtgTreeData(array $ctgTree, $pid, $space_id, $tier, $path, &$count)
     {
         foreach ($ctgTree as $key => $value) {
-
-            $this->ctgService->ctgServiceCreateNestable($value['title'], $pid, $space_id);
-
+            //create spaceCtg
+            $spaceCtg = $this->ctgService->ctgServiceCreateNestable($value['title'], $pid, $space_id, $tier, $path);
+            //create ctg content in item
+            $this->ctgService->ctgServiceSaveCtgContent($spaceCtg->ctg_id, $value['content']);
+            //if there is descendant, then recursion into it
+            if ($value['desc']) {
+                $this->createCtgTreeData(
+                    $value['desc'],
+                    $spaceCtg->ctg_id,
+                    $space_id,
+                    $spaceCtg->tier + 1,
+                    $spaceCtg->path . $spaceCtg->ctg_id . '-',
+                    $count
+                );
+            }
+            $count++;
         }
     }
 

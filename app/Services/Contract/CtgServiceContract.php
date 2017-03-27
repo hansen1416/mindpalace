@@ -8,6 +8,7 @@
 
 namespace App\Services\Contract;
 
+use App\Item;
 
 interface CtgServiceContract
 {
@@ -17,9 +18,18 @@ interface CtgServiceContract
 
     public function moveCtg(int $space_id, int $ctg_id, int $pid);
 
-    public function ctgContent(int $ctg_id);
+    /**
+     * @param int $ctg_id
+     * @return Item
+     */
+    public function ctgServiceCtgContent(int $ctg_id): Item;
 
-    public function saveCtgContent(int $ctg_id, string $content, int $item_id = null);
+    /**
+     * @param int    $ctg_id
+     * @param string $content
+     * @return mixed
+     */
+    public function ctgServiceSaveCtgContent(int $ctg_id, string $content): Item;
 
     /**
      * create a ctg,
@@ -37,8 +47,10 @@ interface CtgServiceContract
      * @param string $title
      * @param int    $pid
      * @param int    $space_id
+     * @param        $tier
+     * @param        $path
      * @return \App\SpaceCtg
      * @throws \App\Exceptions\CantFindException
      */
-    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id);
+    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id, $tier = null, $path = null);
 }

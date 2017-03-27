@@ -10,13 +10,14 @@ import {Subscription}   from 'rxjs/Subscription';
 import {UserService} from '../core/user.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
+import {MessageService} from '../share/message.service';
 
 import {languages} from '../lang/lang-available';
 
 @Component({
-               selector:    'profile',
+               selector   : 'profile',
                templateUrl: './html/profile.component.html',
-               styles:      [require('./scss/profile.component.scss')]
+               styles     : [require('./scss/profile.component.scss')]
            })
 export class ProfileComponent implements OnDestroy {
 
@@ -26,7 +27,8 @@ export class ProfileComponent implements OnDestroy {
         private router: Router,
         private userService: UserService,
         private apiHttpService: ApiHttpService,
-        private apiRoutesService: ApiRoutesService
+        private apiRoutesService: ApiRoutesService,
+        private messageService: MessageService,
     ) {
         this.subscription = userService.userModel$.subscribe(
             userModel => {
@@ -85,7 +87,11 @@ export class ProfileComponent implements OnDestroy {
 
 
     logOut() {
+        //delete the user data from user service
         this.userService.clearUserModel();
+        //close web socket
+        this.messageService.endWebSocket();
+        //jump to home page
         this.router.navigate(['/home']);
     }
 

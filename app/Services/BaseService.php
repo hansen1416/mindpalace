@@ -24,7 +24,7 @@ abstract class BaseService
      */
     protected function returnException(\Exception $e)
     {
-        return ['status' => 500, $e->getMessage()];
+        return ['status' => 500, 'error' => $e->getMessage()];
     }
 
     /**

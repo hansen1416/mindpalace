@@ -499,7 +499,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctgService.getCtgId)).subscribe(
             response => {
-                this.ctgService.simpleMDE.value(response);
+                if (response.status == 500) {
+                    this.messageService.show(response.error);
+                } else {
+                    this.ctgService.simpleMDE.value(response.content);
+                    this.messageService.show('saved successful');
+                }
             }
         );
     }

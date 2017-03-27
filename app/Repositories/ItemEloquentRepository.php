@@ -8,8 +8,11 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\ItemRepositoryContract;
+use App\Item;
 
 class ItemEloquentRepository extends EloquentRepository implements ItemRepositoryContract
 {
@@ -18,27 +21,66 @@ class ItemEloquentRepository extends EloquentRepository implements ItemRepositor
 
     protected $model = 'App\Item';
 
-
-    public function getOne(int $ctg_id, int $item_id = null)
+    /**
+     * @param int      $ctg_id
+     * @param int|null $item_id
+     * @return \Illuminate\Database\Eloquent\Model
+     * @throws \App\Exceptions\CantFindException
+     */
+    public function getOne(int $ctg_id, int $item_id = null): Item
     {
         $item = $item_id
             ? $this->find($item_id)
             : $this->findBy('ctg_id', $ctg_id);
 
-        return $item ? $item->content : '';
+        if (!$item) {
+            throw new CantFindException();
+        }
+
+        return $item;
     }
 
-
-    public function saveItem(int $ctg_id, string $content, int $item_id = null)
+    /**
+     * @param int    $ctg_id
+     * @param string $content
+     * @return \App\Item
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function itemRepositoryCreate(int $ctg_id, string $content): Item
     {
         $data = [
             'ctg_id'  => $ctg_id,
             'content' => $content,
         ];
 
-        return $item_id
-            ? $this->update($item_id, $data)
-            : $this->create($data);
+        $res = $this->create($data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
+    }
+
+    /**
+     * @param int    $item_id
+     * @param string $content
+     * @return \App\Item
+     * @throws \App\Exceptions\SaveFailedException
+     */
+    public function itemRepositoryUpdate(int $item_id, string $content): Item
+    {
+        $data = [
+            'content' => $content,
+        ];
+
+        $res = $this->update($item_id, $data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
 

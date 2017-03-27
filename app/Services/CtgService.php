@@ -15,6 +15,7 @@ use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 use App\Repositories\Contract\ItemRepositoryContract;
+use App\Item;
 use DB;
 
 class CtgService extends BaseService implements CtgServiceContract
@@ -139,11 +140,10 @@ class CtgService extends BaseService implements CtgServiceContract
     }
 
     /**
-     * get ctg content by ctg_id from item table
      * @param int $ctg_id
-     * @return mixed
+     * @return Item
      */
-    public function ctgContent(int $ctg_id)
+    public function ctgServiceCtgContent(int $ctg_id): Item
     {
         return $this->itemRepo->getOne($ctg_id);
     }
@@ -155,9 +155,15 @@ class CtgService extends BaseService implements CtgServiceContract
      * @param int|null $item_id
      * @return mixed
      */
-    public function saveCtgContent(int $ctg_id, string $content, int $item_id = null)
+    public function ctgServiceSaveCtgContent(int $ctg_id, string $content): Item
     {
-        return $this->itemRepo->saveItem($ctg_id, $content, $item_id);
+        $item = $this->itemRepo->getOne($ctg_id);
+
+        if ($item->item_id) {
+            return $this->itemRepo->itemRepositoryUpdate($item->item_id, $content);
+        }
+
+        return $this->itemRepo->itemRepositoryCreate($ctg_id, $content);
     }
 
     /**
@@ -181,7 +187,7 @@ class CtgService extends BaseService implements CtgServiceContract
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return ['status' => 500, 'error' => $e->getMessage()];
+            return $this->returnException($e);
         }
 
     }
@@ -190,24 +196,30 @@ class CtgService extends BaseService implements CtgServiceContract
      * @param string $title
      * @param int    $pid
      * @param int    $space_id
+     * @param        $tier
+     * @param        $path
      * @return \App\SpaceCtg
      * @throws \App\Exceptions\CantFindException
      */
-    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id)
+    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id, $tier = null, $path = null)
     {
-        $tier = 0;
-        $path = '-0-';
+        if (is_null($tier) && is_null($path)) {
 
-        if ($pid) {
-            $parent = $this->spaceCtgRepo->getOne($space_id, $pid, false);
+            $tier = 0;
+            $path = '-0-';
 
-            if (!$parent) {
-                throw new CantFindException();
+            if ($pid) {
+                $parent = $this->spaceCtgRepo->getOne($space_id, $pid, false);
+
+                if (!$parent) {
+                    throw new CantFindException();
+                }
+
+                $tier = (int)$parent->tier + 1;
+                $path = $parent->path . $pid . '-';
             }
-
-            $tier = (int)$parent->tier + 1;
-            $path = $parent->path . $pid . '-';
         }
+
 
         $ctg = $this->ctgRepo->ctgRepositoryCreate([
                                                        'user_id' => $this->getUserId(),

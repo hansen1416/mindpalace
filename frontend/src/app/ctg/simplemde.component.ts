@@ -7,15 +7,16 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
+import {MessageService} from '../share/message.service';
 
 // Declare Global Variable
 let SimpleMDE: any = require('simplemde');
 
 // Define Editor Component
 @Component({
-               selector:    'mdeditor',
+               selector   : 'mdeditor',
                templateUrl: './html/simplemde.component.html',
-               styles:      [require('./scss/simplemde.component.scss')]
+               styles     : [require('./scss/simplemde.component.scss')]
            })
 export class SimplemdeComponent {
     @ViewChild('simplemde') textarea: ElementRef;
@@ -24,7 +25,8 @@ export class SimplemdeComponent {
         private elementRef: ElementRef,
         private ctgService: CtgService,
         private apiRouteService: ApiRoutesService,
-        private apiHttpService: ApiHttpService
+        private apiHttpService: ApiHttpService,
+        private messageService: MessageService,
     ) {
     }
 
@@ -34,7 +36,7 @@ export class SimplemdeComponent {
         // var mde = new SimpleMDE({element: this.elementRef.nativeElement.value});
         this.ctgService.simpleMDE = new SimpleMDE({element: this.textarea.nativeElement});
 
-        this.ctgService.simpleMDE.codemirror.on("change", ()=>this.contentChange());
+        this.ctgService.simpleMDE.codemirror.on("change", () => this.contentChange());
     }
 
     /**
@@ -58,7 +60,11 @@ export class SimplemdeComponent {
 
         this.apiHttpService.post(this.apiRouteService.saveCtgContent, data).subscribe(
             response => {
-                console.log(response);
+                if (response.status && response.status == 500) {
+                    this.messageService.show(response.error);
+                }else{
+                    console.log(response);
+                }
             }
         )
     }

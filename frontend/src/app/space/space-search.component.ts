@@ -84,8 +84,7 @@ export class SpaceSearchComponent implements OnDestroy {
 
         this.messageService.webSocket.send4Direct(
             JSON.stringify({
-                               user_id: this.userService.getUserProperty('user_id'),
-                               url    : url
+                               url: url
                            })
         );
 

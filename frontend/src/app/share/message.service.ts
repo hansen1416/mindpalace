@@ -25,6 +25,11 @@ export class MessageService {
     }
 
     setWebSocket(): void {
+        //if there is already a web socket, return
+        if (this.webSocket instanceof WebSocketService) {
+            return;
+        }
+        //if there is no user_id, return
         let user_id = this.userService.getUserProperty('user_id');
 
         if (!user_id) {
@@ -46,6 +51,13 @@ export class MessageService {
                 console.log("complete");
             }
         );
+    }
+
+    /**
+     * close web socket
+     */
+    endWebSocket() {
+        this.webSocket.close();
     }
 
     show(value: string) {

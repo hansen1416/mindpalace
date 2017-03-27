@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use \Illuminate\Http\JsonResponse;
 
 class Controller extends BaseController
 {
@@ -13,14 +14,16 @@ class Controller extends BaseController
 
     /**
      * @param $data
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function responseJson($data)
+    public function responseJson($data): JsonResponse
     {
-        if (isset($data['status']) && $data['status'] == 500) {
-            return response()->json($data);
+        if ($data instanceof \Exception) {
+            return response()->json(['status' => 500, 'error' => $data->getMessage()]);
         }
 
         return response()->json($data);
     }
+
+
 }
