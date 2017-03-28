@@ -34,6 +34,6 @@ interface SpaceServiceContract
      * @param swoole_websocket_server $server
      * @param                         $frame
      */
-    public function saveWebsite(swoole_websocket_server $server, $frame): void;
+    public function saveWebsite(swoole_websocket_server $server, $frame);
 
 }

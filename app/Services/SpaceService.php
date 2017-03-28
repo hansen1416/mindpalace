@@ -74,7 +74,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
      * @param swoole_websocket_server $server
      * @param                         $frame
      */
-    public function saveWebsite(swoole_websocket_server $server, $frame): void
+    public function saveWebsite(swoole_websocket_server $server, $frame)
     {
 
         try {
@@ -102,7 +102,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
             $path     = $spaceCtg->path . $pid . '-';
             $count    = 0;
 
-            foreach ([$urls[0]] as $url) {
+            foreach ($urls as $url) {
                 $content = $this->webSpaceService->getContentFromUrl($url);
 
                 if (!$content) {

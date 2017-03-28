@@ -42,14 +42,19 @@ export class ProfileComponent implements OnDestroy {
 
     private languages = languages;
 
-
+    /**
+     * choose local file
+     */
     chooseFile() {
         let fileInput = document.getElementById('file-input');
         fileInput.click();
     }
 
-
-    readFile(input) {
+    /**
+     * get img file
+     * @param input
+     */
+    readFile(input): void {
         let reader = new FileReader();
 
         reader.onload = function (event: any) {
@@ -62,8 +67,11 @@ export class ProfileComponent implements OnDestroy {
         reader.readAsDataURL(input.files[0]);
     }
 
-
-    profileSubmit(form: NgForm) {
+    /**
+     * submit profile info
+     * @param form
+     */
+    profileSubmit(form: NgForm): void {
         let data = new FormData();
 
         for (let prop in form.value) {
@@ -80,13 +88,17 @@ export class ProfileComponent implements OnDestroy {
 
         this.apiHttpService.post(this.apiRoutesService.updateProfile, data).subscribe(
             response => {
-                this.userService.setUserProperties(response);
+                if (response.status == 500) {
+                    this.messageService.show(response.error);
+                } else {
+                    this.userService.setUserProperties(response);
+                }
             }
         );
     }
 
 
-    logOut() {
+    logOut(): void {
         //delete the user data from user service
         this.userService.clearUserModel();
         //close web socket

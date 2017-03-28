@@ -3,7 +3,7 @@
  */
 import {Component} from '@angular/core';
 
-declare var THREE: any;
+declare let THREE: any;
 
 import {Ctg} from '../ctg/ctg';
 import {Position} from './position';
@@ -104,7 +104,7 @@ export class AbstractThreeComponent {
         this.controls.dynamicDampingFactor = 0.2;//阻力
         this.controls.keys                 = [65, 83, 68];
 
-        this.controls.addEventListener('change', ()=>this.renderWebGL());
+        this.controls.addEventListener('change', () => this.renderWebGL());
     }
 
     /**
@@ -253,38 +253,39 @@ export class AbstractThreeComponent {
      * @returns {THREE.Sprite}
      */
     private static drawTextSprite(text: string): THREE.Object3D & THREE.Sprite {
-        //c_w & c_h must be power of 2
-        let c_w    = 256;
-        let c_h    = 64;
-        let canvas = document.createElement('canvas');
+        //canvas size c_w & c_h shall be power of 2, otherwise there will be plenty of console info
+        let canvas  = document.createElement('canvas');
+        let context = canvas.getContext('2d');
+        let c_w     = Math.round(context.measureText(text).width * 2.55 + 12);
+        let c_h     = 32;
+
+        //minimum width is 64
+        c_w = c_w < 64 ? 64 : c_w;
 
         canvas.width  = c_w;
         canvas.height = c_h;
-
-        let context = canvas.getContext('2d');
-
-        context.font = "normal " + c_h * 2 / 3.5 + "px Serial";
-
+        //font size and align of text
+        context.font         = "normal " + c_h * 2 / 2.5 + "px Serial";
         context.textAlign    = 'center';
         context.textBaseline = 'middle';
-
-        context.fillStyle = 'rgba(255,255,255,0.7)';
+        //canvas background color
+        context.fillStyle    = 'rgba(255,255,255,0.7)';
         context.fillRect(0, 0, c_w, c_h);
-
+        //text color
         context.fillStyle = '#000000';
         context.fillText(text, c_w / 2, c_h / 2);
-
+        //sprite texture
         let spriteTexture = new THREE.Texture(canvas);
 
         spriteTexture.needsUpdate = true;
-
-        let spriteMaterial = new THREE.SpriteMaterial({
+        //sprite material
+        let spriteMaterial        = new THREE.SpriteMaterial({
             map: spriteTexture
         });
 
         spriteMaterial.transparent = true;
-
-        let sprite = new THREE.Sprite(spriteMaterial);
+        //three sprite
+        let sprite                 = new THREE.Sprite(spriteMaterial);
 
         sprite.scale.set(c_w / c_h, 1, 1);
 
@@ -382,12 +383,12 @@ export class AbstractThreeComponent {
                  * @type {Position[]}
                  */
                 let positions = (tier == 0) ? <Position[]>[
-                    {
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    }
-                ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
+                                                {
+                                                    x: 0,
+                                                    y: 0,
+                                                    z: 0
+                                                }
+                                            ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
 
                 for (let i = 0; i < item.length; i++) {
                     //draw text sprite
