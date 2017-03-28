@@ -8,11 +8,9 @@
 
 namespace App\Services;
 
-use App\Exceptions\CantFindException;
-use App\Exceptions\SaveFailedException;
 use App\Services\Contract\FriendsServiceContract;
 use App\Repositories\Contract\FriendsRepositoryContract;
-use Auth;
+use App\Friends;
 
 class FriendsService extends BaseService implements FriendsServiceContract
 {
@@ -29,54 +27,32 @@ class FriendsService extends BaseService implements FriendsServiceContract
 
     /**
      * @param $friend_id
-     * @return array
+     * @return Friends
      */
-    public function friendServiceCreate($friend_id)
+    public function friendServiceCreate($friend_id): Friends
     {
-        try {
-            $res = $this->friendsRepo->friendRepositoryCreate([
-                                                                  'user_id'   => $this->getUserId(),
-                                                                  'friend_id' => $friend_id,
-                                                              ]);
-
-            if ($res === false) {
-                throw new SaveFailedException();
-            }
-
-            return ['message' => 'saved'];
-
-        } catch (\Exception $e) {
-            return ['status' => 500, 'error' => $e->getMessage()];
-        }
-
+        return $this->friendsRepo->friendRepositoryCreate([
+                                                              'user_id'   => $this->getUserId(),
+                                                              'friend_id' => $friend_id,
+                                                          ]);
     }
 
-
-    public function friendServiceLists()
+    /**
+     * @return array
+     */
+    public function friendServiceLists(): array
     {
+        $data    = $this->friendsRepo->friendRepositoryLists($this->getUserId());
+        $friends = [];
 
-        try {
-
-            $data = $this->friendsRepo->friendRepositoryLists($this->getUserId());
-
-            if ($data === false) {
-                throw new CantFindException();
-            }
-
-            $friends = [];
-
-            foreach ($data as $key => $value) {
-                $friends[$key]['user_id']   = $value['friend_id'];
-                $friends[$key]['name']      = $value['profile']['name'];
-                $friends[$key]['portrait']  = $value['profile']['portrait'];
-                $friends[$key]['is_friend'] = 1;
-            }
-
-            return array_values($friends);
-
-        } catch (\Exception $e) {
-            return ['status' => 500, 'error' => $e->getMessage()];
+        foreach ($data as $key => $value) {
+            $friends[$key]['user_id']   = $value['friend_id'];
+            $friends[$key]['name']      = $value['profile']['name'];
+            $friends[$key]['portrait']  = $value['profile']['portrait'];
+            $friends[$key]['is_friend'] = 1;
         }
+
+        return array_values($friends);
     }
 
 

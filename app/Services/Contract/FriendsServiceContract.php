@@ -8,17 +8,19 @@
 
 namespace App\Services\Contract;
 
+use App\Friends;
 
 interface FriendsServiceContract
 {
     /**
      * @param $friend_id
-     * @return mixed
+     * @return Friends
      */
-    public function friendServiceCreate($friend_id);
+    public function friendServiceCreate($friend_id): Friends;
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function friendServiceLists();
+    public function friendServiceLists(): array;
+
 }

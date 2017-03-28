@@ -9,37 +9,31 @@
 namespace App\Services\Contract;
 
 use swoole_websocket_server;
+use App\SpaceCtg;
 
 interface SpaceServiceContract
 {
     /**
-     * @return mixed
+     * @return array
      */
-    public function allSpace();
-
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function searchSpace(string $name);
+    public function spaceServiceHomeSpaces(): array;
 
     /**
      * @param string $name
      * @return array
      */
-    public function spaceServiceCreate(string $name);
+    public function searchSpace(string $name): array;
 
     /**
      * @param string $name
-     * @return \App\SpaceCtg
+     * @return SpaceCtg
      */
-    public function spaceServiceCreateNestable(string $name);
+    public function spaceServiceCreate(string $name): SpaceCtg;
 
     /**
      * @param swoole_websocket_server $server
      * @param                         $frame
-     * @return void
      */
-    public function saveWebsite(swoole_websocket_server $server, $frame);
+    public function saveWebsite(swoole_websocket_server $server, $frame): void;
 
 }

@@ -10,6 +10,9 @@ namespace App\Repositories;
 
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\UserRepositoryContract;
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
+use App\User;
 
 class UserEloquentRepository extends EloquentRepository implements UserRepositoryContract
 {
@@ -17,15 +20,37 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
 
     protected $model = 'App\User';
 
-    public function userProfile(int $user_id)
+    /**
+     * @param array $attributes
+     * @return User
+     * @throws SaveFailedException
+     */
+    public function userRepositoryCreateUser(array $attributes): User
     {
-        return $this->with(['profile'])->find($user_id)->toArray();
+        $res = $this->create($attributes);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
-
-    public function createUser(array $attributes)
+    /**
+     * @param int $user_id
+     * @return array
+     * @throws CantFindException
+     */
+    public function userRepositoryProfile(int $user_id): array
     {
-        return $this->create($attributes);
+        $res = $this->with(['profile'])
+                    ->find($user_id);
+
+        if (!$res) {
+            throw new CantFindException();
+        }
+
+        return $res->toArray();
     }
 
 

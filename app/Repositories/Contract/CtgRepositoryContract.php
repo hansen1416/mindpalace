@@ -10,19 +10,15 @@ namespace App\Repositories\Contract;
 
 use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
+use App\Exceptions\SaveFailedException;
+use App\Ctg;
 
 interface CtgRepositoryContract extends CacheableContract, RepositoryContract
 {
     /**
-     * @param int $ctg_id
-     * @return mixed
-     */
-    public function getOne(int $ctg_id);
-
-    /**
      * @param array $data
-     * @return \App\Ctg
-     * @throws \App\Exceptions\SaveFailedException
+     * @return Ctg
+     * @throws SaveFailedException
      */
-    public function ctgRepositoryCreate(array $data);
+    public function ctgRepositoryCreate(array $data): Ctg;
 }

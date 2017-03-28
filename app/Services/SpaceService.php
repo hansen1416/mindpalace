@@ -13,6 +13,7 @@ use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use Hansen1416\WebSpace\Services\WebSpaceService;
 use swoole_websocket_server;
+use App\SpaceCtg;
 use DB;
 
 class SpaceService extends BaseService implements SpaceServiceContract
@@ -41,72 +42,39 @@ class SpaceService extends BaseService implements SpaceServiceContract
     /**
      * @return array
      */
-    public function allSpace()
+    public function spaceServiceHomeSpaces(): array
     {
-        return $this->spaceRepo->allSpace($this->getUserId());
+        return $this->spaceRepo->spaceRepositoryHomeSpaces($this->getUserId());
     }
 
     /**
      * @param string $name
      * @return array
      */
-    public function searchSpace(string $name)
+    public function searchSpace(string $name): array
     {
         return $this->spaceRepo->searchUserSpaceByName($name, $this->getUserId());
     }
 
     /**
      * @param string $name
-     * @return array
+     * @return SpaceCtg
      */
-    public function spaceServiceCreate(string $name)
-    {
-        try {
-            DB::beginTransaction();
-
-            $spaceCtg = $this->spaceServiceCreateNestable($name);
-
-            DB::commit();
-
-            return $this->returnModel($spaceCtg);
-        } catch (\Exception $e) {
-            return $this->returnException($e);
-        }
-    }
-
-    /**
-     * @param string $name
-     * @return \App\SpaceCtg
-     */
-    public function spaceServiceCreateNestable(string $name)
+    public function spaceServiceCreate(string $name): SpaceCtg
     {
         $space = $this->spaceRepo->spaceRepositoryCreate([
                                                              'user_id' => $this->getUserId(),
                                                              'name'    => $name,
                                                          ]);
 
-        return $this->ctgService->ctgServiceCreateNestable($name, 0, $space->space_id);
-    }
-
-    /**
-     * @param swoole_websocket_server $server
-     * @param                         $frame
-     * @param                         $message
-     * @param string                  $type message | error
-     * @return bool
-     */
-    private function sendWebSocketMessage(swoole_websocket_server $server, $frame, $message, $type = 'message')
-    {
-        $data[$type] = $message;
-
-        return $server->push($frame->fd, json_encode($data));
+        return $this->ctgService->ctgServiceCreate($name, 0, $space->space_id);
     }
 
     /**
      * @param swoole_websocket_server $server
      * @param                         $frame
      */
-    public function saveWebsite(swoole_websocket_server $server, $frame)
+    public function saveWebsite(swoole_websocket_server $server, $frame): void
     {
 
         try {
@@ -126,7 +94,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
 
             DB::beginTransaction();
 
-            $spaceCtg = $this->spaceServiceCreateNestable($spaceName);
+            $spaceCtg = $this->spaceServiceCreate($spaceName);
 
             $space_id = $spaceCtg->space_id;
             $pid      = $spaceCtg->ctg_id;
@@ -160,6 +128,20 @@ class SpaceService extends BaseService implements SpaceServiceContract
     }
 
     /**
+     * @param swoole_websocket_server $server
+     * @param                         $frame
+     * @param                         $message
+     * @param string                  $type message | error
+     * @return bool
+     */
+    private function sendWebSocketMessage(swoole_websocket_server $server, $frame, $message, $type = 'message'): bool
+    {
+        $data[$type] = $message;
+
+        return $server->push($frame->fd, json_encode($data));
+    }
+
+    /**
      * @param array $ctgTree
      * @param       $pid
      * @param       $space_id
@@ -167,11 +149,11 @@ class SpaceService extends BaseService implements SpaceServiceContract
      * @param       $path
      * @param       $count
      */
-    private function createCtgTreeData(array $ctgTree, $pid, $space_id, $tier, $path, &$count)
+    private function createCtgTreeData(array $ctgTree, $pid, $space_id, $tier, $path, &$count): void
     {
         foreach ($ctgTree as $key => $value) {
             //create spaceCtg
-            $spaceCtg = $this->ctgService->ctgServiceCreateNestable($value['title'], $pid, $space_id, $tier, $path);
+            $spaceCtg = $this->ctgService->ctgServiceCreate($value['title'], $pid, $space_id, $tier, $path);
             //create ctg content in item
             $this->ctgService->ctgServiceSaveCtgContent($spaceCtg->ctg_id, $value['content']);
             //if there is descendant, then recursion into it
@@ -188,6 +170,5 @@ class SpaceService extends BaseService implements SpaceServiceContract
             $count++;
         }
     }
-
 
 }

@@ -8,44 +8,56 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
+use App\SpaceCtg;
+use Illuminate\Database\Eloquent\Builder;
 
 class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgRepositoryContract
 {
     protected $repositoryId = 'rinvex.repository.spaceCtg';
 
-
     protected $model = 'App\SpaceCtg';
 
     /**
-     * get one space ctg
-     * @param int  $space_id
-     * @param int  $ctg_id
-     * @param bool $array
-     * @return array|\Illuminate\Database\Eloquent\Model
+     * @param int $space_id
+     * @param int $ctg_id
+     * @return \Illuminate\Database\Eloquent\Model | SpaceCtg
+     * @throws CantFindException
      */
-    public function getOne(int $space_id, int $ctg_id, bool $array = true)
+    public function getOne(int $space_id, int $ctg_id): SpaceCtg
     {
         $data = $this
             ->where('space_id', $space_id)
             ->findBy('ctg_id', $ctg_id);
 
-        return $array && $data ? $data->toArray() : $data;
+        if (!$data) {
+            throw new CantFindException();
+        }
+
+        return $data;
     }
 
     /**
      * get all ctg with same space_id
      * @param int $space_id
      * @return array
+     * @throws CantFindException
      */
-    public function getCtgsBySpaceId(int $space_id)
+    public function spaceCtgRepositorySpaceCtg(int $space_id): array
     {
-        return $this
+        $res = $this
             ->where('space_id', $space_id)
             ->with(['ctg'])
-            ->findAll()->toArray();
+            ->findAll();
+
+        if (!$res) {
+            throw  new CantFindException();
+        }
+
+        return $res->toArray();
     }
 
     /**
@@ -53,27 +65,34 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
      * @param int $space_id
      * @param int $ctg_id
      * @return array
+     * @throws CantFindException
      */
-    public function getDescendantsByCtgId(int $space_id, int $ctg_id)
+    public function spaceCtgRepositoryCtgDescendants(int $space_id, int $ctg_id): array
     {
-        return $this
+        $res = $this
             ->setCacheLifetime(0)
             ->where('space_id', $space_id)
-            ->where(function ($q) use ($ctg_id) {
+            ->where(function (Builder $q) use ($ctg_id) {
                 $q->where('path', 'LIKE', '%-' . $ctg_id . '-%')
                   ->orWhere('ctg_id', $ctg_id);
             })
             ->with(['ctg'])
-            ->findAll()->toArray();
+            ->findAll();
+
+        if (!$res) {
+            throw  new CantFindException();
+        }
+
+        return $res->toArray();
     }
 
     /**
-     * update table
      * @param array $condition
      * @param array $attributes
      * @return bool
+     * @throws SaveFailedException
      */
-    public function massUpdate(array $condition, array $attributes)
+    public function massUpdate(array $condition, array $attributes): bool
     {
         /** @var \App\SpaceCtg $spaceCtg */
         $spaceCtg = new $this->model;
@@ -91,17 +110,21 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
 //            $this->getContainer('events')->fire($this->getRepositoryId() . '.entity.updated', [$this, $spaceCtg]);
         }
 
+        if ($res === false) {
+            throw new SaveFailedException();
+        }
+
         return $res;
     }
 
     /**
      * @param array $data
-     * @return \App\SpaceCtg
-     * @throws \App\Exceptions\SaveFailedException
+     * @return SpaceCtg
+     * @throws SaveFailedException
      */
-    public function spaceCtgRepositoryCreate(array $data)
+    public function spaceCtgRepositoryCreate(array $data): SpaceCtg
     {
-        $res= $this->create($data);
+        $res = $this->create($data);
 
         if (!$res) {
             throw new SaveFailedException();

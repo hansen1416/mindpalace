@@ -10,7 +10,10 @@ namespace App\Repositories;
 
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\ProfileRepositoryContract;
-use App\Repositories\UserEloquentRepository;
+use App\Repositories\Contract\UserRepositoryContract;
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
+use App\Profile;
 
 class ProfileEloquentRepository extends EloquentRepository implements ProfileRepositoryContract
 {
@@ -18,41 +21,72 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
 
     protected $model = 'App\Profile';
 
+    private $userRepo;
+
+    public function __construct(
+        UserRepositoryContract $userRepositoryContract
+    )
+    {
+        $this->userRepo = $userRepositoryContract;
+    }
+
+    /**
+     * @param array $attributes
+     * @return Profile
+     * @throws SaveFailedException
+     */
+    public function profileRepositoryCreateProfile(array $attributes): Profile
+    {
+        $res = $this->create($attributes);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
+    }
+
     /**
      * 更新用户详情
      * @param int   $profile_id
      * @param array $attributes
-     * @return array
+     * @return Profile
+     * @throws SaveFailedException
      */
-    public function updateUserProfile(int $profile_id, array $attributes)
+    public function userRepositoryUpdateUserProfile(int $profile_id, array $attributes): Profile
     {
         //clear user repo cache, otherwise api won't get the latest data
-        $userRepo = new UserEloquentRepository();
-        $userRepo->forgetCache();
+        $this->userRepo->forgetCache();
 
-        return $this->update($profile_id, $attributes);
-    }
+        $res = $this->update($profile_id, $attributes);
 
-    /**
-     * @param array $attributes
-     * @return array
-     */
-    public function createProfile(array $attributes)
-    {
-        return $this->create($attributes);
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
     /**
      * @param string $name
+     * @param int    $user_id
      * @return array
+     * @throws CantFindException
      */
-    public function searchUserByName(string $name, $user_id)
+    public function profileRepositorySearch(string $name, int $user_id): array
     {
-        return $this
+        $res = $this
             ->where('name', 'like', $name)
             ->where('user_id', '<>', $user_id)
             ->with(['friends'])
-            ->findAll(['user_id', 'name', 'portrait'])->toArray();
+            ->findAll(['user_id', 'name', 'portrait']);
+
+        if (!$res) {
+            throw new CantFindException();
+        }
+
+        return $res->toArray();
     }
+
 
 }

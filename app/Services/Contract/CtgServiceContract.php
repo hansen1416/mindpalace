@@ -8,15 +8,34 @@
 
 namespace App\Services\Contract;
 
+use App\Exceptions\CantFindException;
 use App\Item;
+use App\SpaceCtg;
 
 interface CtgServiceContract
 {
-    public function spaceCtg(int $space_id);
+    /**
+     * @param int $space_id
+     * @return array
+     */
+    public function ctgServiceSpaceCtg(int $space_id): array;
 
-    public function ctgDescendant(int $space_id, int $ctg_id);
+    /**
+     * @param int $space_id
+     * @param int $ctg_id
+     * @return array
+     */
+    public function ctgServiceCtgDescendant(int $space_id, int $ctg_id): array;
 
-    public function moveCtg(int $space_id, int $ctg_id, int $pid);
+    /**
+     * change the pid of a ctg and it's path, tier and all it's descendant's path tier
+     * @param int $space_id
+     * @param int $ctg_id
+     * @param int $pid
+     * @return array
+     * @throws CantFindException
+     */
+    public function moveCtg(int $space_id, int $ctg_id, int $pid): array;
 
     /**
      * @param int $ctg_id
@@ -25,9 +44,10 @@ interface CtgServiceContract
     public function ctgServiceCtgContent(int $ctg_id): Item;
 
     /**
+     * save ctg content to item table
      * @param int    $ctg_id
      * @param string $content
-     * @return mixed
+     * @return Item
      */
     public function ctgServiceSaveCtgContent(int $ctg_id, string $content): Item;
 
@@ -39,18 +59,11 @@ interface CtgServiceContract
      * @param string $title
      * @param int    $pid
      * @param int    $space_id
-     * @return \App\SpaceCtg | array
+     * @param null   $tier
+     * @param null   $path
+     * @return SpaceCtg
+     * @throws CantFindException
      */
-    public function ctgServiceCreate(string $title, int $pid, int $space_id);
+    public function ctgServiceCreate(string $title, int $pid, int $space_id, $tier = null, $path = null): SpaceCtg;
 
-    /**
-     * @param string $title
-     * @param int    $pid
-     * @param int    $space_id
-     * @param        $tier
-     * @param        $path
-     * @return \App\SpaceCtg
-     * @throws \App\Exceptions\CantFindException
-     */
-    public function ctgServiceCreateNestable(string $title, int $pid, int $space_id, $tier = null, $path = null);
 }

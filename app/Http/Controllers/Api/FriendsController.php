@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\Contract\FriendsServiceContract;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class FriendsController extends Controller
 {
@@ -25,21 +26,29 @@ class FriendsController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
-        $friend_id = $request->input('friend_id');
+        try {
+            $friend_id = $request->input('friend_id');
 
-        return $this->responseJson($this->friends->friendServiceCreate($friend_id));
+            return $this->responseJson($this->friends->friendServiceCreate($friend_id));
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function lists()
+    public function lists(): JsonResponse
     {
-        return $this->responseJson($this->friends->friendServiceLists());
+        try {
+            return $this->responseJson($this->friends->friendServiceLists());
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
 }

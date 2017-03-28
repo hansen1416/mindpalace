@@ -10,27 +10,33 @@ namespace App\Repositories\Contract;
 
 use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
-
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
+use App\Space;
 
 interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
 {
     /**
-     * user spaces
      * @param int $user_id
      * @return array
+     * @throws CantFindException
      */
-    public function allSpace(int $user_id);
-
-    /**
-     * @param string $name
-     * @param int $user_id
-     * @return array
-     */
-    public function searchUserSpaceByName(string $name, int $user_id);
+    public function spaceRepositoryHomeSpaces(int $user_id): array;
 
     /**
      * @param array $data
-     * @return \App\Space
+     * @return Space
+     * @throws SaveFailedException
      */
-    public function spaceRepositoryCreate(array $data);
+    public function spaceRepositoryCreate(array $data): Space;
+
+    /**
+     * search only the user own space and public space
+     * @param string $name
+     * @param int    $user_id
+     * @return array
+     * @throws CantFindException
+     */
+    public function searchUserSpaceByName(string $name, int $user_id): array;
+
 }

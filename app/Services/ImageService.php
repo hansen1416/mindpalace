@@ -14,8 +14,7 @@ use Intervention\Image\Facades\Image;
 class ImageService extends BaseService implements ImageServiceContract
 {
 
-    public function __construct(
-    )
+    public function __construct()
     {
         parent::__construct();
     }
@@ -25,35 +24,25 @@ class ImageService extends BaseService implements ImageServiceContract
      * 缩略图 50x50
      * 图片名称是 用户ID
      * @param $file
-     * @return int|string
+     * @return string
      */
-    public function savePortrait($file)
+    public function savePortrait($file): string
     {
-        try {
+        $img = Image::make($file);
 
-            if (!$this->getUserId()) {
-                return 401;
-            }
+        $path = public_path();
 
-            $img = Image::make($file);
+        $name  = '/portrait/' . $this->getUserId() . '.jpg';
+        $thumb = '/portrait/' . $this->getUserId() . '-t.jpg';
 
-            $path = public_path();
+        $img->resize(300, 300, function ($constraint) {
+            $constraint->upsize();
+        })->save($path . $name, 100);
 
-            $name  = '/portrait/' . $this->getUserId() . '.jpg';
-            $thumb = '/portrait/' . $this->getUserId() . '-t.jpg';
+        $img->resize(50, 50, function ($constraint) {
+            $constraint->upsize();
+        })->save($path . $thumb, 100);
 
-            $img->resize(300, 300, function ($constraint) {
-                $constraint->upsize();
-            })->save($path . $name, 100);
-
-            $img->resize(50, 50, function ($constraint) {
-                $constraint->upsize();
-            })->save($path . $thumb, 100);
-
-            return env('API_URL') . $name;
-        } catch (\Exception $e) {
-            return ['status' => 500, 'error' => $e->getMessage()];
-        }
-
+        return env('API_URL') . $name;
     }
 }

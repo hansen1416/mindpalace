@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Contract\UserServiceContract;
 use App\Services\Contract\ImageServiceContract;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -30,39 +31,58 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function profile()
+    public function profile(): JsonResponse
     {
-        return $this->responseJson($this->user->userProfile());
+        try {
+
+            return $this->responseJson(
+                $this->user->userServiceProfile()
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function updateUserProfile(Request $request)
+    public function updateUserProfile(Request $request): JsonResponse
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        if ($request->hasFile('portrait') && $request->file('portrait')->isValid()) {
+            if ($request->hasFile('portrait') && $request->file('portrait')->isValid()) {
 
-            $path = $this->img->savePortrait($request->file('portrait'));
+                $path = $this->img->savePortrait($request->file('portrait'));
 
-            if (isset($path['status']) && $path['status'] == 500) {
-                return $this->responseJson($path);
+                $data['portrait'] = $path;
             }
 
-            $data['portrait'] = $path;
+            return $this->responseJson(
+                $this->user->userServiceUpdateUserProfile($data)
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
         }
-
-        return $this->responseJson($this->user->updateUserProfile($data));
     }
 
-
-    public function search(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function search(Request $request): JsonResponse
     {
-        return $this->responseJson($this->user->search($request->input('name')));
+        try {
+
+            return $this->responseJson(
+                $this->user->userServiceSearch($request->input('name'))
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
 

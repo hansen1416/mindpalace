@@ -10,20 +10,23 @@ namespace App\Repositories\Contract;
 
 use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
+use App\User;
 
 interface UserRepositoryContract extends RepositoryContract, CacheableContract
 {
     /**
-     * user profile
-     * @param int $user_id
-     * @return array
+     * @param array $attributes
+     * @return User
+     * @throws SaveFailedException
      */
-    public function userProfile(int $user_id);
+    public function userRepositoryCreateUser(array $attributes): User;
 
     /**
-     * @param array $attributes
-     * @return string | int user_id
+     * @param int $user_id
+     * @return array
+     * @throws CantFindException
      */
-    public function createUser(array $attributes);
-
+    public function userRepositoryProfile(int $user_id): array;
 }

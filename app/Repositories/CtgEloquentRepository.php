@@ -8,33 +8,23 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\CtgRepositoryContract;
+use App\Exceptions\SaveFailedException;
+use App\Ctg;
 
 class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryContract
 {
     protected $repositoryId = 'rinvex.repository.ctg';
 
-
     protected $model = 'App\Ctg';
 
     /**
-     * @param int $ctg_id
-     * @return array
-     */
-    public function getOne(int $ctg_id)
-    {
-        $res = $this->find($ctg_id);
-        return $res ? $res->toArray() : [];
-    }
-
-    /**
      * @param array $data
-     * @return \App\Ctg
-     * @throws \App\Exceptions\SaveFailedException
+     * @return Ctg
+     * @throws SaveFailedException
      */
-    public function ctgRepositoryCreate(array $data)
+    public function ctgRepositoryCreate(array $data): Ctg
     {
         $res = $this->create($data);
 
@@ -44,5 +34,6 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
 
         return $res[1];
     }
+
 
 }

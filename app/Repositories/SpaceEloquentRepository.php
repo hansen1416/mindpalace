@@ -8,9 +8,11 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceRepositoryContract;
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
+use App\Space;
 
 class SpaceEloquentRepository extends EloquentRepository implements SpaceRepositoryContract
 {
@@ -19,26 +21,26 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
     protected $model = 'App\Space';
 
     /**
-     * @param array $data
-     * @return \App\Space
-     * @throws \App\Exceptions\SaveFailedException
+     * @param int $user_id
+     * @return array
+     * @throws CantFindException
      */
-    public function spaceRepositoryCreate(array $data)
+    public function spaceRepositoryHomeSpaces(int $user_id): array
     {
-        $res = $this->create($data);
+        $res = $this->availableSpaces($user_id)->findAll();
 
-        if (!$res[0]) {
-            throw new SaveFailedException();
+        if (!$res) {
+            throw new CantFindException();
         }
 
-        return $res[1];
+        return $res->toArray();
     }
 
     /**
      * @param $user_id
-     * @return $this
+     * @return SpaceEloquentRepository
      */
-    private function availableSpaces($user_id)
+    private function availableSpaces($user_id): SpaceEloquentRepository
     {
         if ($user_id) {
 
@@ -57,14 +59,19 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
     }
 
     /**
-     * @param int $user_id
-     * @return array
+     * @param array $data
+     * @return Space
+     * @throws SaveFailedException
      */
-    public function allSpace(int $user_id)
+    public function spaceRepositoryCreate(array $data): Space
     {
-        $model = $this->availableSpaces($user_id);
+        $res = $this->create($data);
 
-        return $model->findAll()->toArray();
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
     /**
@@ -72,15 +79,19 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
      * @param string $name
      * @param int    $user_id
      * @return array
+     * @throws CantFindException
      */
-    public function searchUserSpaceByName(string $name, int $user_id)
+    public function searchUserSpaceByName(string $name, int $user_id): array
     {
-        $model = $this->availableSpaces($user_id);
+        $res = $this->availableSpaces($user_id)
+                    ->where('name', 'like', '%' . $name . '%')
+                    ->findAll();
 
-        $model->setCacheLifetime(0)
-              ->where('name', 'like', '%' . $name . '%');
+        if (!$res) {
+            throw new CantFindException();
+        }
 
-        return $model->findAll()->toArray();
+        return $res->toArray();
     }
 
 

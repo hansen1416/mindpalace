@@ -73,7 +73,7 @@ class LoginController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\Response
      */
     protected function refreshToken(Request $request)
     {
@@ -94,8 +94,7 @@ class LoginController extends Controller
 
     /**
      * Redirect the user to the GitHub authentication page.
-     *
-     * @return Response
+     * @return mixed
      */
     public function redirectToProvider()
     {

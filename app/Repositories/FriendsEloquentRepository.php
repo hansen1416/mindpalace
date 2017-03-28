@@ -8,34 +8,52 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\CantFindException;
+use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\FriendsRepositoryContract;
+use App\Friends;
 
 class FriendsEloquentRepository extends EloquentRepository implements FriendsRepositoryContract
 {
     protected $repositoryId = 'rinvex.repository.friends';
 
-
     protected $model = 'App\Friends';
 
     /**
      * @param array $data
-     * @return array
+     * @return Friends
+     * @throws \App\Exceptions\SaveFailedException
      */
-    public function friendRepositoryCreate(array $data)
+    public function friendRepositoryCreate(array $data): Friends
     {
-        return $this->create($data);
+        $res = $this->create($data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
     }
 
     /**
-     * @param $user_id
+     * @param int $user_id
      * @return array
+     * @throws \App\Exceptions\CantFindException
      */
-    public function friendRepositoryLists($user_id){
-        return $this
+    public function friendRepositoryLists(int $user_id): array
+    {
+        $res = $this
             ->where('user_id', $user_id)
             ->with(['profile'])
-            ->findAll()->toArray();
+            ->findAll();
+
+        if (!$res) {
+            throw new CantFindException();
+        }
+
+        return $res->toArray();
     }
+
 
 }

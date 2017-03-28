@@ -8,7 +8,8 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\UnauthenticatedException;
+use App\User;
 use Auth;
 
 abstract class BaseService
@@ -19,33 +20,28 @@ abstract class BaseService
     }
 
     /**
-     * @param \Exception $e
-     * @return array
+     * @return int
      */
-    protected function returnException(\Exception $e)
+    protected function getUserId(): int
     {
-        return ['status' => 500, 'error' => $e->getMessage()];
+        return $this->getUser()->user_id;
     }
 
     /**
-     * @param Model $model
-     * @return array
+     * @return User
+     * @throws UnauthenticatedException
      */
-    protected function returnModel(Model $model)
+    protected function getUser(): User
     {
-        return $model->toArray();
-    }
+        $user = Auth::guard('api')->user()
+            ? Auth::guard('api')->user()
+            : Auth::user();
 
-
-    public function getUserId()
-    {
-        $user_id = Auth::guard('api')->user() ? Auth::guard('api')->user()->user_id : 0;
-
-        if (!$user_id) {
-            $user_id = Auth::user() ? Auth::user()->user_id : 0;
+        if (!$user) {
+            throw new UnauthenticatedException();
         }
 
-        return $user_id;
+        return $user;
     }
 
 

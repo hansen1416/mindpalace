@@ -8,31 +8,33 @@
 
 namespace App\Services\Contract;
 
+use App\Profile;
+use App\User;
 
 interface UserServiceContract
 {
     /**
      * @param array $data
-     * @return mixed
+     * @return User
      */
-    public function createUser(array $data);
+    public function userServiceCreateUser(array $data): User;
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function userProfile();
+    public function userServiceProfile(): array;
 
     /**
      * @param array $profile
-     * @return mixed
+     * @return Profile
      */
-    public function updateUserProfile(array $profile);
+    public function userServiceUpdateUserProfile(array $profile): Profile;
 
     /**
      * @param string $name
      * @return array
      */
-    public function search(string $name);
+    public function userServiceSearch(string $name): array;
 
 
 }

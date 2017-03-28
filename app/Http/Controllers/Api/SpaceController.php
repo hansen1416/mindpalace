@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\Contract\SpaceServiceContract;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class SpaceController extends Controller
 {
@@ -24,35 +25,50 @@ class SpaceController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function home()
+    public function home(): JsonResponse
     {
-        return $this->responseJson(
-            $this->space->allSpace()
-        );
+        try {
+
+            return $this->responseJson(
+                $this->space->spaceServiceHomeSpaces()
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
-        return $this->responseJson(
-            $this->space->searchSpace($request->input('name', ''))
-        );
+        try {
+
+            return $this->responseJson(
+                $this->space->searchSpace($request->input('name', ''))
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
-        return $this->responseJson(
-            $this->space->spaceServiceCreate($request->input('name'))
-        );
+        try {
+
+            return $this->responseJson(
+                $this->space->spaceServiceCreate($request->input('name'))
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
     }
 
 

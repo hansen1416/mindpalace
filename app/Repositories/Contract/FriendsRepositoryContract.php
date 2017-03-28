@@ -10,18 +10,21 @@ namespace App\Repositories\Contract;
 
 use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
+use App\Friends;
 
 interface FriendsRepositoryContract extends CacheableContract, RepositoryContract
 {
     /**
      * @param array $data
-     * @return mixed
+     * @return Friends
+     * @throws \App\Exceptions\SaveFailedException
      */
-    public function friendRepositoryCreate(array $data);
+    public function friendRepositoryCreate(array $data): Friends;
 
     /**
-     * @param $user_id
+     * @param int $user_id
      * @return array
+     * @throws \App\Exceptions\CantFindException
      */
-    public function friendRepositoryLists($user_id);
+    public function friendRepositoryLists(int $user_id): array;
 }

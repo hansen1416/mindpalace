@@ -16,6 +16,7 @@ use Route;
 use App\Services\Contract\UserServiceContract;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use DB;
 
 
 class RegisterController extends Controller
@@ -31,6 +32,9 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    /**
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     */
     protected function guard()
     {
         return Auth::guard('api');
@@ -64,10 +68,14 @@ class RegisterController extends Controller
                                        ]);
         }
 
-        $user = $this->user->createUser($request->all());
+        try{
+            DB::beginTransaction();
 
-        if (isset($user['status']) && $user['status'] == 500) {
-            return $this->responseJson($user);
+            $user = $this->user->userServiceCreateUser($request->all());
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return $this->responseJson($e);
         }
 
         event(new Registered($user));

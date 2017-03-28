@@ -8,13 +8,11 @@
 
 namespace App\Services;
 
-use App\Exceptions\CantFindException;
-use App\Exceptions\SaveFailedException;
 use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\UserRepositoryContract;
 use App\Repositories\Contract\ProfileRepositoryContract;
-use Auth;
-use DB;
+use App\Profile;
+use App\User;
 
 class UserService extends BaseService implements UserServiceContract
 {
@@ -32,112 +30,73 @@ class UserService extends BaseService implements UserServiceContract
         $this->profileRepo = $profileRepositoryContract;
     }
 
-
-    public function createUser(array $data)
+    /**
+     * @param array $data
+     * @return User
+     */
+    public function userServiceCreateUser(array $data): User
     {
-        DB::beginTransaction();
+        $userData = [
+            'email'    => $data['email'],
+            'password' => bcrypt($data['password']),
+        ];
 
-        try {
+        $user = $this->userRepo->userRepositoryCreateUser($userData);
 
-            $userData = [
-                'email'    => $data['email'],
-                'password' => bcrypt($data['password']),
-            ];
+        $profileData = [
+            'user_id' => $user->user_id,
+            'name'    => $data['name'],
+        ];
 
-            $user = $this->userRepo->createUser($userData);
+        $this->profileRepo->profileRepositoryCreateProfile($profileData);
 
-            //save not complete
-            if (!$user[0]) {
-                throw new SaveFailedException();
-            }
-
-            $profileData = [
-                'user_id' => $user[1]->user_id,
-                'name'    => $data['name'],
-            ];
-
-            $profile = $this->profileRepo->createProfile($profileData);
-
-            if (!$profile[0]) {
-                throw new SaveFailedException();
-            }
-
-            DB::commit();
-
-            return $user[1];
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return ['status' => 500, 'error' => $e->getMessage()];
-        }
+        return $user;
     }
 
     /**
      * @return array
      */
-    public function userProfile()
+    public function userServiceProfile(): array
     {
-//        $user = Auth::guard('api')->user();
-//        $user->profile;
-//        $user->space;
-        return $this->userRepo->userProfile($this->getUserId());
+        return $this->userRepo->userRepositoryProfile($this->getUserId());
     }
 
     /**
      * @param array $profile
-     * @return array
+     * @return Profile
      */
-    public function updateUserProfile(array $profile)
+    public function userServiceUpdateUserProfile(array $profile): Profile
     {
-        try {
+        $user = $this->getUser();
 
-            $user = Auth::guard('api')->user();
-
-            if (!$user) {
-                throw new CantFindException();
-            }
-
-            $res = $this->profileRepo->updateUserProfile($user->profile->profile_id, $profile);
-
-            if ($res[0]) {
-                return $res[1];
-            } else {
-                throw new SaveFailedException();
-            }
-        } catch (\Exception $e) {
-            return ['status' => 500, $e->getMessage()];
-        }
+        return $this->profileRepo->userRepositoryUpdateUserProfile($user->profile->profile_id, $profile);
     }
 
     /**
      * @param string $name
      * @return array
      */
-    public function search(string $name)
+    public function userServiceSearch(string $name): array
     {
-        try {
-            $user_id = Auth::guard('api')->user()->user_id;
+        $user_id = $this->getUserId();
 
-            $data = $this->profileRepo->searchUserByName('%' . $name . '%', $user_id);
+        $data = $this->profileRepo->profileRepositorySearch('%' . $name . '%', $user_id);
 
-            if ($data === false) {
-                throw new CantFindException();
-            }
+        //if they are friends, then is_friend = 1
+        foreach ($data as $key => $value) {
 
-            foreach ($data as $key => $value) {
-                $data[$key]['is_friend'] = 0;
-                foreach ($value['friends'] as $k => $v) {
-                    if ($v['user_id'] == $user_id) {
-                        $data[$key]['is_friend'] = 1;
-                    }
+            $data[$key]['is_friend'] = 0;
+
+            foreach ($value['friends'] as $k => $v) {
+
+                if ($v['user_id'] == $user_id) {
+                    $data[$key]['is_friend'] = 1;
                 }
-                unset($data[$key]['friends']);
             }
-
-            return $data;
-
-        } catch (\Exception $e) {
-            return ['status' => 500, $e->getMessage()];
+            unset($data[$key]['friends']);
         }
+
+        return $data;
     }
 
 }
