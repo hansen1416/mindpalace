@@ -149,7 +149,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
      * @param       $path
      * @param       $count
      */
-    private function createCtgTreeData(array $ctgTree, $pid, $space_id, $tier, $path, &$count): void
+    private function createCtgTreeData(array $ctgTree, $pid, $space_id, $tier, $path, &$count)
     {
         foreach ($ctgTree as $key => $value) {
             //create spaceCtg
