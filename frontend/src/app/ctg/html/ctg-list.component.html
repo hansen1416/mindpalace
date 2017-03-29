@@ -10,29 +10,7 @@
 >
     {{previous}}
 </div>
-<div class="control-panel"
-     *ngIf="showControl"
->
-    <div id="plus" class="btn"
-         (click)="clickAddBtn()">
-        <img src="assets/plus.svg" alt="">
-    </div>
-    <div id="view" class="btn"
-         (click)="clickViewBtn()">
-        <img src="assets/eyes.svg" alt="">
-    </div>
-    <div id="delete" class="btn">
-        <img src="assets/delete.svg" alt="">
-    </div>
-</div>
-<div id="ctg_content" class="text-box"
-     *ngIf="showContentBox">
-    <mdeditor></mdeditor>
-</div>
-<div id="add_ctg" class="text-input"
-     *ngIf="showAddCtgInput">
-    <input type="text" placeholder=""
-           #title
-           (keyup.enter)="addNewCtg(title.value)">
-</div>
+
+<ctg-control [ngStyle]="controlPosition()"
+             *ngIf="showControl"></ctg-control>
 

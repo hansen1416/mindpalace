@@ -9,6 +9,7 @@ import {CtgRoutingModule} from './ctg-routing.module';
 import {ThreeModule} from '../three/three.module';
 
 import {CtgListComponent} from './ctg-list.component';
+import {CtgControlComponent} from './ctg-control.component';
 import {SimplemdeComponent} from './simplemde.component';
 import {CtgService} from './ctg.service';
 import {CtgStyleDirective} from './ctg-style.directive';
@@ -24,6 +25,7 @@ import {CtgStyleDirective} from './ctg-style.directive';
                   CtgListComponent,
                   SimplemdeComponent,
                   CtgStyleDirective,
+                  CtgControlComponent,
               ],
               providers   : [
                   CtgService,

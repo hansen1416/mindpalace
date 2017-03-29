@@ -12,7 +12,7 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
-import {Ctg} from "./ctg";
+import {Ctg, MousePosition} from "./ctg";
 
 
 @Component({
@@ -30,8 +30,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
     protected intersect: THREE.Sprite;
 
-    protected selected: THREE.Sprite;
-
     protected drag: THREE.Sprite;
 
     protected dragLines: THREE.Line[];
@@ -42,10 +40,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
     private showControl = false;
 
-    private showContentBox = false;
-
-    private showAddCtgInput = false;
-
     private urlSpaceId: number;
 
     private urlCtgId: number;
@@ -55,6 +49,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private subscriptionPrevious: Subscription;
 
     private projected = false;
+
+    protected controlPos: MousePosition;
 
     constructor(
         private location: Location,
@@ -247,9 +243,14 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         let currentObject = this.getFirstIntersectedObject();
 
         if (currentObject) {
-            this.selected = currentObject;
-
-            this.showControl = true;
+            //set selected ctg
+            this.ctgService.setCtg = currentObject.userData;
+            //set control panel position
+            this.controlPos        = {x: event.clientX, y: event.clientY};
+            //update control position in ctg service
+            this.ctgService.setControlPosition(this.controlPos);
+            //show control panel
+            this.showControls();
         } else {
             this.setSpriteToOrigin();
             this.intersect = null;
@@ -489,74 +490,15 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     }
 
     /**
-     * ctg control panel
-     * view ctg content button
-     */
-    clickViewBtn() {
-        this.showContentBox = true;
-
-        this.ctgService.setCtgId = this.selected.userData.ctg_id;
-
-        this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctgService.getCtgId)).subscribe(
-            response => {
-                if (response.status == 500) {
-                    this.messageService.show(response.error);
-                } else {
-                    this.ctgService.simpleMDE.value(response.content);
-                    this.messageService.show('saved successful');
-                }
-            }
-        );
-    }
-
-    /**
-     * ctg control panel
-     * add new ctg button
-     */
-    clickAddBtn() {
-        this.ctgService.setCtgId = this.selected.userData.ctg_id;
-
-        this.showAddCtgInput = true;
-    }
-
-    /**
-     * add a new child ctg to selected ctg
-     * @param title
-     */
-    addNewCtg(title: string) {
-
-        if (!title) {
-            return;
-        }
-
-        let data = new FormData();
-        data.append('title', title);
-        data.append('ctg_id', this.ctgService.getCtgId);
-        data.append('space_id', this.ctgService.getSpaceId);
-
-        this.apiHttpService.post(this.apiRoutesService.createCtg, data).subscribe(
-            response => {
-                if (response.status && response.status == 500) {
-                    this.messageService.show(response.error);
-                } else {
-                    this.rebuildScene();
-
-                    this.hideControls();
-                }
-            }
-        );
-    }
-
-    /**
      * hide control panel and content editor
      */
     private hideControls() {
         //hide the control buttons
-        this.showControl     = false;
-        //hide the content editor
-        this.showContentBox  = false;
-        //hide the title input
-        this.showAddCtgInput = false;
+        this.showControl = false;
+    }
+
+    private showControls() {
+        this.showControl = true;
     }
 
     /**
@@ -566,6 +508,21 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected goPreviousCtg() {
         this.ctgService.shiftPrevious();
         this.location.back();
+    }
+
+    /**
+     * set control panel position
+     * @returns {{display: string, width: number, height: number, position: string, top: string, left: string}}
+     */
+    controlPosition() {
+        return {
+            display : 'block',
+            width   : 0,
+            height  : 0,
+            position: 'absolute',
+            top     : this.controlPos.y + 'px',
+            left    : this.controlPos.x + 'px'
+        };
     }
 
 
