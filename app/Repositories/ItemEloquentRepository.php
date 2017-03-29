@@ -33,7 +33,7 @@ class ItemEloquentRepository extends EloquentRepository implements ItemRepositor
             : $this->findBy('ctg_id', $ctg_id);
 
         if (!$item) {
-            throw new CantFindException();
+            throw new CantFindException('no_ctg_content');
         }
 
         return $item;

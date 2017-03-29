@@ -10,7 +10,7 @@ import {Subscription}   from 'rxjs/Subscription';
 import {UserService} from '../core/user.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
-import {MessageService} from '../share/message.service';
+import {MessageService} from '../message/message.service';
 
 import {languages} from '../lang/lang-available';
 

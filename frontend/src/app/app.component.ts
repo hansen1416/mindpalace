@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from './core/user.service';
 import {ApiRoutesService} from './share/api-routes.service';
 import {ApiHttpService} from './share/api-http.service';
-import {MessageService} from './share/message.service';
+import {MessageService} from './message/message.service';
 
 @Component({
                selector:    'my-app',

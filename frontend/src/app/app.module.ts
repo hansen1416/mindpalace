@@ -12,7 +12,7 @@ import {CtgModule} from './ctg/ctg.module';
 import {ProfileModule} from './profile/profile.module';
 import {FriendsModule} from './friends/friends.module';
 
-import {MessageComponent} from './share/message.component';
+import {MessageComponent} from './message/message.component';
 
 /* App root */
 import {AppComponent}  from './app.component';

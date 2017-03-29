@@ -343,7 +343,7 @@ export class AbstractThreeComponent {
 
         let item: Ctg[];
         //每一层之间的距离
-        let radius = 4;
+        let radius = 5.5;
         //层数
         let tier   = 0;
         //the max points number on each tier

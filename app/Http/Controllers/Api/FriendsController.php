@@ -33,7 +33,9 @@ class FriendsController extends Controller
         try {
             $friend_id = $request->input('friend_id');
 
-            return $this->responseJson($this->friends->friendServiceCreate($friend_id));
+            return $this->responseJson(
+                $this->friends->friendServiceCreate($friend_id)
+            );
         } catch (\Exception $e) {
             return $this->responseJson($e);
         }
@@ -45,7 +47,9 @@ class FriendsController extends Controller
     public function lists(): JsonResponse
     {
         try {
-            return $this->responseJson($this->friends->friendServiceLists());
+            return $this->responseJson(
+                $this->friends->friendServiceLists()
+            );
         } catch (\Exception $e) {
             return $this->responseJson($e);
         }

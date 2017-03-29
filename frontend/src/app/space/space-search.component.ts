@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
-import {MessageService} from '../share/message.service';
+import {MessageService} from '../message/message.service';
 
 @Component({
                selector   : 'space-search',

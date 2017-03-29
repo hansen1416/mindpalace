@@ -8,7 +8,7 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {FriendsService} from './friends.service';
 import {CssService} from '../share/css.service';
-import {MessageService} from '../share/message.service';
+import {MessageService} from '../message/message.service';
 import {Friend} from './friend';
 import {Position} from '../space/position';
 

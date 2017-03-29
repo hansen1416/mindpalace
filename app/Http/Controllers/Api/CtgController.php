@@ -51,7 +51,7 @@ class CtgController extends Controller
     {
         try {
             DB::beginTransaction();
-            $res = $this->responseJson($this->ctg->moveCtg($space_id, $ctg_id, $pid));
+            $res = $this->ctg->moveCtg($space_id, $ctg_id, $pid);
 
             DB::commit();
             return $this->responseJson($res);
@@ -68,7 +68,9 @@ class CtgController extends Controller
     public function ctgContent($ctg_id): JsonResponse
     {
         try {
-            return $this->responseJson($this->ctg->ctgServiceCtgContent($ctg_id));
+            return $this->responseJson(
+                $this->ctg->ctgServiceCtgContent($ctg_id)
+            );
         } catch (\Exception $e) {
             return $this->responseJson($e);
         }
@@ -84,7 +86,9 @@ class CtgController extends Controller
             $ctg_id  = $request->input('ctg_id');
             $content = $request->input('content');
 
-            return $this->responseJson($this->ctg->ctgServiceSaveCtgContent($ctg_id, $content));
+            return $this->responseJson(
+                $this->ctg->ctgServiceSaveCtgContent($ctg_id, $content)
+            );
         } catch (\Exception $e) {
             return $this->responseJson($e);
         }
@@ -103,7 +107,7 @@ class CtgController extends Controller
             $title    = $request->input('title');
 
             DB::beginTransaction();
-            $spaceCtg = $this->responseJson($this->ctg->ctgServiceCreate($title, $pid, $space_id));
+            $spaceCtg = $this->ctg->ctgServiceCreate($title, $pid, $space_id);
 
             DB::commit();
             return $this->responseJson($spaceCtg);

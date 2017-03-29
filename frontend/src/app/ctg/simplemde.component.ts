@@ -7,7 +7,7 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
-import {MessageService} from '../share/message.service';
+import {MessageService} from '../message/message.service';
 
 // Declare Global Variable
 let SimpleMDE: any = require('simplemde');

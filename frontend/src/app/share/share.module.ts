@@ -12,7 +12,7 @@ import {ApiRoutesService} from './api-routes.service';
 import {ApiHttpService} from './api-http.service';
 import {CssService} from './css.service';
 import {StorageService} from './storage.service';
-import {MessageService} from './message.service';
+import {MessageService} from '../message/message.service';
 import {ThumbPipe} from './thumb.pipe';
 
 @NgModule({

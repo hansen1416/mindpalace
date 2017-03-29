@@ -8,7 +8,7 @@ import {UserService} from "./user.service";
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {SpaceService} from "../space/space.service";
-import {MessageService} from '../share/message.service';
+import {MessageService} from '../message/message.service';
 
 import {languages} from '../lang/lang-available';
 

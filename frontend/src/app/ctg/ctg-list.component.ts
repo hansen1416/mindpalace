@@ -11,7 +11,7 @@ import {AbstractThreeComponent} from '../three/abstract-three.component';
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
-import {MessageService} from '../share/message.service';
+import {MessageService} from '../message/message.service';
 import {Ctg} from "./ctg";
 
 
@@ -571,7 +571,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
     ngOnDestroy() {
         this.subscriptionParam.unsubscribe();
-
         this.subscriptionPrevious.unsubscribe();
     }
 
