@@ -60,39 +60,31 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         if (pos.x < radius && pos.y < this.cssService.bh - radius) {
             //top left corner
             if (pos.y < radius) {
-                console.log('tl');
                 angle = 0;
             } else {
-                console.log('l');
                 angle = -1;
             }
             //top side without top left corner
         } else if (pos.y < radius) {
             //top right corner
             if (pos.x > this.cssService.bw - radius) {
-                console.log('tr');
                 angle = 2;
             } else {
-                console.log('t');
                 angle = 1;
             }
             //right side without top right corner
         } else if (pos.x > this.cssService.bw - radius) {
             //bottom right corner
             if (pos.y > this.cssService.bh - radius) {
-                console.log('br');
                 angle = 4;
             } else {
-                console.log('r');
                 angle = 3;
             }
             //bottom side without bottom right corner
-        } else if (pos.y > this.cssService.bh - radius) {
-            console.log('b');
+        } else if (pos.y > this.cssService.bh - radius && pos.x > radius) {
             angle = 5;
             // bottom left corner and other place use the default style
         } else {
-            console.log('rest');
             return;
         }
 
