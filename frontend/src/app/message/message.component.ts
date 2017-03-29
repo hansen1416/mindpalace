@@ -8,8 +8,8 @@ import {Subscription}   from 'rxjs/Subscription';
 
 @Component({
                selector   : 'message',
-               templateUrl: '../share/html/message.component.html',
-               styles     : [require('./../share/scss/message.component.scss')]
+               templateUrl: './html/message.component.html',
+               styles     : [require('./scss/message.component.scss')]
            })
 export class MessageComponent implements OnDestroy {
 

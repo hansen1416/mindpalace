@@ -12,7 +12,6 @@ import {UserService} from '../core/user.service';
 import {Space} from './space';
 import {Position} from './position';
 
-
 @Component({
                selector   : 'space-home',
                templateUrl: './html/space-home.component.html',
