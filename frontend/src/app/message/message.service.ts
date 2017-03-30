@@ -18,6 +18,8 @@ export class MessageService {
 
     public webSocket: WebSocketService;
 
+    private timeOut;
+
     constructor(
         private userService: UserService
     ) {
@@ -41,7 +43,7 @@ export class MessageService {
         // set received message stream
         this.webSocket.getDataStream().subscribe(
             (msg) => {
-                this.show(msg.data);
+                this.showFlashMessage(msg.data);
                 console.log(msg.data);
             },
             (msg) => {
@@ -60,13 +62,45 @@ export class MessageService {
         this.webSocket.close();
     }
 
-    show(value: string) {
+    /**
+     * display a flash message, hide it after 5 seconds
+     * @param value
+     */
+    protected showFlashMessage(value: string) {
         this.showMessage = true;
         this.messageSource.next(value);
+        //if there is a timer, clear it first
+        if (this.timeOut) {
+            clearTimeout(this.timeOut);
+        }
+        //hide flash message after 5 seconds
+        this.timeOut = setTimeout(() => {
+            this.hide();
+            delete this.timeOut;
+        }, 5000);
     }
 
-    hide() {
+    protected hide() {
         this.showMessage = false;
         this.messageSource.next('');
     }
+
+    /**
+     * show response message
+     * @param response
+     * @param callback
+     */
+    handleResponse(response: any, callback: Function | string) {
+        if (response.status == 500) {
+            this.showFlashMessage(response.error);
+        } else {
+            if (callback instanceof Function) {
+                callback();
+            } else if (typeof callback == 'string') {
+                this.showFlashMessage('message.' + callback);
+            }
+        }
+    }
+
+
 }

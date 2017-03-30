@@ -9,6 +9,7 @@ import {CssService} from '../share/css.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {UserService} from '../core/user.service';
+import {MessageService} from '../message/message.service';
 import {Space} from './space';
 import {Position} from './position';
 
@@ -44,6 +45,7 @@ export class SpaceHomeComponent implements OnInit, OnDestroy {
         private apiRoutes: ApiRoutesService,
         private apiHttp: ApiHttpService,
         private userService: UserService,
+        private messageService: MessageService,
     ) {
         this.subscriptionSpaces = spaceService.spaces$.subscribe(
             spaces => {
@@ -109,11 +111,13 @@ export class SpaceHomeComponent implements OnInit, OnDestroy {
 
         data.append('name', this.newSpaceName);
 
-        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(response => {
-            this.spaceService.addNewSpace(<Space>response);
-            this.newSpaceName  = '';
-            this.addInProgress = false;
-        });
+        this.apiHttp.post(this.apiRoutes.createSpace, data).subscribe(
+            response => this.messageService.handleResponse(response, () => {
+                this.spaceService.addNewSpace(<Space>response);
+                this.newSpaceName  = '';
+                this.addInProgress = false;
+            })
+        );
     }
 
 

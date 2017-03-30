@@ -31,5 +31,8 @@ export const ZH: LangInterface = {
     action: {
         save: '保存',
         home: '首页'
-    }
+    },
+    message: {
+        ctg_content_updated: '内容更新成功',
+    },
 };

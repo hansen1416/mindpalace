@@ -87,13 +87,9 @@ export class ProfileComponent implements OnDestroy {
         }
 
         this.apiHttpService.post(this.apiRoutesService.updateProfile, data).subscribe(
-            response => {
-                if (response.status == 500) {
-                    this.messageService.show(response.error);
-                } else {
-                    this.userService.setUserProperties(response);
-                }
-            }
+            response => this.messageService.handleResponse(response, () => {
+                this.userService.setUserProperties(response);
+            })
         );
     }
 

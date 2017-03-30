@@ -135,7 +135,7 @@ class CtgService extends BaseService implements CtgServiceContract
      */
     public function ctgServiceCtgContent(int $ctg_id): Item
     {
-        return $this->itemRepo->getOne($ctg_id);
+        return $this->itemRepo->getItemByCtgId($ctg_id);
     }
 
     /**
@@ -146,10 +146,10 @@ class CtgService extends BaseService implements CtgServiceContract
      */
     public function ctgServiceSaveCtgContent(int $ctg_id, string $content): Item
     {
-        $item = $this->itemRepo->getOne($ctg_id);
+        $item_id = $this->itemRepo->getItemIdByCtgId($ctg_id);
 
-        if ($item->item_id) {
-            return $this->itemRepo->itemRepositoryUpdate($item->item_id, $content);
+        if ($item_id) {
+            return $this->itemRepo->itemRepositoryUpdate($item_id, $content);
         }
 
         return $this->itemRepo->itemRepositoryCreate($ctg_id, $content);
@@ -196,5 +196,5 @@ class CtgService extends BaseService implements CtgServiceContract
                                                                  'path'     => $path,
                                                              ]);
     }
-    
+
 }

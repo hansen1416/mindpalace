@@ -13,7 +13,7 @@ export class LangService {
     ) {}
 
 
-    getLanguagePackage(): LangInterface {
+    private getLanguagePackage(): LangInterface {
 
         let languagePackage: LangInterface;
 
@@ -38,7 +38,7 @@ export class LangService {
         try {
             return languagePackage[keys[0]][keys[1]];
         }catch (e){
-            console.warn('can not find translation for ' + text);
+            // console.warn('can not find translation for ' + text);
         }
     }
 

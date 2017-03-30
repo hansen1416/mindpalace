@@ -10,7 +10,6 @@ namespace App\Repositories;
 
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\ItemRepositoryContract;
-use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
 use App\Item;
 
@@ -21,22 +20,33 @@ class ItemEloquentRepository extends EloquentRepository implements ItemRepositor
     protected $model = 'App\Item';
 
     /**
-     * @param int      $ctg_id
-     * @param int|null $item_id
+     * @param int $ctg_id
      * @return \Illuminate\Database\Eloquent\Model | Item
-     * @throws CantFindException
      */
-    public function getOne(int $ctg_id, int $item_id = null): Item
+    public function getItemByCtgId(int $ctg_id): Item
     {
-        $item = $item_id
-            ? $this->find($item_id)
-            : $this->findBy('ctg_id', $ctg_id);
+        $item = $this->findBy('ctg_id', $ctg_id);
 
         if (!$item) {
-            throw new CantFindException('no_ctg_content');
+            return new Item();
         }
 
         return $item;
+    }
+
+    /**
+     * @param int $ctg_id
+     * @return int
+     */
+    public function getItemIdByCtgId(int $ctg_id): int
+    {
+        $item = $this->findBy('ctg_id', $ctg_id);
+
+        if ($item) {
+            return $item->item_id;
+        }
+
+        return 0;
     }
 
     /**

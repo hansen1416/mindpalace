@@ -3,6 +3,13 @@
          [ngStyle]="setBtnPosition('plus')"
          (click)="clickAddBtn()">
         <img src="assets/plus.svg" alt="">
+
+        <div class="text-input"
+             *ngIf="showAddCtgInput">
+            <input type="text" placeholder=""
+                   #title
+                   (keyup.enter)="addNewCtg(title.value)">
+        </div>
     </div>
     <div id="view" class="btn"
          [ngStyle]="setBtnPosition('view')"
@@ -15,13 +22,6 @@
         <img src="assets/delete.svg" alt="">
     </div>
 </div>
-<div id="add_ctg" class="text-input"
-     *ngIf="showAddCtgInput">
-    <input type="text" placeholder=""
-           #title
-           (keyup.enter)="addNewCtg(title.value)">
-</div>
-<div id="ctg_content" class="text-box"
-     *ngIf="showContentBox">
-    <mdeditor></mdeditor>
-</div>
+<mdeditor class="text-box"
+          [ngStyle]="setEditorPosition()"
+          *ngIf="showContentBox"></mdeditor>

@@ -22,35 +22,47 @@ import {Ctg, MousePosition} from "./ctg";
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
-    private timer = 0;
-
+    private timer           = 0;
+    //timer animation, count press time
     private timerAnimation: number;
-
+    //render the scene, mouse control the ctg list
     private renderAnimation: number;
-
+    //first of the mouse hovering element
     protected intersect: THREE.Sprite;
-
+    //click selected sprite
+    protected selected: THREE.Sprite;
+    //previous selected sprite
+    private previousSelected: THREE.Sprite;
+    //when selected sprite changed to selectedColor, its value set to true, when click a new sprite, its value set to false
+    private selectedPainted = false;
+    //dragged sprite
     protected drag: THREE.Sprite;
-
+    //the lines connected to the dragged sprite
     protected dragLines: THREE.Line[];
-
+    //the origin position of the dragged sprite element
     protected originDragPosition: THREE.Vector3;
-
+    //previous visited ctg
     protected previous;
-
-    private showControl = false;
-
+    //show or hide control panel
+    private showControl     = false;
+    //space_id in url
     private urlSpaceId: number;
-
+    //ctg_id in url
     private urlCtgId: number;
-
+    //subscription to the url parameters
     private subscriptionParam: Subscription;
-
+    //subscription to the previous visited ctg
     private subscriptionPrevious: Subscription;
-
-    private projected = false;
-
+    //if the scene has been projected already
+    private projected       = false;
+    //the mouse position then mouse clicked a ctg
     protected controlPos: MousePosition;
+    //original sprite background color
+    protected originColor   = 0xffffff;
+    //hovering sprite background color
+    protected hoverColor    = 0x5db6ff;
+    //selected sprite background color
+    protected selectedColor = 0xff0000;
 
     constructor(
         private location: Location,
@@ -203,15 +215,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
                     this.drag.userData.space_id,
                     this.drag.userData.ctg_id,
                     target.userData.ctg_id
-                )).subscribe(response => {
-                    if (response.status && response.status == 500) {
-                        this.messageService.show(response.error);
-                    } else {
-                        this.rebuildScene();
-
-                        this.hideControls();
-                    }
-                });
+                )).subscribe(response => this.messageService.handleResponse(response, () => {
+                    //refresh the scene
+                    this.rebuildScene();
+                    //hide control panel
+                    this.hideControls();
+                }));
 
             } else {
                 this.drag.position.set(this.originDragPosition.x, this.originDragPosition.y, this.originDragPosition.z);
@@ -243,6 +252,18 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         let currentObject = this.getFirstIntersectedObject();
 
         if (currentObject) {
+            //if current clicking sprite is not the selected sprite
+            //set it as the new selected sprite, previous selected as previousSelected
+            //and set selectedPainted to false, so it color will be changed to selectedColor
+            if (!this.selected || (this.selected && this.selected.uuid != currentObject.uuid)) {
+                if (this.selected) {
+                    this.previousSelected = this.selected;
+                }
+                //new selected sprite
+                this.selected        = currentObject;
+                this.selectedPainted = false;
+            }
+
             //set selected ctg
             this.ctgService.setCtg = currentObject.userData;
             //set control panel position
@@ -418,14 +439,16 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * @param currentObject
      */
     private setSpriteToOrigin(currentObject?): void {
-        if (this.intersect) {
+        //if there is a intersect sprite
+        //and ( there is no selected sprite or the selected sprite is not the intersect sprite )
+        if (this.intersect && (!this.selected || (this.selected && this.selected.uuid != this.intersect.uuid))) {
 
             if (currentObject && this.intersect.uuid != currentObject.uuid) {
-                this.intersect.material.color.set(0xffffff);
+                this.intersect.material.color.setHex(this.originColor);
             }
 
             if (!currentObject) {
-                this.intersect.material.color.set(0xffffff);
+                this.intersect.material.color.setHex(this.originColor);
             }
         }
     }
@@ -455,11 +478,23 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             this.webGLRenderer.domElement.style.cursor = 'pointer';
 
             this.setSpriteToOrigin(currentObject);
-
-            currentObject.material.color.set(0xff0000);
+            //if the current hovering sprite is not the selected sprite the set its color to hover color
+            if (!this.selected || (this.selected && currentObject.uuid != this.selected.uuid)) {
+                currentObject.material.color.setHex(this.hoverColor);
+            }
             this.intersect = currentObject;
         } else {
             this.webGLRenderer.domElement.style.cursor = 'default';
+        }
+        //when there is a selected sprite and it has not yet been painted with selected color
+        if (this.selected && !this.selectedPainted) {
+            this.selected.material.color.setHex(this.selectedColor);
+            this.selectedPainted = true;
+        }
+        //if there is a previous selected sprite, then set its color to origin and delete the previous selected
+        if (this.previousSelected) {
+            this.previousSelected.material.color.setHex((this.originColor));
+            delete this.previousSelected;
         }
     }
 

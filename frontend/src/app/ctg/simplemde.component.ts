@@ -2,12 +2,13 @@
  * Created by hlz on 17-1-28.
  */
 // Angular Imports
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild, OnInit, OnDestroy} from '@angular/core';
 
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
+import {Subscription} from 'rxjs/Subscription';
 
 // Declare Global Variable
 let SimpleMDE: any = require('simplemde');
@@ -18,8 +19,14 @@ let SimpleMDE: any = require('simplemde');
                templateUrl: './html/simplemde.component.html',
                styles     : [require('./scss/simplemde.component.scss')]
            })
-export class SimplemdeComponent {
+export class SimplemdeComponent implements OnInit, OnDestroy {
     @ViewChild('simplemde') textarea: ElementRef;
+
+    private showSaveBtn: boolean = false;
+
+    private subscription: Subscription;
+
+    private simpleMDE: any;
 
     constructor(
         private elementRef: ElementRef,
@@ -30,13 +37,19 @@ export class SimplemdeComponent {
     ) {
     }
 
-    private showSaveBtn = false;
+
+    ngOnInit() {
+        this.subscription = this.ctgService.ctgContent$.subscribe(
+            content => this.simpleMDE.value(content)
+        );
+    }
+
 
     ngAfterViewInit() {
         // var mde = new SimpleMDE({element: this.elementRef.nativeElement.value});
-        this.ctgService.simpleMDE = new SimpleMDE({element: this.textarea.nativeElement});
+        this.simpleMDE = new SimpleMDE({element: this.textarea.nativeElement});
 
-        this.ctgService.simpleMDE.codemirror.on("change", () => this.contentChange());
+        this.simpleMDE.codemirror.on("change", () => this.contentChange());
     }
 
     /**
@@ -55,18 +68,17 @@ export class SimplemdeComponent {
     saveContent() {
 
         let data = new FormData();
-        data.append('ctg_id', this.ctgService.getCtgId);
-        data.append('content', this.ctgService.simpleMDE.value());
+        data.append('ctg_id', this.ctgService.getCtg.ctg_id);
+        data.append('content', this.simpleMDE.value());
 
         this.apiHttpService.post(this.apiRouteService.saveCtgContent, data).subscribe(
-            response => {
-                if (response.status && response.status == 500) {
-                    this.messageService.show(response.error);
-                }else{
-                    console.log(response);
-                }
-            }
+            response => this.messageService.handleResponse(response, 'ctg_content_updated')
         )
+    }
+
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
 }

@@ -48,13 +48,13 @@ $radius: $btn-width * 2.5;
 }
 .text-input {
     position: absolute;
-    top: 25%;
-    left: 50%;
+    top: $btn-width / 2;
+    left: $btn-width / 2;
     width: $btn-width * 5;
     height: $btn-width * 0.8;
     line-height: $btn-width * 0.8;
     margin: $btn-width * 0.8 / -2 0 0 $btn-width;
-    background-color: #fff;
+    background-color: #ffffff;
 
     input {
         width: 100%;
@@ -65,7 +65,7 @@ $radius: $btn-width * 2.5;
 .text-box {
     $box-width: 30%;
     $box-height: 70%;
-    position: absolute;
+    position: fixed;
     width: $box-width;
     height: $box-height;
     background-color: #FFFFFF;

@@ -81,18 +81,14 @@ export class FriendsComponent implements OnInit, OnDestroy {
     }
 
 
-    addFriend(friend:Friend) {
+    addFriend(friend: Friend) {
         let data = new FormData();
         data.append('friend_id', friend.user_id);
 
         this.apiHttpService.post(this.apiRoutesService.createFriend, data).subscribe(
-            response => {
-                if (response.status && response.status == 500) {
-                    this.messageService.show(response.error);
-                }else{
-                    friend.is_friend = 1;
-                }
-            }
+            response => this.messageService.handleResponse(response, () => {
+                friend.is_friend = 1;
+            })
         )
     }
 

@@ -25,8 +25,6 @@ export class CtgService {
     private previousSource        = new Subject<Array<string>>();
     //previous observable
     public previous$              = this.previousSource.asObservable();
-    //编辑器
-    public simpleMDE: any;
     //当前选中的 ctg
     private ctg: Ctg;
     //control position
@@ -35,6 +33,12 @@ export class CtgService {
     private controlPositionSource = new Subject<MousePosition>();
     //control position observable
     public controlPosition$       = this.controlPositionSource.asObservable();
+    //ctg content
+    private ctgContent: string;
+
+    private ctgContentSource = new Subject<string>();
+
+    public ctgContent$ = this.ctgContentSource.asObservable();
 
     constructor(
         private apiHttpService: ApiHttpService,
@@ -105,6 +109,11 @@ export class CtgService {
     setControlPosition(pos: MousePosition) {
         this.controlPosition = pos;
         this.controlPositionSource.next(this.controlPosition);
+    }
+    //set ctg content
+    setCtgContent(content: string) {
+        this.ctgContent = content;
+        this.ctgContentSource.next(this.ctgContent);
     }
 
 }

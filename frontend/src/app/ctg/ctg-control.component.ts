@@ -103,37 +103,41 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         };
     }
 
-
     /**
      * ctg control panel
      * view ctg content button
      */
     clickViewBtn() {
-        this.showContentBox = true;
-
+        //request the ctg content from server
         this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctgService.getCtg.ctg_id)).subscribe(
-            response => {
-                if (response.status == 500) {
-                    this.messageService.show(response.error);
-                } else {
-                    this.ctgService.simpleMDE.value(response.content);
-                    this.messageService.show('saved successful');
-                }
-            }
+            response => this.messageService.handleResponse(response, () => {
+                this.ctgService.setCtgContent(response.content ? response.content : '');
+            })
         );
+        //show editor
+        this.showContentBox = true;
     }
 
-    //
-    // /**
-    //  * ctg control panel
-    //  * add new ctg button
-    //  */
-    // clickAddBtn() {
-    //     this.ctgService.setCtgId = this.selected.userData.ctg_id;
-    //
-    //     this.showAddCtgInput = true;
-    // }
-    //
+    /**
+     * set editor position
+     * @returns {{left: string}}
+     */
+    setEditorPosition() {
+        if (this.controlPosition.x < this.cssService.bw / 2 - 6.25 * this.cssService.remPx) {
+            return {
+                left: '62%'
+            }
+        }
+    }
+
+    /**
+     * ctg control panel
+     * add new ctg button
+     */
+    clickAddBtn() {
+        this.showAddCtgInput = true;
+    }
+
     // /**
     //  * add a new child ctg to selected ctg
     //  * @param title

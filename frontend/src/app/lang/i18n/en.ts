@@ -4,7 +4,7 @@
 import {LangInterface} from '../lang.interface';
 
 export const EN: LangInterface = {
-    user  : {
+    user   : {
         email_placeholder           : 'Enter your email please',
         email_required              : 'Enter your email please',
         email_validation            : 'Invalid email address',
@@ -23,13 +23,16 @@ export const EN: LangInterface = {
         logout                      : 'logout',
         search_friends_placeholder  : 'Search a friend by name',
     },
-    space : {
+    space  : {
         show_all    : 'Show all',
         search_space: 'Search by space name',
         fetch_url   : 'Create a space from a web page',
     },
-    action: {
+    action : {
         save: 'Save',
         home: 'Home',
-    }
+    },
+    message: {
+        ctg_content_updated: 'content has been updated',
+    },
 };

@@ -83,7 +83,7 @@ class CtgController extends Controller
     public function saveCtgContent(Request $request): JsonResponse
     {
         try {
-            $ctg_id  = $request->input('ctg_id');
+            $ctg_id  = (int)$request->input('ctg_id');
             $content = $request->input('content');
 
             return $this->responseJson(

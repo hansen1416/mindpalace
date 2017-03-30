@@ -288,6 +288,7 @@ export class AbstractThreeComponent {
         let sprite                 = new THREE.Sprite(spriteMaterial);
 
         sprite.scale.set(c_w / c_h, 1, 1);
+        sprite.material.needsUpdate = true;
 
         spriteTexture.dispose();
         spriteMaterial.dispose();

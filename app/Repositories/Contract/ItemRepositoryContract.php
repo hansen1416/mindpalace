@@ -10,7 +10,6 @@ namespace App\Repositories\Contract;
 
 use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
-use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
 use App\Item;
 
@@ -18,12 +17,16 @@ interface ItemRepositoryContract extends CacheableContract, RepositoryContract
 {
 
     /**
-     * @param int      $ctg_id
-     * @param int|null $item_id
-     * @return Item
-     * @throws CantFindException
+     * @param int $ctg_id
+     * @return \Illuminate\Database\Eloquent\Model | Item
      */
-    public function getOne(int $ctg_id, int $item_id = null): Item;
+    public function getItemByCtgId(int $ctg_id): Item;
+
+    /**
+     * @param int $ctg_id
+     * @return int
+     */
+    public function getItemIdByCtgId(int $ctg_id):int;
 
     /**
      * @param int    $ctg_id

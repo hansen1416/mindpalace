@@ -29,6 +29,9 @@ export interface LangInterface {
     action: {
         save: string,
         home: string,
-    }
+    },
+    message: {
+        ctg_content_updated:string,
+    },
 
 }
