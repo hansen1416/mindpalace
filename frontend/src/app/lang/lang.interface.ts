@@ -24,14 +24,18 @@ export interface LangInterface {
     space: {
         show_all: string,
         search_space: string,
-        fetch_url: string
+        fetch_url: string,
+        new_space_placeholder: string,
     },
     action: {
         save: string,
         home: string,
+        yes: string,
+        no: string,
     },
     message: {
-        ctg_content_updated:string,
+        ctg_content_updated: string,
+        confirm_delete_ctg: string,
     },
 
 }

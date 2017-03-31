@@ -4,7 +4,7 @@
 import {LangInterface} from '../lang.interface';
 
 export const ZH: LangInterface = {
-    user  : {
+    user   : {
         email_placeholder           : '请输入您的邮箱',
         email_required              : '请输入您的邮箱',
         email_validation            : '邮箱格式不正确',
@@ -23,16 +23,20 @@ export const ZH: LangInterface = {
         logout                      : '退出',
         search_friends_placeholder  : '通过名字查找朋友',
     },
-    space : {
-        show_all    : '显示全部',
-        search_space: '搜索',
-        fetch_url   : '通过网页创建空间',
+    space  : {
+        show_all             : '显示全部',
+        search_space         : '搜索',
+        fetch_url            : '通过网页创建空间',
+        new_space_placeholder: '新空间名称',
     },
-    action: {
+    action : {
         save: '保存',
-        home: '首页'
+        home: '首页',
+        yes : '是',
+        no  : '否'
     },
     message: {
         ctg_content_updated: '内容更新成功',
+        confirm_delete_ctg : '确定删除选中的分类和他的所有子分类么',
     },
 };

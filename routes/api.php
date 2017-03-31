@@ -58,6 +58,8 @@ Route::group([
              ->where('pid', '[0-9]+');
         Route::post('ctg/saveCtgContent', 'CtgController@saveCtgContent');
         Route::post('ctg/createCtg', 'CtgController@createCtg');
+        Route::get('ctg/delete/{ctg_id}', 'CtgController@deleteCtg')
+             ->where('ctg_id', '[0-9]+');
         Route::post('friends/create', 'FriendsController@create');
         Route::get('friends/lists', 'FriendsController@lists');
     });

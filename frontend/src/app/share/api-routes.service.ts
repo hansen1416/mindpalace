@@ -51,6 +51,11 @@ export class ApiRoutesService {
         return this.api_url + 'ctg/content/' + ctg_id;
     }
 
+    //delete ctg
+    ctgDelete(ctg_id: number) {
+        return this.api_url + 'ctg/delete/' + ctg_id;
+    }
+
 
     get saveCtgContent(): string {
         return this.api_url + 'ctg/saveCtgContent';

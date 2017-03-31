@@ -24,15 +24,19 @@ export const EN: LangInterface = {
         search_friends_placeholder  : 'Search a friend by name',
     },
     space  : {
-        show_all    : 'Show all',
-        search_space: 'Search by space name',
-        fetch_url   : 'Create a space from a web page',
+        show_all             : 'Show all',
+        search_space         : 'Search by space name',
+        fetch_url            : 'Create a space from a web page',
+        new_space_placeholder: 'New space name',
     },
     action : {
         save: 'Save',
         home: 'Home',
+        yes : 'yes',
+        no  : 'no'
     },
     message: {
-        ctg_content_updated: 'content has been updated',
+        ctg_content_updated: 'Content has been updated',
+        confirm_delete_ctg : 'Please confirm to delete selected item and all its descendants',
     },
 };

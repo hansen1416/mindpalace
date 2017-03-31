@@ -117,4 +117,20 @@ class CtgController extends Controller
         }
     }
 
+    /**
+     * @param $ctg_id
+     * @return JsonResponse
+     */
+    public function deleteCtg($ctg_id):JsonResponse
+    {
+        try{
+
+            return $this->responseJson(
+                $this->ctg->ctgServiceDeleteCtg($ctg_id)
+            );
+        }catch(\Exception $e){
+            return $this->responseJson($e);
+        }
+    }
+
 }

@@ -66,4 +66,10 @@ interface CtgServiceContract
      */
     public function ctgServiceCreate(string $title, int $pid, int $space_id, $tier = null, $path = null): SpaceCtg;
 
+    /**
+     * @param int $ctg_id
+     * @return array
+     */
+    public function ctgServiceDeleteCtg(int $ctg_id): array;
+
 }

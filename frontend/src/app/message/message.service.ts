@@ -66,7 +66,7 @@ export class MessageService {
      * display a flash message, hide it after 5 seconds
      * @param value
      */
-    protected showFlashMessage(value: string) {
+    showFlashMessage(value: string) {
         this.showMessage = true;
         this.messageSource.next(value);
         //if there is a timer, clear it first

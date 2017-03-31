@@ -10,7 +10,7 @@
 >
     {{previous}}
 </div>
-
 <ctg-control [ngStyle]="controlPosition()"
+             (ctgListChange)="rebuildScene()"
              *ngIf="showControl"></ctg-control>
 

@@ -197,4 +197,15 @@ class CtgService extends BaseService implements CtgServiceContract
                                                              ]);
     }
 
+    /**
+     * @param int $ctg_id
+     * @return array
+     */
+    public function ctgServiceDeleteCtg(int $ctg_id): array
+    {
+        return [
+            'deleted' => $this->spaceCtgRepo->ctgRepositoryDeleteCtg($ctg_id),
+        ];
+    }
+
 }

@@ -48,19 +48,10 @@ $radius: $btn-width * 2.5;
 }
 .text-input {
     position: absolute;
-    top: $btn-width / 2;
-    left: $btn-width / 2;
     width: $btn-width * 5;
     height: $btn-width * 0.8;
     line-height: $btn-width * 0.8;
     margin: $btn-width * 0.8 / -2 0 0 $btn-width;
-    background-color: #ffffff;
-
-    input {
-        width: 100%;
-        height: 100%;
-        line-height: inherit;
-    }
 }
 .text-box {
     $box-width: 30%;
@@ -71,4 +62,37 @@ $radius: $btn-width * 2.5;
     background-color: #FFFFFF;
     top: 15%;
     left: 12%;
+}
+.confirm-box{
+    position: fixed;
+    width: 30rem;
+    height: 10rem;
+    top: 50%;
+    left: 50%;
+    margin: -5rem 0 0 -15rem;
+    background-color: rgba(255,255,255,0.6);
+
+    p{
+        width: 80%;
+        margin: 2rem auto 0;
+        text-align: center;
+    }
+
+    button{
+        position: absolute;
+        width: 5rem;
+        height: 2rem;
+        font-size: 1.5rem;
+        text-align: center;
+        line-height: 1.5rem;
+        &:hover{cursor: pointer;}
+        left: 50%;
+        bottom:1rem;
+    }
+    button:first-child{
+        margin: 0 0 0 -8rem;
+    }
+    button:last-child{
+        margin: 0 0 0 3rem;
+    }
 }

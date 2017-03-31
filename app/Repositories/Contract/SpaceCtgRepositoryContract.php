@@ -12,6 +12,7 @@ use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
 use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
+use App\Exceptions\DeleteFailedException;
 use App\SpaceCtg;
 
 interface SpaceCtgRepositoryContract extends CacheableContract, RepositoryContract
@@ -55,4 +56,11 @@ interface SpaceCtgRepositoryContract extends CacheableContract, RepositoryContra
      * @throws SaveFailedException
      */
     public function spaceCtgRepositoryCreate(array $data): SpaceCtg;
+
+    /**
+     * @param int $ctg_id
+     * @return int
+     * @throws DeleteFailedException
+     */
+    public function ctgRepositoryDeleteCtg(int $ctg_id):int;
 }

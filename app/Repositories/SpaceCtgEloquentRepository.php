@@ -12,6 +12,7 @@ use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
+use App\Exceptions\DeleteFailedException;
 use App\SpaceCtg;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -131,6 +132,28 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
         }
 
         return $res[1];
+    }
+
+    /**
+     * @param int $ctg_id
+     * @return int
+     * @throws DeleteFailedException
+     */
+    public function ctgRepositoryDeleteCtg(int $ctg_id):int
+    {
+        /** @var \App\SpaceCtg $spaceCtg */
+        $spaceCtg = new $this->model;
+
+        $res = $spaceCtg->where('ctg_id', $ctg_id)
+                        ->orWhere('path', 'like', '%-' . $ctg_id . '-%')
+                        ->delete();
+
+        if (!$res) {
+            throw new DeleteFailedException();
+        }
+
+        $this->forgetCache();
+        return $res;
     }
 
 

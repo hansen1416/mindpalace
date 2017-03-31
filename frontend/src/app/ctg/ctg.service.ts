@@ -34,11 +34,13 @@ export class CtgService {
     //control position observable
     public controlPosition$       = this.controlPositionSource.asObservable();
     //ctg content
-    private ctgContent: string;
-
     private ctgContentSource = new Subject<string>();
 
     public ctgContent$ = this.ctgContentSource.asObservable();
+    //show add ctg input
+    private showAddCtgInputSource = new Subject<boolean>();
+
+    public showAddCtgInput$ = this.showAddCtgInputSource.asObservable();
 
     constructor(
         private apiHttpService: ApiHttpService,
@@ -110,10 +112,18 @@ export class CtgService {
         this.controlPosition = pos;
         this.controlPositionSource.next(this.controlPosition);
     }
+
     //set ctg content
     setCtgContent(content: string) {
-        this.ctgContent = content;
-        this.ctgContentSource.next(this.ctgContent);
+        this.ctgContentSource.next(content);
+    }
+
+    showAddCtgInput() {
+        this.showAddCtgInputSource.next(true);
+    }
+
+    hideAddCtgInput() {
+        this.showAddCtgInputSource.next(false);
     }
 
 }

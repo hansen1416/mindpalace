@@ -320,6 +320,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     private rebuildScene() {
 
+        this.hideControls();
+
         this.ctgService.setSpaceId = this.urlSpaceId;
         this.ctgService.setCtgId   = this.urlCtgId;
 
@@ -530,10 +532,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private hideControls() {
         //hide the control buttons
         this.showControl = false;
+        this.ctgService.hideAddCtgInput();
     }
 
     private showControls() {
         this.showControl = true;
+        this.ctgService.hideAddCtgInput();
     }
 
     /**
