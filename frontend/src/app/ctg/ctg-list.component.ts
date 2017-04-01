@@ -63,6 +63,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected hoverColor    = 0x5db6ff;
     //selected sprite background color
     protected selectedColor = 0xff0000;
+    //moving target ctg color
+    protected moveColor     = 0xFFD700;
+    //moving targets ctg
+    private moveTarget: THREE.Sprite;
 
     constructor(
         private location: Location,
@@ -181,7 +185,31 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             }
         }
 
+        this.getDragCollision();
     };
+
+    /**
+     * move target ctg background color change
+     */
+    private getDragCollision(): void {
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+
+        let intersected = this.raycaster.intersectObjects(this.spriteGroup.children);
+
+        if (intersected && intersected.length > 1 && this.drag && this.drag.uuid != intersected[1].object.uuid) {
+            let target = <THREE.Sprite>intersected[1].object;
+            //set the previous move target color to origin
+            if (this.moveTarget) {
+                this.moveTarget.material.color.setHex(this.originColor);
+                this.moveTarget.material.needsUpdate = true;
+            }
+
+            this.moveTarget = target;
+            target.material.color.setHex(this.moveColor);
+            target.material.needsUpdate = true;
+        }
+    }
+
 
     /**
      * when mouse up
@@ -206,6 +234,11 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             this.controls.enabled = true;
             this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
             this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
+            //clear the move color
+            if (this.moveTarget) {
+                this.moveTarget.material.color.setHex(this.originColor);
+                this.moveTarget.material.needsUpdate = true;
+            }
 
             let target = this.getFirstIntersectedObject(1, true);
 

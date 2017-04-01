@@ -38,5 +38,6 @@ export const EN: LangInterface = {
     message: {
         ctg_content_updated: 'Content has been updated',
         confirm_delete_ctg : 'Please confirm to delete selected item and all its descendants',
+        delete_ctg: 'deleted %% items',
     },
 };

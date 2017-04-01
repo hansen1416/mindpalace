@@ -197,12 +197,12 @@ export class AbstractThreeComponent {
 
             i++;
         }
-
-        let s = Math.max.apply(null, values);
-
+        //values 中是上一层在这一层中包含的子分类的个数，取他中的最大值
+        let s           = Math.max.apply(null, values);
+        //上一层的 todo here is wrong
         this.tierCtgNum = 1 == values.length ? 1 : Math.max(this.tierCtgNum, s);
 
-        return Math.max(this.tierCtgNum * s, n);
+        return Math.max(this.tierCtgNum * s, n, ctgList.length);
     }
 
     /**
@@ -241,7 +241,6 @@ export class AbstractThreeComponent {
             }
 
             i++;
-
         }
 
         return k;
@@ -262,8 +261,8 @@ export class AbstractThreeComponent {
         //minimum width is 64
         c_w = c_w < 64 ? 64 : c_w;
 
-        canvas.width  = c_w;
-        canvas.height = c_h;
+        canvas.width         = c_w;
+        canvas.height        = c_h;
         //font size and align of text
         context.font         = "normal " + c_h * 2 / 2.5 + "px Serial";
         context.textAlign    = 'center';
@@ -275,11 +274,16 @@ export class AbstractThreeComponent {
         context.fillStyle = '#000000';
         context.fillText(text, c_w / 2, c_h / 2);
         //sprite texture
-        let spriteTexture = new THREE.Texture(canvas);
-
+        let spriteTexture         = new THREE.Texture(canvas);
         spriteTexture.needsUpdate = true;
+
+        // this will get rid of the image is not power of 2 warning,
+        // but the texture is not clear,
+        // so delete the console warn ar line 96 in three.min.js instead
+        // spriteTexture.minFilter = THREE.LinearFilter;
+
         //sprite material
-        let spriteMaterial        = new THREE.SpriteMaterial({
+        let spriteMaterial = new THREE.SpriteMaterial({
             map: spriteTexture
         });
 
@@ -288,7 +292,6 @@ export class AbstractThreeComponent {
         let sprite                 = new THREE.Sprite(spriteMaterial);
 
         sprite.scale.set(c_w / c_h, 1, 1);
-        sprite.material.needsUpdate = true;
 
         spriteTexture.dispose();
         spriteMaterial.dispose();
@@ -330,116 +333,122 @@ export class AbstractThreeComponent {
      * draw text on sprite
      */
     protected buildSpheres(): void {
+        try {
+            if (this.spriteGroup) {
+                this.webGLScene.remove(this.spriteGroup);
+            }
 
-        if (this.spriteGroup) {
-            this.webGLScene.remove(this.spriteGroup);
-        }
+            if (this.lineGroup) {
+                this.webGLScene.remove(this.lineGroup);
+            }
 
-        if (this.lineGroup) {
-            this.webGLScene.remove(this.lineGroup);
-        }
+            this.spriteGroup = new THREE.Group();
+            this.lineGroup   = new THREE.Group();
 
-        this.spriteGroup = new THREE.Group();
-        this.lineGroup   = new THREE.Group();
+            let item: Ctg[];
+            //每一层之间的距离
+            let radius = 5.5;
+            //层数
+            let tier   = 0;
+            //the max points number on each tier
+            let N      = 0;
 
-        let item: Ctg[];
-        //每一层之间的距离
-        let radius = 5.5;
-        //层数
-        let tier   = 0;
-        //the max points number on each tier
-        let N      = 0;
+            let pos: Position;
+            //positions of all points, use ctg_id as index
+            let allPos = <Position[]>[];
 
-        let pos: Position;
-        //positions of all points, use ctg_id as index
-        let allPos = <Position[]>[];
-
-        let pid: number;
-        let ctg_id: number;
-
-        /**
-         * data is like this [2: [Sprite, Sprite, ..], 3 : [..], ..]
-         * each tier is an array
-         */
-        for (let prop in this.data) {
-            item = this.data[prop];
+            let pid: number;
+            let ctg_id: number;
 
             /**
-             * the sprite on each tier composed into a sphere
+             * data is like this [2: [Sprite, Sprite, ..], 3 : [..], ..]
+             * each tier is an array
              */
-            if (item && item.length > 0) {
+            for (let prop in this.data) {
+                item = this.data[prop];
 
                 /**
-                 * points on the core tier is item.length
-                 * on other tiers, the number of points calculated by the maxPoint()
-                 * which will always equal or greater than the inner tier
-                 * @type {number}
+                 * the sprite on each tier composed into a sphere
                  */
-                N = (tier <= 1) ? item.length : this.maxPoint(item, N);
-
-                /**
-                 * every space has a root ctg, it;s position is 0,0,0  tier = 0, all the other ctg is the root's descendant
-                 * position of the point on each tier has been calculated by the fibonacciSphere()
-                 * evenly distributed on the sphere
-                 * @type {Position[]}
-                 */
-                let positions = (tier == 0) ? <Position[]>[
-                                                {
-                                                    x: 0,
-                                                    y: 0,
-                                                    z: 0
-                                                }
-                                            ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
-
-                for (let i = 0; i < item.length; i++) {
-                    //draw text sprite
-                    let sprite = AbstractThreeComponent.drawTextSprite(item[i].ctg.title);
+                if (item && item.length > 0) {
 
                     /**
-                     * set a position for text sprite
-                     * if it has a parent ctg, find the closet point to its parent
+                     * points on the core tier is item.length
+                     * on other tiers, the number of points calculated by the maxPoint()
+                     * which will always equal or greater than the inner tier
+                     * @type {number}
                      */
-                    pos = positions[i];
-                    pid    = item[i]['pid'];
-                    ctg_id = item[i]['ctg_id'];
+                    N = (tier <= 1) ? item.length : this.maxPoint(item, N);
 
-                    if (1 <= tier && undefined !== allPos[pid]) {
-
-                        let k = AbstractThreeComponent.closestPoint(allPos[pid], positions);
-
-                        pos = positions[k];
-                        //remove the occupied position
-                        positions.splice(k, 1);
-                    }
-
-                    sprite.position.set(pos.x, pos.y, pos.z);
-                    //use ctg_id as the sprite's name
-                    sprite.name = item[i]['ctg_id'].toString();
                     /**
-                     * save userData for text sprite
-                     * @type {Ctg}
+                     * every space has a root ctg, it;s position is 0,0,0  tier = 0, all the other ctg is the root's descendant
+                     * position of the point on each tier has been calculated by the fibonacciSphere()
+                     * evenly distributed on the sphere
+                     * @type {Position[]}
                      */
-                    sprite.userData = item[i];
-                    //remember all positions
-                    allPos[ctg_id] = pos;
+                    let positions = (tier == 0) ? <Position[]>[
+                                                    {
+                                                        x: 0,
+                                                        y: 0,
+                                                        z: 0
+                                                    }
+                                                ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
 
-                    this.spriteGroup.add(sprite);
+                    for (let i = 0; i < item.length; i++) {
+                        //draw text sprite
+                        let sprite = AbstractThreeComponent.drawTextSprite(item[i].ctg.title);
 
-                    //draw lines
-                    if (pid && allPos[pid]) {
-                        this.lineGroup.add(AbstractThreeComponent.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id], pid + '-' + ctg_id));
+                        /**
+                         * set a position for text sprite
+                         * if it has a parent ctg, find the closet point to its parent
+                         */
+                        pos = positions[i];
+                        pid    = item[i]['pid'];
+                        ctg_id = item[i]['ctg_id'];
+
+                        if (1 <= tier && undefined !== allPos[pid]) {
+
+                            let k = AbstractThreeComponent.closestPoint(allPos[pid], positions);
+
+                            pos = positions[k];
+
+                            //remove the occupied position
+                            positions.splice(k, 1);
+                        }
+
+                        sprite.position.set(pos.x, pos.y, pos.z);
+
+                        //use ctg_id as the sprite's name
+                        sprite.name = item[i]['ctg_id'].toString();
+                        /**
+                         * save userData for text sprite
+                         * @type {Ctg}
+                         */
+                        sprite.userData = item[i];
+                        //remember all positions
+                        allPos[ctg_id] = pos;
+
+                        this.spriteGroup.add(sprite);
+
+                        //draw lines
+                        if (pid && allPos[pid]) {
+                            this.lineGroup.add(AbstractThreeComponent.drawLineBetweenTwoCtg(allPos[pid], allPos[ctg_id], pid + '-' + ctg_id));
+                        }
+
                     }
 
                 }
+
+                tier++;
             }
 
-            tier++;
+            this.setCameraPositionAndZoomDistance(radius, tier);
+
+            this.webGLScene.add(this.spriteGroup);
+            this.webGLScene.add(this.lineGroup);
+        } catch (e) {
+            console.warn(e);
         }
-
-        this.setCameraPositionAndZoomDistance(radius, tier);
-
-        this.webGLScene.add(this.spriteGroup);
-        this.webGLScene.add(this.lineGroup);
     }
 
     /**

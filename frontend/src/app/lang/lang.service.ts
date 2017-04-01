@@ -33,11 +33,21 @@ export class LangService {
 
         let languagePackage = this.getLanguagePackage();
 
+        if (!text) {
+            return text;
+        }
+
         let keys = text.split('.');
 
         try {
+            if (keys[1].match(/-/)) {
+                let p = keys[1].split('-');
+
+                return languagePackage[keys[0]][p[0]].replace(/%%/, p[1]);
+            }
             return languagePackage[keys[0]][keys[1]];
-        }catch (e){
+        } catch (e) {
+            return text;
             // console.warn('can not find translation for ' + text);
         }
     }

@@ -38,5 +38,6 @@ export const ZH: LangInterface = {
     message: {
         ctg_content_updated: '内容更新成功',
         confirm_delete_ctg : '确定删除选中的分类和他的所有子分类么',
+        delete_ctg: '删除了 %% 个分类',
     },
 };

@@ -36,6 +36,7 @@ export interface LangInterface {
     message: {
         ctg_content_updated: string,
         confirm_delete_ctg: string,
+        delete_ctg: string,
     },
 
 }

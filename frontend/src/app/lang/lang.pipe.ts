@@ -12,7 +12,9 @@ import {LangService} from './lang.service';
 export class LangPipe implements PipeTransform {
 
 
-    constructor(private langService: LangService) {
+    constructor(
+        private langService: LangService
+    ) {
 
     }
 
