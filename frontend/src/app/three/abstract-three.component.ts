@@ -7,7 +7,6 @@ declare let THREE: any;
 
 import {Ctg} from '../ctg/ctg';
 import {Position} from './position';
-import {ThreeService} from './three.service';
 
 @Component({
                selector: 'abstract-three',
@@ -47,7 +46,7 @@ export class AbstractThreeComponent {
     protected tierCtgNum = 0;
 
     constructor(
-        protected threeService: ThreeService
+
     ) {
 
     }
@@ -453,8 +452,6 @@ export class AbstractThreeComponent {
 
             this.webGLScene.add(this.spriteGroup);
             this.webGLScene.add(this.lineGroup);
-
-            this.threeService.setSpruteGroup(this.spriteGroup);
         } catch (e) {
             console.warn(e);
         }

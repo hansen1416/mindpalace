@@ -17,9 +17,9 @@ import {Ctg, MousePosition} from "./ctg";
 
 
 @Component({
-               selector   : 'ctg-list',
+               selector:    'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles     : [require('./scss/ctg-list.component.scss')]
+               styles:      [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
@@ -77,9 +77,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         private apiRoutesService: ApiRoutesService,
         private apiHttpService: ApiHttpService,
         private messageService: MessageService,
-        protected threeService: ThreeService,
+        private threeService: ThreeService,
     ) {
-        super(threeService);
+        super();
     }
 
     ngOnInit() {
@@ -107,19 +107,54 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * try to separate loading data part to the ngOnInit
      */
     ngAfterViewInit() {
-        this.getDataAndRender();
+        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(
+            (response: Ctg[]) => {
+
+                this.ctgService.setCtgList = response;
+
+                this.processData(this.ctgService.getCtgList);
+
+                this.project();
+
+                this.afterSceneFinished();
+            }
+        );
     }
 
-    private getDataAndRender() {
-        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => this.renderCtgList(response));
+    /**
+     * after ctg list updated,
+     * fetch data from server
+     * rebuild the scene
+     */
+    private rebuildScene() {
+
+        this.hideControls();
+
+        this.ctgService.setSpaceId = this.urlSpaceId;
+        this.ctgService.setCtgId   = this.urlCtgId;
+
+        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => {
+            this.ctgService.setCtgList = response;
+
+            this.processData(this.ctgService.getCtgList);
+            //rebuild the scene
+            this.buildSpheres();
+
+            cancelAnimationFrame(this.renderAnimation);
+
+            this.renderAnimate();
+
+            this.afterSceneFinished();
+        });
     }
 
+    /**
+     * action to be taken after scene finished
+     */
+    private afterSceneFinished() {
+        this.threeService.setSpriteGroup(this.spriteGroup);
 
-    private renderCtgList(ctgList: Ctg[]) {
-        this.ctgService.setCtgList = ctgList;
-
-        this.processData(this.ctgService.getCtgList);
-        this.project();
+        this.data = [];
     }
 
     /**
@@ -349,31 +384,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     };
 
     /**
-     * after ctg list updated,
-     * fetch data from server
-     * rebuild the scene
-     */
-    private rebuildScene() {
-
-        this.hideControls();
-
-        this.ctgService.setSpaceId = this.urlSpaceId;
-        this.ctgService.setCtgId   = this.urlCtgId;
-
-        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => {
-            this.ctgService.setCtgList = response;
-
-            this.processData(this.ctgService.getCtgList);
-            //rebuild the scene
-            this.buildSpheres();
-
-            cancelAnimationFrame(this.renderAnimation);
-
-            this.renderAnimate();
-        });
-    }
-
-    /**
      * after mouse down, count the time until 1 second
      * disable trackball controls, cancel countPressTime animation
      * get drag object
@@ -590,12 +600,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     controlPosition() {
         return {
-            display : 'block',
-            width   : 0,
-            height  : 0,
+            display:  'block',
+            width:    0,
+            height:   0,
             position: 'absolute',
-            top     : this.controlPos.y + 'px',
-            left    : this.controlPos.x + 'px'
+            top:      this.controlPos.y + 'px',
+            left:     this.controlPos.x + 'px'
         };
     }
 

@@ -8,12 +8,12 @@ declare let THREE: any;
 
 @Injectable()
 export class ThreeService {
-    public sripteGroupSource = new Subject<THREE.Group & THREE.Object3D>();
+    private sripteGroupSource = new Subject<THREE.Group & THREE.Object3D>();
 
     public sripteGroup$ = this.sripteGroupSource.asObservable();
 
 
-    setSpruteGroup(group: THREE.Group & THREE.Object3D) {
+    setSpriteGroup(group: THREE.Group & THREE.Object3D) {
         this.sripteGroupSource.next(group);
     }
 }

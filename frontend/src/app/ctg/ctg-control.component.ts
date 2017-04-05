@@ -67,7 +67,10 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         );
 
         this.subscriptionSpriteGroup = this.threeService.sripteGroup$.subscribe(
-            group => this.spriteGroup = group
+            group => {
+                this.spriteGroup = group;
+                console.log(this.spriteGroup)
+            }
         )
     }
 
@@ -238,14 +241,13 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
         let i = 0;
 
-        console.log(this.spriteGroup.children);
+        console.log(this.spriteGroup);
 
-        while (i < this.spriteGroup.children.length){
-
-
-
-            i++;
-        }
+        // while (i < this.spriteGroup.children.length) {
+        //
+        //
+        //     i++;
+        // }
 
     }
 
