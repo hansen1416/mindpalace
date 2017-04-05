@@ -12,6 +12,7 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
+import {ThreeService} from '../three/three.service';
 import {Ctg, MousePosition} from "./ctg";
 
 
@@ -75,9 +76,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         private ctgService: CtgService,
         private apiRoutesService: ApiRoutesService,
         private apiHttpService: ApiHttpService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        protected threeService: ThreeService,
     ) {
-        super();
+        super(threeService);
     }
 
     ngOnInit() {

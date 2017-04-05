@@ -7,6 +7,7 @@ declare let THREE: any;
 
 import {Ctg} from '../ctg/ctg';
 import {Position} from './position';
+import {ThreeService} from './three.service';
 
 @Component({
                selector: 'abstract-three',
@@ -44,6 +45,12 @@ export class AbstractThreeComponent {
     protected data = <Array<Array<Ctg>>>[];
 
     protected tierCtgNum = 0;
+
+    constructor(
+        protected threeService: ThreeService
+    ) {
+
+    }
 
     /**
      * process the data, to two dimensional array
@@ -308,8 +315,8 @@ export class AbstractThreeComponent {
      */
     private static drawLineBetweenTwoCtg(pos1: Position, pos2: Position, name: string): THREE.Object3D & THREE.Line {
         let lineMaterial = new THREE.LineBasicMaterial({
-            linewidth   : 1.5,
-            opacity     : 0.3,
+            linewidth:    1.5,
+            opacity:      0.3,
             vertexColors: true
         });
 
@@ -387,12 +394,12 @@ export class AbstractThreeComponent {
                      * @type {Position[]}
                      */
                     let positions = (tier == 0) ? <Position[]>[
-                                                    {
-                                                        x: 0,
-                                                        y: 0,
-                                                        z: 0
-                                                    }
-                                                ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
+                        {
+                            x: 0,
+                            y: 0,
+                            z: 0
+                        }
+                    ] : AbstractThreeComponent.fibonacciSphere(N, radius * (tier + 1));
 
                     for (let i = 0; i < item.length; i++) {
                         //draw text sprite
@@ -446,6 +453,8 @@ export class AbstractThreeComponent {
 
             this.webGLScene.add(this.spriteGroup);
             this.webGLScene.add(this.lineGroup);
+
+            this.threeService.setSpruteGroup(this.spriteGroup);
         } catch (e) {
             console.warn(e);
         }
