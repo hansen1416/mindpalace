@@ -12,18 +12,18 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
-import {ThreeService} from '../three/three.service';
+// import {ThreeService} from '../three/three.service';
 import {Ctg, MousePosition} from "./ctg";
 
 
 @Component({
-               selector:    'ctg-list',
+               selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles:      [require('./scss/ctg-list.component.scss')]
+               styles     : [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
-    private timer           = 0;
+    private timer                     = 0;
     //timer animation, count press time
     private timerAnimation: number;
     //render the scene, mouse control the ctg list
@@ -35,7 +35,11 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //previous selected sprite
     private previousSelected: THREE.Sprite;
     //when selected sprite changed to selectedColor, its value set to true, when click a new sprite, its value set to false
-    private selectedPainted = false;
+    private selectedPainted           = false;
+    //the descendant sprite of the selected ctg
+    protected selectedDescendants     = <Array<THREE.Sprite>>[];
+    //the descendant sprite uuid of the selected ctg
+    protected selectedDescendantsUuid = <Array<string>>[];
     //dragged sprite
     protected drag: THREE.Sprite;
     //the lines connected to the dragged sprite
@@ -45,7 +49,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //previous visited ctg
     protected previous;
     //show or hide control panel
-    private showControl     = false;
+    private showControl               = false;
     //space_id in url
     private urlSpaceId: number;
     //ctg_id in url
@@ -55,29 +59,31 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //subscription to the previous visited ctg
     private subscriptionPrevious: Subscription;
     //if the scene has been projected already
-    private projected       = false;
+    private projected                 = false;
     //the mouse position then mouse clicked a ctg
     protected controlPos: MousePosition;
     //original sprite background color
-    protected originColor   = 0xffffff;
+    protected originColor: number     = 0xffffff;
     //hovering sprite background color
-    protected hoverColor    = 0x5db6ff;
+    protected hoverColor: number      = 0x5db6ff;
     //selected sprite background color
-    protected selectedColor = 0xff0000;
+    protected selectedColor: number   = 0xff0000;
     //moving target ctg color
-    protected moveColor     = 0xFFD700;
+    protected moveColor: number       = 0xFFD700;
+    //color for the selected ctg descendants
+    protected descendantColor: number = 0x00ff00;
     //moving targets ctg
-    private moveTarget: THREE.Sprite;
+    protected moveTarget: THREE.Sprite;
 
     constructor(
-        private location: Location,
-        private route: ActivatedRoute,
-        private router: Router,
-        private ctgService: CtgService,
-        private apiRoutesService: ApiRoutesService,
-        private apiHttpService: ApiHttpService,
-        private messageService: MessageService,
-        private threeService: ThreeService,
+        protected location: Location,
+        protected route: ActivatedRoute,
+        protected router: Router,
+        protected ctgService: CtgService,
+        protected apiRoutesService: ApiRoutesService,
+        protected apiHttpService: ApiHttpService,
+        protected messageService: MessageService,
+        // private threeService: ThreeService,
     ) {
         super();
     }
@@ -152,7 +158,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * action to be taken after scene finished
      */
     private afterSceneFinished() {
-        this.threeService.setSpriteGroup(this.spriteGroup);
+        // this.threeService.setSpriteGroup(this.spriteGroup);
 
         this.data = [];
     }
@@ -332,6 +338,18 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
                 //new selected sprite
                 this.selected        = currentObject;
                 this.selectedPainted = false;
+                //clear the descendants color
+                if (this.selectedDescendants.length) {
+                    let j = 0;
+
+                    while (j < this.selectedDescendants.length) {
+                        this.selectedDescendants[j].material.color.setHex(this.originColor);
+                        j++;
+                    }
+                }
+                //clear the descendants data
+                this.selectedDescendants     = [];
+                this.selectedDescendantsUuid = [];
             }
 
             //set selected ctg
@@ -342,10 +360,29 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             this.ctgService.setControlPosition(this.controlPos);
             //show control panel
             this.showControls();
+
+            //paint the descendants sprites of the selected ctg with the descendant color
+            let i = 0;
+
+            while (i < this.spriteGroup.children.length) {
+
+                if (this.spriteGroup.children[i].userData.path.match('-' + currentObject.userData.ctg_id + '-')) {
+                    let sprite = <THREE.Sprite>this.spriteGroup.children[i];
+
+                    sprite.material.color.setHex(this.descendantColor);
+
+                    this.selectedDescendants.push(sprite);
+                    this.selectedDescendantsUuid.push(sprite.uuid);
+                }
+                i++;
+            }
+
         } else {
             this.setSpriteToOrigin();
             this.intersect = null;
         }
+
+
     };
 
     /**
@@ -491,13 +528,26 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         if (this.intersect && (!this.selected || (this.selected && this.selected.uuid != this.intersect.uuid))) {
 
             if (currentObject && this.intersect.uuid != currentObject.uuid) {
-                this.intersect.material.color.setHex(this.originColor);
+                //if the currentObject is one of the selected descendants 
+                // then set its color to descendantColor, otherwise to originColor
+                if (this.selectedDescendantsUuid.includes(currentObject.uuid)) {
+                    this.intersect.material.color.setHex(this.descendantColor);
+                } else {
+                    this.intersect.material.color.setHex(this.originColor);
+                }
             }
 
             if (!currentObject) {
-                this.intersect.material.color.setHex(this.originColor);
+                //if the intersect is one of the selected descendants 
+                // then set its color to descendantColor, otherwise to originColor
+                if (this.selectedDescendantsUuid.includes(this.intersect.uuid)) {
+                    this.intersect.material.color.setHex(this.descendantColor);
+                } else {
+                    this.intersect.material.color.setHex(this.originColor);
+                }
             }
         }
+
     }
 
     /**
@@ -519,7 +569,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private raycast(): void {
 
         let currentObject = this.getFirstIntersectedObject();
-
+        //hovering sprite
         if (currentObject) {
 
             this.webGLRenderer.domElement.style.cursor = 'pointer';
@@ -540,7 +590,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         }
         //if there is a previous selected sprite, then set its color to origin and delete the previous selected
         if (this.previousSelected) {
-            this.previousSelected.material.color.setHex((this.originColor));
+            this.previousSelected.material.color.setHex(this.originColor);
             delete this.previousSelected;
         }
     }
@@ -598,14 +648,14 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * set control panel position
      * @returns {{display: string, width: number, height: number, position: string, top: string, left: string}}
      */
-    controlPosition() {
+    ctgControlPosition() {
         return {
-            display:  'block',
-            width:    0,
-            height:   0,
+            display : 'block',
+            width   : 0,
+            height  : 0,
             position: 'absolute',
-            top:      this.controlPos.y + 'px',
-            left:     this.controlPos.x + 'px'
+            top     : this.controlPos.y + 'px',
+            left    : this.controlPos.x + 'px'
         };
     }
 

@@ -2,6 +2,8 @@
  * Created by hlz on 17-3-29.
  */
 import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
+import {Location} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
 import {ApiRoutesService} from '../share/api-routes.service';
@@ -9,17 +11,18 @@ import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {CtgService} from './ctg.service';
 import {CssService} from '../share/css.service';
-import {ThreeService} from '../three/three.service';
+// import {ThreeService} from '../three/three.service';
 import {MousePosition} from './ctg';
 
 declare let THREE: any;
 
+import {CtgListComponent} from './ctg-list.component';
 @Component({
-               selector:    'ctg-control',
+               selector   : 'ctg-control',
                templateUrl: './html/ctg-control.component.html',
-               styles:      [require('./scss/ctg-control.component.scss')]
+               styles     : [require('./scss/ctg-control.component.scss')]
            })
-export class CtgControlComponent implements OnInit, OnDestroy {
+export class CtgControlComponent extends CtgListComponent implements OnInit, OnDestroy {
 
     //hide the content editor
     private showContentBox: boolean  = false;
@@ -41,19 +44,28 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
     private confirmContent: string = '';
 
-    private subscriptionSpriteGroup: Subscription;
+    // private subscriptionSpriteGroup: Subscription;
 
-    private spriteGroup: THREE.Group & THREE.Object3D;
+    // private spriteGroup: THREE.Group & THREE.Object3D;
 
     constructor(
-        private apiRoutesService: ApiRoutesService,
-        private apiHttpService: ApiHttpService,
-        private messageService: MessageService,
-        private ctgService: CtgService,
-        private cssService: CssService,
-        private threeService: ThreeService,
+        protected location: Location,
+        protected route: ActivatedRoute,
+        protected router: Router,
+        protected ctgService: CtgService,
+        protected cssService: CssService,
+        protected apiRoutesService: ApiRoutesService,
+        protected apiHttpService: ApiHttpService,
+        protected messageService: MessageService,
+        // private threeService: ThreeService,
     ) {
-
+        super(location,
+              route,
+              router,
+              ctgService,
+              apiRoutesService,
+              apiHttpService,
+              messageService);
     }
 
 
@@ -66,12 +78,12 @@ export class CtgControlComponent implements OnInit, OnDestroy {
             show => this.showAddCtgInput = show
         );
 
-        this.subscriptionSpriteGroup = this.threeService.sripteGroup$.subscribe(
-            group => {
-                this.spriteGroup = group;
-                console.log(this.spriteGroup)
-            }
-        )
+        // this.subscriptionSpriteGroup = this.threeService.sripteGroup$.subscribe(
+        //     group => {
+        //         this.spriteGroup = group;
+        //         console.log(this.spriteGroup)
+        //     }
+        // )
     }
 
     /**
@@ -97,7 +109,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         }
 
         return {
-            top:  Math.sin(angle * 45 * Math.PI / 180) * 6.25 + 'rem',
+            top : Math.sin(angle * 45 * Math.PI / 180) * 6.25 + 'rem',
             left: Math.cos(angle * 45 * Math.PI / 180) * 6.25 + 'rem'
         };
     }
@@ -191,20 +203,20 @@ export class CtgControlComponent implements OnInit, OnDestroy {
             case 0:
             case 1:
                 return {
-                    top:   buttonWidth / 2 + 'rem',
-                    left:  buttonWidth / 2 + 'rem',
+                    top  : buttonWidth / 2 + 'rem',
+                    left : buttonWidth / 2 + 'rem',
                     right: 'none'
                 };
             case 2:
                 return {
-                    top:   buttonWidth * 2 + 'rem',
-                    left:  'none',
+                    top  : buttonWidth * 2 + 'rem',
+                    left : 'none',
                     right: '0'
                 };
             default:
                 return {
-                    top:   buttonWidth / 2 + 'rem',
-                    left:  ' none',
+                    top  : buttonWidth / 2 + 'rem',
+                    left : ' none',
                     right: buttonWidth * 1.5 + 'rem'
                 }
         }
@@ -238,17 +250,6 @@ export class CtgControlComponent implements OnInit, OnDestroy {
     clickDeleteBtn() {
         this.showConfirm    = true;
         this.confirmContent = 'message.confirm_delete_ctg';
-
-        let i = 0;
-
-        console.log(this.spriteGroup);
-
-        // while (i < this.spriteGroup.children.length) {
-        //
-        //
-        //     i++;
-        // }
-
     }
 
     /**
