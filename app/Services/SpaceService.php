@@ -14,6 +14,7 @@ use App\Repositories\Contract\SpaceRepositoryContract;
 use Hansen1416\WebSpace\Services\WebSpaceService;
 use swoole_websocket_server;
 use App\Space;
+use App\SpaceCtg;
 use DB;
 
 class SpaceService extends BaseService implements SpaceServiceContract
@@ -73,6 +74,20 @@ class SpaceService extends BaseService implements SpaceServiceContract
     }
 
     /**
+     * @param string $name
+     * @return SpaceCtg
+     */
+    public function spaceServiceCreateSpaceAndCtg(string $name): SpaceCtg
+    {
+        $space = $this->spaceRepo->spaceRepositoryCreate([
+                                                             'user_id' => $this->getUserId(),
+                                                             'name'    => $name,
+                                                         ]);
+
+        return $this->ctgService->ctgServiceCreate($name, 0, $space->space_id);
+    }
+
+    /**
      * @param swoole_websocket_server $server
      * @param                         $frame
      */
@@ -96,7 +111,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
 
             DB::beginTransaction();
 
-            $spaceCtg = $this->spaceServiceCreate($spaceName);
+            $spaceCtg = $this->spaceServiceCreateSpaceAndCtg($spaceName);
 
             $space_id = $spaceCtg->space_id;
             $pid      = $spaceCtg->ctg_id;

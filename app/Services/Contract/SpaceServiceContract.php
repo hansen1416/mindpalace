@@ -10,6 +10,7 @@ namespace App\Services\Contract;
 
 use swoole_websocket_server;
 use App\Space;
+use App\SpaceCtg;
 
 interface SpaceServiceContract
 {
@@ -29,6 +30,12 @@ interface SpaceServiceContract
      * @return Space
      */
     public function spaceServiceCreate(string $name): Space;
+
+    /**
+     * @param string $name
+     * @return SpaceCtg
+     */
+    public function spaceServiceCreateSpaceAndCtg(string $name): SpaceCtg;
 
     /**
      * @param swoole_websocket_server $server
