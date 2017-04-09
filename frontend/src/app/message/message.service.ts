@@ -27,6 +27,11 @@ export class MessageService {
     }
 
     setWebSocket(): void {
+
+        if (1 == 1) {
+            return;
+        }
+
         //if there is already a web socket, return
         if (this.webSocket instanceof WebSocketService) {
             return;

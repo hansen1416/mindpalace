@@ -12,14 +12,13 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
-// import {ThreeService} from '../three/three.service';
 import {Ctg, MousePosition} from "./ctg";
 
 
 @Component({
-               selector   : 'ctg-list',
+               selector:    'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles     : [require('./scss/ctg-list.component.scss')]
+               styles:      [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
@@ -83,7 +82,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         protected apiRoutesService: ApiRoutesService,
         protected apiHttpService: ApiHttpService,
         protected messageService: MessageService,
-        // private threeService: ThreeService,
     ) {
         super();
     }
@@ -320,7 +318,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * click event of the sprites
      * @param event
      */
-    protected onClick = (event: MouseEvent): void => {
+    private onClick = (event: MouseEvent): void => {
         event.preventDefault();
 
         this.updateMousePosition(event);
@@ -553,7 +551,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     /**
      * render the canvas
      */
-    protected renderAnimate(): void {
+    private renderAnimate(): void {
 
         this.renderAnimation = requestAnimationFrame(() => this.renderAnimate());
 
@@ -650,12 +648,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     ctgControlPosition() {
         return {
-            display : 'block',
-            width   : 0,
-            height  : 0,
+            display:  'block',
+            width:    0,
+            height:   0,
             position: 'absolute',
-            top     : this.controlPos.y + 'px',
-            left    : this.controlPos.x + 'px'
+            top:      this.controlPos.y + 'px',
+            left:     this.controlPos.x + 'px'
         };
     }
 

@@ -11,18 +11,16 @@ import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {CtgService} from './ctg.service';
 import {CssService} from '../share/css.service';
-// import {ThreeService} from '../three/three.service';
 import {MousePosition} from './ctg';
 
 declare let THREE: any;
 
-import {CtgListComponent} from './ctg-list.component';
 @Component({
                selector   : 'ctg-control',
                templateUrl: './html/ctg-control.component.html',
                styles     : [require('./scss/ctg-control.component.scss')]
            })
-export class CtgControlComponent extends CtgListComponent implements OnInit, OnDestroy {
+export class CtgControlComponent implements OnInit, OnDestroy {
 
     //hide the content editor
     private showContentBox: boolean  = false;
@@ -44,10 +42,6 @@ export class CtgControlComponent extends CtgListComponent implements OnInit, OnD
 
     private confirmContent: string = '';
 
-    // private subscriptionSpriteGroup: Subscription;
-
-    // private spriteGroup: THREE.Group & THREE.Object3D;
-
     constructor(
         protected location: Location,
         protected route: ActivatedRoute,
@@ -57,15 +51,8 @@ export class CtgControlComponent extends CtgListComponent implements OnInit, OnD
         protected apiRoutesService: ApiRoutesService,
         protected apiHttpService: ApiHttpService,
         protected messageService: MessageService,
-        // private threeService: ThreeService,
     ) {
-        super(location,
-              route,
-              router,
-              ctgService,
-              apiRoutesService,
-              apiHttpService,
-              messageService);
+
     }
 
 
@@ -77,13 +64,6 @@ export class CtgControlComponent extends CtgListComponent implements OnInit, OnD
         this.subscriptionAddCtgInput = this.ctgService.showAddCtgInput$.subscribe(
             show => this.showAddCtgInput = show
         );
-
-        // this.subscriptionSpriteGroup = this.threeService.sripteGroup$.subscribe(
-        //     group => {
-        //         this.spriteGroup = group;
-        //         console.log(this.spriteGroup)
-        //     }
-        // )
     }
 
     /**
