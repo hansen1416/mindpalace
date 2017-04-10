@@ -45,6 +45,8 @@ export class AbstractThreeComponent {
 
     protected tierCtgNum = 0;
 
+    protected firstTime = true;
+
     constructor() {
 
     }
@@ -315,8 +317,8 @@ export class AbstractThreeComponent {
      */
     private drawLineBetweenTwoCtg(pos1: Position, pos2: Position, name: string): THREE.Object3D & THREE.Line {
         let lineMaterial = new THREE.LineBasicMaterial({
-            linewidth:    1.5,
-            opacity:      0.3,
+            linewidth   : 1.5,
+            opacity     : 0.3,
             vertexColors: true
         });
 
@@ -398,12 +400,12 @@ export class AbstractThreeComponent {
                  * @type {Position[]}
                  */
                 let positions = (tier == 0) ? <Position[]>[
-                    {
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    }
-                ] : this.fibonacciSphere(N, radius * (tier + 1));
+                                                {
+                                                    x: 0,
+                                                    y: 0,
+                                                    z: 0
+                                                }
+                                            ] : this.fibonacciSphere(N, radius * (tier + 1));
 
                 for (let i = 0; i < item.length; i++) {
                     //draw text sprite
@@ -455,14 +457,13 @@ export class AbstractThreeComponent {
             }
             //let in this.data
 
-            this.setCameraPositionAndZoomDistance(radius, tier);
-
             this.webGLScene.add(this.spriteGroup);
             this.webGLScene.add(this.lineGroup);
 
             item   = null;
             allPos = null;
 
+            this.setCameraPositionAndZoomDistance(radius, tier);
         } catch (e) {
             console.warn(e);
         }
@@ -478,8 +479,10 @@ export class AbstractThreeComponent {
     private setCameraPositionAndZoomDistance(radius: number, tier: number) {
         let d = (radius * (tier + 1)) * 1.8;
         //set the camera zoom range and camera position
-        this.camera.position.set(0, 0, d);
-        this.camera.lookAt(this.webGLScene.position);
+        if (this.firstTime) {
+            this.camera.position.set(0, 0, d);
+            // this.camera.lookAt(this.webGLScene.position);
+        }
 
         // this.controls.target = new THREE.Vector3(0, 0, -10);
         this.controls.minDistance = 0;

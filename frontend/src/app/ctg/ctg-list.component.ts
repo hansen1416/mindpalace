@@ -87,7 +87,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
                                      .subscribe((params: Params) => {
                                          this.ctgService.setSpaceId = this.urlSpaceId = params['space_id'];
                                          this.ctgService.setCtgId = this.urlCtgId = params['ctg_id'];
-
+                                         //when click a ctg, the scene already been projected, so only the scene, no need to reload the component
                                          if (this.projected) {
                                              this.rebuildScene();
                                          }
@@ -98,7 +98,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
                 this.previous = previous.length ? previous[0] : null;
             }
         );
-
     }
 
     /**
@@ -114,6 +113,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
                 this.project();
 
                 this.afterSceneFinished();
+
+                this.firstTime = false;
             }
         );
     }
@@ -126,18 +127,16 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     private rebuildScene() {
 
-        this.hideControls();
-
         this.ctgService.setSpaceId = this.urlSpaceId;
         this.ctgService.setCtgId   = this.urlCtgId;
 
         this.ctgService.getCtgListBySpaceIdCtgId().subscribe(
             (response: Ctg[]) => {
+                cancelAnimationFrame(this.renderAnimation);
+
                 this.processData(response);
                 //rebuild the scene
                 this.buildSpheres();
-
-                cancelAnimationFrame(this.renderAnimation);
 
                 this.renderAnimate();
 
