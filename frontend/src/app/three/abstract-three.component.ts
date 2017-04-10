@@ -107,8 +107,8 @@ export class AbstractThreeComponent {
         this.controls.staticMoving         = false;//惯性
         this.controls.dynamicDampingFactor = 0.2;//阻力
         this.controls.keys                 = [65, 83, 68];
-
-        this.controls.addEventListener('change', () => this.renderWebGL());
+        //this is not necessary, because in raycast there is a this.controls.update()
+        // this.controls.addEventListener('change', () => this.renderWebGL());
     }
 
     /**

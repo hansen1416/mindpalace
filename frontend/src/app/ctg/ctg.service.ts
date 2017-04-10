@@ -17,8 +17,6 @@ export class CtgService {
     private spaceId: number;
     //页面的 ctg_id
     private ctgId: number;
-    //ctg list 数据
-    private ctgList: Ctg[];
     //之前访问的所有 ctg 的数据，按照时间顺序排列
     private previous              = <Array<string>>[];
     //previous subject
@@ -34,9 +32,9 @@ export class CtgService {
     //control position observable
     public controlPosition$       = this.controlPositionSource.asObservable();
     //ctg content
-    private ctgContentSource = new Subject<string>();
+    private ctgContentSource      = new Subject<string>();
 
-    public ctgContent$ = this.ctgContentSource.asObservable();
+    public ctgContent$            = this.ctgContentSource.asObservable();
     //show add ctg input
     private showAddCtgInputSource = new Subject<boolean>();
 
@@ -66,16 +64,6 @@ export class CtgService {
 
     get getCtgId() {
         return this.ctgId;
-    }
-
-
-    set setCtgList(ctgList: Ctg[]) {
-        this.ctgList = ctgList;
-    }
-
-
-    get getCtgList() {
-        return this.ctgList;
     }
 
 

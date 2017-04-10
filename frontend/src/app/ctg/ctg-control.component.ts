@@ -150,6 +150,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         );
         //show editor
         this.showContentBox = true;
+        this.showAddCtgInput = false;
     }
 
     /**
@@ -170,6 +171,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
      */
     clickAddBtn() {
         this.showAddCtgInput = true;
+        this.showContentBox = false;
     }
 
     /**

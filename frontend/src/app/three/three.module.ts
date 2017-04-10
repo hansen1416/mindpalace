@@ -7,20 +7,17 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../share/share.module';
 
 import {AbstractThreeComponent} from './abstract-three.component';
-import {ThreeService} from './three.service';
 
 @NgModule({
-              imports:      [
+              imports     : [
                   CommonModule,
                   SharedModule,
               ],
               declarations: [
                   AbstractThreeComponent,
               ],
-              exports:      [],
-              providers:    [
-                  ThreeService,
-              ],
+              exports     : [],
+              providers   : [],
           })
 export class ThreeModule {
     constructor(@Optional() @SkipSelf() parentModule: ThreeModule) {

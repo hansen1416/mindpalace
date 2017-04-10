@@ -16,9 +16,9 @@ import {Ctg, MousePosition} from "./ctg";
 
 
 @Component({
-               selector:    'ctg-list',
+               selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styles:      [require('./scss/ctg-list.component.scss')]
+               styles     : [require('./scss/ctg-list.component.scss')]
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
 
@@ -28,13 +28,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //render the scene, mouse control the ctg list
     private renderAnimation: number;
     //first of the mouse hovering element
-    protected intersect: THREE.Sprite;
+    protected hovering: THREE.Sprite;
     //click selected sprite
     protected selected: THREE.Sprite;
-    //previous selected sprite
-    private previousSelected: THREE.Sprite;
-    //when selected sprite changed to selectedColor, its value set to true, when click a new sprite, its value set to false
-    private selectedPainted           = false;
     //the descendant sprite of the selected ctg
     protected selectedDescendants     = <Array<THREE.Sprite>>[];
     //the descendant sprite uuid of the selected ctg
@@ -45,6 +41,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected dragLines: THREE.Line[];
     //the origin position of the dragged sprite element
     protected originDragPosition: THREE.Vector3;
+    //moving targets ctg
+    protected moveTarget: THREE.Sprite;
     //previous visited ctg
     protected previous;
     //show or hide control panel
@@ -71,8 +69,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected moveColor: number       = 0xFFD700;
     //color for the selected ctg descendants
     protected descendantColor: number = 0x00ff00;
-    //moving targets ctg
-    protected moveTarget: THREE.Sprite;
 
     constructor(
         protected location: Location,
@@ -113,10 +109,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     ngAfterViewInit() {
         this.ctgService.getCtgListBySpaceIdCtgId().subscribe(
             (response: Ctg[]) => {
-
-                this.ctgService.setCtgList = response;
-
-                this.processData(this.ctgService.getCtgList);
+                this.processData(response);
 
                 this.project();
 
@@ -124,6 +117,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             }
         );
     }
+
 
     /**
      * after ctg list updated,
@@ -137,28 +131,35 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         this.ctgService.setSpaceId = this.urlSpaceId;
         this.ctgService.setCtgId   = this.urlCtgId;
 
-        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(response => {
-            this.ctgService.setCtgList = response;
+        this.ctgService.getCtgListBySpaceIdCtgId().subscribe(
+            (response: Ctg[]) => {
+                this.processData(response);
+                //rebuild the scene
+                this.buildSpheres();
 
-            this.processData(this.ctgService.getCtgList);
-            //rebuild the scene
-            this.buildSpheres();
+                cancelAnimationFrame(this.renderAnimation);
 
-            cancelAnimationFrame(this.renderAnimation);
+                this.renderAnimate();
 
-            this.renderAnimate();
-
-            this.afterSceneFinished();
-        });
+                this.afterSceneFinished();
+            }
+        );
     }
 
     /**
      * action to be taken after scene finished
      */
     private afterSceneFinished() {
-        // this.threeService.setSpriteGroup(this.spriteGroup);
-
-        this.data = [];
+        this.hovering                = undefined;
+        this.selected                = undefined;
+        this.selectedDescendants     = [];
+        this.selectedDescendantsUuid = [];
+        this.drag                    = undefined;
+        this.dragLines               = [];
+        this.originDragPosition      = undefined;
+        this.moveTarget              = undefined;
+        this.data                    = [];
+        this.hideControls();
     }
 
     /**
@@ -249,6 +250,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             target.material.color.setHex(this.moveColor);
             target.material.needsUpdate = true;
         }
+
+        intersected = null;
     }
 
 
@@ -265,53 +268,54 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         this.timer = 0;
         cancelAnimationFrame(this.timerAnimation);
 
+        if (!this.drag) {
+            return;
+        }
+
         /**
          * if there is drag sprite,
          * restore its position to origin if it's not going to change its parent
          * if drag the sprite to a target ctg, and the sprite can be added under the target ctg,
          * request api, and refresh the canvas.
          */
-        if (this.drag) {
-            this.controls.enabled = true;
-            this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
-            this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
-            //clear the move color
-            if (this.moveTarget) {
-                this.moveTarget.material.color.setHex(this.originColor);
-                this.moveTarget.material.needsUpdate = true;
-            }
-
-            let target = this.getFirstIntersectedObject(1, true);
-
-            if (target) {
-
-                this.apiHttpService.get(this.apiRoutesService.ctgMove(
-                    this.drag.userData.space_id,
-                    this.drag.userData.ctg_id,
-                    target.userData.ctg_id
-                )).subscribe(response => this.messageService.handleResponse(response, () => {
-                    //refresh the scene
-                    this.rebuildScene();
-                    //hide control panel
-                    this.hideControls();
-                }));
-
-            } else {
-                this.drag.position.set(this.originDragPosition.x, this.originDragPosition.y, this.originDragPosition.z);
-
-                let i = 0;
-                while (i < this.dragLines.length) {
-                    let geometry                = <THREE.Geometry>this.dragLines[i].geometry;
-                    geometry.vertices[0]        = this.originDragPosition;
-                    geometry.verticesNeedUpdate = true;
-                    i++;
-                }
-            }
-
-            this.drag               = undefined;
-            this.dragLines          = undefined;
-            this.originDragPosition = undefined;
+        this.controls.enabled = true;
+        this.webGLRenderer.domElement.removeEventListener('mousemove', this.onMouseDrag, false);
+        this.webGLRenderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
+        //clear the move color
+        if (this.moveTarget) {
+            this.moveTarget.material.color.setHex(this.originColor);
+            this.moveTarget.material.needsUpdate = true;
         }
+
+        let target = this.getFirstIntersectedObject(1, true);
+
+        if (target) {
+
+            this.apiHttpService.get(this.apiRoutesService.ctgMove(
+                this.drag.userData.space_id,
+                this.drag.userData.ctg_id,
+                target.userData.ctg_id
+            )).subscribe(response => this.messageService.handleResponse(response, () => {
+                //refresh the scene
+                this.rebuildScene();
+            }));
+
+        } else {
+            this.drag.position.set(this.originDragPosition.x, this.originDragPosition.y, this.originDragPosition.z);
+
+            let i = 0;
+            while (i < this.dragLines.length) {
+                let geometry                = <THREE.Geometry>this.dragLines[i].geometry;
+                geometry.vertices[0]        = this.originDragPosition;
+                geometry.verticesNeedUpdate = true;
+                i++;
+            }
+        }
+
+        this.drag               = undefined;
+        this.dragLines          = undefined;
+        this.originDragPosition = undefined;
+
     };
 
     /**
@@ -325,62 +329,79 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         let currentObject = this.getFirstIntersectedObject();
 
-        if (currentObject) {
-            //if current clicking sprite is not the selected sprite
-            //set it as the new selected sprite, previous selected as previousSelected
-            //and set selectedPainted to false, so it color will be changed to selectedColor
-            if (!this.selected || (this.selected && this.selected.uuid != currentObject.uuid)) {
-                if (this.selected) {
-                    this.previousSelected = this.selected;
-                }
-                //new selected sprite
-                this.selected        = currentObject;
-                this.selectedPainted = false;
-                //clear the descendants color
-                if (this.selectedDescendants.length) {
-                    let j = 0;
-
-                    while (j < this.selectedDescendants.length) {
-                        this.selectedDescendants[j].material.color.setHex(this.originColor);
-                        j++;
-                    }
-                }
-                //clear the descendants data
-                this.selectedDescendants     = [];
-                this.selectedDescendantsUuid = [];
-            }
-
-            //set selected ctg
-            this.ctgService.setCtg = currentObject.userData;
-            //set control panel position
-            this.controlPos        = {x: event.clientX, y: event.clientY};
-            //update control position in ctg service
-            this.ctgService.setControlPosition(this.controlPos);
-            //show control panel
-            this.showControls();
-
-            //paint the descendants sprites of the selected ctg with the descendant color
-            let i = 0;
-
-            while (i < this.spriteGroup.children.length) {
-
-                if (this.spriteGroup.children[i].userData.path.match('-' + currentObject.userData.ctg_id + '-')) {
-                    let sprite = <THREE.Sprite>this.spriteGroup.children[i];
-
-                    sprite.material.color.setHex(this.descendantColor);
-
-                    this.selectedDescendants.push(sprite);
-                    this.selectedDescendantsUuid.push(sprite.uuid);
-                }
-                i++;
-            }
-
-        } else {
-            this.setSpriteToOrigin();
-            this.intersect = null;
+        if (!currentObject) {
+            return;
+        }
+        //when click a sprite, there will be no hovering sprite
+        this.hovering = null;
+        //if current target sprite is the selected sprite
+        if (this.selected && this.selected.uuid == currentObject.uuid) {
+            return;
         }
 
+        let previousSelected: THREE.Sprite;
 
+        //if current clicking sprite is not the selected sprite
+        //set it as the new selected sprite, previous selected as previousSelected
+        if (this.selected) {
+            previousSelected = this.selected;
+        }
+        //new selected sprite, set its color to selectedColor
+        this.selected = currentObject;
+
+        //clear the descendants color
+        if (this.selectedDescendants.length) {
+            let j = 0;
+
+            while (j < this.selectedDescendants.length) {
+                this.selectedDescendants[j].material.color.setHex(this.originColor);
+                j++;
+            }
+        }
+        //clear the descendants data
+        this.selectedDescendants     = [];
+        this.selectedDescendantsUuid = [];
+
+        this.selected.material.color.setHex(this.selectedColor);
+        //set selected ctg
+        this.ctgService.setCtg = currentObject.userData;
+        //set control panel position
+        this.controlPos        = {x: event.clientX, y: event.clientY};
+        //update control position in ctg service
+        this.ctgService.setControlPosition(this.controlPos);
+        //show control panel
+        this.showControls();
+
+        //paint the descendants sprites of the selected ctg with the descendant color
+        let i = 0;
+        //find the descendants sprite, and set their color to descendantColor
+        while (i < this.spriteGroup.children.length) {
+
+            if (this.spriteGroup.children[i].userData.path.match('-' + currentObject.userData.ctg_id + '-')) {
+                let sprite = <THREE.Sprite>this.spriteGroup.children[i];
+
+                sprite.material.color.setHex(this.descendantColor);
+
+                this.selectedDescendants.push(sprite);
+                this.selectedDescendantsUuid.push(sprite.uuid);
+            }
+            i++;
+        }
+        //if there is a previous selected sprite,
+        // then set its color to origin when it's not in the current descendants tree,
+        // set to descendantColor if it is
+        // and delete the previous selected
+        if (previousSelected) {
+            if (this.selectedDescendantsUuid.includes(previousSelected.uuid)) {
+                previousSelected.material.color.setHex(this.descendantColor);
+            } else {
+                previousSelected.material.color.setHex(this.originColor);
+            }
+
+            previousSelected = null;
+        }
+
+        currentObject = null;
     };
 
     /**
@@ -393,29 +414,44 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         this.updateMousePosition(event);
 
         let currentObject = this.getFirstIntersectedObject();
+        //when double click blank space, clear the color, and hide the control
+        if (!currentObject) {
 
-        if (currentObject) {
-            this.intersect = currentObject;
+            if (this.hovering) {
+                this.hovering.material.color.setHex(this.originColor);
+            }
 
-            let parentCtg = this.spriteGroup.getObjectByName(this.intersect.userData.pid + '');
+            if (this.selected) {
+                this.selected.material.color.setHex(this.originColor);
+            }
 
-            this.ctgService.addPrevious = parentCtg.userData.ctg.title;
+            if (this.selectedDescendants) {
+                let i = 0;
+                while (i < this.selectedDescendants.length) {
+                    this.selectedDescendants[i].material.color.setHex(this.originColor);
+                    i++;
+                }
+            }
 
-            this.router.navigate([
-                                     '/space',
-                                     this.intersect.userData.space_id,
-                                     'ctg',
-                                     this.intersect.userData.ctg_id
-                                 ],
-                                 {relativeTo: this.route});
-        } else {
+            this.afterSceneFinished();
 
-            this.setSpriteToOrigin();
-
-            this.intersect = null;
-
-            this.hideControls();
+            return;
         }
+
+        //when double click a sprite, route to the corresponding ctg list
+        let parentCtg = this.spriteGroup.getObjectByName(currentObject.userData.pid + '');
+
+        this.ctgService.addPrevious = parentCtg.userData.ctg.title;
+
+        this.router.navigate([
+                                 '/space',
+                                 currentObject.userData.space_id,
+                                 'ctg',
+                                 currentObject.userData.ctg_id
+                             ],
+                             {relativeTo: this.route});
+
+        currentObject = null;
     };
 
     /**
@@ -520,44 +556,24 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * restore the colour and shape of the intersected sprite to the original status
      * @param currentObject
      */
-    private setSpriteToOrigin(currentObject?): void {
-        //if there is a intersect sprite
-        //and ( there is no selected sprite or the selected sprite is not the intersect sprite )
-        if (this.intersect && (!this.selected || (this.selected && this.selected.uuid != this.intersect.uuid))) {
-
-            if (currentObject && this.intersect.uuid != currentObject.uuid) {
-                //if the currentObject is one of the selected descendants 
-                // then set its color to descendantColor, otherwise to originColor
-                if (this.selectedDescendantsUuid.includes(currentObject.uuid)) {
-                    this.intersect.material.color.setHex(this.descendantColor);
-                } else {
-                    this.intersect.material.color.setHex(this.originColor);
-                }
-            }
-
-            if (!currentObject) {
-                //if the intersect is one of the selected descendants 
-                // then set its color to descendantColor, otherwise to originColor
-                if (this.selectedDescendantsUuid.includes(this.intersect.uuid)) {
-                    this.intersect.material.color.setHex(this.descendantColor);
-                } else {
-                    this.intersect.material.color.setHex(this.originColor);
-                }
-            }
+    private setSpriteToOrigin(currentObject: THREE.Sprite): void {
+        //if no previous hovering, do nothing
+        if (!this.hovering) {
+            return;
+        }
+        //if the current intersected sprite is the selected sprite, do nothing
+        //this is not necessary for now, because there is a same if condition before the function,
+        //this will be necessary if use this function other place
+        if (this.selected && currentObject.uuid == this.selected.uuid) {
+            return;
+        }
+        //set the previous hovering to its corresponding origin color
+        if (this.selectedDescendantsUuid.includes(this.hovering.uuid)) {
+            this.hovering.material.color.setHex(this.descendantColor);
+        } else {
+            this.hovering.material.color.setHex(this.originColor);
         }
 
-    }
-
-    /**
-     * render the canvas
-     */
-    private renderAnimate(): void {
-
-        this.renderAnimation = requestAnimationFrame(() => this.renderAnimate());
-
-        this.controls.update();
-        this.raycast();
-        this.renderWebGL();
     }
 
     /**
@@ -567,30 +583,44 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private raycast(): void {
 
         let currentObject = this.getFirstIntersectedObject();
-        //hovering sprite
-        if (currentObject) {
 
-            this.webGLRenderer.domElement.style.cursor = 'pointer';
-
-            this.setSpriteToOrigin(currentObject);
-            //if the current hovering sprite is not the selected sprite the set its color to hover color
-            if (!this.selected || (this.selected && currentObject.uuid != this.selected.uuid)) {
-                currentObject.material.color.setHex(this.hoverColor);
-            }
-            this.intersect = currentObject;
-        } else {
+        if (!currentObject) {
             this.webGLRenderer.domElement.style.cursor = 'default';
+            return;
         }
-        //when there is a selected sprite and it has not yet been painted with selected color
-        if (this.selected && !this.selectedPainted) {
-            this.selected.material.color.setHex(this.selectedColor);
-            this.selectedPainted = true;
+        //hovering sprite
+        this.webGLRenderer.domElement.style.cursor = 'pointer';
+        //if the current intersected sprite is the selected sprite, then do nothing
+        if (this.selected && currentObject.uuid == this.selected.uuid) {
+            return;
         }
-        //if there is a previous selected sprite, then set its color to origin and delete the previous selected
-        if (this.previousSelected) {
-            this.previousSelected.material.color.setHex(this.originColor);
-            delete this.previousSelected;
+        //same sprite hover event once only
+        if (this.hovering && this.hovering.uuid == currentObject.uuid) {
+            return;
         }
+        //set the previous hovering sprite color to its origin
+        //could be originColor or descendantColor
+        this.setSpriteToOrigin(currentObject);
+        //set its color to hover color
+        currentObject.material.color.setHex(this.hoverColor);
+        //set the hovering sprite only here
+        //when click the sprite, set the hovering to null
+        //when double click blank space, set the hovering sprite to null
+        this.hovering = currentObject;
+    }
+
+    /**
+     * render the canvas
+     */
+    private renderAnimate(): void {
+
+        this.renderAnimation = requestAnimationFrame(() => this.renderAnimate());
+        //this will let the scene rotate
+        this.controls.update();
+        //track the mouse position and update the object status when mouse hover or click
+        this.raycast();
+        //render the scene
+        this.renderWebGL();
     }
 
 
@@ -648,12 +678,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     ctgControlPosition() {
         return {
-            display:  'block',
-            width:    0,
-            height:   0,
+            display : 'block',
+            width   : 0,
+            height  : 0,
             position: 'absolute',
-            top:      this.controlPos.y + 'px',
-            left:     this.controlPos.x + 'px'
+            top     : this.controlPos.y + 'px',
+            left    : this.controlPos.x + 'px'
         };
     }
 
