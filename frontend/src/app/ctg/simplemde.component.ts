@@ -24,7 +24,7 @@ export class SimplemdeComponent implements OnInit, OnDestroy {
 
     private showSaveBtn: boolean = false;
 
-    private subscription: Subscription;
+    private subscriptionCtgContent: Subscription;
 
     private simpleMDE: any;
 
@@ -39,8 +39,11 @@ export class SimplemdeComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.subscription = this.ctgService.ctgContent$.subscribe(
-            content => this.simpleMDE.value(content)
+        this.subscriptionCtgContent = this.ctgService.ctgContent$.subscribe(
+            (content: string) => {
+                this.simpleMDE.value(content);
+                this.simpleMDE.togglePreview();
+            }
         );
     }
 
@@ -50,6 +53,7 @@ export class SimplemdeComponent implements OnInit, OnDestroy {
         this.simpleMDE = new SimpleMDE({element: this.textarea.nativeElement});
 
         this.simpleMDE.codemirror.on("change", () => this.contentChange());
+
     }
 
     /**
@@ -78,7 +82,7 @@ export class SimplemdeComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.subscriptionCtgContent.unsubscribe();
     }
 
 }

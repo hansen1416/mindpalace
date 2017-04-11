@@ -1,6 +1,8 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">-->
 <div class="editor-box">
-    <textarea #simplemde></textarea>
+    <textarea #simplemde
+              placeholder="no content"
+    ></textarea>
 </div>
 <div *ngIf="showSaveBtn"
      id="save_content"

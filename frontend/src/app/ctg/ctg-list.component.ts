@@ -68,7 +68,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //moving target ctg color
     protected moveColor: number       = 0xFFD700;
     //color for the selected ctg descendants
-    protected descendantColor: number = 0x00ff00;
+    protected descendantColor: number = 0xff6d81;
 
     constructor(
         protected location: Location,
@@ -101,7 +101,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     }
 
     /**
-     * todo
      * after canvas loaded, request the data, then project the scene
      * try to separate loading data part to the ngOnInit
      */
