@@ -45,7 +45,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
      */
     public function spaceServiceHomeSpaces(): array
     {
-        return $this->spaceRepo->spaceRepositoryHomeSpaces($this->getUserId());
+        return $this->spaceRepo->spaceRepositoryHomeSpaces($this->getUserId(true));
     }
 
     /**

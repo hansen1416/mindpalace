@@ -9,6 +9,7 @@ import {Ctg} from '../ctg/ctg';
 import {Position} from './position';
 
 import * as THREE from 'three';
+import TrackballControls from "three-trackballcontrols";
 
 @Component({
                selector: 'abstract-three',
@@ -100,20 +101,20 @@ export class AbstractThreeComponent {
     /**
      * track ball control, rotate camera as mouse move
      */
-    // protected trackBallControl(): void {
-    //     this.controls = new THREE.TrackballControls(this.camera, this.webGLRenderer.domElement);
-    //
-    //     this.controls.rotateSpeed          = 1;
-    //     this.controls.zoomSpeed            = 1;
-    //     this.controls.panSpeed             = 1;
-    //     this.controls.noZoom               = false;
-    //     this.controls.noPan                = false;
-    //     this.controls.staticMoving         = false;//惯性
-    //     this.controls.dynamicDampingFactor = 0.2;//阻力
-    //     this.controls.keys                 = [65, 83, 68];
-    //     //this is not necessary, because in raycast there is a this.controls.update()
-    //     // this.controls.addEventListener('change', () => this.renderWebGL());
-    // }
+    protected trackBallControl(): void {
+        this.controls = new TrackballControls(this.camera, this.webGLRenderer.domElement);
+
+        this.controls.rotateSpeed          = 1;
+        this.controls.zoomSpeed            = 1;
+        this.controls.panSpeed             = 1;
+        this.controls.noZoom               = false;
+        this.controls.noPan                = false;
+        this.controls.staticMoving         = false;//惯性
+        this.controls.dynamicDampingFactor = 0.2;//阻力
+        this.controls.keys                 = [65, 83, 68];
+        //this is not necessary, because in raycast there is a this.controls.update()
+        this.controls.addEventListener('change', () => this.renderWebGL());
+    }
 
     /**
      * http://web.archive.org/web/20120421191837/http://www.cgafaq.info/wiki/Evenly_distributed_points_on_sphere
@@ -485,7 +486,7 @@ export class AbstractThreeComponent {
             // this.camera.lookAt(this.webGLScene.position);
         }
 
-        // this.controls.target = new THREE.Vector3(0, 0, -10);
+        this.controls.target = new THREE.Vector3(0, 0, -10);
         this.controls.minDistance = 0;
         this.controls.maxDistance = d;
     }

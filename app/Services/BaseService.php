@@ -20,24 +20,31 @@ abstract class BaseService
     }
 
     /**
+     * @param bool $guest
      * @return int
      */
-    protected function getUserId(): int
+    protected function getUserId($guest = false): int
     {
-        return $this->getUser()->user_id;
+        return (int)$this->getUser($guest)->user_id;
     }
 
     /**
+     * @param bool $guest
      * @return User
      * @throws UnauthenticatedException
      */
-    protected function getUser(): User
+    protected function getUser($guest = false): User
     {
         $user = Auth::guard('api')->user()
             ? Auth::guard('api')->user()
             : Auth::user();
 
         if (!$user) {
+
+            if ($guest) {
+                return new User();
+            }
+
             throw new UnauthenticatedException();
         }
 
