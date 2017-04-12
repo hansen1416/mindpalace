@@ -1,0 +1,78 @@
+@mixin perspective($d) {
+    -webkit-perspective: $d;
+    perspective: $d;
+}
+@mixin pers_origin {
+    -webkit-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
+}
+@mixin trsf_origin {
+    -webkit-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+@mixin trsf_style_3d {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+@mixin trsf_style_flat {
+    -webkit-transform-style: flat;
+    transform-style: flat;
+}
+@mixin back_face($v) {
+    -webkit-backface-visibility: $v;
+    backface-visibility: $v;
+}
+#stage {
+    @include perspective(700px);
+    @include pers_origin;
+    @include trsf_origin;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    &:hover {cursor: hand;}
+
+    .space-item {
+        $width: 4rem;
+        $height: 2rem;
+        $padding: 0.2rem;
+
+        @include back_face(hidden);
+        @include trsf_style_3d;
+
+        display: block;
+        position: absolute;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: $width;
+        height: $height;
+        padding: 0 $padding;
+        top: 50%;
+        left: 50%;
+        margin: $height/-2 0 0 $width/-2 - $padding;
+        line-height: $height;
+        text-align: center;
+        color: #fff;
+        background-color: #9d9d9d;
+        &:hover{cursor: pointer;}
+
+        input#addNewSpace{
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            line-height: $height;
+            text-indent: 0.2rem;
+        }
+
+    }
+    //galaxy ends
+
+}
+//#stage ends
+

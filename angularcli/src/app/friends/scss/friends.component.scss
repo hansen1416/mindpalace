@@ -1,0 +1,48 @@
+@import "../../app.component";
+$width: 6rem;
+$height: 8rem;
+.friends-item {
+    position: absolute;
+    width: $width;
+    height: $height;
+    margin: $height/-2 0 0 $width/-2;
+    top: 50%;
+    left: 50%;
+
+    .friend-profile {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #9d9d9d;
+
+        &:hover {
+            z-index: -1;
+        }
+
+        img {
+            width: $width;
+            height: $width;
+        }
+
+        p {
+            height: $height - $width;
+            line-height: $height - $width;
+            text-align: center;
+            color: #fff;
+        }
+    }
+    .add-friend {
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        background-image: url('../../../assets/handshake.svg');
+        background-size: 100% 100%;
+        &:hover {
+            cursor: pointer;
+            z-index: 1;
+        }
+    }
+}

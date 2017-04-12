@@ -1,0 +1,24 @@
+<div class="search-box">
+    <input type="text" class="search-input"
+           placeholder="{{'space.search_space' | translate}}"
+           #spaceSearch
+           (keyup.enter)="searchSpace()"
+           [(ngModel)]="spaceName"
+    >
+    <div class="show-all"
+         *ngIf="searched"
+         (click)="showAll()"
+    >
+        {{'space.show_all' | translate}}
+    </div>
+</div>
+<div class="search-box"
+     *ngIf="user.access_token"
+>
+    <input type="text" class="search-input"
+           placeholder="{{'space.fetch_url' | translate}}"
+           #url
+           (keyup.enter)="fetchUrl(url.value)"
+           value=""
+    >
+</div>

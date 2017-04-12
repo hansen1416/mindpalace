@@ -1,0 +1,16 @@
+<div id="canvas-frame"></div>
+<div class="go-back home"
+     [routerLink]="'/home'"
+>
+    {{'action.home' | translate}}
+</div>
+<div class="go-back previous"
+     *ngIf="previous"
+     (click)="goPreviousCtg()"
+>
+    {{previous}}
+</div>
+<ctg-control [ngStyle]="ctgControlPosition()"
+             (ctgListChange)="rebuildScene()"
+             *ngIf="showControl"></ctg-control>
+

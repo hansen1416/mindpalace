@@ -1,0 +1,17 @@
+<div id="stage">
+    <div class="circled-item space-item"
+         *ngFor="let space of spaces; let i=index; trackBy:trackBySpaces"
+         [routerLink]="space.space_id ? '/space/'+space.space_id : ''"
+         [ngStyle]="spaceStyles(positions[i].x, positions[i].y)"
+         title="{{space.name}}"
+    >
+        <input id="addNewSpace"
+               #newSpace
+               *ngIf="!space.space_id"
+               (keyup.enter)="addNewSpace()"
+               placeholder="　　+"
+               [(ngModel)]="newSpaceName"
+        />
+        {{space.name}}
+    </div>
+</div>

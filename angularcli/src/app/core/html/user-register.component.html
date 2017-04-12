@@ -1,0 +1,81 @@
+<div class="go-back home"
+     [routerLink]="'/home'"
+>
+    {{'action.home' | translate}}
+</div>
+<div class="user-register">
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+
+        <div class="form-label">
+            <input type="text" id="email" name="email"
+                   placeholder="{{'user.email_placeholder' | translate}}"
+                   required
+                   maxlength="255"
+                   [(ngModel)]="registerModel.email"
+                   #email="ngModel"
+                   (keyup.enter)="checkEmail()"
+                   (blur)="checkEmail()"
+            >
+        </div>
+        <div class="form-label">
+            <input type="password" id="password" name="password"
+                   placeholder="{{'user.password_placeholder' | translate}}"
+                   required
+                   minlength="6"
+                   maxlength="32"
+                   [(ngModel)]="registerModel.password"
+                   #password="ngModel"
+            >
+        </div>
+        <div class="form-label">
+            <input type="password" id="confirm_password" name="confirm_password"
+                   placeholder="{{'user.confirm_password_placeholder' | translate}}"
+                   required
+                   minlength="6"
+                   maxlength="32"
+                   [(ngModel)]="registerModel.confirm_password"
+                   #confirm_password="ngModel"
+                   (keyup.enter)="confirmPassword()"
+                   (blur)="confirmPassword()"
+            >
+        </div>
+        <div class="form-label">
+            <input type="text" id="name" name="name"
+                   placeholder="{{'user.name_placeholder' | translate}}"
+                   required
+                   maxlength="45"
+                   [(ngModel)]="registerModel.name"
+                   #name="ngModel"
+            >
+        </div>
+
+        <div class="form-panel">
+            <button type="submit">{{'user.register' | translate}}</button>
+        </div>
+
+        <div class="message-box">
+            <p *ngIf="!(email.valid || email.pristine)" error>
+                {{'user.email_required' | translate}}
+            </p>
+            <p *ngIf="!(password.valid || password.pristine)" error>
+                {{'user.password_required' | translate}}
+            </p>
+            <p *ngIf="!(confirm_password.valid || confirm_password.pristine)" error>
+                {{'user.confirm_password_required' | translate}}
+            </p>
+            <p *ngIf="!(name.valid || name.pristine)" error>
+                {{'user.name_required' | translate}}
+            </p>
+            <p *ngIf="invalidEmail" error>
+                {{'user.email_validation' | translate}}
+            </p>
+            <p *ngIf="invalidConfirmPassword" error>
+                {{'user.confirm_password_invalid' | translate}}
+            </p>
+            <p *ngIf="serverError" error>
+                {{serverErrorMessage}}
+            </p>
+        </div>
+
+    </form>
+</div>

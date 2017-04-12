@@ -1,0 +1,14 @@
+<div class="circled-item friends-item"
+     *ngFor="let friend of friendsList; let i=index; trackBy:trackByFriends"
+     [ngStyle]="friendsStyles(positions[i].x, positions[i].y)"
+     title="{{friend.name}}"
+>
+    <div class="friend-profile">
+        <img src="{{friend.portrait | thumb}}" alt="">
+        <p>{{friend.name}}</p>
+    </div>
+    <div *ngIf="!friend.is_friend"
+         class="add-friend"
+         (click)="addFriend(friend)"
+    ></div>
+</div>

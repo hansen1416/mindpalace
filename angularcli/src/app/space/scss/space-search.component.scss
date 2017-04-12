@@ -1,0 +1,32 @@
+$search-width: 18rem;
+$search-height: 2.4rem;
+.search-box {
+    width: $search-width;
+    height: $search-height;
+    margin: $search-height / 2 auto 0;
+    position: relative;
+
+    .search-input {
+        width: 100%;
+        height: 100%;
+        line-height: 2.4rem;
+        font-size: 1em;
+    }
+    .show-all {
+        $top: 0.2rem;
+        $height: $search-height - $top*2;
+        position: absolute;
+        width: auto;
+        height: $height;
+        top: $top;
+        right: $top;
+        padding: 0 0.4rem;
+        line-height: $height;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #fff;
+        background-color: #5bc0de;
+        &:hover{cursor: pointer;}
+    }
+}
+

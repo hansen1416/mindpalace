@@ -1,0 +1,7 @@
+<div class="search-box">
+    <input type="text" class="search-input"
+           placeholder="{{'user.search_friends_placeholder' | translate}}"
+           #searchName
+           (keyup.enter)="searchUser(searchName.value)"
+    >
+</div>
