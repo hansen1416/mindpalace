@@ -21,10 +21,10 @@ import {Position} from './position';
 export class SpaceHomeComponent implements OnInit, OnDestroy {
 
     //spaces on the home page
-    private spaces: Space[];
+    protected spaces: Space[];
 
     //position of all the spaces
-    private positions: Position[];
+    protected positions: Position[];
 
 
     private addInProgress = false;

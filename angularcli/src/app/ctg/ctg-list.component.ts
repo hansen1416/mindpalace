@@ -614,7 +614,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         this.renderAnimation = requestAnimationFrame(() => this.renderAnimate());
         //this will let the scene rotate
-        this.controls.update();
+        // this.controls.update();
         //track the mouse position and update the object status when mouse hover or click
         this.raycast();
         //render the scene
@@ -626,7 +626,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         this.initWebGL();
 
-        this.trackBallControl();
+        // this.trackBallControl();
 
         this.buildSpheres();
 
