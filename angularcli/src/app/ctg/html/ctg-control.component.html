@@ -28,13 +28,15 @@
     <p>{{confirmContent | translate}}</p>
     <div class="button-box">
         <button type="button"
-            (click)="confirmDelete()"
-        >{{'action.yes' | translate}}</button>
+                (click)="confirmDelete()"
+        >{{'action.yes' | translate}}
+        </button>
         <button type="button"
                 (click)="cancelDelete()"
-        >{{'action.no' | translate}}</button>
+        >{{'action.no' | translate}}
+        </button>
     </div>
 </div>
-<mdeditor class="text-box"
-          [ngStyle]="setEditorPosition()"
-          *ngIf="showContentBox"></mdeditor>
+<ctg-content class="text-box"
+             [ngStyle]="setEditorPosition()"
+             *ngIf="showContentBox"></ctg-content>

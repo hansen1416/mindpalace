@@ -55,12 +55,11 @@ $radius: $btn-width * 2.5;
 }
 .text-box {
     $box-width: 30%;
-    $box-height: 70%;
+    $box-height: 85%;
     position: fixed;
     width: $box-width;
     height: $box-height;
-    background-color: #FFFFFF;
-    top: 15%;
+    top: 0;
     left: 12%;
 }
 .confirm-box{

@@ -10,7 +10,8 @@ import {ThreeModule} from '../three/three.module';
 
 import {CtgListComponent} from './ctg-list.component';
 import {CtgControlComponent} from './ctg-control.component';
-import {SimplemdeComponent} from './simplemde.component';
+import {CtgContentComponent} from './ctg-content.component';
+import {TinyMceComponent} from '../tinymce/tiny-mce.component';
 import {CtgService} from './ctg.service';
 import {CtgStyleDirective} from './ctg-style.directive';
 
@@ -23,9 +24,10 @@ import {CtgStyleDirective} from './ctg-style.directive';
               ],
               declarations: [
                   CtgListComponent,
-                  SimplemdeComponent,
+                  CtgContentComponent,
                   CtgStyleDirective,
                   CtgControlComponent,
+                  TinyMceComponent,
               ],
               providers   : [
                   CtgService,

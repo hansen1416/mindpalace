@@ -1,0 +1,9 @@
+<tiny-mce class="editor-box"
+          [elementId]="'tiny-mce-editor'"
+          (onEditorKeyUp)="contentChange($event)"></tiny-mce>
+<div *ngIf="showSaveBtn"
+     id="save_content"
+     (click)="saveContent()"
+>
+    {{'action.save' | translate}}
+</div>
