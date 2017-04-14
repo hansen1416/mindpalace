@@ -2,13 +2,12 @@
  * Created by hlz on 17-1-28.
  */
 // Angular Imports
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
-import {Subscription} from 'rxjs/Subscription';
 
 // Define Editor Component
 @Component({
@@ -16,11 +15,11 @@ import {Subscription} from 'rxjs/Subscription';
                templateUrl: './html/ctg-content.component.html',
                styleUrls  : ['./scss/ctg-content.component.scss']
            })
-export class CtgContentComponent implements OnInit, OnDestroy {
+export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private showSaveBtn: boolean = false;
 
-    private subscriptionCtgContent: Subscription;
+    private ctgTitle: string = '';
 
     constructor(
         private ctgService: CtgService,
@@ -32,25 +31,19 @@ export class CtgContentComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.subscriptionCtgContent = this.ctgService.ctgContent$.subscribe(
-            (content: string) => {
-
-            }
-        );
+        this.ctgTitle = this.ctgService.getCtg.ctg.title;
     }
 
 
     ngAfterViewInit() {
-
 
     }
 
     /**
      * content changed
      * show save button
-     * @param event
      */
-    contentChange(event: Event) {
+    contentChange() {
         this.showSaveBtn = true;
     }
 
@@ -71,7 +64,7 @@ export class CtgContentComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.subscriptionCtgContent.unsubscribe();
+
     }
 
 }

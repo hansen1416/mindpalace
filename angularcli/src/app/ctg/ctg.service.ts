@@ -37,8 +37,8 @@ export class CtgService {
     public ctgContent$            = this.ctgContentSource.asObservable();
     //show add ctg input
     private showAddCtgInputSource = new Subject<boolean>();
-
-    public showAddCtgInput$ = this.showAddCtgInputSource.asObservable();
+    //show add ctg input observable
+    public showAddCtgInput$       = this.showAddCtgInputSource.asObservable();
 
     constructor(
         private apiHttpService: ApiHttpService,

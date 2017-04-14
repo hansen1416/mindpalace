@@ -7,11 +7,11 @@ import {CommonModule}   from '@angular/common';
 import {SharedModule}    from '../share/share.module';
 import {CtgRoutingModule} from './ctg-routing.module';
 import {ThreeModule} from '../three/three.module';
+import {CKEditorModule} from '../ckeditor/ckeditor.module';
 
 import {CtgListComponent} from './ctg-list.component';
 import {CtgControlComponent} from './ctg-control.component';
 import {CtgContentComponent} from './ctg-content.component';
-import {TinyMceComponent} from '../tinymce/tiny-mce.component';
 import {CtgService} from './ctg.service';
 import {CtgStyleDirective} from './ctg-style.directive';
 
@@ -21,13 +21,13 @@ import {CtgStyleDirective} from './ctg-style.directive';
                   SharedModule,
                   CtgRoutingModule,
                   ThreeModule,
+                  CKEditorModule,
               ],
               declarations: [
                   CtgListComponent,
                   CtgContentComponent,
                   CtgStyleDirective,
                   CtgControlComponent,
-                  TinyMceComponent,
               ],
               providers   : [
                   CtgService,

@@ -1,6 +1,9 @@
-<tiny-mce class="editor-box"
-          [elementId]="'tiny-mce-editor'"
-          (onEditorKeyUp)="contentChange($event)"></tiny-mce>
+<div class="editor-box">
+    <h3 class="ctg-title"
+        contenteditable="true"
+    >{{ctgTitle}}</h3>
+    <ckeditor></ckeditor>
+</div>
 <div *ngIf="showSaveBtn"
      id="save_content"
      (click)="saveContent()"

@@ -1,7 +1,7 @@
 /**
  * Created by hlz on 16-11-18.
  */
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
@@ -12,6 +12,7 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
+import {CKEditorService} from '../ckeditor/ckeditor.service';
 import {Ctg, MousePosition} from "./ctg";
 
 
@@ -20,7 +21,7 @@ import {Ctg, MousePosition} from "./ctg";
                templateUrl: './html/ctg-list.component.html',
                styleUrls  : ['./scss/ctg-list.component.scss']
            })
-export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy {
+export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private timer                     = 0;
     //timer animation, count press time
@@ -78,6 +79,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         protected apiRoutesService: ApiRoutesService,
         protected apiHttpService: ApiHttpService,
         protected messageService: MessageService,
+        protected ckeditorService: CKEditorService,
     ) {
         super();
     }
@@ -414,6 +416,8 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         let currentObject = this.getFirstIntersectedObject();
         //when double click blank space, clear the color, and hide the control
         if (!currentObject) {
+            //close the ckeditor
+            this.ckeditorService.editorOff();
 
             if (this.hovering) {
                 this.hovering.material.color.setHex(this.originColor);
