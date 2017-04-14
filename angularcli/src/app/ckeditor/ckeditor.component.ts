@@ -28,16 +28,16 @@ declare let CKEDITOR: any;
  *  <ckeditor [(ngModel)]="data" [config]="{...}" debounce="500"></ckeditor>
  */
 @Component({
-               selector   : 'ckeditor',
-               providers  : [
+               selector:    'ckeditor',
+               providers:   [
                    {
-                       provide    : NG_VALUE_ACCESSOR,
+                       provide:     NG_VALUE_ACCESSOR,
                        useExisting: forwardRef(() => CKEditorComponent),
-                       multi      : true
+                       multi:       true
                    }
                ],
                templateUrl: './html/ckeditor.component.html',
-               styleUrls  : ['./scss/ckeditor.component.scss']
+               styleUrls:   ['./scss/ckeditor.component.scss']
            })
 export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -53,11 +53,10 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ContentChildren(CKGroupDirective) toolbarGroups: QueryList<CKGroupDirective>;
 
     _value = '';
-    instance;
     debounceTimeout;
     zone;
 
-    private editorId = 'editorId';
+    private editor = 'editor';
 
     private subscriptionToggleEditor: Subscription;
 
@@ -72,7 +71,9 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-    get value(): any { return this._value; };
+    get value(): any {
+        return this._value;
+    };
 
     @Input() set value(v) {
         if (v !== this._value) {
@@ -86,8 +87,9 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
             (toggle: boolean) => {
                 if (!toggle) {
                     //close editor
-                    if (CKEDITOR.instances.editorId) {
-                        CKEDITOR.instances.editorId.destroy();
+                    if (CKEDITOR.instances[this.editor]) {
+                        CKEDITOR.instances[this.editor].focusManager.blur(true);
+                        CKEDITOR.instances[this.editor].destroy();
                     }
                 }
 
@@ -99,24 +101,27 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
      * On component destroy
      */
     ngOnDestroy() {
-        if (this.instance) {
-            setTimeout(() => {
-                this.instance.removeAllListeners();
-                this.instance.destroy();
-                this.instance = null;
-            });
-        }
+
+        setTimeout(() => {
+            if (CKEDITOR.instances[this.editor]) {
+                CKEDITOR.instances[this.editor].removeAllListeners();
+                CKEDITOR.instances[this.editor].focusManager.blur(true);
+                CKEDITOR.instances[this.editor].destroy();
+                CKEDITOR.instances[this.editor] = null;
+            }
+        });
     }
 
     /**
      * On component view init
      */
     ngAfterViewInit() {
+
         CKEDITOR.disableAutoInline = true;
         // Configuration
         this.ckeditorInit(this.config || {});
-
     }
+
 
     /**
      * Value update process
@@ -141,12 +146,12 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
         } else {
 
-            this.instance = CKEDITOR.inline(this.editorId);
+            CKEDITOR.inline(this.editor);
             // CKEditor replace textarea
             // this.instance = CKEDITOR.replace(this.host.nativeElement, config);
 
             // Set initial value
-            this.instance.setData(this.value);
+            CKEDITOR.instances[this.editor].setData(this.value);
 
             // // listen for instanceReady event
             // this.instance.on('instanceReady', (evt) => {
@@ -200,15 +205,21 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     writeValue(value) {
         this._value = value;
-        if (this.instance)
-            this.instance.setData(value);
+        if (CKEDITOR.instances[this.editor])
+            CKEDITOR.instances[this.editor].setData(value);
     }
 
-    onChange(_) {}
+    onChange(_) {
+    }
 
-    onTouched() {}
+    onTouched() {
+    }
 
-    registerOnChange(fn) { this.onChange = fn; }
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
 
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
 }
