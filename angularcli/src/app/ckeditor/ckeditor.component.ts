@@ -16,6 +16,7 @@ import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 
 import {CKEditorService} from './ckeditor.service';
+import {CtgService} from '../ctg/ctg.service';
 
 // import {CKButtonDirective} from "./ckbutton.directive";
 // import {CKGroupDirective} from "./ckgroup.directive";
@@ -52,37 +53,38 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ContentChildren(CKButtonDirective) toolbarButtons: QueryList<CKButtonDirective>;
     // @ContentChildren(CKGroupDirective) toolbarGroups: QueryList<CKGroupDirective>;
 
-    _value = '';
     debounceTimeout;
     zone;
 
     private editor = 'editor';
 
+    private content = this.ctgService.ctgContent;
+
     private subscriptionToggleEditor: Subscription;
+
+    private subscriptionCtgContent: Subscription;
 
     /**
      * Constructor
      */
     constructor(
         zone: NgZone,
-        private ckeditorService: CKEditorService
+        private ckeditorService: CKEditorService,
+        private ctgService: CtgService,
     ) {
         this.zone = zone;
 
     }
 
-    get value(): any {
-        return this._value;
-    };
-
-    @Input() set value(v) {
-        if (v !== this._value) {
-            this._value = v;
-            this.onChange(v);
-        }
-    }
-
     ngOnInit() {
+        this.subscriptionCtgContent = this.ctgService.ctgContent$.subscribe(
+            (content: string) => {
+                if (CKEDITOR.instances[this.editor]) {
+                    CKEDITOR.instances[this.editor].setData(this.content);
+                }
+            }
+        );
+
         this.subscriptionToggleEditor = this.ckeditorService.toggleEditor$.subscribe(
             (toggle: boolean) => {
                 if (!toggle) {
@@ -101,7 +103,6 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
      * On component destroy
      */
     ngOnDestroy() {
-
         setTimeout(() => {
             if (CKEDITOR.instances[this.editor]) {
                 CKEDITOR.instances[this.editor].removeAllListeners();
@@ -126,16 +127,16 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Value update process
      */
-    updateValue(value) {
-        this.zone.run(() => {
-            this.value = value;
-
-            this.onChange(value);
-
-            this.onTouched();
-            this.change.emit(value);
-        });
-    }
+    // updateValue(value) {
+    //     this.zone.run(() => {
+    //         this.value = value;
+    //
+    //         this.onChange(value);
+    //
+    //         this.onTouched();
+    //         this.change.emit(value);
+    //     });
+    // }
 
     /**
      * CKEditor init
@@ -151,7 +152,7 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
             // this.instance = CKEDITOR.replace(this.host.nativeElement, config);
 
             // Set initial value
-            CKEDITOR.instances[this.editor].setData(this.value);
+            CKEDITOR.instances[this.editor].setData(this.content);
 
             // // listen for instanceReady event
             // this.instance.on('instanceReady', (evt) => {
@@ -203,11 +204,10 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Implements ControlValueAccessor
      */
-    writeValue(value) {
-        this._value = value;
-        if (CKEDITOR.instances[this.editor])
-            CKEDITOR.instances[this.editor].setData(value);
-    }
+    // writeValue(value) {
+    //     if (CKEDITOR.instances[this.editor])
+    //         CKEDITOR.instances[this.editor].setData(value);
+    // }
 
     onChange(_) {
     }

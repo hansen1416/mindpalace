@@ -32,8 +32,10 @@ export class CtgService {
     //control position observable
     public controlPosition$       = this.controlPositionSource.asObservable();
     //ctg content
+    public ctgContent: string     = '';
+    //ctg content Subject
     private ctgContentSource      = new Subject<string>();
-
+    //ctg content observable
     public ctgContent$            = this.ctgContentSource.asObservable();
     //show add ctg input
     private showAddCtgInputSource = new Subject<boolean>();
@@ -103,6 +105,7 @@ export class CtgService {
 
     //set ctg content
     setCtgContent(content: string) {
+        this.ctgContent = content;
         this.ctgContentSource.next(content);
     }
 
