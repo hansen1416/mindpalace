@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {CKEditorComponent} from './ckeditor.component';
-import {CKButtonDirective} from './ckbutton.directive';
-import {CKGroupDirective} from './ckgroup.directive';
+// import {CKButtonDirective} from './ckbutton.directive';
+// import {CKGroupDirective} from './ckgroup.directive';
 import {CKEditorService} from './ckeditor.service';
 
 @NgModule({
@@ -12,13 +12,13 @@ import {CKEditorService} from './ckeditor.service';
               ],
               declarations: [
                   CKEditorComponent,
-                  CKButtonDirective,
-                  CKGroupDirective
+                  // CKButtonDirective,
+                  // CKGroupDirective
               ],
               exports     : [
                   CKEditorComponent,
-                  CKButtonDirective,
-                  CKGroupDirective
+                  // CKButtonDirective,
+                  // CKGroupDirective
               ],
               providers   : [
                   CKEditorService

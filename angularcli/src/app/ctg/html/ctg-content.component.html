@@ -2,11 +2,20 @@
     <h3 class="ctg-title"
         contenteditable="true"
     >{{ctgTitle}}</h3>
-    <ckeditor></ckeditor>
-</div>
-<div *ngIf="showSaveBtn"
-     id="save_content"
-     (click)="saveContent()"
->
-    {{'action.save' | translate}}
+    <ckeditor (change)="contentChange()"
+              #ckeditor
+    ></ckeditor>
+    <div class="button-label">
+        <div class="share-button">
+            <span>share</span>
+        </div>
+        <div class="copy-button">
+            <span>copy</span>
+        </div>
+        <div class="save-button"
+             (click)="saveContent(ckeditor.content)"
+        >
+            <span>{{'action.save' | translate}}</span>
+        </div>
+    </div>
 </div>

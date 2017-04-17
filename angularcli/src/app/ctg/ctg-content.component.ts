@@ -50,16 +50,17 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * save button click event
      * save content
+     * @param content
      */
-    saveContent() {
+    saveContent(content: string) {
 
         let data = new FormData();
         data.append('ctg_id', this.ctgService.getCtg.ctg_id);
-        data.append('content', '');
+        data.append('content', content);
 
         this.apiHttpService.post(this.apiRouteService.saveCtgContent, data).subscribe(
             response => this.messageService.handleResponse(response, 'ctg_content_updated')
-        )
+        );
     }
 
 

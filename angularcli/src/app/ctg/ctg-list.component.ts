@@ -325,6 +325,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private onClick = (event: MouseEvent): void => {
         event.preventDefault();
 
+        //close the ckeditor
+        this.ckeditorService.editorOff();
+
         this.updateMousePosition(event);
 
         let currentObject = this.getFirstIntersectedObject();
@@ -416,8 +419,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         let currentObject = this.getFirstIntersectedObject();
         //when double click blank space, clear the color, and hide the control
         if (!currentObject) {
-            //close the ckeditor
-            this.ckeditorService.editorOff();
 
             if (this.hovering) {
                 this.hovering.material.color.setHex(this.originColor);
