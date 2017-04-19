@@ -1,7 +1,7 @@
 /**
  * Created by hlz on 16-11-8.
  */
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {SpaceService} from './space.service';
@@ -14,11 +14,11 @@ import {Space} from './space';
 import {Position} from '../share/coordinates';
 
 @Component({
-               selector   : 'space-home',
+               selector:    'space-home',
                templateUrl: './html/space-home.component.html',
-               styleUrls  : ['./scss/space-home.component.scss']
+               styleUrls:   ['./scss/space-home.component.scss']
            })
-export class SpaceHomeComponent implements OnInit, OnDestroy {
+export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //spaces on the home page
     protected spaces: Space[];
@@ -47,21 +47,22 @@ export class SpaceHomeComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private messageService: MessageService,
     ) {
-        this.subscriptionSpaces = spaceService.spaces$.subscribe(
-            spaces => {
-                this.spaces = spaces;
-            }
-        );
 
-        this.subscriptionPositions = spaceService.spacePositions$.subscribe(
-            positions => {
-                this.positions = positions;
-            }
-        );
     }
 
 
     ngOnInit() {
+
+        document.body.style.overflowY = 'auto';
+
+        this.subscriptionSpaces = this.spaceService.spaces$.subscribe(
+            spaces => this.spaces = spaces
+        );
+
+        this.subscriptionPositions = this.spaceService.spacePositions$.subscribe(
+            positions => this.positions = positions
+        );
+
         if (this.spaceService.spaces && this.spaceService.spacePositions) {
             this.spaces    = this.spaceService.spaces;
             this.positions = this.spaceService.spacePositions;
@@ -81,7 +82,23 @@ export class SpaceHomeComponent implements OnInit, OnDestroy {
     }
 
 
-    trackBySpaces(index: number, space: Space) {return space.space_id}
+    ngAfterViewInit() {
+
+    }
+
+
+    ngOnDestroy() {
+        setTimeout(()=> {
+            document.body.style.overflowY = 'hidden';
+            this.subscriptionSpaces.unsubscribe();
+            this.subscriptionPositions.unsubscribe();
+        });
+    }
+
+
+    trackBySpaces(index: number, space: Space) {
+        return space.space_id
+    }
 
 
     spaceStyles(x: number, y: number) {
@@ -118,12 +135,6 @@ export class SpaceHomeComponent implements OnInit, OnDestroy {
                 this.addInProgress = false;
             })
         );
-    }
-
-
-    ngOnDestroy() {
-        this.subscriptionSpaces.unsubscribe();
-        this.subscriptionPositions.unsubscribe();
     }
 
 }

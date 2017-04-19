@@ -197,13 +197,14 @@ class CtgService extends BaseService
     }
 
     /**
+     * @param int $space_id
      * @param int $ctg_id
      * @return array
      */
-    public function ctgServiceDeleteCtg(int $ctg_id): array
+    public function ctgServiceDeleteCtg(int $space_id, int $ctg_id): array
     {
         return [
-            'deleted' => $this->spaceCtgRepo->spaceCtgRepositoryDeleteCtg($ctg_id),
+            'deleted' => $this->spaceCtgRepo->spaceCtgRepositoryDeleteCtg($space_id, $ctg_id),
         ];
     }
 
@@ -220,17 +221,19 @@ class CtgService extends BaseService
             throw new CantFindException();
         }
 
-        $new_space_origin = $this->spaceCtgRepo->getOne(166, 481);
-
-        $ctg = $this->spaceCtgRepo->getOne($origin_space, $ctg_id);
+        $originCtg = $this->spaceCtgRepo->spaceCtgRepositoryGetSpaceOriginCtg($space_id);
+        $ctg       = $this->spaceCtgRepo->getOne($origin_space, $ctg_id);
 
         foreach ($insert as $key => &$value) {
             if ($value['ctg_id'] == $ctg_id) {
-                $value['path'] = $new_space_origin->path . $new_space_origin->ctg_id . '-';
+                $value['pid']  = $originCtg->ctg_id;
+                $value['tier'] = 1;
+                $value['path'] = $originCtg->path . $originCtg->ctg_id . '-';
             } else {
+                $value['tier'] = $value['tier'] - $ctg['tier'] + 1;
                 $value['path'] = str_replace(
                     $ctg->path,
-                    $new_space_origin->path . $new_space_origin->ctg_id . '-',
+                    $originCtg->path . $originCtg->ctg_id . '-',
                     $value['path']
                 );
             }
@@ -239,8 +242,8 @@ class CtgService extends BaseService
             unset($value['ctg']);
         }
 
-        return $insert;
 
+        return $this->spaceCtgRepo->spaceCtgRepositoryMassInsert($insert);
     }
 
 }

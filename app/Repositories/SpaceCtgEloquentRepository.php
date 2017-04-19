@@ -50,6 +50,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     public function spaceCtgRepositorySpaceCtg(int $space_id): array
     {
         $res = $this
+//            ->setCacheLifetime(0)
             ->where('space_id', $space_id)
             ->with(['ctg'])
             ->findAll();
@@ -136,20 +137,51 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
 
     /**
      * @param int $ctg_id
+     * @param int $space_id
      * @return int
      * @throws DeleteFailedException
      */
-    public function spaceCtgRepositoryDeleteCtg(int $ctg_id): int
+    public function spaceCtgRepositoryDeleteCtg(int $space_id, int $ctg_id): int
     {
         /** @var \App\SpaceCtg $spaceCtg */
         $spaceCtg = new $this->model;
 
-        $res = $spaceCtg->where('ctg_id', $ctg_id)
-                        ->orWhere('path', 'like', '%-' . $ctg_id . '-%')
+        $res = $spaceCtg->where('space_id', $space_id)
+                        ->where(function (Builder $q) use ($ctg_id) {
+                            $q->where('ctg_id', $ctg_id)
+                              ->orWhere('path', 'like', '%-' . $ctg_id . '-%');
+                        })
                         ->delete();
 
         if (!$res) {
             throw new DeleteFailedException();
+        }
+
+        $this->forgetCache();
+        return $res;
+    }
+
+    /**
+     * @param int $space_id
+     * @return \Illuminate\Database\Eloquent\Model | SpaceCtg
+     */
+    public function spaceCtgRepositoryGetSpaceOriginCtg(int $space_id): SpaceCtg
+    {
+        return $this->where('pid', 0)
+                    ->findBy('space_id', $space_id);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws SaveFailedException
+     */
+    public function spaceCtgRepositoryMassInsert(array $data): bool
+    {
+        $res = SpaceCtg::insert($data);
+
+        if (!$res) {
+            throw new SaveFailedException();
         }
 
         $this->forgetCache();

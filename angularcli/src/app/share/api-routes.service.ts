@@ -52,8 +52,8 @@ export class ApiRoutesService {
     }
 
     //delete ctg
-    ctgDelete(ctg_id: number) {
-        return this.api_url + 'ctg/delete/' + ctg_id;
+    ctgDelete(space_id: number, ctg_id: number) {
+        return this.api_url + 'ctg/delete/space/' + space_id + '/ctg/' + ctg_id;
     }
 
 

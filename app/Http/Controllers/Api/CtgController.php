@@ -118,15 +118,16 @@ class CtgController extends Controller
     }
 
     /**
+     * @param $space_id
      * @param $ctg_id
      * @return JsonResponse
      */
-    public function deleteCtg($ctg_id): JsonResponse
+    public function deleteCtg($space_id, $ctg_id): JsonResponse
     {
         try {
 
             return $this->responseJson(
-                $this->ctg->ctgServiceDeleteCtg($ctg_id)
+                $this->ctg->ctgServiceDeleteCtg($space_id, $ctg_id)
             );
         } catch (\Exception $e) {
             return $this->responseJson($e);

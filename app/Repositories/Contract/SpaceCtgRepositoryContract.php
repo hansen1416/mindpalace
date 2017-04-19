@@ -59,9 +59,23 @@ interface SpaceCtgRepositoryContract extends CacheableContract, RepositoryContra
 
     /**
      * @param int $ctg_id
+     * @param int $space_id
      * @return int
      * @throws DeleteFailedException
      */
-    public function spaceCtgRepositoryDeleteCtg(int $ctg_id): int;
+    public function spaceCtgRepositoryDeleteCtg(int $space_id, int $ctg_id): int;
+
+    /**
+     * @param int $space_id
+     * @return \Illuminate\Database\Eloquent\Model | SpaceCtg
+     */
+    public function spaceCtgRepositoryGetSpaceOriginCtg(int $space_id): SpaceCtg;
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws SaveFailedException
+     */
+    public function spaceCtgRepositoryMassInsert(array $data): bool;
 
 }

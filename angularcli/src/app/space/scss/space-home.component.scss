@@ -1,28 +1,36 @@
+@import "../../app.component";
+
 @mixin perspective($d) {
     -webkit-perspective: $d;
     perspective: $d;
 }
+
 @mixin pers_origin {
     -webkit-perspective-origin: 50% 50%;
     perspective-origin: 50% 50%;
 }
+
 @mixin trsf_origin {
     -webkit-transform-origin: 50% 50%;
     -o-transform-origin: 50% 50%;
     transform-origin: 50% 50%;
 }
+
 @mixin trsf_style_3d {
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
+
 @mixin trsf_style_flat {
     -webkit-transform-style: flat;
     transform-style: flat;
 }
+
 @mixin back_face($v) {
     -webkit-backface-visibility: $v;
     backface-visibility: $v;
 }
+
 #stage {
     @include perspective(700px);
     @include pers_origin;
@@ -32,7 +40,9 @@
     height: 100%;
     top: 0;
     left: 0;
-    &:hover {cursor: hand;}
+    &:hover {
+        cursor: hand;
+    }
 
     .space-item {
         $width: 4rem;
@@ -57,9 +67,11 @@
         text-align: center;
         color: #fff;
         background-color: #9d9d9d;
-        &:hover{cursor: pointer;}
+        &:hover {
+            cursor: pointer;
+        }
 
-        input#addNewSpace{
+        input#addNewSpace {
             display: inline-block;
             position: absolute;
             top: 0;
@@ -74,5 +86,6 @@
     //galaxy ends
 
 }
+
 //#stage ends
 
