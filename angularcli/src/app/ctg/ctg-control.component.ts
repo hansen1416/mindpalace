@@ -11,9 +11,7 @@ import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {CtgService} from './ctg.service';
 import {CssService} from '../share/css.service';
-import {MousePosition} from './ctg';
-
-declare let THREE: any;
+import {Ctg, MousePosition} from './ctg';
 
 @Component({
                selector   : 'ctg-control',
@@ -22,14 +20,16 @@ declare let THREE: any;
            })
 export class CtgControlComponent implements OnInit, OnDestroy {
 
-    //hide the content editor
-    private showContentBox: boolean  = false;
-    //hide the title input
-    private showAddCtgInput: boolean = false;
+    //toggle the content editor
+    public showContentBox: boolean  = false;
+    //toggle the title input
+    public showAddCtgInput: boolean = false;
 
     private field: number;
 
-    private subscriptionAddCtgInput: Subscription;
+    private subscriptionCtg: Subscription;
+
+    private ctg: Ctg = this.ctgService.ctg;
 
     private subscriptionControlPosition: Subscription;
 
@@ -57,13 +57,22 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
+
+        this.subscriptionCtg = this.ctgService.ctg$.subscribe(
+            ctg => this.ctg = ctg
+        );
+
         this.subscriptionControlPosition = this.ctgService.controlPosition$.subscribe(
             controlPosition => this.controlPosition = controlPosition
         );
 
-        this.subscriptionAddCtgInput = this.ctgService.showAddCtgInput$.subscribe(
-            show => this.showAddCtgInput = show
-        );
+    }
+
+    ngOnDestroy() {
+        setTimeout(() => {
+            this.subscriptionCtg.unsubscribe();
+            this.subscriptionControlPosition.unsubscribe();
+        });
     }
 
     /**
@@ -143,7 +152,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
      */
     clickViewBtn() {
         //request the ctg content from server
-        this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctgService.getCtg.ctg_id)).subscribe(
+        this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctg.ctg_id)).subscribe(
             response => this.messageService.handleResponse(response, () => {
                 this.ctgService.setCtgContent(response.content ? response.content : '');
             })
@@ -216,8 +225,8 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
         let data = new FormData();
         data.append('title', title);
-        data.append('ctg_id', this.ctgService.getCtg.ctg_id);
-        data.append('space_id', this.ctgService.getCtg.space_id);
+        data.append('ctg_id', this.ctg.ctg_id);
+        data.append('space_id', this.ctg.space_id);
 
         this.apiHttpService.post(this.apiRoutesService.createCtg, data).subscribe(
             response => this.messageService.handleResponse(response, () => {
@@ -246,19 +255,12 @@ export class CtgControlComponent implements OnInit, OnDestroy {
      */
     confirmDelete() {
         this.showConfirm = false;
-        this.apiHttpService.get(this.apiRoutesService.ctgDelete(this.ctgService.getCtg.ctg_id)).subscribe(
+        this.apiHttpService.get(this.apiRoutesService.ctgDelete(this.ctg.ctg_id)).subscribe(
             response => this.messageService.handleResponse(response, () => {
                 this.messageService.showFlashMessage('message.delete_ctg-' + response.deleted);
                 this.ctgListChange.emit();
             })
         )
     }
-
-
-    ngOnDestroy() {
-        this.subscriptionControlPosition.unsubscribe();
-        this.subscriptionAddCtgInput.unsubscribe();
-    }
-
 
 }

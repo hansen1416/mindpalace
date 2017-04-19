@@ -24,7 +24,11 @@ export class CtgService {
     //previous observable
     public previous$              = this.previousSource.asObservable();
     //当前选中的 ctg
-    private ctg: Ctg;
+    public ctg: Ctg;
+    //
+    private ctgSource             = new Subject<Ctg>();
+    //
+    public ctg$                   = this.ctgSource.asObservable();
     //control position
     public controlPosition: MousePosition;
     //control position subject
@@ -37,10 +41,6 @@ export class CtgService {
     private ctgContentSource      = new Subject<string>();
     //ctg content observable
     public ctgContent$            = this.ctgContentSource.asObservable();
-    //show add ctg input
-    private showAddCtgInputSource = new Subject<boolean>();
-    //show add ctg input observable
-    public showAddCtgInput$       = this.showAddCtgInputSource.asObservable();
 
     constructor(
         private apiHttpService: ApiHttpService,
@@ -88,14 +88,11 @@ export class CtgService {
     }
 
 
-    set setCtg(ctg: Ctg) {
+    setCtg(ctg: Ctg) {
         this.ctg = ctg;
+        this.ctgSource.next(ctg);
     }
 
-
-    get getCtg() {
-        return this.ctg;
-    }
 
     //set current control panel position
     setControlPosition(pos: MousePosition) {
@@ -109,13 +106,6 @@ export class CtgService {
         this.ctgContentSource.next(content);
     }
 
-    showAddCtgInput() {
-        this.showAddCtgInputSource.next(true);
-    }
-
-    hideAddCtgInput() {
-        this.showAddCtgInputSource.next(false);
-    }
 
 }
 

@@ -1,13 +1,14 @@
 /**
  * Created by hlz on 16-11-18.
  */
-import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 
 import {AbstractThreeComponent} from '../three/abstract-three.component';
+import {CtgControlComponent} from './ctg-control.component';
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
@@ -70,6 +71,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected moveColor: number       = 0xFFD700;
     //color for the selected ctg descendants
     protected descendantColor: number = 0xff6d81;
+
+    @ViewChild(CtgControlComponent)
+    private ctgControlComponent: CtgControlComponent;
 
     constructor(
         protected location: Location,
@@ -367,13 +371,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         this.selected.material.color.setHex(this.selectedColor);
         //set selected ctg
-        this.ctgService.setCtg = currentObject.userData;
-        //set control panel position
-        this.controlPos        = {x: event.clientX, y: event.clientY};
-        //update control position in ctg service
-        this.ctgService.setControlPosition(this.controlPos);
-        //show control panel
-        this.showControls();
+        this.ctgService.setCtg(currentObject.userData);
 
         //paint the descendants sprites of the selected ctg with the descendant color
         let i = 0;
@@ -405,6 +403,13 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         }
 
         currentObject = null;
+
+        //set control panel position
+        this.controlPos = {x: event.clientX, y: event.clientY};
+        //update control position in ctg service
+        this.ctgService.setControlPosition(this.controlPos);
+        //show control panel
+        this.showControls();
     };
 
     /**
@@ -653,17 +658,39 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     }
 
     /**
-     * hide control panel and content editor
+     * hide control panel
+     * hide content editor
+     * hide new ctg input
      */
     private hideControls() {
-        //hide the control buttons
         this.showControl = false;
-        this.ctgService.hideAddCtgInput();
+
+        if (this.ctgControlComponent) {
+            this.ctgControlComponent.showAddCtgInput = false;
+            this.ctgControlComponent.showContentBox  = false;
+        }
     }
 
-    private showControls() {
+    /**
+     * hide control panel
+     * hide new ctg input
+     * if the content editor is open,
+     * get the ctg content from server
+     */
+    private showControls(): void {
         this.showControl = true;
-        this.ctgService.hideAddCtgInput();
+
+        if (!this.ctgControlComponent) {
+            return;
+        }
+
+        this.ctgControlComponent.showAddCtgInput = false;
+
+        if (!this.ctgControlComponent.showContentBox) {
+            return;
+        }
+
+        this.ctgControlComponent.clickViewBtn();
     }
 
     /**

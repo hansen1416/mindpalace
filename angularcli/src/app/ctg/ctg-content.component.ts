@@ -3,11 +3,13 @@
  */
 // Angular Imports
 import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
 import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
+import {Ctg} from './ctg';
 
 // Define Editor Component
 @Component({
@@ -19,7 +21,9 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private showSaveBtn: boolean = false;
 
-    private ctgTitle: string = '';
+    private subscriptionCtg: Subscription;
+
+    private ctg: Ctg = this.ctgService.ctg;
 
     constructor(
         private ctgService: CtgService,
@@ -31,12 +35,19 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnInit() {
-        this.ctgTitle = this.ctgService.getCtg.ctg.title;
+        this.subscriptionCtg = this.ctgService.ctg$.subscribe(
+            ctg => this.ctg = ctg
+        );
     }
 
 
     ngAfterViewInit() {
 
+    }
+
+
+    ngOnDestroy() {
+        this.subscriptionCtg.unsubscribe();
     }
 
     /**
@@ -55,17 +66,12 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     saveContent(content: string) {
 
         let data = new FormData();
-        data.append('ctg_id', this.ctgService.getCtg.ctg_id);
+        data.append('ctg_id', this.ctg.ctg_id);
         data.append('content', content);
 
         this.apiHttpService.post(this.apiRouteService.saveCtgContent, data).subscribe(
             response => this.messageService.handleResponse(response, 'ctg_content_updated')
         );
-    }
-
-
-    ngOnDestroy() {
-
     }
 
 }
