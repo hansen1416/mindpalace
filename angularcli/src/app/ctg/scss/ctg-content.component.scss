@@ -28,8 +28,10 @@
             text-align: center;
             white-space: nowrap;
 
-            &:hover{
+            &:hover {
                 cursor: pointer;
+                background-color: #aecaff;
+                color: #ffffff;
             }
 
             &:before {
@@ -39,7 +41,7 @@
                 vertical-align: middle;
             }
 
-            span{
+            span {
                 display: inline-block;
                 vertical-align: middle;
                 width: 100%;

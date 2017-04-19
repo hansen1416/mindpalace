@@ -3,6 +3,7 @@
         contenteditable="true"
     >{{ctg.ctg.title}}</h3>
     <ckeditor (change)="contentChange()"
+              (contentInitial)="contentInitial()"
               #ckeditor
     ></ckeditor>
     <div class="button-label">
@@ -13,6 +14,7 @@
             <span>copy</span>
         </div>
         <div class="save-button"
+             *ngIf="showSaveBtn"
              (click)="saveContent(ckeditor.content)"
         >
             <span>{{'action.save' | translate}}</span>

@@ -1,11 +1,12 @@
 /**
  * Created by hlz on 17-3-29.
  */
-import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, OnDestroy, Output, ViewChild, EventEmitter} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
+import {CtgContentComponent} from './ctg-content.component';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
@@ -35,12 +36,13 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
     private controlPosition: MousePosition = this.ctgService.controlPosition;
 
-    @Output()
-    ctgListChange: EventEmitter<any> = new EventEmitter();
+    @Output() private ctgListChange: EventEmitter<any> = new EventEmitter();
 
     private showConfirm: boolean = false;
 
     private confirmContent: string = '';
+
+    @ViewChild(CtgContentComponent) private ctgContentComponent: CtgContentComponent;
 
     constructor(
         protected location: Location,
@@ -148,18 +150,23 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
     /**
      * ctg control panel
-     * view ctg content button
+     * view ctg content button click event
      */
-    clickViewBtn() {
+    clickViewBtn(): void {
         //request the ctg content from server
         this.apiHttpService.get(this.apiRoutesService.ctgContent(this.ctg.ctg_id)).subscribe(
             response => this.messageService.handleResponse(response, () => {
                 this.ctgService.setCtgContent(response.content ? response.content : '');
             })
         );
-        //show editor
+        //show content editor
         this.showContentBox  = true;
+        //hide new ctg input
         this.showAddCtgInput = false;
+        //hide save content button
+        if (this.ctgContentComponent) {
+            this.ctgContentComponent.showSaveBtn = false;
+        }
     }
 
     /**

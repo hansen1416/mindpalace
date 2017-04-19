@@ -44,24 +44,30 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // @Input() debounce;
     //
-    @Output() change = new EventEmitter();
+    @Output() private change = new EventEmitter();
     // @Output() ready  = new EventEmitter();
     // @Output() blur   = new EventEmitter();
     // @Output() focus  = new EventEmitter();
-    @ViewChild('host') host;
+    @ViewChild('host') private host;
     // @ContentChildren(CKButtonDirective) toolbarButtons: QueryList<CKButtonDirective>;
     // @ContentChildren(CKGroupDirective) toolbarGroups: QueryList<CKGroupDirective>;
 
     // debounceTimeout;
     // zone;
 
-    private editor = 'editor';
+    private editor: string = 'editor';
 
-    public content = this.ctgService.ctgContent;
+    public content: string = this.ctgService.ctgContent;
 
     private subscriptionToggleEditor: Subscription;
 
     private subscriptionCtgContent: Subscription;
+    //when initialize content, do not emit change event
+    //useful when content editor is open and click multiple ctg sprite
+    private initialContent: boolean = true;
+    //after initialize content, trigger content initialize event, ask the ctgContentComponent hide save button
+    //useful when change one ctg content and click another ctg without save previous edit content
+    @Output() private contentInitial = new EventEmitter();
 
     /**
      * Constructor
@@ -72,7 +78,6 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
         private ctgService: CtgService,
     ) {
         // this.zone = zone;
-
     }
 
     ngOnInit() {
@@ -81,6 +86,8 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
             (content: string) => {
                 if (CKEDITOR.instances[this.editor]) {
                     CKEDITOR.instances[this.editor].setData(content);
+                    this.initialContent = true;
+                    this.contentInitial.emit();
                 }
             }
         );
@@ -99,6 +106,15 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     /**
+     * On component view init
+     */
+    ngAfterViewInit() {
+        CKEDITOR.disableAutoInline = true;
+        // Configuration
+        this.ckeditorInit();
+    }
+
+    /**
      * On component destroy
      */
     ngOnDestroy() {
@@ -111,16 +127,6 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
     }
-
-    /**
-     * On component view init
-     */
-    ngAfterViewInit() {
-        CKEDITOR.disableAutoInline = true;
-        // Configuration
-        this.ckeditorInit();
-    }
-
 
     /**
      * Value update process
@@ -215,7 +221,10 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     private onChange = () => {
         this.content = CKEDITOR.instances[this.editor].getData();
-        this.change.emit();
+        if (!this.initialContent) {
+            this.change.emit();
+        }
+        this.initialContent = false;
     };
 
     /**

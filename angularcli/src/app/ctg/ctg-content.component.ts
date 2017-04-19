@@ -19,7 +19,7 @@ import {Ctg} from './ctg';
            })
 export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private showSaveBtn: boolean = false;
+    public showSaveBtn: boolean = false;
 
     private subscriptionCtg: Subscription;
 
@@ -56,6 +56,14 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     contentChange() {
         this.showSaveBtn = true;
+    }
+
+    /**
+     * when initialize the ctg content
+     * hide the save button
+     */
+    contentInitial(){
+        this.showSaveBtn = false;
     }
 
     /**
