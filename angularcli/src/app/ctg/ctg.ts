@@ -16,8 +16,3 @@ export class Ctg {
         created_at: string;
     }
 }
-
-export class MousePosition {
-    x: number;
-    y: number;
-}

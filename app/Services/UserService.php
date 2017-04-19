@@ -8,13 +8,12 @@
 
 namespace App\Services;
 
-use App\Services\Contract\UserServiceContract;
 use App\Repositories\Contract\UserRepositoryContract;
 use App\Repositories\Contract\ProfileRepositoryContract;
 use App\Profile;
 use App\User;
 
-class UserService extends BaseService implements UserServiceContract
+class UserService extends BaseService
 {
     protected $userRepo;
 

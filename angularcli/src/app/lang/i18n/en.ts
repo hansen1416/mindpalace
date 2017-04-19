@@ -33,11 +33,12 @@ export const EN: LangInterface = {
         save: 'Save',
         home: 'Home',
         yes : 'yes',
-        no  : 'no'
+        no  : 'no',
     },
     message: {
         ctg_content_updated: 'Content has been updated',
         confirm_delete_ctg : 'Please confirm to delete selected item and all its descendants',
-        delete_ctg: 'deleted %% items',
+        delete_ctg         : 'deleted %1% items',
+        copy_ctg_to_space  : 'copy %1% to %2%',
     },
 };

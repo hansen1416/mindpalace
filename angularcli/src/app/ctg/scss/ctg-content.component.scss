@@ -1,3 +1,10 @@
+@import "../../app.component";
+$title-height: 7%;
+$button-height: 8%;
+$editable-height: 100% - $title-height - $button-height;
+$button-width: 33.3%;
+$input-height: 5%;
+
 .editor-box {
     position: relative;
     display: block;
@@ -6,14 +13,49 @@
     background-color: #ffffff;
     .ctg-title {
         width: 100%;
-        height: 7%;
-        //line-height: 40px;
-        //font-size: 26px;
+        height: $title-height;
         text-align: center;
     }
+    .ctg-content-data-list {
+        position: absolute;
+        width: $button-width;
+        height: auto;
+        max-height: $editable-height - $input-height;
+        bottom: $button-height + $input-height;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #ffffff;
+        .tier {
+            width: 100%;
+            height: 1.5rem;
+            text-indent: 0.2rem;
+            line-height: 1.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+    .ctg-content-input {
+        position: absolute;
+        width: $button-width;
+        height: $input-height;
+        bottom: $button-height;
+        input {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .search-space-position {
+        left: 50%;
+        margin: 0 0 0 $button-width / -2;
+    }
+
     .button-label {
         width: 100%;
-        height: 8%;
+        height: $button-height;
         position: relative;
         &:after {
             display: table;
@@ -22,7 +64,7 @@
         }
 
         div {
-            width: 33.3%;
+            width: $button-width;
             height: 100%;
             float: left;
             text-align: center;
@@ -37,8 +79,8 @@
             &:before {
                 content: '';
                 display: inline-block;
-                height: 100%;
                 vertical-align: middle;
+                height: 100%;
             }
 
             span {

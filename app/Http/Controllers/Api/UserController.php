@@ -9,8 +9,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Contract\UserServiceContract;
-use App\Services\Contract\ImageServiceContract;
+use App\Services\UserService;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -22,12 +22,12 @@ class UserController extends Controller
     public $img;
 
     public function __construct(
-        UserServiceContract $userServiceContract,
-        ImageServiceContract $imageServiceContract
+        UserService $userService,
+        ImageService $imageService
     )
     {
-        $this->user = $userServiceContract;
-        $this->img  = $imageServiceContract;
+        $this->user = $userService;
+        $this->img  = $imageService;
     }
 
     /**

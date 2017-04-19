@@ -6,11 +6,31 @@
               (contentInitial)="contentInitial()"
               #ckeditor
     ></ckeditor>
+    <div class="ctg-content-data-list search-space-position"
+         *ngIf="showSearchSpace"
+    >
+        <div class="tier"
+             *ngFor="let space of spaceList"
+             title="{{'message.copy_ctg_to_space-' + ctg.ctg.title + '-' + space.name | translate}}"
+             (click)="copyToSpace(space.space_id)"
+        >{{space.name}}
+        </div>
+    </div>
+    <div class="ctg-content-input search-space-position"
+         *ngIf="showSearchSpace"
+    >
+        <input type="text" placeholder=""
+               #spaceName
+               (keyup.enter)="getSearchSpacesList(spaceName.value)"
+        >
+    </div>
     <div class="button-label">
         <div class="share-button">
             <span>share</span>
         </div>
-        <div class="copy-button">
+        <div class="copy-button"
+             (click)="searchSpace()"
+        >
             <span>copy</span>
         </div>
         <div class="save-button"

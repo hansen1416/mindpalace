@@ -71,7 +71,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
     public function spaceCtgRepositoryCtgDescendants(int $space_id, int $ctg_id): array
     {
         $res = $this
-            ->setCacheLifetime(0)
+//            ->setCacheLifetime(0)
             ->where('space_id', $space_id)
             ->where(function (Builder $q) use ($ctg_id) {
                 $q->where('path', 'LIKE', '%-' . $ctg_id . '-%')
@@ -139,7 +139,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
      * @return int
      * @throws DeleteFailedException
      */
-    public function ctgRepositoryDeleteCtg(int $ctg_id):int
+    public function spaceCtgRepositoryDeleteCtg(int $ctg_id): int
     {
         /** @var \App\SpaceCtg $spaceCtg */
         $spaceCtg = new $this->model;
@@ -155,6 +155,5 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
         $this->forgetCache();
         return $res;
     }
-
 
 }

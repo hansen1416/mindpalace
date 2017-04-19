@@ -8,8 +8,6 @@
 
 namespace App\Services;
 
-use App\Services\Contract\SpaceServiceContract;
-use App\Services\Contract\CtgServiceContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use Hansen1416\WebSpace\Services\WebSpaceService;
 use swoole_websocket_server;
@@ -17,7 +15,7 @@ use App\Space;
 use App\SpaceCtg;
 use DB;
 
-class SpaceService extends BaseService implements SpaceServiceContract
+class SpaceService extends BaseService
 {
 
     protected $spaceRepo;
@@ -29,7 +27,7 @@ class SpaceService extends BaseService implements SpaceServiceContract
 
     public function __construct(
         SpaceRepositoryContract $spaceRepositoryContract,
-        CtgServiceContract $ctgServiceContract,
+        CtgService $ctgServiceContract,
         WebSpaceService $webSpaceService
     )
     {

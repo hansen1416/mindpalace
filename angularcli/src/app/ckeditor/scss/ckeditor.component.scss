@@ -1,6 +1,8 @@
+@import '../../ctg/scss/ctg-content.component';
+
 .ctg-content{
     width: 96%;
-    height: 85%;
+    height: $editable-height;
     overflow-y: auto;
     margin: 0 auto;
     background-color: #f8f2ff;

@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
 // declare let THREE: any;
 
 import {Ctg} from '../ctg/ctg';
-import {Position} from './position';
+import {SpacePosition} from '../share/coordinates';
 
 import * as THREE from 'three';
 import TrackballControls from "three-trackballcontrols";
@@ -124,7 +124,7 @@ export class AbstractThreeComponent {
      * @param radius 球面半径
      * @returns {Array}
      */
-    private fibonacciSphere(num: number, radius: number): Position[] {
+    private fibonacciSphere(num: number, radius: number): SpacePosition[] {
 
         let dlong = Math.PI * (3 - Math.sqrt(5)),  // ~2.39996323
             dz    = 2.0 / num,
@@ -163,7 +163,7 @@ export class AbstractThreeComponent {
 
             // rx = Math.asin(ty / radius);
 
-            arr[i] = <Position>{x: tx, y: ty, z: tz};
+            arr[i] = <SpacePosition>{x: tx, y: ty, z: tz};
 
             i++;
 
@@ -220,7 +220,7 @@ export class AbstractThreeComponent {
      * @param posArray
      * @returns {number}
      */
-    private closestPoint(parentPos: Position, posArray: Position[]): number {
+    private closestPoint(parentPos: SpacePosition, posArray: SpacePosition[]): number {
         let dis = null,
             d   = 0,
             k   = 0,
@@ -318,7 +318,7 @@ export class AbstractThreeComponent {
      * @param name
      * @returns {THREE.Line}
      */
-    private drawLineBetweenTwoCtg(pos1: Position, pos2: Position, name: string): THREE.Object3D & THREE.Line {
+    private drawLineBetweenTwoCtg(pos1: SpacePosition, pos2: SpacePosition, name: string): THREE.Object3D & THREE.Line {
         let lineMaterial = new THREE.LineBasicMaterial({
             linewidth   : 1.5,
             opacity     : 0.3
@@ -365,9 +365,9 @@ export class AbstractThreeComponent {
             //the max points number on each tier
             let N      = 0;
 
-            let pos: Position;
+            let pos: SpacePosition;
             //positions of all points, use ctg_id as index
-            let allPos = <Position[]>[];
+            let allPos = <SpacePosition[]>[];
 
             let pid: number;
             let ctg_id: number;
@@ -399,9 +399,9 @@ export class AbstractThreeComponent {
                  * every space has a root ctg, it;s position is 0,0,0  tier = 0, all the other ctg is the root's descendant
                  * position of the point on each tier has been calculated by the fibonacciSphere()
                  * evenly distributed on the sphere
-                 * @type {Position[]}
+                 * @type {SpacePosition[]}
                  */
-                let positions = (tier == 0) ? <Position[]>[
+                let positions = (tier == 0) ? <SpacePosition[]>[
                                                 {
                                                     x: 0,
                                                     y: 0,

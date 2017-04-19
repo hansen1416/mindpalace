@@ -62,5 +62,6 @@ interface SpaceCtgRepositoryContract extends CacheableContract, RepositoryContra
      * @return int
      * @throws DeleteFailedException
      */
-    public function ctgRepositoryDeleteCtg(int $ctg_id):int;
+    public function spaceCtgRepositoryDeleteCtg(int $ctg_id): int;
+
 }

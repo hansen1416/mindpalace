@@ -8,10 +8,9 @@
 
 namespace App\Services;
 
-use App\Services\Contract\ImageServiceContract;
 use Intervention\Image\Facades\Image;
 
-class ImageService extends BaseService implements ImageServiceContract
+class ImageService extends BaseService
 {
 
     public function __construct()

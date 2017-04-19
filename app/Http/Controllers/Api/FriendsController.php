@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Contract\FriendsServiceContract;
+use App\Services\FriendsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -18,10 +18,10 @@ class FriendsController extends Controller
     private $friends;
 
     public function __construct(
-        FriendsServiceContract $friendsServiceContract
+        FriendsService $friendsService
     )
     {
-        $this->friends = $friendsServiceContract;
+        $this->friends = $friendsService;
     }
 
     /**

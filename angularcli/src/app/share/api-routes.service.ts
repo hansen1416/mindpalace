@@ -87,4 +87,8 @@ export class ApiRoutesService {
         return this.api_url + 'friends/lists';
     }
 
+    get copyCtg(): string {
+        return this.api_url + 'ctg/copy';
+    }
+
 }

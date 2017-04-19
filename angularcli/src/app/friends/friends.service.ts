@@ -6,7 +6,7 @@ import {Subject} from 'rxjs/Subject';
 
 import {ConcentricService} from '../space/concentric.service';
 import {Friend} from './friend';
-import {Position} from '../space/position';
+import {Position} from '../share/coordinates';
 
 @Injectable()
 export class FriendsService {

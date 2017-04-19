@@ -7,8 +7,8 @@ import {Subject} from 'rxjs/Subject';
 
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
-import {Ctg, MousePosition} from './ctg';
-
+import {Ctg} from './ctg';
+import {Position} from '../share/coordinates';
 
 @Injectable()
 export class CtgService {
@@ -30,9 +30,9 @@ export class CtgService {
     //
     public ctg$                   = this.ctgSource.asObservable();
     //control position
-    public controlPosition: MousePosition;
+    public controlPosition: Position;
     //control position subject
-    private controlPositionSource = new Subject<MousePosition>();
+    private controlPositionSource = new Subject<Position>();
     //control position observable
     public controlPosition$       = this.controlPositionSource.asObservable();
     //ctg content
@@ -95,7 +95,7 @@ export class CtgService {
 
 
     //set current control panel position
-    setControlPosition(pos: MousePosition) {
+    setControlPosition(pos: Position) {
         this.controlPosition = pos;
         this.controlPositionSource.next(this.controlPosition);
     }

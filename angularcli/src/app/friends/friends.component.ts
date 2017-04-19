@@ -10,7 +10,7 @@ import {FriendsService} from './friends.service';
 import {CssService} from '../share/css.service';
 import {MessageService} from '../message/message.service';
 import {Friend} from './friend';
-import {Position} from '../space/position';
+import {Position} from '../share/coordinates';
 
 @Component({
                selector   : 'friends',

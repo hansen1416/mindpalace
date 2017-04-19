@@ -14,8 +14,8 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {CKEditorService} from '../ckeditor/ckeditor.service';
-import {Ctg, MousePosition} from "./ctg";
-
+import {Ctg} from "./ctg";
+import {Position} from '../share/coordinates';
 
 @Component({
                selector   : 'ctg-list',
@@ -60,7 +60,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //if the scene has been projected already
     private projected                 = false;
     //the mouse position then mouse clicked a ctg
-    protected controlPos: MousePosition;
+    protected controlPos: Position;
     //original sprite background color
     protected originColor: number     = 0xffffff;
     //hovering sprite background color
@@ -175,7 +175,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected onMouseDown = (event: MouseEvent): void => {
         event.preventDefault();
 
-        this.updateMousePosition(event);
+        this.updatePosition(event);
 
         this.countPressTime();
     };
@@ -187,7 +187,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     protected onMouseMove = (event: MouseEvent): void => {
         event.preventDefault();
-        this.updateMousePosition(event);
+        this.updatePosition(event);
 
         this.timer = 0;
         cancelAnimationFrame(this.timerAnimation);
@@ -201,7 +201,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected onMouseDrag = (event: MouseEvent): void => {
         event.preventDefault();
 
-        this.updateMousePosition(event);
+        this.updatePosition(event);
 
         let vector = new THREE.Vector3();
 
@@ -332,7 +332,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         //close the ckeditor
         this.ckeditorService.editorOff();
 
-        this.updateMousePosition(event);
+        this.updatePosition(event);
 
         let currentObject = this.getFirstIntersectedObject();
 
@@ -419,7 +419,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected onDoubleClick = (event: MouseEvent): void => {
         event.preventDefault();
 
-        this.updateMousePosition(event);
+        this.updatePosition(event);
 
         let currentObject = this.getFirstIntersectedObject();
         //when double click blank space, clear the color, and hide the control
@@ -523,7 +523,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      * update the mouse position
      * @param event
      */
-    private updateMousePosition(event: MouseEvent): void {
+    private updatePosition(event: MouseEvent): void {
         // normalize between -1 and +1
         this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;

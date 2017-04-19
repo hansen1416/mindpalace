@@ -11,7 +11,7 @@ import {ApiHttpService} from '../share/api-http.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../message/message.service';
 import {Space} from './space';
-import {Position} from './position';
+import {Position} from '../share/coordinates';
 
 @Component({
                selector   : 'space-home',

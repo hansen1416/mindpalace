@@ -9,7 +9,9 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
+import {SpaceService} from '../space/space.service';
 import {Ctg} from './ctg';
+import {Space} from '../space/space';
 
 // Define Editor Component
 @Component({
@@ -21,15 +23,22 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public showSaveBtn: boolean = false;
 
+    public showSearchSpace: boolean = false;
+
     private subscriptionCtg: Subscription;
 
     private ctg: Ctg = this.ctgService.ctg;
+
+    private searchInProgress = false;
+
+    private spaceList = <Space[]>[];
 
     constructor(
         private ctgService: CtgService,
         private apiRouteService: ApiRoutesService,
         private apiHttpService: ApiHttpService,
         private messageService: MessageService,
+        private spaceService: SpaceService,
     ) {
     }
 
@@ -62,7 +71,7 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
      * when initialize the ctg content
      * hide the save button
      */
-    contentInitial(){
+    contentInitial() {
         this.showSaveBtn = false;
     }
 
@@ -82,4 +91,47 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    /**
+     *
+     */
+    searchSpace() {
+        this.showSearchSpace = true;
+    }
+
+    /**
+     *
+     * @param name
+     */
+    getSearchSpacesList(name: string) {
+        if (!name) {
+            return;
+        }
+
+        if (this.searchInProgress) {
+            return;
+        }
+
+        this.searchInProgress = true;
+
+        this.spaceService.getSearchSpaceList(name).subscribe(
+            (response: Space[]) => {
+                this.spaceList        = response;
+                this.searchInProgress = false;
+            }
+        );
+    }
+
+
+    copyToSpace(space_id: number) {
+        let data = new FormData();
+        data.append('origin_space', this.ctg.space_id);
+        data.append('ctg_id', this.ctg.ctg_id);
+        data.append('space_id', space_id);
+
+        this.apiHttpService.post(this.apiRouteService.copyCtg, data).subscribe(
+            response => this.messageService.handleResponse(response, () => {
+                console.log(response);
+            })
+        );
+    }
 }

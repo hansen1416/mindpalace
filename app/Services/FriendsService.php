@@ -8,11 +8,10 @@
 
 namespace App\Services;
 
-use App\Services\Contract\FriendsServiceContract;
 use App\Repositories\Contract\FriendsRepositoryContract;
 use App\Friends;
 
-class FriendsService extends BaseService implements FriendsServiceContract
+class FriendsService extends BaseService
 {
     private $friendsRepo;
 

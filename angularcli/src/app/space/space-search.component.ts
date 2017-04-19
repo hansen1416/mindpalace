@@ -1,42 +1,50 @@
 /**
  * Created by hlz on 16-12-7.
  */
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {SpaceService} from './space.service';
 import {UserService} from '../core/user.service';
 import {MessageService} from '../message/message.service';
+import {Space} from './space';
+import {User} from '../core/user';
 
 @Component({
                selector   : 'space-search',
                templateUrl: './html/space-search.component.html',
                styleUrls  : ['./scss/space-search.component.scss']
            })
-export class SpaceSearchComponent implements OnDestroy {
+export class SpaceSearchComponent implements OnInit, OnDestroy {
 
-    private spaceName = '';
+    private spaceName: string = '';
 
-    private searchInProgress = false;
+    private searchInProgress: boolean = false;
 
-    private searched = false;
+    private searched: boolean = false;
 
-    private subscription: Subscription;
+    private subscriptionUser: Subscription;
+
+    private user: User = this.userService.getUserModel();
 
     constructor(
         private spaceService: SpaceService,
         private userService: UserService,
         private messageService: MessageService,
     ) {
-        this.subscription = userService.userModel$.subscribe(
-            userModel => {
-                this.user = userModel;
-            }
+    }
+
+
+    ngOnInit() {
+        this.subscriptionUser = this.userService.userModel$.subscribe(
+            userModel => this.user = userModel
         )
     }
 
-    private user = this.userService.getUserModel();
 
+    ngOnDestroy() {
+        this.subscriptionUser.unsubscribe();
+    }
 
     /**
      * search spaces by space name
@@ -53,12 +61,14 @@ export class SpaceSearchComponent implements OnDestroy {
 
         this.searchInProgress = true;
 
-        this.spaceService.getSearchSpaceList(this.spaceName).subscribe(response => {
-            this.spaceService.setSpaces(response);
+        this.spaceService.getSearchSpaceList(this.spaceName).subscribe(
+            (response: Space[]) => {
+                this.spaceService.setSpaces(response);
 
-            this.searched         = true;
-            this.searchInProgress = false;
-        });
+                this.searched         = true;
+                this.searchInProgress = false;
+            }
+        );
     }
 
     /**
@@ -71,12 +81,14 @@ export class SpaceSearchComponent implements OnDestroy {
 
         this.searchInProgress = true;
 
-        this.spaceService.getHomeSpaceList().subscribe(response => {
-            this.spaceService.setSpaces(response);
+        this.spaceService.getHomeSpaceList().subscribe(
+            (response: Space[]) => {
+                this.spaceService.setSpaces(response);
 
-            this.searched         = false;
-            this.searchInProgress = false;
-        });
+                this.searched         = false;
+                this.searchInProgress = false;
+            }
+        );
     }
 
 
@@ -100,8 +112,4 @@ export class SpaceSearchComponent implements OnDestroy {
         // this.worker.addEventListener('message', this.workerMessageListener);
     }
 
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
 }

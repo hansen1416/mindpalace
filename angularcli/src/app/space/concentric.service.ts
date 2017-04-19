@@ -4,7 +4,7 @@
 import {Injectable} from '@angular/core';
 
 import {CssService} from '../share/css.service';
-import {Position} from './position';
+import {Position} from '../share/coordinates';
 
 @Injectable()
 export class ConcentricService {

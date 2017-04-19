@@ -9,7 +9,7 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {ConcentricService} from './concentric.service';
 import {Space} from './space';
-import {Position} from './position';
+import {Position} from '../share/coordinates';
 
 @Injectable()
 export class SpaceService {

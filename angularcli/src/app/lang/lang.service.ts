@@ -43,7 +43,15 @@ export class LangService {
             if (keys[1].match(/-/)) {
                 let p = keys[1].split('-');
 
-                return languagePackage[keys[0]][p[0]].replace(/%%/, p[1]);
+                if (p.length == 2) {
+                    return languagePackage[keys[0]][p[0]].replace(/%1%/, p[1]);
+                }
+
+                if (p.length == 3) {
+                    let s = languagePackage[keys[0]][p[0]].replace(/%1%/, p[1]);
+                    return s.replace(/%2%/, p[2]);
+                }
+
             }
             return languagePackage[keys[0]][keys[1]];
         } catch (e) {

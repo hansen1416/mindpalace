@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Auth;
 use Route;
-use App\Services\Contract\UserServiceContract;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use DB;
@@ -24,10 +24,10 @@ class RegisterController extends Controller
     private $user;
 
     public function __construct(
-        UserServiceContract $userServiceContract
+        UserService $userService
     )
     {
-        $this->user = $userServiceContract;
+        $this->user = $userService;
     }
 
     use RegistersUsers;

@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Contract\SpaceServiceContract;
+use App\Services\SpaceService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -18,10 +18,10 @@ class SpaceController extends Controller
     private $space;
 
     public function __construct(
-        SpaceServiceContract $spaceServiceContract
+        SpaceService $spaceService
     )
     {
-        $this->space = $spaceServiceContract;
+        $this->space = $spaceService;
     }
 
     /**

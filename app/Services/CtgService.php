@@ -9,8 +9,7 @@
 namespace App\Services;
 
 use App\Exceptions\CantFindException;
-use App\Services\Contract\CtgServiceContract;
-use App\Services\Contract\UserServiceContract;
+use App\Exceptions\SaveFailedException;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 use App\Repositories\Contract\ItemRepositoryContract;
@@ -18,7 +17,7 @@ use App\Item;
 use App\SpaceCtg;
 use DB;
 
-class CtgService extends BaseService implements CtgServiceContract
+class CtgService extends BaseService
 {
 
     protected $userService;
@@ -31,14 +30,14 @@ class CtgService extends BaseService implements CtgServiceContract
 
 
     public function __construct(
-        UserServiceContract $userServiceContract,
+        UserService $userService,
         CtgRepositoryContract $ctgRepositoryContract,
         SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
         ItemRepositoryContract $itemRepositoryContract
     )
     {
         parent::__construct();
-        $this->userService  = $userServiceContract;
+        $this->userService  = $userService;
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
         $this->itemRepo     = $itemRepositoryContract;
@@ -204,8 +203,44 @@ class CtgService extends BaseService implements CtgServiceContract
     public function ctgServiceDeleteCtg(int $ctg_id): array
     {
         return [
-            'deleted' => $this->spaceCtgRepo->ctgRepositoryDeleteCtg($ctg_id),
+            'deleted' => $this->spaceCtgRepo->spaceCtgRepositoryDeleteCtg($ctg_id),
         ];
+    }
+
+
+    public function ctgServiceCopyCtg(int $origin_space, int $ctg_id, int $space_id)
+    {
+        if ($origin_space == $space_id) {
+            throw new SaveFailedException('can not copy ctg to its own space');
+        }
+
+        $insert = $this->spaceCtgRepo->spaceCtgRepositoryCtgDescendants($origin_space, $ctg_id);
+
+        if (!$insert) {
+            throw new CantFindException();
+        }
+
+        $new_space_origin = $this->spaceCtgRepo->getOne(166, 481);
+
+        $ctg = $this->spaceCtgRepo->getOne($origin_space, $ctg_id);
+
+        foreach ($insert as $key => &$value) {
+            if ($value['ctg_id'] == $ctg_id) {
+                $value['path'] = $new_space_origin->path . $new_space_origin->ctg_id . '-';
+            } else {
+                $value['path'] = str_replace(
+                    $ctg->path,
+                    $new_space_origin->path . $new_space_origin->ctg_id . '-',
+                    $value['path']
+                );
+            }
+
+            $value['space_id'] = $space_id;
+            unset($value['ctg']);
+        }
+
+        return $insert;
+
     }
 
 }

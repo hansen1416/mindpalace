@@ -12,7 +12,8 @@ import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {CtgService} from './ctg.service';
 import {CssService} from '../share/css.service';
-import {Ctg, MousePosition} from './ctg';
+import {Ctg} from './ctg';
+import {Position} from '../share/coordinates';
 
 @Component({
                selector   : 'ctg-control',
@@ -34,7 +35,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
     private subscriptionControlPosition: Subscription;
 
-    private controlPosition: MousePosition = this.ctgService.controlPosition;
+    private controlPosition: Position = this.ctgService.controlPosition;
 
     @Output() private ctgListChange: EventEmitter<any> = new EventEmitter();
 

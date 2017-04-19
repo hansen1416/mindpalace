@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Contract\CtgServiceContract;
+use App\Services\CtgService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use DB;
@@ -19,10 +19,10 @@ class CtgController extends Controller
     private $ctg;
 
     public function __construct(
-        CtgServiceContract $ctgServiceContract
+        CtgService $ctgService
     )
     {
-        $this->ctg = $ctgServiceContract;
+        $this->ctg = $ctgService;
     }
 
     /**
@@ -121,14 +121,35 @@ class CtgController extends Controller
      * @param $ctg_id
      * @return JsonResponse
      */
-    public function deleteCtg($ctg_id):JsonResponse
+    public function deleteCtg($ctg_id): JsonResponse
     {
-        try{
+        try {
 
             return $this->responseJson(
                 $this->ctg->ctgServiceDeleteCtg($ctg_id)
             );
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function copyCtg(Request $request)
+    {
+        try {
+
+            $origin_space = (int)$request->input('origin_space');
+            $ctg_id       = (int)$request->input('ctg_id');
+            $space_id     = (int)$request->input('space_id');
+
+            return $this->responseJson(
+                $this->ctg->ctgServiceCopyCtg($origin_space, $ctg_id, $space_id)
+            );
+
+        } catch (\Exception $e) {
             return $this->responseJson($e);
         }
     }

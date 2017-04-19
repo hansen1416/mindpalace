@@ -37,6 +37,7 @@ export interface LangInterface {
         ctg_content_updated: string,
         confirm_delete_ctg: string,
         delete_ctg: string,
+        copy_ctg_to_space: string,
     },
 
 }
