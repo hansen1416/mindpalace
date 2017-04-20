@@ -32,12 +32,14 @@ export interface LangInterface {
         home: string,
         yes: string,
         no: string,
+        link: string,
+        share: string,
     },
     message: {
         ctg_content_updated: string,
         confirm_delete_ctg: string,
         delete_ctg: string,
-        copy_ctg_to_space: string,
+        link_ctg_to_space: string,
     },
 
 }

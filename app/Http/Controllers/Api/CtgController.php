@@ -138,7 +138,7 @@ class CtgController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function copyCtg(Request $request)
+    public function linkCtg(Request $request)
     {
         try {
 
@@ -147,7 +147,7 @@ class CtgController extends Controller
             $space_id     = (int)$request->input('space_id');
 
             return $this->responseJson(
-                $this->ctg->ctgServiceCopyCtg($origin_space, $ctg_id, $space_id)
+                $this->ctg->ctgServiceLinkCtg($origin_space, $ctg_id, $space_id)
             );
 
         } catch (\Exception $e) {

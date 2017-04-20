@@ -11,8 +11,8 @@
     >
         <div class="tier"
              *ngFor="let space of spaceList"
-             title="{{'message.copy_ctg_to_space-' + ctg.ctg.title + '-' + space.name | translate}}"
-             (click)="copyToSpace(space.space_id)"
+             title="{{'message.link_ctg_to_space-' + ctg.ctg.title + '-' + space.name | translate}}"
+             (click)="linkToSpace(space.space_id, space.name)"
         >{{space.name}}
         </div>
     </div>
@@ -25,13 +25,15 @@
         >
     </div>
     <div class="button-label">
-        <div class="share-button">
-            <span>share</span>
+        <div class="share-button"
+             (click)="searchUser()"
+        >
+            <span>{{'action.share' | translate}}</span>
         </div>
         <div class="copy-button"
              (click)="searchSpace()"
         >
-            <span>copy</span>
+            <span>{{'action.link' | translate}}</span>
         </div>
         <div class="save-button"
              *ngIf="showSaveBtn"

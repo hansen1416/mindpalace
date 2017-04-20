@@ -208,8 +208,15 @@ class CtgService extends BaseService
         ];
     }
 
-
-    public function ctgServiceCopyCtg(int $origin_space, int $ctg_id, int $space_id)
+    /**
+     * @param int $origin_space
+     * @param int $ctg_id
+     * @param int $space_id
+     * @return bool
+     * @throws CantFindException
+     * @throws SaveFailedException
+     */
+    public function ctgServiceLinkCtg(int $origin_space, int $ctg_id, int $space_id): bool
     {
         if ($origin_space == $space_id) {
             throw new SaveFailedException('can not copy ctg to its own space');

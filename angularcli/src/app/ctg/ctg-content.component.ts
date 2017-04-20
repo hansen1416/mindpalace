@@ -91,6 +91,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    searchUser() {
+
+    }
+
     /**
      *
      */
@@ -122,15 +126,15 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    copyToSpace(space_id: number) {
+    linkToSpace(space_id: number, name: string) {
         let data = new FormData();
         data.append('origin_space', this.ctg.space_id);
         data.append('ctg_id', this.ctg.ctg_id);
         data.append('space_id', space_id);
 
-        this.apiHttpService.post(this.apiRouteService.copyCtg, data).subscribe(
+        this.apiHttpService.post(this.apiRouteService.linkCtg, data).subscribe(
             response => this.messageService.handleResponse(response, () => {
-                console.log(response);
+                this.messageService.showFlashMessage('message.link_ctg_to_space-' + this.ctg.ctg.title + '-' + name)
             })
         );
     }

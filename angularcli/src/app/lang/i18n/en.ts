@@ -30,15 +30,17 @@ export const EN: LangInterface = {
         new_space_placeholder: 'New space name',
     },
     action : {
-        save: 'Save',
-        home: 'Home',
-        yes : 'yes',
-        no  : 'no',
+        save : 'Save',
+        home : 'Home',
+        yes  : 'yes',
+        no   : 'no',
+        link : 'link',
+        share: 'share',
     },
     message: {
         ctg_content_updated: 'Content has been updated',
         confirm_delete_ctg : 'Please confirm to delete selected item and all its descendants',
         delete_ctg         : 'deleted %1% items',
-        copy_ctg_to_space  : 'copy %1% to %2%',
+        link_ctg_to_space  : 'link %1% to %2%',
     },
 };

@@ -30,15 +30,17 @@ export const ZH: LangInterface = {
         new_space_placeholder: '新空间名称',
     },
     action : {
-        save: '保存',
-        home: '首页',
-        yes : '是',
-        no  : '否',
+        save : '保存',
+        home : '首页',
+        yes  : '是',
+        no   : '否',
+        link : '链接',
+        share: '分享',
     },
     message: {
         ctg_content_updated: '内容更新成功',
         confirm_delete_ctg : '确定删除选中的分类和他的所有子分类么',
         delete_ctg         : '删除了 %1% 个分类',
-        copy_ctg_to_space  : '复制 %1% 到 %2%',
+        link_ctg_to_space  : '链接 %1% 到 %2%',
     },
 };

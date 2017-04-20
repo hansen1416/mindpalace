@@ -210,8 +210,8 @@ export class AbstractThreeComponent {
         let s           = Math.max.apply(null, values);
         //上一层的 todo here is wrong
         this.tierCtgNum = 1 == values.length ? 1 : Math.max(this.tierCtgNum, s);
-
-        return Math.max(this.tierCtgNum * s, n, ctgList.length);
+        //24 is the minimum to keep the child to one direction
+        return Math.max(this.tierCtgNum * s, n, ctgList.length, 24);
     }
 
     /**
@@ -483,10 +483,10 @@ export class AbstractThreeComponent {
         //set the camera zoom range and camera position
         if (this.firstTime) {
             this.camera.position.set(0, 0, d);
-            // this.camera.lookAt(this.webGLScene.position);
+            this.camera.lookAt(this.webGLScene.position);
         }
 
-        this.controls.target = new THREE.Vector3(0, 0, -10);
+        this.controls.target = new THREE.Vector3(0, 0, 0);
         this.controls.minDistance = 0;
         this.controls.maxDistance = d;
     }
