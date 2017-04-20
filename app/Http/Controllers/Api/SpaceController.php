@@ -78,6 +78,7 @@ class SpaceController extends Controller
     public function space($space_id): JsonResponse
     {
         try {
+
             return $this->responseJson(
                 $this->space->spaceServiceGetOne($space_id)
             );

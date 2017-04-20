@@ -12,7 +12,9 @@ use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
+use App\Exceptions\DeleteFailedException;
 use App\Space;
+use Illuminate\Database\Eloquent\Builder;
 
 class SpaceEloquentRepository extends EloquentRepository implements SpaceRepositoryContract
 {
@@ -44,8 +46,8 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
     {
         if ($user_id) {
 
-            $this->where(function ($q) use ($user_id) {
-                $q->where(function ($q) use ($user_id) {
+            $this->where(function (Builder $q) use ($user_id) {
+                $q->where(function (Builder $q) use ($user_id) {
                     $q->where('user_id', '<>', $user_id);
                     $q->where('share', '=', 1);
                 })->where('user_id', '=', $user_id, 'or');
@@ -108,6 +110,22 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
         }
 
         return $res;
+    }
+
+    /**
+     * @param int $space_id
+     * @return bool
+     * @throws DeleteFailedException
+     */
+    public function deleteOne(int $space_id): bool
+    {
+        $res = $this->delete($space_id);
+
+        if (!$res[0]) {
+            throw new DeleteFailedException();
+        }
+
+        return (bool)$res;
     }
 
 }

@@ -3,8 +3,6 @@
  */
 import {Component} from '@angular/core';
 
-// declare let THREE: any;
-
 import {Ctg} from '../ctg/ctg';
 import {SpacePosition} from '../share/coordinates';
 

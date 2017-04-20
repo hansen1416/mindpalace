@@ -22,6 +22,8 @@ class CtgService extends BaseService
 
     protected $userService;
 
+    protected $spaceService;
+
     protected $ctgRepo;
 
     protected $spaceCtgRepo;
@@ -31,6 +33,7 @@ class CtgService extends BaseService
 
     public function __construct(
         UserService $userService,
+        SpaceService $spaceService,
         CtgRepositoryContract $ctgRepositoryContract,
         SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
         ItemRepositoryContract $itemRepositoryContract
@@ -38,6 +41,7 @@ class CtgService extends BaseService
     {
         parent::__construct();
         $this->userService  = $userService;
+        $this->spaceService = $spaceService;
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
         $this->itemRepo     = $itemRepositoryContract;
@@ -203,6 +207,13 @@ class CtgService extends BaseService
      */
     public function ctgServiceDeleteCtg(int $space_id, int $ctg_id): array
     {
+        $spaceCtg = $this->spaceCtgRepo->getOne($space_id, $ctg_id);
+        //pid == 0 means the ctg is the root ctg of the space
+        //if so, delete the space as well
+        if ($spaceCtg->pid == 0) {
+            $this->spaceService->spaceServiceDeleteOne($space_id);
+        }
+
         return [
             'deleted' => $this->spaceCtgRepo->spaceCtgRepositoryDeleteCtg($space_id, $ctg_id),
         ];

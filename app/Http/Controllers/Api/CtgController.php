@@ -125,11 +125,13 @@ class CtgController extends Controller
     public function deleteCtg($space_id, $ctg_id): JsonResponse
     {
         try {
+            DB::beginTransaction();
+            $deleted = $this->ctg->ctgServiceDeleteCtg($space_id, $ctg_id);
 
-            return $this->responseJson(
-                $this->ctg->ctgServiceDeleteCtg($space_id, $ctg_id)
-            );
+            DB::commit();
+            return $this->responseJson($deleted);
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->responseJson($e);
         }
     }

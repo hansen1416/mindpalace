@@ -195,4 +195,12 @@ class SpaceService extends BaseService
         return $this->spaceRepo->getOne($space_id);
     }
 
+    /**
+     * @param int $space_id
+     * @return bool
+     */
+    public function spaceServiceDeleteOne(int $space_id): bool
+    {
+        return $this->spaceRepo->deleteOne($space_id);
+    }
 }

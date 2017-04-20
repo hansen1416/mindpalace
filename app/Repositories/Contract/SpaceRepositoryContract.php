@@ -12,6 +12,7 @@ use Hansen1416\Repository\Contracts\CacheableContract;
 use Hansen1416\Repository\Contracts\RepositoryContract;
 use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
+use App\Exceptions\DeleteFailedException;
 use App\Space;
 
 interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
@@ -45,5 +46,12 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
      * @throws CantFindException
      */
     public function getOne(int $space_id): Space;
+
+    /**
+     * @param int $space_id
+     * @return bool
+     * @throws DeleteFailedException
+     */
+    public function deleteOne(int $space_id): bool;
 
 }

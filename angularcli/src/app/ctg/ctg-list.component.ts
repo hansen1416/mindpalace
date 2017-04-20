@@ -16,6 +16,8 @@ import {CKEditorService} from '../ckeditor/ckeditor.service';
 import {Ctg} from "./ctg";
 import {Position} from '../share/coordinates';
 
+import * as THREE from 'three';
+
 @Component({
                selector   : 'ctg-list',
                templateUrl: './html/ctg-list.component.html',
@@ -326,7 +328,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
         this.updatePosition(event);
 
-        let currentObject = this.getFirstIntersectedObject();
+        let currentObject = this.getFirstIntersectedObject(0, true);
 
         if (!currentObject) {
             return;
