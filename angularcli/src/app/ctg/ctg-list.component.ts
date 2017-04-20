@@ -2,7 +2,6 @@
  * Created by hlz on 16-11-18.
  */
 import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
-import {Location} from '@angular/common';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
@@ -45,8 +44,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     protected originDragPosition: THREE.Vector3;
     //moving targets ctg
     protected moveTarget: THREE.Sprite;
-    //previous visited ctg
-    protected previous;
     //show or hide control panel
     private showControl               = false;
     //space_id in url
@@ -55,8 +52,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private urlCtgId: number;
     //subscription to the url parameters
     private subscriptionParam: Subscription;
-    //subscription to the previous visited ctg
-    private subscriptionPrevious: Subscription;
     //if the scene has been projected already
     private projected                 = false;
     //the mouse position then mouse clicked a ctg
@@ -76,7 +71,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     private ctgControlComponent: CtgControlComponent;
 
     constructor(
-        protected location: Location,
         protected route: ActivatedRoute,
         protected router: Router,
         protected ctgService: CtgService,
@@ -98,12 +92,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
                                              this.rebuildScene();
                                          }
                                      });
-
-        this.subscriptionPrevious = this.ctgService.previous$.subscribe(
-            previous => {
-                this.previous = previous.length ? previous[0] : null;
-            }
-        );
     }
 
     /**
@@ -124,6 +112,10 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         );
     }
 
+
+    ngOnDestroy() {
+        this.subscriptionParam.unsubscribe();
+    }
 
     /**
      * after ctg list updated,
@@ -447,10 +439,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         }
 
         //when double click a sprite, route to the corresponding ctg list
-        let parentCtg = this.spriteGroup.getObjectByName(currentObject.userData.pid + '');
-
-        this.ctgService.addPrevious = parentCtg.userData.ctg.title;
-
         this.router.navigate([
                                  '/space',
                                  currentObject.userData.space_id,
@@ -693,14 +681,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         this.ctgControlComponent.clickViewBtn();
     }
 
-    /**
-     * go back to previous url,
-     * shift previous array of ctg service
-     */
-    protected goPreviousCtg() {
-        this.ctgService.shiftPrevious();
-        this.location.back();
-    }
 
     /**
      * set control panel position
@@ -716,12 +696,5 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
             left    : this.controlPos.x + 'px'
         };
     }
-
-
-    ngOnDestroy() {
-        this.subscriptionParam.unsubscribe();
-        this.subscriptionPrevious.unsubscribe();
-    }
-
 
 }

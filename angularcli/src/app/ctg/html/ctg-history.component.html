@@ -1,0 +1,9 @@
+<div class="space-box"
+     *ngIf="space"
+>
+    <div class="space"
+         [routerLink]="'/space/' + space.space_id"
+    >
+        {{space.name}}
+    </div>
+</div>

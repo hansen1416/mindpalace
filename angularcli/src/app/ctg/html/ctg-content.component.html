@@ -27,17 +27,19 @@
     <div class="button-label">
         <div class="share-button"
              (click)="searchUser()"
+             *ngIf="!showSaveBtn"
         >
             <span>{{'action.share' | translate}}</span>
         </div>
         <div class="copy-button"
              (click)="searchSpace()"
+             *ngIf="!showSaveBtn"
         >
             <span>{{'action.link' | translate}}</span>
         </div>
         <div class="save-button"
-             *ngIf="showSaveBtn"
              (click)="saveContent(ckeditor.content)"
+             *ngIf="showSaveBtn"
         >
             <span>{{'action.save' | translate}}</span>
         </div>

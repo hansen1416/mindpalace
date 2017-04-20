@@ -35,6 +35,11 @@ export class ApiRoutesService {
     }
 
 
+    space(space_id): string {
+        return this.api_url + 'space/' + space_id
+    }
+
+
     ctgList(space_id: number, ctg_id?: number): string {
         return ctg_id
             ? this.api_url + 'space/' + space_id + '/ctg/' + ctg_id

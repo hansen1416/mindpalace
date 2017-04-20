@@ -1,26 +1,39 @@
+$message-height: 4%;
+
 button {
     border: 0;
     box-shadow: none;
 }
-.go-back {
+.go-back.home {
     position: absolute;
-    width: 4rem;
-    height: 2.5rem;
-    top: 2rem;
-    left: 4rem;
-    line-height: 2.5rem;
-    font-size: 1.2rem;
+    width: 3rem;
+    height: 3rem;
+    top: $message-height * 2;
+    left: 3%;
+    border-radius: 50%;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.7);
     &:hover {
         cursor: pointer;
     }
 }
-.go-back.home {
-
+@mixin align_middle_parent {
+    white-space: nowrap;
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
 }
-.go-back.previous {
-    left: 9rem;
+@mixin align_middle_child {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+}
+@mixin text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 @function pow($number, $exp) {
     $value: 1;

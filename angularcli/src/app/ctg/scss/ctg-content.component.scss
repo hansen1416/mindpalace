@@ -1,4 +1,4 @@
-@import "../../app.component";
+@import "ctg-control.component";
 $title-height: 7%;
 $button-height: 8%;
 $editable-height: 100% - $title-height - $button-height;
@@ -30,10 +30,11 @@ $input-height: 5%;
             height: 1.5rem;
             text-indent: 0.2rem;
             line-height: 1.5rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: nowrap;
 
-            &:hover{
+            @include text-ellipsis;
+
+            &:hover {
                 cursor: pointer;
             }
         }
@@ -52,7 +53,6 @@ $input-height: 5%;
         left: 50%;
         margin: 0 0 0 $button-width / -2;
     }
-
     .button-label {
         width: 100%;
         height: $button-height;
@@ -68,7 +68,6 @@ $input-height: 5%;
             height: 100%;
             float: left;
             text-align: center;
-            white-space: nowrap;
 
             &:hover {
                 cursor: pointer;
@@ -76,18 +75,14 @@ $input-height: 5%;
                 color: #ffffff;
             }
 
-            &:before {
-                content: '';
-                display: inline-block;
-                vertical-align: middle;
-                height: 100%;
-            }
+            @include align_middle_parent;
 
             span {
-                display: inline-block;
-                vertical-align: middle;
-                width: 100%;
+                @include align_middle_child;
             }
+        }
+        .save-button {
+            width: 100%;
         }
     }
 }

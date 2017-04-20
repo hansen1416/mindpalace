@@ -186,4 +186,13 @@ class SpaceService extends BaseService
         }
     }
 
+    /**
+     * @param int $space_id
+     * @return Space
+     */
+    public function spaceServiceGetOne(int $space_id): Space
+    {
+        return $this->spaceRepo->getOne($space_id);
+    }
+
 }

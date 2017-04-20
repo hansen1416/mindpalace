@@ -2,14 +2,8 @@
 <div class="go-back home"
      [routerLink]="'/home'"
 >
-    {{'action.home' | translate}}
 </div>
-<div class="go-back previous"
-     *ngIf="previous"
-     (click)="goPreviousCtg()"
->
-    {{previous}}
-</div>
+<ctg-history></ctg-history>
 <ctg-control [ngStyle]="ctgControlPosition()"
              (ctgListChange)="rebuildScene()"
              *ngIf="showControl"></ctg-control>

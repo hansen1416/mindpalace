@@ -37,6 +37,8 @@ Route::group([
         Route::get('space/{space_id}/ctg/{ctg_id?}', 'CtgController@spaceCtg')
              ->where('space_id', '[0-9]+')
              ->where('ctg_id', '[0-9]+');
+        Route::get('space/{space_id?}', 'SpaceController@space')
+             ->where('space_id', '[0-9]+');
         Route::get('ctg/content/{ctg_id?}', 'CtgController@ctgContent')
              ->where('ctg_id', '[0-9]+');
     });

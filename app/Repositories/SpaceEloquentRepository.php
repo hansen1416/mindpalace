@@ -94,5 +94,20 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
         return $res->toArray();
     }
 
+    /**
+     * @param int $space_id
+     * @return \Illuminate\Database\Eloquent\Model | Space
+     * @throws CantFindException
+     */
+    public function getOne(int $space_id): Space
+    {
+        $res = $this->find($space_id);
+
+        if (!$res) {
+            throw new CantFindException();
+        }
+
+        return $res;
+    }
 
 }

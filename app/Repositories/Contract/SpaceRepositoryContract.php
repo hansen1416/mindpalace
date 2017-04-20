@@ -39,4 +39,11 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
      */
     public function searchUserSpaceByName(string $name, int $user_id): array;
 
+    /**
+     * @param int $space_id
+     * @return \Illuminate\Database\Eloquent\Model | Space
+     * @throws CantFindException
+     */
+    public function getOne(int $space_id): Space;
+
 }

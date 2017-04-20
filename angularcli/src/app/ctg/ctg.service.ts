@@ -17,12 +17,6 @@ export class CtgService {
     private spaceId: number;
     //页面的 ctg_id
     private ctgId: number;
-    //之前访问的所有 ctg 的数据，按照时间顺序排列
-    private previous              = <Array<string>>[];
-    //previous subject
-    private previousSource        = new Subject<Array<string>>();
-    //previous observable
-    public previous$              = this.previousSource.asObservable();
     //当前选中的 ctg
     public ctg: Ctg;
     //
@@ -68,20 +62,6 @@ export class CtgService {
         return this.ctgId;
     }
 
-
-    set addPrevious(title: string) {
-        this.previous.unshift(title);
-        this.previousSource.next(this.previous);
-    }
-
-
-    shiftPrevious(): void {
-        if (this.previous.length) {
-            this.previous.shift();
-            this.previousSource.next(this.previous);
-        }
-    }
-
     //获取 ctg 列表数据
     getCtgListBySpaceIdCtgId(): Observable<Ctg[]> {
         return this.apiHttpService.get(this.apiRoutesService.ctgList(this.getSpaceId, this.getCtgId));
@@ -105,7 +85,6 @@ export class CtgService {
         this.ctgContent = content;
         this.ctgContentSource.next(content);
     }
-
 
 }
 

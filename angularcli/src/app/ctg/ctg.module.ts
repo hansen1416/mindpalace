@@ -1,19 +1,19 @@
 /**
  * Created by hlz on 16-11-18.
  */
-import {NgModule, Optional, SkipSelf}       from '@angular/core';
-import {CommonModule}   from '@angular/common';
+import {NgModule, Optional, SkipSelf} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import {SharedModule}    from '../share/share.module';
+import {SharedModule} from '../share/share.module';
 import {CtgRoutingModule} from './ctg-routing.module';
 import {ThreeModule} from '../three/three.module';
 import {CKEditorModule} from '../ckeditor/ckeditor.module';
 
+import {CtgService} from './ctg.service';
 import {CtgListComponent} from './ctg-list.component';
 import {CtgControlComponent} from './ctg-control.component';
 import {CtgContentComponent} from './ctg-content.component';
-import {CtgService} from './ctg.service';
-import {CtgStyleDirective} from './ctg-style.directive';
+import {CtgHistoryComponent} from './ctg-history.component';
 
 @NgModule({
               imports     : [
@@ -26,8 +26,8 @@ import {CtgStyleDirective} from './ctg-style.directive';
               declarations: [
                   CtgListComponent,
                   CtgContentComponent,
-                  CtgStyleDirective,
                   CtgControlComponent,
+                  CtgHistoryComponent,
               ],
               providers   : [
                   CtgService,

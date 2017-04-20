@@ -71,5 +71,20 @@ class SpaceController extends Controller
         }
     }
 
+    /**
+     * @param $space_id
+     * @return JsonResponse
+     */
+    public function space($space_id): JsonResponse
+    {
+        try {
+            return $this->responseJson(
+                $this->space->spaceServiceGetOne($space_id)
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
+    }
+
 
 }

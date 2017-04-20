@@ -1,0 +1,31 @@
+@import "ctg-list.component";
+$space-height: 2.6rem;
+
+.space-box {
+    position: absolute;
+    top: $message-height * 2;
+    right: 0;
+    width: auto;
+    height: $space-height;
+    background-color: #ffffff;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .space {
+        float: left;
+        width: 8rem;
+        height: 100%;
+        padding: 0 $space-height / 5;
+        font-size: $space-height / 2;
+        line-height: $space-height;
+
+        @include text-ellipsis;
+
+        &:hover {
+            min-width: 8rem;
+            width: auto;
+        }
+    }
+}
