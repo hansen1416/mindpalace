@@ -13,6 +13,7 @@ use App\Exceptions\SaveFailedException;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
 use App\Repositories\Contract\ItemRepositoryContract;
+use App\Repositories\Contract\SpaceRepositoryContract;
 use App\Item;
 use App\SpaceCtg;
 use DB;
@@ -22,7 +23,7 @@ class CtgService extends BaseService
 
     protected $userService;
 
-    protected $spaceService;
+    protected $spaceRepo;
 
     protected $ctgRepo;
 
@@ -33,18 +34,18 @@ class CtgService extends BaseService
 
     public function __construct(
         UserService $userService,
-        SpaceService $spaceService,
         CtgRepositoryContract $ctgRepositoryContract,
         SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
-        ItemRepositoryContract $itemRepositoryContract
+        ItemRepositoryContract $itemRepositoryContract,
+        SpaceRepositoryContract $spaceRepositoryContract
     )
     {
         parent::__construct();
         $this->userService  = $userService;
-        $this->spaceService = $spaceService;
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
         $this->itemRepo     = $itemRepositoryContract;
+        $this->spaceRepo    = $spaceRepositoryContract;
     }
 
     /**
@@ -211,7 +212,8 @@ class CtgService extends BaseService
         //pid == 0 means the ctg is the root ctg of the space
         //if so, delete the space as well
         if ($spaceCtg->pid == 0) {
-            $this->spaceService->spaceServiceDeleteOne($space_id);
+            $this->spaceRepo->deleteOne($space_id);
+//            $this->spaceService->spaceServiceDeleteOne($space_id);
         }
 
         return [
