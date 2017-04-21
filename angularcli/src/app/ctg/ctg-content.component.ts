@@ -20,18 +20,18 @@ import {Space} from '../space/space';
                styleUrls  : ['./scss/ctg-content.component.scss']
            })
 export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    public showSaveBtn: boolean = false;
-
-    public showSearchSpace: boolean = false;
-
+    //show save content button
+    public showSaveBtn: boolean     = false;
+    //the selected ctg
+    private ctg: Ctg                = this.ctgService.ctg;
+    //ctg subscription
     private subscriptionCtg: Subscription;
-
-    private ctg: Ctg = this.ctgService.ctg;
-
-    private searchInProgress = false;
-
-    private spaceList = <Space[]>[];
+    //click link ctg to space button, show space list search
+    public showSearchSpace: boolean = false;
+    //search space in progress
+    private searchInProgress        = false;
+    //the space list
+    private spaceList               = <Space[]>[];
 
     constructor(
         private ctgService: CtgService,
@@ -56,7 +56,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy() {
-        this.subscriptionCtg.unsubscribe();
+        setTimeout(() => {
+            this.spaceList = null;
+            this.subscriptionCtg.unsubscribe();
+        });
     }
 
     /**
@@ -78,9 +81,12 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * save button click event
      * save content
+     * @param title
      * @param content
      */
-    saveContent(content: string) {
+    saveContent(title: string, content: string) {
+
+        title = title || this.ctg.ctg.title;
 
         let data = new FormData();
         data.append('ctg_id', this.ctg.ctg_id);
@@ -91,6 +97,9 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    /**
+     *
+     */
     searchUser() {
 
     }
@@ -103,10 +112,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     /**
-     *
+     * get space list from server
      * @param name
      */
-    getSearchSpacesList(name: string) {
+    getSearchSpacesList(name: string): void {
         if (!name) {
             return;
         }
@@ -125,8 +134,13 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
-
-    linkToSpace(space_id: number, name: string) {
+    /**
+     * link ctg to another space, can link multiple times
+     * only link not copy, not editable in another space
+     * @param space_id
+     * @param name
+     */
+    linkToSpace(space_id: number, name: string): void {
         let data = new FormData();
         data.append('origin_space', this.ctg.space_id);
         data.append('ctg_id', this.ctg.ctg_id);
@@ -138,4 +152,5 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
             })
         );
     }
+
 }

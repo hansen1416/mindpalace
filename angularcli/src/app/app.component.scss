@@ -12,9 +12,19 @@ button {
     left: 3%;
     border-radius: 50%;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.7);
+
     &:hover {
         cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+    &:after {
+        content: '';
+        display: block;
+        width: 80%;
+        height: 80%;
+        margin: 10%;
+        background-image: url('/assets/home.svg');
+        background-size: 100% 100%;
     }
 }
 @mixin align_middle_parent {

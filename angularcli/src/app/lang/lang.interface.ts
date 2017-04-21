@@ -27,6 +27,9 @@ export interface LangInterface {
         fetch_url: string,
         new_space_placeholder: string,
     },
+    ctg: {
+        title_placeholder: string,
+    },
     action: {
         save: string,
         home: string,

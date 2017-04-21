@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use swoole_websocket_server;
-use App\Services\Contract\SpaceServiceContract;
+use App\Http\Controllers\Api\SpaceController;
 use Auth;
 
 class SwooleWebSocket extends Command
@@ -26,7 +26,7 @@ class SwooleWebSocket extends Command
     /** @var  swoole_websocket_server */
     private $server;
 
-    /** @var SpaceServiceContract  */
+    /** @var SpaceController */
     private $space;
 
     /**
@@ -35,12 +35,12 @@ class SwooleWebSocket extends Command
      * @return void
      */
     public function __construct(
-        SpaceServiceContract $spaceServiceContract
+        SpaceController $spaceController
     )
     {
         parent::__construct();
 
-        $this->space = $spaceServiceContract;
+        $this->space = $spaceController;
     }
 
     /**

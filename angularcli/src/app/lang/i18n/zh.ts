@@ -29,6 +29,9 @@ export const ZH: LangInterface = {
         fetch_url            : '通过网页创建空间',
         new_space_placeholder: '新空间名称',
     },
+    ctg    : {
+        title_placeholder: '请填入名称',
+    },
     action : {
         save : '保存',
         home : '首页',

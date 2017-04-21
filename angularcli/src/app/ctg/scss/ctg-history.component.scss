@@ -1,5 +1,6 @@
 @import "ctg-list.component";
 $space-height: 2.6rem;
+$space-width: 6rem;
 
 .space-box {
     position: absolute;
@@ -15,16 +16,16 @@ $space-height: 2.6rem;
 
     .space {
         float: left;
-        width: 8rem;
+        width: $space-width;
         height: 100%;
-        padding: 0 $space-height / 5;
+        padding: 0 $space-width / 12;
         font-size: $space-height / 2;
         line-height: $space-height;
 
         @include text-ellipsis;
 
         &:hover {
-            min-width: 8rem;
+            min-width: $space-width;
             width: auto;
         }
     }

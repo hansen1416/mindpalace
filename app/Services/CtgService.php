@@ -21,8 +21,6 @@ use DB;
 class CtgService extends BaseService
 {
 
-    protected $userService;
-
     protected $spaceRepo;
 
     protected $ctgRepo;
@@ -33,7 +31,6 @@ class CtgService extends BaseService
 
 
     public function __construct(
-        UserService $userService,
         CtgRepositoryContract $ctgRepositoryContract,
         SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
         ItemRepositoryContract $itemRepositoryContract,
@@ -41,7 +38,6 @@ class CtgService extends BaseService
     )
     {
         parent::__construct();
-        $this->userService  = $userService;
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
         $this->itemRepo     = $itemRepositoryContract;

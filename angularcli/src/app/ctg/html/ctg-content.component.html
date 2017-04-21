@@ -1,7 +1,10 @@
 <div class="editor-box">
-    <h3 class="ctg-title"
-        contenteditable="true"
-    >{{ctg.ctg.title}}</h3>
+    <input class="ctg-title"
+           placeholder="{{'ctg.title_placeholder' | translate}}"
+           value="{{ctg.ctg.title}}"
+           (input)="contentChange()"
+           #title
+    >
     <ckeditor (change)="contentChange()"
               (contentInitial)="contentInitial()"
               #ckeditor
@@ -38,7 +41,7 @@
             <span>{{'action.link' | translate}}</span>
         </div>
         <div class="save-button"
-             (click)="saveContent(ckeditor.content)"
+             (click)="saveContent(title.value, ckeditor.content)"
              *ngIf="showSaveBtn"
         >
             <span>{{'action.save' | translate}}</span>

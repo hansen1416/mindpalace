@@ -29,6 +29,9 @@ export const EN: LangInterface = {
         fetch_url            : 'Create a space from a web page',
         new_space_placeholder: 'New space name',
     },
+    ctg    : {
+        title_placeholder: 'Need a title here',
+    },
     action : {
         save : 'Save',
         home : 'Home',
