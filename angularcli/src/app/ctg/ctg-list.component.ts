@@ -116,7 +116,9 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
 
     ngOnDestroy() {
-        this.subscriptionParam.unsubscribe();
+        setTimeout(() => {
+            this.subscriptionParam.unsubscribe();
+        });
     }
 
     /**

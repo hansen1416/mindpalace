@@ -51,7 +51,9 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy() {
-        this.subscriptionSpaceName.unsubscribe();
+        setTimeout(() => {
+            this.subscriptionSpaceName.unsubscribe();
+        });
     }
 
 }

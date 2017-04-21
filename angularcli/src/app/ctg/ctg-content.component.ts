@@ -96,6 +96,7 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         this.apiHttpService.post(this.apiRouteService.saveCtgContent, data).subscribe(
             response => this.messageService.handleResponse(response, () => {
                 this.messageService.showFlashMessage('message.ctg_content_updated');
+                this.showSaveBtn = false;
                 if (title != this.ctg.ctg.title) {
                     //rebuild the scene due to the ctg title change
                     this.ctgChange.emit();

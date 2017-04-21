@@ -159,12 +159,11 @@ class SpaceController extends Controller
             }
 
             $this->sendWebSocketMessage($server, $frame, $count . ' ctg saved');
-
+            DB::commit();
         } catch (\Exception $e) {
 
             DB::rollBack();
             $this->sendWebSocketMessage($server, $frame, $e->getMessage(), 'error');
-
         }
     }
 
