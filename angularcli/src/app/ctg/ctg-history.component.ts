@@ -3,9 +3,11 @@
  */
 import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Subscription} from "rxjs";
 
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
+import {CtgService} from './ctg.service';
 import {Space} from '../space/space';
 
 // Define Editor Component
@@ -18,10 +20,13 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public space: Space;
 
+    private subscriptionSpaceName: Subscription;
+
     constructor(
         private route: ActivatedRoute,
         private apiRoutesService: ApiRoutesService,
         private apiHttpService: ApiHttpService,
+        private ctgService: CtgService,
     ) {
 
     }
@@ -34,6 +39,9 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
             (space: Space) => this.space = space
         );
 
+        this.subscriptionSpaceName = this.ctgService.spaceName$.subscribe(
+            (name: string) => this.space.name = name
+        );
     }
 
 
@@ -43,7 +51,7 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy() {
-
+        this.subscriptionSpaceName.unsubscribe();
     }
 
 }

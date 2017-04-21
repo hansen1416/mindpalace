@@ -128,4 +128,21 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
         return (bool)$res;
     }
 
+    /**
+     * @param int   $space_id
+     * @param array $data
+     * @return Space
+     * @throws SaveFailedException
+     */
+    public function spaceRepositoryUpdate(int $space_id, array $data): Space
+    {
+        $res = $this->update($space_id, $data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
+    }
+
 }

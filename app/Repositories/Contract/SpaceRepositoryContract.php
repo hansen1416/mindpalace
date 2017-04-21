@@ -54,4 +54,12 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
      */
     public function deleteOne(int $space_id): bool;
 
+    /**
+     * @param int   $space_id
+     * @param array $data
+     * @return Space
+     * @throws SaveFailedException
+     */
+    public function spaceRepositoryUpdate(int $space_id, array $data): Space;
+
 }

@@ -39,4 +39,5 @@
 </div>
 <ctg-content class="text-box"
              [ngStyle]="setEditorPosition()"
+             (ctgChange)="emitCtgListChange()"
              *ngIf="showContentBox"></ctg-content>

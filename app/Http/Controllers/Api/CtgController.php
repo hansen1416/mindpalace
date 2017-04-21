@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\CtgService;
+use App\Services\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use DB;
@@ -18,11 +19,15 @@ class CtgController extends Controller
 {
     private $ctg;
 
+    private $item;
+
     public function __construct(
-        CtgService $ctgService
+        CtgService $ctgService,
+        ItemService $itemService
     )
     {
-        $this->ctg = $ctgService;
+        $this->ctg  = $ctgService;
+        $this->item = $itemService;
     }
 
     /**
@@ -69,7 +74,7 @@ class CtgController extends Controller
     {
         try {
             return $this->responseJson(
-                $this->ctg->ctgServiceCtgContent($ctg_id)
+                $this->item->itemServiceCtgContent($ctg_id)
             );
         } catch (\Exception $e) {
             return $this->responseJson($e);
@@ -83,13 +88,20 @@ class CtgController extends Controller
     public function saveCtgContent(Request $request): JsonResponse
     {
         try {
-            $ctg_id  = (int)$request->input('ctg_id');
-            $content = $request->input('content');
+            $space_id = (int)$request->input('space_id');
+            $ctg_id   = (int)$request->input('ctg_id');
+            $title    = $request->input('title');
+            $content  = $request->input('content');
 
-            return $this->responseJson(
-                $this->ctg->ctgServiceSaveCtgContent($ctg_id, $content)
-            );
+            DB::beginTransaction();
+            $ctg = $this->ctg->ctgServiceUpdateTitle($space_id, $ctg_id, $title);
+
+            $this->item->itemServiceSaveCtgContent($ctg_id, $content);
+
+            DB::commit();
+            return $this->responseJson($ctg);
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->responseJson($e);
         }
     }

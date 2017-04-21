@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\SpaceService;
 use App\Services\CtgService;
+use App\Services\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use swoole_websocket_server;
@@ -23,17 +24,22 @@ class SpaceController extends Controller
 
     private $ctg;
 
+    private $item;
+
     private $webSpaceService;
+
 
     public function __construct(
         SpaceService $spaceService,
         CtgService $ctgService,
+        ItemService $itemService,
         WebSpaceService $webSpaceService
     )
     {
         $this->space           = $spaceService;
         $this->ctg             = $ctgService;
         $this->webSpaceService = $webSpaceService;
+        $this->item            = $itemService;
     }
 
     /**
@@ -190,7 +196,7 @@ class SpaceController extends Controller
             //create spaceCtg
             $spaceCtg = $this->ctg->ctgServiceCreate($value['title'], $pid, $space_id, $tier, $path);
             //create ctg content in item
-            $this->ctg->ctgServiceSaveCtgContent($spaceCtg->ctg_id, $value['content']);
+            $this->item->itemServiceSaveCtgContent($spaceCtg->ctg_id, $value['content']);
             //if there is descendant, then recursion into it
             if ($value['desc']) {
                 $this->createCtgTreeData(

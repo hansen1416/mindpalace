@@ -12,9 +12,7 @@ use App\Exceptions\CantFindException;
 use App\Exceptions\SaveFailedException;
 use App\Repositories\Contract\CtgRepositoryContract;
 use App\Repositories\Contract\SpaceCtgRepositoryContract;
-use App\Repositories\Contract\ItemRepositoryContract;
 use App\Repositories\Contract\SpaceRepositoryContract;
-use App\Item;
 use App\SpaceCtg;
 use DB;
 
@@ -27,20 +25,16 @@ class CtgService extends BaseService
 
     protected $spaceCtgRepo;
 
-    protected $itemRepo;
-
 
     public function __construct(
         CtgRepositoryContract $ctgRepositoryContract,
         SpaceCtgRepositoryContract $spaceCtgRepositoryContract,
-        ItemRepositoryContract $itemRepositoryContract,
         SpaceRepositoryContract $spaceRepositoryContract
     )
     {
         parent::__construct();
         $this->ctgRepo      = $ctgRepositoryContract;
         $this->spaceCtgRepo = $spaceCtgRepositoryContract;
-        $this->itemRepo     = $itemRepositoryContract;
         $this->spaceRepo    = $spaceRepositoryContract;
     }
 
@@ -130,32 +124,6 @@ class CtgService extends BaseService
     }
 
     /**
-     * @param int $ctg_id
-     * @return Item
-     */
-    public function ctgServiceCtgContent(int $ctg_id): Item
-    {
-        return $this->itemRepo->getItemByCtgId($ctg_id);
-    }
-
-    /**
-     * save ctg content to item table
-     * @param int    $ctg_id
-     * @param string $content
-     * @return Item
-     */
-    public function ctgServiceSaveCtgContent(int $ctg_id, string $content): Item
-    {
-        $item_id = $this->itemRepo->getItemIdByCtgId($ctg_id);
-
-        if ($item_id) {
-            return $this->itemRepo->itemRepositoryUpdate($item_id, $content);
-        }
-
-        return $this->itemRepo->itemRepositoryCreate($ctg_id, $content);
-    }
-
-    /**
      * create a ctg,
      * fetch the parent ctg first
      * insert it into ctg table, get the ctg_id thereafter
@@ -198,6 +166,25 @@ class CtgService extends BaseService
     }
 
     /**
+     * @param int    $space_id
+     * @param int    $ctg_id
+     * @param string $title
+     * @return SpaceCtg
+     */
+    public function ctgServiceUpdateTitle(int $space_id, int $ctg_id, string $title): SpaceCtg
+    {
+        $this->ctgRepo->ctgRepositoryUpdate($ctg_id, ['title' => $title]);
+
+        $spaceCtg = $this->spaceCtgRepo->getOne($space_id, $ctg_id);
+        //if the ctg is the root ctg of the space, update space name
+        if ($spaceCtg->pid == 0) {
+            $this->spaceRepo->spaceRepositoryUpdate($space_id, ['name' => $title]);
+        }
+
+        return $spaceCtg;
+    }
+
+    /**
      * @param int $space_id
      * @param int $ctg_id
      * @return array
@@ -209,7 +196,6 @@ class CtgService extends BaseService
         //if so, delete the space as well
         if ($spaceCtg->pid == 0) {
             $this->spaceRepo->deleteOne($space_id);
-//            $this->spaceService->spaceServiceDeleteOne($space_id);
         }
 
         return [

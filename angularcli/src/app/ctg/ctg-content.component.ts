@@ -2,7 +2,7 @@
  * Created by hlz on 17-1-28.
  */
 // Angular Imports
-import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {CtgService} from './ctg.service';
@@ -32,6 +32,8 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     private searchInProgress        = false;
     //the space list
     private spaceList               = <Space[]>[];
+
+    @Output() private ctgChange: EventEmitter<any> = new EventEmitter();
 
     constructor(
         private ctgService: CtgService,
@@ -85,15 +87,24 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param content
      */
     saveContent(title: string, content: string) {
-
-        title = title || this.ctg.ctg.title;
-
         let data = new FormData();
+        data.append('space_id', this.ctg.space_id);
         data.append('ctg_id', this.ctg.ctg_id);
+        data.append('title', title || this.ctg.ctg.title);
         data.append('content', content);
 
         this.apiHttpService.post(this.apiRouteService.saveCtgContent, data).subscribe(
-            response => this.messageService.handleResponse(response, 'ctg_content_updated')
+            response => this.messageService.handleResponse(response, () => {
+                this.messageService.showFlashMessage('message.ctg_content_updated');
+                if (title != this.ctg.ctg.title) {
+                    //rebuild the scene due to the ctg title change
+                    this.ctgChange.emit();
+                    //if change the root ctg, change the space name too
+                    if (this.ctg.pid == 0) {
+                        this.ctgService.setSpaceName(title);
+                    }
+                }
+            })
         );
     }
 

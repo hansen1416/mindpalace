@@ -21,4 +21,13 @@ interface CtgRepositoryContract extends CacheableContract, RepositoryContract
      * @throws SaveFailedException
      */
     public function ctgRepositoryCreate(array $data): Ctg;
+
+    /**
+     * @param int   $ctg_id
+     * @param array $data
+     * @return Ctg
+     * @throws SaveFailedException
+     */
+    public function ctgRepositoryUpdate(int $ctg_id, array $data): Ctg;
+
 }

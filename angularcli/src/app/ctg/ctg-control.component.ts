@@ -16,9 +16,9 @@ import {Ctg} from './ctg';
 import {Position} from '../share/coordinates';
 
 @Component({
-               selector:    'ctg-control',
+               selector   : 'ctg-control',
                templateUrl: './html/ctg-control.component.html',
-               styleUrls:   ['./scss/ctg-control.component.scss']
+               styleUrls  : ['./scss/ctg-control.component.scss']
            })
 export class CtgControlComponent implements OnInit, OnDestroy {
 
@@ -101,7 +101,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         }
 
         return {
-            top:  Math.sin(angle * 45 * Math.PI / 180) * 6.25 + 'rem',
+            top : Math.sin(angle * 45 * Math.PI / 180) * 6.25 + 'rem',
             left: Math.cos(angle * 45 * Math.PI / 180) * 6.25 + 'rem'
         };
     }
@@ -202,20 +202,20 @@ export class CtgControlComponent implements OnInit, OnDestroy {
             case 0:
             case 1:
                 return {
-                    top:   buttonWidth / 2 + 'rem',
-                    left:  buttonWidth / 2 + 'rem',
+                    top  : buttonWidth / 2 + 'rem',
+                    left : buttonWidth / 2 + 'rem',
                     right: 'none'
                 };
             case 2:
                 return {
-                    top:   buttonWidth * 2 + 'rem',
-                    left:  'none',
+                    top  : buttonWidth * 2 + 'rem',
+                    left : 'none',
                     right: '0'
                 };
             default:
                 return {
-                    top:   buttonWidth / 2 + 'rem',
-                    left:  ' none',
+                    top  : buttonWidth / 2 + 'rem',
+                    left : ' none',
                     right: buttonWidth * 1.5 + 'rem'
                 }
         }
@@ -268,12 +268,20 @@ export class CtgControlComponent implements OnInit, OnDestroy {
                 this.messageService.showFlashMessage('message.delete_ctg-' + response.deleted);
 
                 if (this.ctg.pid == 0) {
-                   this.router.navigate(['home']);
-                }else{
+                    this.router.navigate(['home']);
+                } else {
                     this.ctgListChange.emit();
                 }
             })
         );
+    }
+
+    /**
+     * emit ctg list change event from ctg-content component
+     * rebuild the ctg-list scene
+     */
+    emitCtgListChange() {
+        this.ctgListChange.emit();
     }
 
 }

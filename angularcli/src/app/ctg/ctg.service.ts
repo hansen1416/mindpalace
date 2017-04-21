@@ -35,6 +35,10 @@ export class CtgService {
     private ctgContentSource      = new Subject<string>();
     //ctg content observable
     public ctgContent$            = this.ctgContentSource.asObservable();
+    //
+    private spaceNameSource       = new Subject<string>();
+    //
+    public spaceName$             = this.spaceNameSource.asObservable();
 
     constructor(
         private apiHttpService: ApiHttpService,
@@ -84,6 +88,11 @@ export class CtgService {
     setCtgContent(content: string) {
         this.ctgContent = content;
         this.ctgContentSource.next(content);
+    }
+
+    //when change root ctg, change space name too
+    setSpaceName(name: string) {
+        this.spaceNameSource.next(name);
     }
 
 }

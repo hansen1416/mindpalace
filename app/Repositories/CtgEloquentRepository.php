@@ -35,5 +35,21 @@ class CtgEloquentRepository extends EloquentRepository implements CtgRepositoryC
         return $res[1];
     }
 
+    /**
+     * @param int   $ctg_id
+     * @param array $data
+     * @return Ctg
+     * @throws SaveFailedException
+     */
+    public function ctgRepositoryUpdate(int $ctg_id, array $data): Ctg
+    {
+        $res = $this->update($ctg_id, $data);
+
+        if (!$res[0]) {
+            throw new SaveFailedException();
+        }
+
+        return $res[1];
+    }
 
 }
