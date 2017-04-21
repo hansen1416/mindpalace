@@ -3,7 +3,9 @@
  */
 import {Pipe, PipeTransform} from '@angular/core';
 
-
+/**
+ * show the thumb image
+ */
 @Pipe({
           name: 'thumb',
           pure: false

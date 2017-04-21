@@ -6,6 +6,7 @@ import {Subject}    from 'rxjs/Subject';
 
 import {WebSocketService} from '../websocket/web-socket.service';
 import {UserService} from '../core/user.service';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class MessageService {
@@ -39,7 +40,7 @@ export class MessageService {
             return;
         }
 
-        this.webSocket = new WebSocketService('ws://127.0.0.1:9501?user_id=' + user_id);
+        this.webSocket = new WebSocketService(environment.ws + '?user_id=' + user_id);
 
         // set received message stream
         this.webSocket.getDataStream().subscribe(

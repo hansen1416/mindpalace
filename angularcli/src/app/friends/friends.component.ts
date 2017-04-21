@@ -21,12 +21,9 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     protected friendsList: Friend[];
 
-
     protected positions: Position[];
 
-
     private subscriptionFriends: Subscription;
-
 
     private subscriptionPositions: Subscription;
 
@@ -40,15 +37,11 @@ export class FriendsComponent implements OnInit, OnDestroy {
     ) {
 
         this.subscriptionFriends = friendsService.friendsList$.subscribe(
-            friendsList => {
-                this.friendsList = friendsList;
-            }
+            friendsList => this.friendsList = friendsList
         );
 
         this.subscriptionPositions = friendsService.friendsPositions$.subscribe(
-            positions => {
-                this.positions = positions;
-            }
+            positions => this.positions = positions
         )
     }
 
@@ -60,12 +53,18 @@ export class FriendsComponent implements OnInit, OnDestroy {
         } else {
 
             this.apiHttpService.get(this.apiRoutesService.friendsList).subscribe(
-                response => {
-                    this.friendsService.setFriendsList(response);
-                }
+                (response: Friend[]) => this.friendsService.setFriendsList(response)
             );
         }
 
+    }
+
+
+    ngOnDestroy() {
+        setTimeout(() => {
+            this.subscriptionFriends.unsubscribe();
+            this.subscriptionPositions.unsubscribe();
+        });
     }
 
 
@@ -90,12 +89,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
                 friend.is_friend = 1;
             })
         )
-    }
-
-
-    ngOnDestroy() {
-        this.subscriptionFriends.unsubscribe();
-        this.subscriptionPositions.unsubscribe();
     }
 
 }
