@@ -264,11 +264,16 @@ export class CtgControlComponent implements OnInit, OnDestroy {
     confirmDelete() {
         this.showConfirm = false;
         this.apiHttpService.get(this.apiRoutesService.ctgDelete(this.ctg.space_id, this.ctg.ctg_id)).subscribe(
-            response => this.messageService.handleResponse(response, () => {
+            (response: any) => this.messageService.handleResponse(response, () => {
                 this.messageService.showFlashMessage('message.delete_ctg-' + response.deleted);
-                this.ctgListChange.emit();
+
+                if (this.ctg.pid == 0) {
+                   this.router.navigate(['home']);
+                }else{
+                    this.ctgListChange.emit();
+                }
             })
-        )
+        );
     }
 
 }
