@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CkeditorComponent } from './ckeditor.component';
+import {CKEditorComponent} from './ckeditor.component';
 
-describe('CkeditorComponent', () => {
-  let component: CkeditorComponent;
-  let fixture: ComponentFixture<CkeditorComponent>;
+describe('CKEditorComponent', () => {
+    let component: CKEditorComponent;
+    let fixture: ComponentFixture<CKEditorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CkeditorComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+                                           declarations: [CKEditorComponent]
+                                       })
+               .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CkeditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture   = TestBed.createComponent(CKEditorComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

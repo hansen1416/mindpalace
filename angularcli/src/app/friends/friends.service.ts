@@ -32,8 +32,8 @@ export class FriendsService {
 
     setFriendsList(friendsList: Array<Friend>) {
         this.friendsPositions = this.concentricService.setConcentricCircles(friendsList.length, {
-            a: 24,
-            b: 40,
+            a: 40,
+            b: 28,
             k: 8,
             g: 10
         });

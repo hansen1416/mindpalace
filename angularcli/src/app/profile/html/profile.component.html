@@ -15,34 +15,38 @@
                    (change)="readFile(fileInput)"
             >
         </div>
-        <div class="form-label">
-            <span>{{user.email}}</span>
-        </div>
-        <div class="form-label">
-            <input type="text" name="name" value="{{user.name}}" placeholder=""
-                   [(ngModel)]="user.name"
-            >
-        </div>
-        <div class="form-label">
-            <select name="language" id="language"
-                    [(ngModel)]="user.language"
-            >
-                <option *ngFor="let language of languages"
-                        [(ngValue)]="language.key"
-                        [selected]="language.key == user.language">
-                    {{language.fullName}}
-                </option>
-            </select>
-        </div>
-        <div class="form-panel">
-            <button class="logout-button" (click)="logOut()">
-                {{'user.logout' | translate}}
-            </button>
-            <button type="submit" class="submit-button">
-                {{'action.save' | translate}}
-            </button>
-        </div>
 
+        <div class="detail-box">
+            <div class="form-label">
+                <span>{{user.email}}</span>
+            </div>
+            <div class="form-label">
+                <input type="text" name="name" value="{{user.name}}" placeholder=""
+                       [(ngModel)]="user.name"
+                >
+            </div>
+            <div class="form-label">
+                <select name="language"
+                        id="language"
+                        title="choose your language"
+                        [(ngModel)]="user.language"
+                >
+                    <option *ngFor="let language of languages"
+                            [(ngValue)]="language.key"
+                            [selected]="language.key == user.language">
+                        {{language.fullName}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-panel">
+            <span class="logout-button" (click)="logOut()">
+                {{'user.logout' | translate}}
+            </span>
+                <button type="submit" class="submit-button">
+                    {{'action.save' | translate}}
+                </button>
+            </div>
+        </div>
     </form>
 
     <friends-search></friends-search>

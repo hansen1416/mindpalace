@@ -1,27 +1,29 @@
 /**
  * Created by hlz on 17-2-19.
  */
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Router}  from '@angular/router';
-
-import {Subscription}   from 'rxjs/Subscription';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 import {UserService} from '../core/user.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {MessageService} from '../message/message.service';
-
 import {languages} from '../lang/lang-available';
 
 @Component({
-               selector   : 'profile',
+               selector:    'profile',
                templateUrl: './html/profile.component.html',
-               styleUrls  : ['./scss/profile.component.scss']
+               styleUrls:   ['./scss/profile.component.scss']
            })
-export class ProfileComponent implements OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
+
+    private user = this.userService.getUserModel();
+
+    public languages = languages;
 
     constructor(
         private router: Router,
@@ -30,22 +32,26 @@ export class ProfileComponent implements OnDestroy {
         private apiRoutesService: ApiRoutesService,
         private messageService: MessageService,
     ) {
-        this.subscription = userService.userModel$.subscribe(
-            userModel => {
-                this.user = userModel;
-            }
+    }
+
+
+    ngOnInit() {
+        this.subscription = this.userService.userModel$.subscribe(
+            userModel => this.user = userModel
         );
     }
 
-    private user = this.userService.getUserModel();
 
-
-    private languages = languages;
+    ngOnDestroy() {
+        setTimeout(()=> {
+            this.subscription.unsubscribe();
+        });
+    }
 
     /**
      * choose local file
      */
-    chooseFile() {
+    chooseFile(): void {
         let fileInput = document.getElementById('file-input');
         fileInput.click();
     }
@@ -89,11 +95,14 @@ export class ProfileComponent implements OnDestroy {
         this.apiHttpService.post(this.apiRoutesService.updateProfile, data).subscribe(
             response => this.messageService.handleResponse(response, () => {
                 this.userService.setUserProperties(response);
+                this.messageService.showFlashMessage('message.user_profile_updated');
             })
         );
     }
 
-
+    /**
+     * log out
+     */
     logOut(): void {
         //delete the user data from user service
         this.userService.clearUserModel();
@@ -103,9 +112,5 @@ export class ProfileComponent implements OnDestroy {
         this.router.navigate(['/home']);
     }
 
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
 
 }

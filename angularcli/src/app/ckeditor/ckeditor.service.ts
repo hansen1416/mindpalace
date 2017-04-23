@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class CKEditorService {
+
     private toggleEditorSource = new Subject<boolean>();
 
     public toggleEditor$ = this.toggleEditorSource.asObservable();
