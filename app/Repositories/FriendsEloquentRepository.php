@@ -9,10 +9,12 @@
 namespace App\Repositories;
 
 use App\Exceptions\CantFindException;
+use App\Exceptions\DeleteFailedException;
 use App\Exceptions\SaveFailedException;
 use Hansen1416\Repository\Repositories\EloquentRepository;
 use App\Repositories\Contract\FriendsRepositoryContract;
 use App\Friends;
+use Illuminate\Database\Eloquent\Model;
 
 class FriendsEloquentRepository extends EloquentRepository implements FriendsRepositoryContract
 {
@@ -55,5 +57,19 @@ class FriendsEloquentRepository extends EloquentRepository implements FriendsRep
         return $res->toArray();
     }
 
+    /**
+     * @param $user_id
+     * @param $friend_id
+     * @return int
+     */
+    public function friendRepositoryDelete($user_id, $friend_id): int
+    {
+        /** @var Friends $friends */
+        $friends = new $this->model;
+
+        return $friends->where('friend_id', $friend_id)
+                       ->where('user_id', $user_id)
+                       ->delete();
+    }
 
 }

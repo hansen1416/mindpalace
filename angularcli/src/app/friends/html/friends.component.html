@@ -8,7 +8,11 @@
         <p>{{friend.name}}</p>
     </div>
     <div *ngIf="!friend.is_friend"
-         class="add-friend"
+         class="friend-action friend-add"
          (click)="addFriend(friend)"
+    ></div>
+    <div *ngIf="friend.is_friend"
+         class="friend-action friend-delete"
+         (click)="deleteFriend(friend)"
     ></div>
 </div>

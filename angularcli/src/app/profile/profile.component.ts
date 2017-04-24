@@ -11,11 +11,12 @@ import {ApiHttpService} from '../share/api-http.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {MessageService} from '../message/message.service';
 import {languages} from '../lang/lang-available';
+import {User} from '../core/user';
 
 @Component({
-               selector:    'profile',
+               selector   : 'profile',
                templateUrl: './html/profile.component.html',
-               styleUrls:   ['./scss/profile.component.scss']
+               styleUrls  : ['./scss/profile.component.scss']
            })
 export class ProfileComponent implements OnInit, OnDestroy {
 
@@ -37,13 +38,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription = this.userService.userModel$.subscribe(
-            userModel => this.user = userModel
+            (userModel: User) => this.user = userModel
         );
     }
 
 
     ngOnDestroy() {
-        setTimeout(()=> {
+        setTimeout(() => {
             this.subscription.unsubscribe();
         });
     }

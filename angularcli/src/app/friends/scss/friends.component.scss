@@ -1,6 +1,6 @@
-@import "../../app.component";
-$width: 6rem;
-$height: 8rem;
+@import "../../profile/scss/profile.component";
+$width: 4rem;
+$height: 6rem;
 .friends-item {
     position: absolute;
     width: $width;
@@ -32,17 +32,24 @@ $height: 8rem;
             color: #fff;
         }
     }
-    .add-friend {
+    .friend-action {
         position: absolute;
         top: 0;
         z-index: -1;
         width: 100%;
         height: 100%;
-        background-image: url('../../../assets/handshake.svg');
-        background-size: 100% 100%;
         &:hover {
             cursor: pointer;
             z-index: 1;
         }
     }
+    .friend-action.friend-add {
+        background-image: url('/assets/friend_add.svg');
+        background-size: 100% 100%;
+    }
+    .friend-action.friend-delete {
+        background-image: url('/assets/friend_delete.svg');
+        background-size: 100% 100%;
+    }
+
 }

@@ -75,5 +75,12 @@ $profile-height: 16rem;
             }
         }
     }
+    .friends-search{
+        position: absolute;
+        width: $profile-height * 0.8;
+        height: $profile-height * 0.15;
+        bottom: $profile-height * 0.1;
+        right: $profile-height * 0.1;
+    }
 
 }

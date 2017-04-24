@@ -27,4 +27,12 @@ interface FriendsRepositoryContract extends CacheableContract, RepositoryContrac
      * @throws \App\Exceptions\CantFindException
      */
     public function friendRepositoryLists(int $user_id): array;
+
+    /**
+     * @param $user_id
+     * @param $friend_id
+     * @return int
+     */
+    public function friendRepositoryDelete($user_id, $friend_id): int;
+
 }

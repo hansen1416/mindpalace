@@ -28,7 +28,7 @@ class FriendsService extends BaseService
      * @param $friend_id
      * @return Friends
      */
-    public function friendServiceCreate($friend_id): Friends
+    public function friendServiceCreate(int $friend_id): Friends
     {
         return $this->friendsRepo->friendRepositoryCreate([
                                                               'user_id'   => $this->getUserId(),
@@ -54,5 +54,10 @@ class FriendsService extends BaseService
         return array_values($friends);
     }
 
+
+    public function friendServiceDelete(int $friend_id)
+    {
+        return $this->friendsRepo->friendRepositoryDelete($this->getUserId(), $friend_id);
+    }
 
 }

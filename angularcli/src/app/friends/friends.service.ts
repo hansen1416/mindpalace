@@ -26,22 +26,23 @@ export class FriendsService {
     constructor(
         private concentricService: ConcentricService
     ) {
-
     }
 
-
+    /**
+     * set friends list position and friends list data
+     * @param friendsList
+     */
     setFriendsList(friendsList: Array<Friend>) {
         this.friendsPositions = this.concentricService.setConcentricCircles(friendsList.length, {
-            a: 40,
-            b: 28,
-            k: 8,
-            g: 10
+            a: 42,
+            b: 26,
+            k: 6,
+            g: 8
         });
         this.friendsPositionsSource.next(this.friendsPositions);
 
         this.friendsList = friendsList;
         this.friendsListSource.next(this.friendsList);
-
     }
 
 

@@ -31,10 +31,9 @@ class FriendsController extends Controller
     public function create(Request $request): JsonResponse
     {
         try {
-            $friend_id = $request->input('friend_id');
 
             return $this->responseJson(
-                $this->friends->friendServiceCreate($friend_id)
+                $this->friends->friendServiceCreate((int)$request->input('friend_id'))
             );
         } catch (\Exception $e) {
             return $this->responseJson($e);
@@ -49,6 +48,21 @@ class FriendsController extends Controller
         try {
             return $this->responseJson(
                 $this->friends->friendServiceLists()
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function delete(Request $request): JsonResponse
+    {
+        try {
+            return $this->responseJson(
+                $this->friends->friendServiceDelete((int)$request->input('friend_id'))
             );
         } catch (\Exception $e) {
             return $this->responseJson($e);

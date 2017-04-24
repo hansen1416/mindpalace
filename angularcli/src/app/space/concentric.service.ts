@@ -143,7 +143,9 @@ export class ConcentricService {
             /**
              * 以顶部和左右为界,不可超出
              */
-            if (Math.abs(x) * this.cssService.remPx * 2 > this.cssService.bw || (y < 0 && Math.abs(y) * this.cssService.remPx * 2 > this.cssService.bh)) {
+            if (Math.abs(x) * this.cssService.remPx * 2 > this.cssService.bw
+                ||
+                (y < 0 && Math.abs(y) * this.cssService.remPx * 2 > this.cssService.bh)) {
                 this.i++;
                 continue;
             }

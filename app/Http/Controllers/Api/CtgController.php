@@ -165,6 +165,9 @@ class CtgController extends Controller
             );
 
         } catch (\Exception $e) {
+            if ($e instanceof \PDOException && $e->errorInfo[1] == 1062) {
+                return $this->responseJson(['status' => 500, 'error' => 'message.ctg_already_exist']);
+            }
             return $this->responseJson($e);
         }
     }

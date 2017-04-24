@@ -62,5 +62,6 @@ Route::group([
              ->where('ctg_id', '[0-9]+');
         Route::post('friends/create', 'FriendsController@create');
         Route::get('friends/lists', 'FriendsController@lists');
+        Route::post('friends/delete', 'FriendsController@delete');
         Route::post('ctg/link', 'CtgController@linkCtg');
     });

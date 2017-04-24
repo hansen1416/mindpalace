@@ -70,7 +70,12 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     trackByFriends(index: number, friend: Friend) {return friend.user_id}
 
-
+    /**
+     * friend item position style
+     * @param x
+     * @param y
+     * @returns {{}}
+     */
     friendsStyles(x: number, y: number) {
         let styles = {};
 
@@ -79,7 +84,10 @@ export class FriendsComponent implements OnInit, OnDestroy {
         return styles;
     }
 
-
+    /**
+     * add a new friend
+     * @param friend
+     */
     addFriend(friend: Friend) {
         let data = new FormData();
         data.append('friend_id', friend.user_id);
@@ -87,8 +95,25 @@ export class FriendsComponent implements OnInit, OnDestroy {
         this.apiHttpService.post(this.apiRoutesService.createFriend, data).subscribe(
             response => this.messageService.handleResponse(response, () => {
                 friend.is_friend = 1;
+                this.messageService.showFlashMessage('message.new_friend-' + friend.name);
             })
-        )
+        );
+    }
+
+    /**
+     * delete a friend
+     * @param friend
+     */
+    deleteFriend(friend: Friend) {
+        let data = new FormData();
+        data.append('friend_id', friend.user_id);
+
+        this.apiHttpService.post(this.apiRoutesService.deleteFriend, data).subscribe(
+            response => this.messageService.handleResponse(response, () => {
+                friend.is_friend = 0;
+                this.messageService.showFlashMessage('message.delete_friend-' + friend.name);
+            })
+        );
     }
 
 }

@@ -99,6 +99,10 @@ export class ApiRoutesService {
         return environment.api + 'friends/create';
     }
 
+    get deleteFriend(): string {
+        return environment.api + 'friends/delete';
+    }
+
     // 好友列表
     get friendsList(): string {
         return environment.api + 'friends/lists';
