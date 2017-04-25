@@ -1,10 +1,13 @@
-<div class="editor-box">
+<div class="editor-box" #editorBox>
     <input class="ctg-title"
            placeholder="{{'ctg.title_placeholder' | translate}}"
            value="{{ctg.ctg.title}}"
            (input)="contentChange()"
            #title
     >
+    <div id="maximize" #sizeButton
+         (click)="maximizeContent(sizeButton, editorBox)"
+    ></div>
     <ckeditor (change)="contentChange()"
               (contentInitial)="contentInitial()"
               #ckeditor

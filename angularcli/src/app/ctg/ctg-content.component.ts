@@ -15,9 +15,9 @@ import {Space} from '../space/space';
 
 // Define Editor Component
 @Component({
-               selector   : 'ctg-content',
+               selector:    'ctg-content',
                templateUrl: './html/ctg-content.component.html',
-               styleUrls  : ['./scss/ctg-content.component.scss']
+               styleUrls:   ['./scss/ctg-content.component.scss']
            })
 export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     //show save content button
@@ -53,7 +53,12 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngAfterViewInit() {
+        let title  = document.querySelector(".ctg-title");
+        let height = title.clientHeight;
+        let max    = document.getElementById('maximize');
 
+        max.style.width  = height + 'px';
+        max.style.height = height + 'px';
     }
 
 
@@ -78,6 +83,23 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     contentInitial() {
         this.showSaveBtn = false;
+    }
+
+    /**
+     * maximize editor box
+     * @param button
+     * @param box
+     */
+    maximizeContent(button: HTMLElement, box: HTMLElement) {
+
+        if (box.style.position != 'fixed') {
+            box.style.position = 'fixed';
+        } else {
+            box.style.position = 'relative';
+        }
+
+        button.style.width  = box.clientHeight * 0.07 + 'px';
+        button.style.height = box.clientHeight * 0.07 + 'px';
     }
 
     /**
