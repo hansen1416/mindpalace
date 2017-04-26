@@ -9,7 +9,6 @@ composer.lock
 vendor/
 node_modules/
 public/.user.ini
-.env
 AES-256-CBC,
 My Application,
 PRC,
