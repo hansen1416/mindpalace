@@ -30,6 +30,10 @@ export class AppComponent implements OnInit {
 
             this.apiHttpService.get(this.apiRoutesService.user).subscribe(
                 response => {
+                    if (response.status == 500) {
+                        this.userService.clearUserModel();
+                        return;
+                    }
                     this.userService.saveUserModel(response);
                     this.messageService.setWebSocket();
                 }
