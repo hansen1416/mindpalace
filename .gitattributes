@@ -1,4 +1,5 @@
 .env merge=ours
+.envexample merge=ours
 .gitignore merge=ours
 .gitattributes merge=ours
 ./config/app.php merge=ours
