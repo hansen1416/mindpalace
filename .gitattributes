@@ -1,6 +1,3 @@
-* text=auto
-*.css linguist-vendored
-*.less linguist-vendored
 .env merge=ours
 .gitignore merge=ours
 .gitattributes merge=ours
