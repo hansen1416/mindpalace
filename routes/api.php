@@ -29,6 +29,7 @@ Route::group([
         Route::get('login/github', 'LoginController@redirectToProvider');
         Route::get('login/github/callback', 'LoginController@handleProviderCallback');
         Route::get('home', 'SpaceController@home');
+        Route::get('user', 'UserController@profile');
         Route::get('create', 'SpaceController@create');
         Route::post('space/search', 'SpaceController@search');
         Route::get('space/{space_id}/ctg/{ctg_id?}', 'CtgController@spaceCtg')
@@ -47,7 +48,6 @@ Route::group([
                  'middleware' => ['auth:api'],
              ],
     function () {
-        Route::get('user', 'UserController@profile');
         Route::post('profile/update', 'UserController@updateUserProfile');
         Route::post('user/search', 'UserController@search');
         Route::post('space/create', 'SpaceController@create');
