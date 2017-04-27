@@ -1,5 +1,4 @@
 .idea
-.svn
 *.log
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
