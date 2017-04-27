@@ -1,15 +1,7 @@
 .idea
 *.log
 bootstrap/cache/*
-!bootstrap/cache/.gitkeep
-.phpstorm.meta.php
 _ide_helper.php
 composer.lock
 vendor/
-node_modules/
-public/.user.ini
-AES-256-CBC,
-My Application,
-PRC,
-en,
 storage/framework/cache/*
