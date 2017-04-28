@@ -17,15 +17,15 @@ import {User} from '../core/user';
            })
 export class SpaceSearchComponent implements OnInit, OnDestroy {
 
-    private spaceName: string = '';
+    public spaceName: string = '';
 
     private searchInProgress: boolean = false;
 
-    private searched: boolean = false;
+    public searched: boolean = false;
 
     private subscriptionUser: Subscription;
 
-    private user: User = this.userService.getUserModel();
+    public user: User = this.userService.getUserModel();
 
     constructor(
         private spaceService: SpaceService,

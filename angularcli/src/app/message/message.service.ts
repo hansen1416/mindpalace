@@ -40,7 +40,8 @@ export class MessageService {
             return;
         }
 
-        this.webSocket = new WebSocketService(environment.ws + '?user_id=' + user_id);
+        this.webSocket = new WebSocketService();
+        this.webSocket.setUrl(environment.ws + '?user_id=' + user_id);
 
         // set received message stream
         this.webSocket.getDataStream().subscribe(

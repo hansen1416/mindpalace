@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
-    private user = this.userService.getUserModel();
+    public user = this.userService.getUserModel();
 
     public languages = languages;
 

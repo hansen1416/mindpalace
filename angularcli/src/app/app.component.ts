@@ -12,7 +12,6 @@ import {MessageService} from './message/message.service';
            })
 export class AppComponent implements OnInit {
 
-
     constructor(
         private userService: UserService,
         private apiRoutesService: ApiRoutesService,
@@ -30,6 +29,8 @@ export class AppComponent implements OnInit {
 
             this.apiHttpService.get(this.apiRoutesService.user).subscribe(
                 response => {
+                    //when failed to get user data, clear user model,
+                    //useful when local access_token expired
                     if (response.status == 500) {
                         this.userService.clearUserModel();
                         return;

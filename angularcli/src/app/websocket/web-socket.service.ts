@@ -33,10 +33,10 @@ export class WebSocketService {
     private onErrorCallbacks         = [];
     private onCloseCallbacks         = [];
     private readyStateConstants      = {
-        'CONNECTING':        0,
-        'OPEN':              1,
-        'CLOSING':           2,
-        'CLOSED':            3,
+        'CONNECTING'       : 0,
+        'OPEN'             : 1,
+        'CLOSING'          : 2,
+        'CLOSED'           : 3,
         'RECONNECT_ABORTED': 4
     };
     private normalCloseCode          = 1000;
@@ -44,15 +44,26 @@ export class WebSocketService {
     private socket: WebSocket;
     private dataStream: Subject<any>;
     private internalConnectionState: number;
+    private url: string;
+    private protocols?: Array<string>;
+    private config?: WebSocketConfig;
+    private binaryType?: string;
 
-    constructor(private url: string, private protocols?: Array<string>, private config?: WebSocketConfig, private binaryType?: BinaryType) {
+    constructor() {
+        this.config     = this.config || {initialTimeout: 500, maxTimeout: 300000, reconnectIfNotNormalClose: false};
+        this.binaryType = "blob";
+        this.dataStream = new Subject();
+    }
+
+
+    setUrl(url: string) {
+        this.url = url;
+
         let match = new RegExp('wss?:\/\/').test(url);
         if (!match) {
             throw new Error('Invalid url provided');
         }
-        this.config     = config || {initialTimeout: 500, maxTimeout: 300000, reconnectIfNotNormalClose: false};
-        this.binaryType = binaryType || "blob";
-        this.dataStream = new Subject();
+
         this.connect(true);
     }
 
@@ -61,7 +72,7 @@ export class WebSocketService {
         let self = this;
         if (force || !this.socket || this.socket.readyState !== this.readyStateConstants.OPEN) {
             self.socket            = this.protocols ? new WebSocket(this.url, this.protocols) : new WebSocket(this.url);
-            self.socket.binaryType = self.binaryType.toString();
+            self.socket.binaryType = self.binaryType;
 
             self.socket.onopen    = (ev: Event) => {
                 // console.log('onOpen: ', ev);
@@ -235,8 +246,8 @@ export class WebSocketService {
         }
 
         this.onMessageCallbacks.push({
-                                         fn:        callback,
-                                         pattern:   options ? options.filter : undefined,
+                                         fn       : callback,
+                                         pattern  : options ? options.filter : undefined,
                                          autoApply: options ? options.autoApply : true
                                      });
         return this;
@@ -325,4 +336,4 @@ export enum WebSocketSendMode {
     Direct, Promise, Observable
 }
 
-export type BinaryType = "blob" | "arraybuffer";
+// export type BinaryType = "blob" | "arraybuffer";

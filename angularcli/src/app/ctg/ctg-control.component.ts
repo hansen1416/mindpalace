@@ -39,7 +39,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
 
     @Output() private ctgListChange: EventEmitter<any> = new EventEmitter();
 
-    private showConfirm: boolean = false;
+    public showConfirm: boolean = false;
 
     private confirmContent: string = '';
 

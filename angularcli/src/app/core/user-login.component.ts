@@ -21,7 +21,7 @@ export class UserLoginComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
-    private user = this.userService.getUserModel();
+    public user = this.userService.getUserModel();
 
     /**
      * invalid email format
