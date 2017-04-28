@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset=UTF-8>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MindPalace</title>
+    <script src="./src/ckeditor/ckeditor.js"></script>
+<link href="styles.f0fae79b971ec2f55023.bundle.css" rel="stylesheet"/></head>
+<body>
+
+<app-root>
+    Loading...
+</app-root>
+
+<script>
+    (function () {
+        var script    = document.createElement('script');
+        script.onload = function () {
+            var stats = new Stats();
+            document.body.appendChild(stats.dom);
+            requestAnimationFrame(function loop() {
+                stats.update();
+                requestAnimationFrame(loop)
+            });
+        };
+        script.src    = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';
+        document.head.appendChild(script);
+    })()
+</script>
+
+<script type="text/javascript" src="inline.42afefe47e2efda40cd9.bundle.js"></script><script type="text/javascript" src="polyfills.5721b80e6e0883e8bb50.bundle.js"></script><script type="text/javascript" src="vendor.5c8358783535b796a9bc.bundle.js"></script><script type="text/javascript" src="main.9fc26da6cb64184cba23.bundle.js"></script></body>
+</html>
