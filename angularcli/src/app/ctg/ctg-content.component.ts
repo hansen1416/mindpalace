@@ -23,7 +23,7 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     //show save content button
     public showSaveBtn: boolean     = false;
     //the selected ctg
-    private ctg: Ctg                = this.ctgService.ctg;
+    public ctg: Ctg                = this.ctgService.ctg;
     //ctg subscription
     private subscriptionCtg: Subscription;
     //click link ctg to space button, show space list search

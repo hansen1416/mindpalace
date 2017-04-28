@@ -47,7 +47,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
     //moving targets ctg
     protected moveTarget: THREE.Sprite;
     //show or hide control panel
-    private showControl               = false;
+    public showControl                = false;
     //space_id in url
     private urlSpaceId: number;
     //ctg_id in url

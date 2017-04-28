@@ -19,7 +19,7 @@ import {Position} from '../share/coordinates';
            })
 export class FriendsComponent implements OnInit, OnDestroy {
 
-    protected friendsList: Friend[];
+    public friendsList: Friend[];
 
     protected positions: Position[];
 

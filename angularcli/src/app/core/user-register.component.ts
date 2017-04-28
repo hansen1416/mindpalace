@@ -24,37 +24,34 @@ export class UserRegisterComponent {
 
     }
 
-
-    private registerModel = {
+    //
+    public registerModel                   = {
         email           : '',
         password        : '',
         confirm_password: '',
         name            : ''
     };
+    //
+    public invalidEmail: boolean           = false;
+    //
+    public invalidConfirmPassword: boolean = false;
+    //
+    public serverError: boolean            = false;
+    //
+    private serverErrorMessage: string     = '';
 
-
-    private invalidEmail = false;
-
-
-    private invalidConfirmPassword = false;
-
-
-    private serverError = false;
-
-
-    private serverErrorMessage = '';
-
-
+    //检查邮箱有效性
     checkEmail() {
         this.invalidEmail = !this.userService.emailPattern.test(this.registerModel.email);
     }
-
-
+    //重复输入密码
     confirmPassword() {
         this.invalidConfirmPassword = this.registerModel.password !== this.registerModel.confirm_password;
     }
 
-
+    /**
+     * 注册
+     */
     onSubmit() {
         let formData = new FormData();
 
@@ -97,7 +94,6 @@ export class UserRegisterComponent {
                         );
                     }
 
-
                 }
             }
         )
@@ -105,12 +101,12 @@ export class UserRegisterComponent {
     }
 
 
-    gitLogin() {
-        this.apiHttpService.get(this.apiRoutesService.gitLogin).subscribe(
-            response => {
-                console.log(response);
-            }
-        )
-    }
+    // gitLogin() {
+    //     this.apiHttpService.get(this.apiRoutesService.gitLogin).subscribe(
+    //         response => {
+    //             console.log(response);
+    //         }
+    //     )
+    // }
 
 }

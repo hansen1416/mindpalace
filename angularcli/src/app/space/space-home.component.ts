@@ -21,7 +21,7 @@ import {Position} from '../share/coordinates';
 export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //spaces on the home page
-    protected spaces: Space[];
+    public spaces: Space[];
 
     //position of all the spaces
     protected positions: Position[];

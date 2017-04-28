@@ -27,7 +27,7 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('host') private host;
 
-    private editor: string = 'editor';
+    public editor: string = 'editor';
 
     public content: string = this.ctgService.ctgContent;
 
