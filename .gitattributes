@@ -5,3 +5,4 @@
 ./config/app.php merge=ours
 ./config/ide-helper.php merge=ours
 angular/
+angularcli/src/index.html
