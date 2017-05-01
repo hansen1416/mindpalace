@@ -5,29 +5,13 @@
     <meta charset=UTF-8>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MindPalace</title>
-    <script src="./src/ckeditor/ckeditor.js"></script>
+    <script src="./ckeditor/ckeditor.js"></script>
 </head>
 <body>
 
 <app-root>
     Loading...
 </app-root>
-
-<script>
-    (function () {
-        var script    = document.createElement('script');
-        script.onload = function () {
-            var stats = new Stats();
-            document.body.appendChild(stats.dom);
-            requestAnimationFrame(function loop() {
-                stats.update();
-                requestAnimationFrame(loop)
-            });
-        };
-        script.src    = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';
-        document.head.appendChild(script);
-    })()
-</script>
 
 </body>
 </html>
