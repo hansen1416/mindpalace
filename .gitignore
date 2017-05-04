@@ -6,3 +6,4 @@ composer.lock
 vendor/
 storage/framework/cache/*
 .phpstorm.meta.php
+tmp/
