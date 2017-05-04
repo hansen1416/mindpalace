@@ -10,20 +10,21 @@ import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {SpaceService} from '../space/space.service';
+import {UserService} from '../core/user.service';
 import {Ctg} from './ctg';
 import {Space} from '../space/space';
 
 // Define Editor Component
 @Component({
-               selector:    'ctg-content',
+               selector   : 'ctg-content',
                templateUrl: './html/ctg-content.component.html',
-               styleUrls:   ['./scss/ctg-content.component.scss']
+               styleUrls  : ['./scss/ctg-content.component.scss']
            })
 export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     //show save content button
     public showSaveBtn: boolean     = false;
     //the selected ctg
-    public ctg: Ctg                = this.ctgService.ctg;
+    public ctg: Ctg                 = this.ctgService.ctg;
     //ctg subscription
     private subscriptionCtg: Subscription;
     //click link ctg to space button, show space list search
@@ -32,6 +33,8 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     private searchInProgress        = false;
     //the space list
     private spaceList               = <Space[]>[];
+    //user info
+    public user = this.userService.getUserModel();
 
     @Output() private ctgChange: EventEmitter<any> = new EventEmitter();
 
@@ -41,11 +44,13 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         private apiHttpService: ApiHttpService,
         private messageService: MessageService,
         private spaceService: SpaceService,
+        private userService: UserService,
     ) {
     }
 
 
     ngOnInit() {
+
         this.subscriptionCtg = this.ctgService.ctg$.subscribe(
             ctg => this.ctg = ctg
         );

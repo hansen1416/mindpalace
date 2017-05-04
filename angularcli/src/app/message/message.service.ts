@@ -28,7 +28,6 @@ export class MessageService {
     }
 
     setWebSocket(): void {
-
         //if there is already a web socket, return
         if (this.webSocket instanceof WebSocketService) {
             return;
@@ -62,7 +61,9 @@ export class MessageService {
      * close web socket
      */
     endWebSocket() {
-        this.webSocket.close();
+        if (this.webSocket instanceof WebSocketService) {
+            this.webSocket.close();
+        }
     }
 
     /**

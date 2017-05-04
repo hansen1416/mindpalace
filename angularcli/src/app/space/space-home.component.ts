@@ -22,20 +22,15 @@ export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //spaces on the home page
     public spaces: Space[];
-
     //position of all the spaces
     protected positions: Position[];
-
-
+    //
     private addInProgress = false;
-
-
+    //
     private newSpaceName = '';
-
-
+    //
     private subscriptionSpaces: Subscription;
-
-
+    //
     private subscriptionPositions: Subscription;
 
 

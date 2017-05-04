@@ -1,5 +1,6 @@
 <div class="control-panel">
     <div id="plus" class="btn"
+         *ngIf="user.user_id"
          [ngStyle]="setBtnPosition('plus')"
          (click)="clickAddBtn()">
         <img src="assets/plus.svg" alt="">
@@ -18,6 +19,7 @@
         <img src="assets/eyes.svg" alt="">
     </div>
     <div id="delete" class="btn"
+         *ngIf="user.user_id"
          [ngStyle]="setBtnPosition('delete')"
          (click)="clickDeleteBtn()">
         <img src="assets/delete.svg" alt="">

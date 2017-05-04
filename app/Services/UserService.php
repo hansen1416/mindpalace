@@ -43,8 +43,9 @@ class UserService extends BaseService
         $user = $this->userRepo->userRepositoryCreateUser($userData);
 
         $profileData = [
-            'user_id' => $user->user_id,
-            'name'    => $data['name'],
+            'user_id'  => $user->user_id,
+            'name'     => $data['name'],
+            'portrait' => env('API_URL') . '/portrait/0.jpg',
         ];
 
         $this->profileRepo->profileRepositoryCreateProfile($profileData);
