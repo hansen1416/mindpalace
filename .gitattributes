@@ -6,3 +6,4 @@
 ./config/ide-helper.php merge=ours
 angular/ merge=ours
 angularcli/src/index.html merge=ours
+tmp/ merge=ours
