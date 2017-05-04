@@ -73,7 +73,7 @@ class SwooleWebSocket extends Command
     {
         $this->info('swoole websocket start');
 
-        $this->server = new swoole_websocket_server('127.0.0.1', 9501);
+        $this->server = new swoole_websocket_server('0.0.0.0', 9501);
 
         $this->server->on('open', function (swoole_websocket_server $server, $request) {
 

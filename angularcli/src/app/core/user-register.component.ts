@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from "../share/api-http.service";
 import {UserService} from './user.service';
+import {SpaceService} from '../space/space.service';
 
 @Component({
                selector   : 'user-register',
@@ -20,6 +21,7 @@ export class UserRegisterComponent {
         private apiRoutesService: ApiRoutesService,
         private apiHttpService: ApiHttpService,
         private userService: UserService,
+        private spaceService: SpaceService,
     ) {
 
     }
@@ -65,7 +67,7 @@ export class UserRegisterComponent {
                 if (response.status == 500) {
 
                     this.serverError = true;
-
+                    //提示服务器错误，通常是注册验证失败
                     if (response.error) {
                         if (response.error instanceof Array) {
                             this.serverErrorMessage = response.error[0];
@@ -85,11 +87,17 @@ export class UserRegisterComponent {
 
                     if (this.userService.getUserProperty('access_token')) {
                         this.userService.saveLocalAccessToken(this.userService.getUserProperty('access_token'));
-
+                        //获取用户数据
                         this.apiHttpService.get(this.apiRoutesService.user).subscribe(
                             response => {
                                 this.userService.saveUserModel(response);
-                                this.router.navigate(['/home']);
+                                //获取首页的空间数据，之后跳转到首页
+                                this.spaceService.getHomeSpaceList().subscribe(response => {
+
+                                    this.spaceService.setSpaces(response);
+                                    this.spaceService.addEmptySpace();
+                                    this.router.navigate(['/home']);
+                                });
                             }
                         );
                     }
