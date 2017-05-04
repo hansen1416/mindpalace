@@ -15,6 +15,7 @@ import {MessageComponent} from './message/message.component';
 
 /* App root */
 import {AppComponent}  from './app.component';
+import { HelpComponent } from './help/help.component';
 
 @NgModule({
               imports     : [
@@ -33,6 +34,7 @@ import {AppComponent}  from './app.component';
                   AppComponent,
                   MessageComponent,
                   MessageComponent,
+                  HelpComponent,
               ],
               bootstrap   : [
                   AppComponent
