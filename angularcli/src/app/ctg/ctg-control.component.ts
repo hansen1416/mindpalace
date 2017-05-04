@@ -12,6 +12,7 @@ import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
 import {CtgService} from './ctg.service';
 import {CssService} from '../share/css.service';
+import {UserService} from '../core/user.service';
 import {Ctg} from './ctg';
 import {Position} from '../share/coordinates';
 
@@ -26,24 +27,26 @@ export class CtgControlComponent implements OnInit, OnDestroy {
     public showContentBox: boolean  = false;
     //toggle the title input
     public showAddCtgInput: boolean = false;
-
+    //
     private field: number;
-
+    //
     private subscriptionCtg: Subscription;
-
+    //
     private ctg: Ctg = this.ctgService.ctg;
-
+    //
     private subscriptionControlPosition: Subscription;
-
+    //
     private controlPosition: Position = this.ctgService.controlPosition;
-
+    //
     @Output() private ctgListChange: EventEmitter<any> = new EventEmitter();
-
+    //
     public showConfirm: boolean = false;
-
+    //
     private confirmContent: string = '';
-
+    //
     @ViewChild(CtgContentComponent) private ctgContentComponent: CtgContentComponent;
+    //user info
+    public user = this.userService.getUserModel();
 
     constructor(
         protected location: Location,
@@ -54,6 +57,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         protected apiRoutesService: ApiRoutesService,
         protected apiHttpService: ApiHttpService,
         protected messageService: MessageService,
+        protected userService: UserService,
     ) {
 
     }

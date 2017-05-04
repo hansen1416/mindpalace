@@ -30,7 +30,9 @@
                (keyup.enter)="getSearchSpacesList(spaceName.value)"
         >
     </div>
-    <div class="button-label">
+    <div class="button-label"
+        *ngIf="user.user_id"
+    >
         <div class="share-button"
              (click)="searchUser()"
              *ngIf="!showSaveBtn"
