@@ -1,5 +1,4 @@
 @import '../../app.component';
-
 $form-width: 22rem;
 $form-height: 17rem;
 $input-width: $form-width - 4rem;
@@ -51,7 +50,7 @@ $input-height: 2.4rem;
             right: 0;
             background-color: #5bc0de;
         }
-        button[type='submit'][disabled]{
+        button[type='submit'][disabled] {
             background-color: #acd4de;
         }
     }
@@ -116,4 +115,21 @@ $input-height: 2.4rem;
 
     }
 
+}
+.help {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    right: 3%;
+    bottom: 6%;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.5);
+    background-image: url('/assets/help.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 90% 90%;
+    &:hover{
+        cursor: pointer;
+        background-color: #ffffff;
+    }
 }

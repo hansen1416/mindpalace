@@ -1,12 +1,13 @@
 /**
  * Created by hlz on 16-11-18.
  */
-import {NgModule}     from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {UserLoginComponent}    from './user-login.component';
+import {UserLoginComponent} from './user-login.component';
 import {UserRegisterComponent} from './user-register.component';
 import {ProfileComponent} from '../profile/profile.component';
+import {HelpComponent} from '../help/help.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
     {
         path     : 'profile/:user_id',
         component: ProfileComponent
+    },
+    {
+        path     : 'help',
+        component: HelpComponent
     }
 ];
 

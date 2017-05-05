@@ -95,7 +95,12 @@ export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
         return space.space_id
     }
 
-
+    /**
+     * space item style
+     * @param x
+     * @param y
+     * @returns {{}}
+     */
     spaceStyles(x: number, y: number) {
         let styles = {};
 
