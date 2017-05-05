@@ -1,1 +1,10 @@
-<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1493892117455" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2914" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css"></style></defs><path d="M606.6 64c64.2 0 83.3 37.3 83.3 79.9 0 53.3-42.7 102.5-115.4 102.5-60.9 0-89.9-30.7-88.2-81.3C486.3 122.6 522 64 606.6 64zM441.8 960c-43.8 0-76.1-135.6-45.3-252.8l50.4-142.9c8.7-33.3 10.2-46.6 0-46.6-13.2 0-70.2 23-103.9 45.7l-22-83.9c106.8-89.2 229.7-163.9 282.3-163.9 43.9 0 51.2 74.3 29.3 154.2l-73.3 161.5c-10.3 38.6-5.9 116.4 4.3 116.4 13.2 0 72-18.3 114.4-51.6l24.9 73.2C599.1 873.1 485.7 960 441.8 960z" fill="#13227a" p-id="2915"></path></svg>
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+        "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg t="1493892117455" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     p-id="2914" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+    <defs>
+        <style type="text/css"></style>
+    </defs>
+    <path d="M606.6 64c64.2 0 83.3 37.3 83.3 79.9 0 53.3-42.7 102.5-115.4 102.5-60.9 0-89.9-30.7-88.2-81.3C486.3 122.6 522 64 606.6 64zM441.8 960c-43.8 0-76.1-135.6-45.3-252.8l50.4-142.9c8.7-33.3 10.2-46.6 0-46.6-13.2 0-70.2 23-103.9 45.7l-22-83.9c106.8-89.2 229.7-163.9 282.3-163.9 43.9 0 51.2 74.3 29.3 154.2l-73.3 161.5c-10.3 38.6-5.9 116.4 4.3 116.4 13.2 0 72-18.3 114.4-51.6l24.9 73.2C599.1 873.1 485.7 960 441.8 960z"
+          fill="#3a64ff" p-id="2915"></path>
+</svg>

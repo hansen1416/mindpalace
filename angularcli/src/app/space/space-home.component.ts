@@ -14,9 +14,9 @@ import {Space} from './space';
 import {Position} from '../share/coordinates';
 
 @Component({
-               selector:    'space-home',
+               selector   : 'space-home',
                templateUrl: './html/space-home.component.html',
-               styleUrls:   ['./scss/space-home.component.scss']
+               styleUrls  : ['./scss/space-home.component.scss']
            })
 export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -27,7 +27,7 @@ export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
     //
     private addInProgress = false;
     //
-    private newSpaceName = '';
+    private newSpaceName  = '';
     //
     private subscriptionSpaces: Subscription;
     //
@@ -83,11 +83,9 @@ export class SpaceHomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy() {
-        setTimeout(()=> {
-            document.body.style.overflowY = 'hidden';
-            this.subscriptionSpaces.unsubscribe();
-            this.subscriptionPositions.unsubscribe();
-        });
+        document.body.style.overflowY = 'hidden';
+        this.subscriptionSpaces.unsubscribe();
+        this.subscriptionPositions.unsubscribe();
     }
 
 
