@@ -33,6 +33,8 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     private searchInProgress        = false;
     //the space list
     private spaceList               = <Space[]>[];
+    //
+    private subscriptionSpaceList: Subscription;
     //user info
     public user                     = this.userService.getUserModel();
 
@@ -51,6 +53,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
 
+        this.subscriptionSpaceList = this.spaceService.mySpaces$.subscribe(
+            (spaces: Space[]) => this.spaceList = spaces
+        )
+
         this.subscriptionCtg = this.ctgService.ctg$.subscribe(
             ctg => this.ctg = ctg
         );
@@ -64,12 +70,15 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
         max.style.width  = height + 'px';
         max.style.height = height + 'px';
+
+        this.spaceService.getMySpaces();
     }
 
 
     ngOnDestroy() {
         this.spaceList = null;
         this.subscriptionCtg.unsubscribe();
+        this.subscriptionSpaceList.unsubscribe();
     }
 
     /**

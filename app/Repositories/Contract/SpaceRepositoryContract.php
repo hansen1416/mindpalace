@@ -62,4 +62,11 @@ interface SpaceRepositoryContract extends CacheableContract, RepositoryContract
      */
     public function spaceRepositoryUpdate(int $space_id, array $data): Space;
 
+    /**
+     * @param int $user_id
+     * @return array
+     * @throws CantFindException
+     */
+    public function spaceRepositoryUserSpaces(int $user_id): array;
+
 }

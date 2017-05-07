@@ -113,4 +113,9 @@ export class ApiRoutesService {
         return environment.api + 'ctg/link';
     }
 
+    //用户的空间列表
+    get userSpaces(): string {
+        return environment.api + 'space/userSpaces';
+    }
+
 }

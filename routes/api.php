@@ -64,4 +64,5 @@ Route::group([
         Route::get('friends/lists', 'FriendsController@lists');
         Route::post('friends/delete', 'FriendsController@delete');
         Route::post('ctg/link', 'CtgController@linkCtg');
+        Route::get('space/userSpaces', 'SpaceController@userSpaces');
     });

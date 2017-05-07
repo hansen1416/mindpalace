@@ -112,6 +112,20 @@ class SpaceController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function userSpaces(): JsonResponse
+    {
+        try {
+            return $this->responseJson(
+                $this->space->spaceServiceUserSpaces()
+            );
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
+    }
+
+    /**
      * @param swoole_websocket_server $server
      * @param                         $frame
      */
