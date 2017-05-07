@@ -17,36 +17,36 @@ import {Ctg} from './ctg';
 import {Position} from '../share/coordinates';
 
 @Component({
-               selector   : 'ctg-control',
+               selector:    'ctg-control',
                templateUrl: './html/ctg-control.component.html',
-               styleUrls  : ['./scss/ctg-control.component.scss']
+               styleUrls:   ['./scss/ctg-control.component.scss']
            })
 export class CtgControlComponent implements OnInit, OnDestroy {
 
     //toggle the content editor
-    public showContentBox: boolean  = false;
+    public showContentBox: boolean                     = false;
     //toggle the title input
-    public showAddCtgInput: boolean = false;
+    public showAddCtgInput: boolean                    = false;
     //
     private field: number;
     //
     private subscriptionCtg: Subscription;
     //
-    private ctg: Ctg = this.ctgService.ctg;
+    private ctg: Ctg                                   = this.ctgService.ctg;
     //
     private subscriptionControlPosition: Subscription;
     //
-    private controlPosition: Position = this.ctgService.controlPosition;
+    private controlPosition: Position                  = this.ctgService.controlPosition;
     //
     @Output() private ctgListChange: EventEmitter<any> = new EventEmitter();
     //
-    public showConfirm: boolean = false;
+    public showConfirm: boolean                        = false;
     //
-    private confirmContent: string = '';
+    private confirmContent: string                     = '';
     //
     @ViewChild(CtgContentComponent) private ctgContentComponent: CtgContentComponent;
     //user info
-    public user = this.userService.getUserModel();
+    public user                                        = this.userService.getUserModel();
 
     constructor(
         protected location: Location,
@@ -76,10 +76,8 @@ export class CtgControlComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.subscriptionCtg.unsubscribe();
-            this.subscriptionControlPosition.unsubscribe();
-        });
+        this.subscriptionCtg.unsubscribe();
+        this.subscriptionControlPosition.unsubscribe();
     }
 
     /**
@@ -105,7 +103,7 @@ export class CtgControlComponent implements OnInit, OnDestroy {
         }
 
         return {
-            top : Math.sin(angle * 45 * Math.PI / 180) * 6.25 + 'rem',
+            top:  Math.sin(angle * 45 * Math.PI / 180) * 6.25 + 'rem',
             left: Math.cos(angle * 45 * Math.PI / 180) * 6.25 + 'rem'
         };
     }
@@ -206,20 +204,20 @@ export class CtgControlComponent implements OnInit, OnDestroy {
             case 0:
             case 1:
                 return {
-                    top  : buttonWidth / 2 + 'rem',
-                    left : buttonWidth / 2 + 'rem',
+                    top:   buttonWidth / 2 + 'rem',
+                    left:  buttonWidth / 2 + 'rem',
                     right: 'none'
                 };
             case 2:
                 return {
-                    top  : buttonWidth * 2 + 'rem',
-                    left : 'none',
+                    top:   buttonWidth * 2 + 'rem',
+                    left:  'none',
                     right: '0'
                 };
             default:
                 return {
-                    top  : buttonWidth / 2 + 'rem',
-                    left : ' none',
+                    top:   buttonWidth / 2 + 'rem',
+                    left:  ' none',
                     right: buttonWidth * 1.5 + 'rem'
                 }
         }

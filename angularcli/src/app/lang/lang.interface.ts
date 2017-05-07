@@ -35,8 +35,8 @@ export interface LangInterface {
         home: string,
         yes: string,
         no: string,
-        link: string,
-        share: string,
+        move_to: string,
+        link_to: string,
     },
     message: {
         ctg_content_updated: string,

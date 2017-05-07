@@ -12,9 +12,9 @@ import {Space} from '../space/space';
 
 // Define Editor Component
 @Component({
-               selector   : 'ctg-history',
+               selector:    'ctg-history',
                templateUrl: './html/ctg-history.component.html',
-               styleUrls  : ['./scss/ctg-history.component.scss']
+               styleUrls:   ['./scss/ctg-history.component.scss']
            })
 export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -51,9 +51,7 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.subscriptionSpaceName.unsubscribe();
-        });
+        this.subscriptionSpaceName.unsubscribe();
     }
 
 }

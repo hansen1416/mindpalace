@@ -16,9 +16,9 @@ import {Space} from '../space/space';
 
 // Define Editor Component
 @Component({
-               selector   : 'ctg-content',
+               selector:    'ctg-content',
                templateUrl: './html/ctg-content.component.html',
-               styleUrls  : ['./scss/ctg-content.component.scss']
+               styleUrls:   ['./scss/ctg-content.component.scss']
            })
 export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     //show save content button
@@ -34,7 +34,7 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     //the space list
     private spaceList               = <Space[]>[];
     //user info
-    public user = this.userService.getUserModel();
+    public user                     = this.userService.getUserModel();
 
     @Output() private ctgChange: EventEmitter<any> = new EventEmitter();
 
@@ -68,10 +68,8 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.spaceList = null;
-            this.subscriptionCtg.unsubscribe();
-        });
+        this.spaceList = null;
+        this.subscriptionCtg.unsubscribe();
     }
 
     /**

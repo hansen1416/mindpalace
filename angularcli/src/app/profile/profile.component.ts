@@ -14,9 +14,9 @@ import {languages} from '../lang/lang-available';
 import {User} from '../core/user';
 
 @Component({
-               selector   : 'profile',
+               selector:    'profile',
                templateUrl: './html/profile.component.html',
-               styleUrls  : ['./scss/profile.component.scss']
+               styleUrls:   ['./scss/profile.component.scss']
            })
 export class ProfileComponent implements OnInit, OnDestroy {
 
@@ -44,9 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.subscription.unsubscribe();
-        });
+        this.subscription.unsubscribe();
     }
 
     /**
