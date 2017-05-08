@@ -22,7 +22,7 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
     //
     private subscriptionSpaceName: Subscription;
     //
-    private showEditSpace: boolean = false;
+    public showEditSpace: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
