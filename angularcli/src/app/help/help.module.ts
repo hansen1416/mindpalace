@@ -1,11 +1,15 @@
 import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
+import {SharedModule} from '../share/share.module';
+import {HelpRoutingModule} from './help-routing.module';
 import {HelpComponent} from './help.component';
 
 @NgModule({
               imports     : [
-                  CommonModule
+                  CommonModule,
+                  SharedModule,
+                  HelpRoutingModule
               ],
               declarations: [
                   HelpComponent

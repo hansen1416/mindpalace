@@ -11,12 +11,11 @@ import {SpaceModule} from './space/space.module';
 import {CtgModule} from './ctg/ctg.module';
 import {ProfileModule} from './profile/profile.module';
 import {FriendsModule} from './friends/friends.module';
-// import {HelpModule} from './help/help.module';
+import {HelpModule} from './help/help.module';
 import {MessageComponent} from './message/message.component';
 
 /* App root */
 import {AppComponent}  from './app.component';
-import {HelpComponent} from './help/help.component';
 
 @NgModule({
               imports     : [
@@ -30,13 +29,12 @@ import {HelpComponent} from './help/help.component';
                   CtgModule,
                   ProfileModule,
                   FriendsModule,
-                  // HelpModule,
+                  HelpModule,
               ],
               declarations: [
                   AppComponent,
                   MessageComponent,
                   MessageComponent,
-                  HelpComponent,
               ],
               bootstrap   : [
                   AppComponent

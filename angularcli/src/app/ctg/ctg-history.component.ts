@@ -60,7 +60,7 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
      *
      */
     toggleEdit(){
-        // this.showEditSpace = !this.showEditSpace;
+        this.showEditSpace = !this.showEditSpace;
     }
 
 }
