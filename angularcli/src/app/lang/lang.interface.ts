@@ -48,6 +48,7 @@ export interface LangInterface {
         confirm_delete_ctg: string,
         delete_ctg: string,
         link_ctg_to_space: string,
+        move_ctg_to_space: string,
         user_profile_updated: string,
         ctg_already_exist: string,
         new_friend: string,

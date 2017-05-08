@@ -50,6 +50,7 @@ export const ZH: LangInterface = {
         confirm_delete_ctg  : '确定删除选中的分类和他的所有子分类么',
         delete_ctg          : '删除了 %1% 个分类',
         link_ctg_to_space   : '链接 %1% 到 %2%',
+        move_ctg_to_space   : '移动 %1% 到 %2%',
         user_profile_updated: '用户信息已更新',
         ctg_already_exist   : '分类已经存在于空间',
         new_friend          : '%1% 已经添加为您的好友',
