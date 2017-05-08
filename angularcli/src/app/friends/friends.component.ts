@@ -13,9 +13,9 @@ import {Friend} from './friend';
 import {Position} from '../share/coordinates';
 
 @Component({
-               selector   : 'friends',
+               selector:    'friends',
                templateUrl: './html/friends.component.html',
-               styleUrls  : ['./scss/friends.component.scss']
+               styleUrls:   ['./scss/friends.component.scss']
            })
 export class FriendsComponent implements OnInit, OnDestroy {
 
@@ -61,14 +61,14 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.subscriptionFriends.unsubscribe();
-            this.subscriptionPositions.unsubscribe();
-        });
+        this.subscriptionFriends.unsubscribe();
+        this.subscriptionPositions.unsubscribe();
     }
 
 
-    trackByFriends(index: number, friend: Friend) {return friend.user_id}
+    trackByFriends(index: number, friend: Friend) {
+        return friend.user_id
+    }
 
     /**
      * friend item position style

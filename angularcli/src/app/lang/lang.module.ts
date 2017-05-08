@@ -1,8 +1,8 @@
 /**
  * Created by hlz on 16-10-18.
  */
-import {NgModule, Optional, SkipSelf}           from '@angular/core';
-import {CommonModule}       from '@angular/common';
+import {NgModule, Optional, SkipSelf} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import {LangService} from './lang.service';
 import {LangPipe} from "./lang.pipe";

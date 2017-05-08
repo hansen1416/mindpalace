@@ -33,8 +33,12 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     private searchInProgress        = false;
     //the space list
     private spaceList               = <Space[]>[];
+    //
+    private subscriptionSpaceList: Subscription;
     //user info
-    public user = this.userService.getUserModel();
+    public user                     = this.userService.getUserModel();
+    //
+    private clickedButton: string;
 
     @Output() private ctgChange: EventEmitter<any> = new EventEmitter();
 
@@ -51,6 +55,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
 
+        this.subscriptionSpaceList = this.spaceService.mySpaces$.subscribe(
+            (spaces: Space[]) => this.spaceList = spaces
+        );
+
         this.subscriptionCtg = this.ctgService.ctg$.subscribe(
             ctg => this.ctg = ctg
         );
@@ -64,14 +72,15 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
         max.style.width  = height + 'px';
         max.style.height = height + 'px';
+
+        this.spaceService.getMySpaces();
     }
 
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.spaceList = null;
-            this.subscriptionCtg.unsubscribe();
-        });
+        this.spaceList = null;
+        this.subscriptionCtg.unsubscribe();
+        this.subscriptionSpaceList.unsubscribe();
     }
 
     /**
@@ -138,57 +147,83 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      *
+     * @param button
      */
-    searchUser() {
+    searchSpace(button: string): void {
+        if (this.clickedButton == button) {
+            this.showSearchSpace = false;
+            this.clickedButton   = null;
+            return;
+        }
 
-    }
-
-    /**
-     *
-     */
-    searchSpace() {
+        this.clickedButton   = button;
         this.showSearchSpace = true;
     }
 
     /**
-     * get space list from server
+     * space list style
+     */
+    spaceListPosition() {
+        switch (this.clickedButton) {
+            case 'link':
+                return {'left': '33.3%'};
+            case 'copy':
+                return {'left': '66.6%'};
+            default:
+        }
+    }
+
+    /**
+     * move \ link \copy ctg to user's another space
+     * @param space_id
      * @param name
      */
-    getSearchSpacesList(name: string): void {
-        if (!name) {
-            return;
-        }
+    moveLinkCopy(space_id: number, name: string): void {
 
         if (this.searchInProgress) {
+            this.messageService.showFlashMessage('action.handling');
             return;
         }
 
         this.searchInProgress = true;
 
-        this.spaceService.getSearchSpaceList(name).subscribe(
-            (response: Space[]) => {
-                this.spaceList        = response;
-                this.searchInProgress = false;
-            }
-        );
-    }
-
-    /**
-     * link ctg to another space, can link multiple times
-     * only link not copy, not editable in another space
-     * @param space_id
-     * @param name
-     */
-    linkToSpace(space_id: number, name: string): void {
         let data = new FormData();
+        let url  = '';
+        let msg  = '';
+
         data.append('origin_space', this.ctg.space_id);
         data.append('ctg_id', this.ctg.ctg_id);
         data.append('space_id', space_id);
 
-        this.apiHttpService.post(this.apiRouteService.linkCtg, data).subscribe(
-            response => this.messageService.handleResponse(response, () => {
-                this.messageService.showFlashMessage('message.link_ctg_to_space-' + this.ctg.ctg.title + '-' + name)
-            })
+        switch (this.clickedButton) {
+            case 'move':
+                url = this.apiRouteService.moveCtgTo;
+                msg = 'move_ctg_to_space-' + this.ctg.ctg.title + '-' + name;
+                break;
+            case 'link':
+                url = this.apiRouteService.linkCtgTo;
+                msg = 'link_ctg_to_space-' + this.ctg.ctg.title + '-' + name;
+                break;
+            case 'copy':
+                url = this.apiRouteService.copyCtgTo;
+                msg = 'copy_ctg_to_space-' + this.ctg.ctg.title + '-' + name;
+                break;
+            default:
+                return;
+        }
+
+        this.apiHttpService.post(url, data).subscribe(
+            response => this.messageService.handleResponse(
+                response,
+                msg,
+                () => {
+                    this.searchInProgress = false;
+                    //rebuild the scene due to the ctg move to another space
+                    if (this.clickedButton == 'move') {
+                        this.ctgChange.emit();
+                    }
+                }
+            )
         );
     }
 

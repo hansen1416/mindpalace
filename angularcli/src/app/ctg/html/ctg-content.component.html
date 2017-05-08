@@ -12,39 +12,52 @@
               (contentInitial)="contentInitial()"
               #ckeditor
     ></ckeditor>
-    <div class="ctg-content-data-list search-space-position"
+
+    <div class="ctg-content-data-list"
          *ngIf="showSearchSpace"
+         [ngStyle]="spaceListPosition()"
     >
         <div class="tier"
-             *ngFor="let space of spaceList"
+             *ngFor="let space of spaceList | searchSpace : searchedName"
              title="{{'message.link_ctg_to_space-' + ctg.ctg.title + '-' + space.name | translate}}"
-             (click)="linkToSpace(space.space_id, space.name)"
+             (click)="moveLinkCopy(space.space_id, space.name)"
         >{{space.name}}
         </div>
     </div>
-    <div class="ctg-content-input search-space-position"
+    <div class="ctg-content-input"
          *ngIf="showSearchSpace"
+         [ngStyle]="spaceListPosition()"
     >
         <input type="text" placeholder=""
                #spaceName
-               (keyup.enter)="getSearchSpacesList(spaceName.value)"
+               (input)="searchedName = spaceName.value"
         >
     </div>
+
     <div class="button-label"
-        *ngIf="user.user_id"
+         *ngIf="user.user_id"
     >
-        <div class="share-button"
-             (click)="searchUser()"
+        <div class="move-button"
+             title="{{'action.move_to_title' | translate}}"
+             (click)="searchSpace('move')"
              *ngIf="!showSaveBtn"
         >
-            <span>{{'action.share' | translate}}</span>
+            <span>{{'action.move_to' | translate}}</span>
         </div>
-        <div class="copy-button"
-             (click)="searchSpace()"
+        <div class="link-button"
+             title="{{'action.link_to_title' | translate}}"
+             (click)="searchSpace('link')"
              *ngIf="!showSaveBtn"
         >
-            <span>{{'action.link' | translate}}</span>
+            <span>{{'action.link_to' | translate}}</span>
         </div>
+        <!--<div class="copy-button"-->
+             <!--title="{{'action.copy_to_title' | translate}}"-->
+             <!--(click)="searchSpace('copy')"-->
+             <!--*ngIf="!showSaveBtn"-->
+        <!--&gt;-->
+            <!--<span>{{'action.copy_to' | translate}}</span>-->
+        <!--</div>-->
         <div class="save-button"
              (click)="saveContent(title.value, ckeditor.content)"
              *ngIf="showSaveBtn"

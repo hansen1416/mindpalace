@@ -63,5 +63,12 @@ class SpaceService extends BaseService
         return $this->spaceRepo->getOne($space_id);
     }
 
+    /**
+     * @return array
+     */
+    public function spaceServiceUserSpaces(): array
+    {
+        return $this->spaceRepo->spaceRepositoryUserSpaces($this->getUserId());
+    }
 
 }

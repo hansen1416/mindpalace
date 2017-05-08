@@ -145,4 +145,23 @@ class SpaceEloquentRepository extends EloquentRepository implements SpaceReposit
         return $res[1];
     }
 
+    /**
+     * @param int $user_id
+     * @return array
+     * @throws CantFindException
+     */
+    public function spaceRepositoryUserSpaces(int $user_id): array
+    {
+        $res = $this->where('user_id', $user_id)
+                    ->orderBy('sort ASC')
+                    ->orderBy('space_id', 'DESC')
+                    ->findAll();
+
+        if (!$res) {
+            throw new CantFindException();
+        }
+
+        return $res->toArray();
+    }
+
 }

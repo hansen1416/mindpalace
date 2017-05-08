@@ -1,0 +1,16 @@
+@import "../../app.component";
+
+section{
+    width: 70%;
+    margin: 0 auto;
+
+    div{
+        margin: 30px 0 0 0;
+        ul{
+            list-style-type: disc;
+        }
+        p{
+            margin: 2px 0;
+        }
+    }
+}

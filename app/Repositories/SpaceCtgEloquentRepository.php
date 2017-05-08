@@ -143,10 +143,7 @@ class SpaceCtgEloquentRepository extends EloquentRepository implements SpaceCtgR
      */
     public function spaceCtgRepositoryDeleteCtg(int $space_id, int $ctg_id): int
     {
-        /** @var \App\SpaceCtg $spaceCtg */
-        $spaceCtg = new $this->model;
-
-        $res = $spaceCtg->where('space_id', $space_id)
+        $res = SpaceCtg::where('space_id', $space_id)
                         ->where(function (Builder $q) use ($ctg_id) {
                             $q->where('ctg_id', $ctg_id)
                               ->orWhere('path', 'like', '%-' . $ctg_id . '-%');

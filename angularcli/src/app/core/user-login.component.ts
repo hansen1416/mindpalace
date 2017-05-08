@@ -58,6 +58,11 @@ export class UserLoginComponent implements OnInit, OnDestroy {
 
     }
 
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
     /**
      * check email format
      */
@@ -118,8 +123,4 @@ export class UserLoginComponent implements OnInit, OnDestroy {
         this.userService.setUserProperties({language: language.key});
     }
 
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
 }

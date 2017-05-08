@@ -90,13 +90,11 @@ export class CKEditorComponent implements OnInit, OnDestroy, AfterViewInit {
      * On component destroy
      */
     ngOnDestroy() {
-        setTimeout(() => {
-            if (CKEDITOR.instances[this.editor]) {
-                //must blur, before destroy the editor, otherwise will be error
-                CKEDITOR.instances[this.editor].focusManager.blur(true);
-                CKEDITOR.instances[this.editor].destroy();
-            }
-        });
+        if (CKEDITOR.instances[this.editor]) {
+            //must blur, before destroy the editor, otherwise will be error
+            CKEDITOR.instances[this.editor].focusManager.blur(true);
+            CKEDITOR.instances[this.editor].destroy();
+        }
     }
 
     /**

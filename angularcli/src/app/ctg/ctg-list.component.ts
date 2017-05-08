@@ -19,9 +19,9 @@ import {Position} from '../share/coordinates';
 import * as THREE from 'three';
 
 @Component({
-               selector   : 'ctg-list',
+               selector:    'ctg-list',
                templateUrl: './html/ctg-list.component.html',
-               styleUrls  : ['./scss/ctg-list.component.scss']
+               styleUrls:   ['./scss/ctg-list.component.scss']
            })
 export class CtgListComponent extends AbstractThreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -116,9 +116,7 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
 
 
     ngOnDestroy() {
-        setTimeout(() => {
-            this.subscriptionParam.unsubscribe();
-        });
+        this.subscriptionParam.unsubscribe();
     }
 
     /**
@@ -692,12 +690,12 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     ctgControlPosition() {
         return {
-            display : 'block',
-            width   : 0,
-            height  : 0,
+            display:  'block',
+            width:    0,
+            height:   0,
             position: 'absolute',
-            top     : this.controlPos.y + 'px',
-            left    : this.controlPos.x + 'px'
+            top:      this.controlPos.y + 'px',
+            left:     this.controlPos.x + 'px'
         };
     }
 
