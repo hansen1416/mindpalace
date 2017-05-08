@@ -31,12 +31,17 @@ export interface LangInterface {
         title_placeholder: string,
     },
     action: {
+        handling: string,
         save: string,
         home: string,
         yes: string,
         no: string,
         move_to: string,
+        move_to_title: string,
         link_to: string,
+        link_to_title: string,
+        copy_to: string,
+        copy_to_title: string,
     },
     message: {
         ctg_content_updated: string,

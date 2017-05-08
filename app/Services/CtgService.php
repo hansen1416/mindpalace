@@ -244,8 +244,24 @@ class CtgService extends BaseService
             unset($value['ctg']);
         }
 
-
         return $this->spaceCtgRepo->spaceCtgRepositoryMassInsert($insert);
+    }
+
+    /**
+     * @param int $origin_space
+     * @param int $ctg_id
+     * @param int $space_id
+     * @return int
+     */
+    public function ctgServiceMoveCtg(int $origin_space, int $ctg_id, int $space_id): int
+    {
+        $insert = $this->ctgServiceLinkCtg($origin_space, $ctg_id, $space_id);
+
+        if ($insert) {
+            return $this->spaceCtgRepo->spaceCtgRepositoryDeleteCtg($origin_space, $ctg_id);
+        }
+
+        return 0;
     }
 
 }

@@ -92,17 +92,22 @@ export class MessageService {
     /**
      * show response message
      * @param response
+     * @param success
      * @param callback
      */
-    handleResponse(response: any, callback: Function | string) {
+    handleResponse(response: any, success: Function | string, callback?: Function) {
         if (response.status == 500) {
             this.showFlashMessage(response.error);
         } else {
-            if (callback instanceof Function) {
-                callback();
-            } else if (typeof callback == 'string') {
-                this.showFlashMessage('message.' + callback);
+            if (success instanceof Function) {
+                success();
+            } else if (typeof success == 'string') {
+                this.showFlashMessage('message.' + success);
             }
+        }
+
+        if (callback && callback instanceof Function) {
+            callback();
         }
     }
 

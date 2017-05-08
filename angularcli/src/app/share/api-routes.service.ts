@@ -108,9 +108,19 @@ export class ApiRoutesService {
         return environment.api + 'friends/lists';
     }
 
+    // 移动分类到其他空间
+    get moveCtgTo(): string {
+        return environment.api + 'ctg/moveTo';
+    }
+
     // 链接分类到其他空间
-    get linkCtg(): string {
-        return environment.api + 'ctg/link';
+    get linkCtgTo(): string {
+        return environment.api + 'ctg/linkTo';
+    }
+
+    // 复制分类到其他空间
+    get copyCtgTo(): string {
+        return environment.api + 'ctg/copyTo';
     }
 
     //用户的空间列表

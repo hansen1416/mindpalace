@@ -152,7 +152,28 @@ class CtgController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function linkCtg(Request $request)
+    public function moveCtgTo(Request $request): JsonResponse
+    {
+        try {
+
+            $origin_space = (int)$request->input('origin_space');
+            $ctg_id       = (int)$request->input('ctg_id');
+            $space_id     = (int)$request->input('space_id');
+
+            return $this->responseJson(
+                $this->ctg->ctgServiceMoveCtg($origin_space, $ctg_id, $space_id)
+            );
+
+        } catch (\Exception $e) {
+            return $this->responseJson($e);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function linkCtgTo(Request $request): JsonResponse
     {
         try {
 
@@ -170,6 +191,12 @@ class CtgController extends Controller
             }
             return $this->responseJson($e);
         }
+    }
+
+
+    public function copyCtgTo()
+    {
+        //todo copy ctg to another space
     }
 
 }

@@ -14,6 +14,7 @@ import {CtgListComponent} from './ctg-list.component';
 import {CtgControlComponent} from './ctg-control.component';
 import {CtgContentComponent} from './ctg-content.component';
 import {CtgHistoryComponent} from './ctg-history.component';
+import {SearchSpacePipe} from './search-space.pipe';
 
 @NgModule({
               imports     : [
@@ -28,6 +29,7 @@ import {CtgHistoryComponent} from './ctg-history.component';
                   CtgContentComponent,
                   CtgControlComponent,
                   CtgHistoryComponent,
+                  SearchSpacePipe,
               ],
               providers   : [
                   CtgService,
