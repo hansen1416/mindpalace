@@ -12,15 +12,17 @@ import {Space} from '../space/space';
 
 // Define Editor Component
 @Component({
-               selector:    'ctg-history',
+               selector   : 'ctg-history',
                templateUrl: './html/ctg-history.component.html',
-               styleUrls:   ['./scss/ctg-history.component.scss']
+               styleUrls  : ['./scss/ctg-history.component.scss']
            })
 export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
-
+    //
     public space: Space;
-
+    //
     private subscriptionSpaceName: Subscription;
+    //
+    private showEditSpace: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -52,6 +54,13 @@ export class CtgHistoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnDestroy() {
         this.subscriptionSpaceName.unsubscribe();
+    }
+
+    /**
+     *
+     */
+    toggleEdit(){
+        // this.showEditSpace = !this.showEditSpace;
     }
 
 }

@@ -251,17 +251,17 @@ class CtgService extends BaseService
      * @param int $origin_space
      * @param int $ctg_id
      * @param int $space_id
-     * @return int
+     * @return array
      */
-    public function ctgServiceMoveCtg(int $origin_space, int $ctg_id, int $space_id): int
+    public function ctgServiceMoveCtg(int $origin_space, int $ctg_id, int $space_id): array
     {
         $insert = $this->ctgServiceLinkCtg($origin_space, $ctg_id, $space_id);
 
         if ($insert) {
-            return $this->spaceCtgRepo->spaceCtgRepositoryDeleteCtg($origin_space, $ctg_id);
+            return $this->ctgServiceDeleteCtg($origin_space, $ctg_id);
         }
 
-        return 0;
+        return ['deleted' => 0];
     }
 
 }

@@ -1,6 +1,6 @@
 @import "ctg-list.component";
 $space-height: 2.6rem;
-$space-width: 6rem;
+$space-width: 5rem;
 
 .space-box {
     position: absolute;
@@ -13,11 +13,13 @@ $space-width: 6rem;
     &:hover {
         cursor: pointer;
     }
+    div {
+        float: left;
+        height: 100%;
+    }
 
     .space {
-        float: left;
         width: $space-width;
-        height: 100%;
         padding: 0 $space-width / 12;
         font-size: $space-height / 2;
         line-height: $space-height;
@@ -29,4 +31,24 @@ $space-width: 6rem;
             width: auto;
         }
     }
+
+    .edit-space {
+        width: $space-height;
+        background-image: url('/assets/edit.svg');
+        background-repeat: no-repeat;
+        background-size: 70% 70%;
+        background-position: 50% 50%;
+
+        &:hover {
+            background-color: #81b2ff;
+        }
+    }
+}
+.edit-space-box {
+    position: absolute;
+    width: $space-width + $space-width/6 + $space-height;
+    height: auto;
+    top: $message-height * 2 + $space-height;
+    right: 0;
+    background-color: #ffffff;
 }
