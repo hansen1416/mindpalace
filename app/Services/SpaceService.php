@@ -39,7 +39,7 @@ class SpaceService extends BaseService
      */
     public function searchSpace(string $name): array
     {
-        return $this->spaceRepo->searchUserSpaceByName($name, $this->getUserId());
+        return $this->spaceRepo->searchUserSpaceByName($name, $this->getUserId(true));
     }
 
     /**

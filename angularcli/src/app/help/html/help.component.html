@@ -3,12 +3,13 @@
 >
 </div>
 <section *ngIf="user.language == 'zh'">
-    <ul>
-        <li><a href="/help#site">关于本站</a></li>
-        <li><a href="/help#author">关于作者</a></li>
-        <li><a href="/help#bug">问题和建议</a></li>
+    <ul class="catalog">
+        <li><a href="/help#site"># 关于本站</a></li>
+        <li><a href="/help#author"># 关于作者</a></li>
+        <li><a href="/help#bug"># 问题和建议</a></li>
     </ul>
-    <div name="site" id="site">
+    <div>
+        <h3 name="site" id="site">关于本站</h3>
         <ul>
             <li>在未登录状态下首页可以点选需要查看的空间</li>
             <li>登录之后在首页可以创建自己的空间，在输入名称之后回车即可</li>
@@ -26,43 +27,83 @@
             <li>点击其他用户头像可以查看他的详情，加他为好友，成为好友后可以共享空间</li>
         </ul>
     </div>
-    <div name="author" id="author">
+    <div>
+        <h3 name="author" id="author">关于作者</h3>
         <p>我只是又一个Web程序员，为了不断学习而建立了这个网站，初衷是为了方便的记录和分享。可以有层次结构的记录所有知识，经过很多次改版，从最开始用原生js和CSS3 的3D
            Transform到现在的Angular2+Three.js实现层次分类。后台使用了laravel 5.4和Mysql在腾讯云服务器Ubuntu 16.04上运行。希望我的工作可以帮助到别人。</p>
     </div>
-    <div name="bug" id="bug">
+    <div>
+        <h3 name="bug" id="bug">问题和建议</h3>
         <p>发现了bug，或者有任何改进建议和需求建议都可以通过我的邮箱联系我 badapplesweetie@gmail.com</p>
     </div>
 </section>
 <section *ngIf="user.language != 'zh'">
-    <ul>
-        <li><a href="/help#site">About this site</a></li>
-        <li><a href="/help#author">About author</a></li>
-        <li><a href="/help#bug">Bugs and Advice</a></li>
+    <ul class="catalog">
+        <li><a href="/help#site"># About this site</a></li>
+        <li><a href="/help#author"># About author</a></li>
+        <li><a href="/help#bug"># Bugs and Advice</a></li>
     </ul>
-    <div name="site" id="site">
+    <div>
+        <h3 name="site" id="site">About this site</h3>
         <ul>
-            <li>在未登录状态下首页可以点选需要查看的空间</li>
-            <li>登录之后在首页可以创建自己的空间，在输入名称之后回车即可</li>
-            <li>进入空间之后会有一个和空间名称相同的初始分类，可以编辑他的名称，为其添加子分类，或者删除它</li>
-            <li>修改初始分类的名称，空间名称也会跟着改变</li>
-            <li>删除初始分类空间会被删除</li>
-            <li>任一分类都可以添加无限多的子分类</li>
-            <li>点击查看分类详情时，可以编辑分类的名称和详情内容，在修改之后点击下面的保存按钮保存</li>
-            <li>删除一个分类会删除他在该空间中的所有子分类</li>
-            <li>分类详情下面的“链接到”按钮可以将该分类链接到自己的其它空间中，修改其中任意一个的名称和详情后，所有空间中的该分类都会更新，但是删除任意一个不会影响到其他空间</li>
-            <li>分类详情下面的“移动到”按钮可以将该分类移动到其他空间中，之后该分类将不再在此分类中存在</li>
-            <li>空间旁边的共享按钮可以选择你的好友共享此空间，分享的好友将可以编辑此空间</li>
-            <li>空间名称旁边的公开/私有切换按钮可以设置空间的公开属性，公开空间为所有人可见，私有空间只有自己和共享了该空间的用户可见</li>
-            <li>登录后点击用户头像可以进入个人详情页面，编辑个人信息和查看搜索好友</li>
-            <li>点击其他用户头像可以查看他的详情，加他为好友，成为好友后可以共享空间</li>
+            <li>Click and view a space at the home page</li>
+            <li>Create your own space after login, type the space name and enter.</li>
+            <li>There will be a root category after a new space has been created, add a child category, view it or
+                delete it by click the root category.
+            </li>
+            <li>The name of the space will also change after change the name of the root category.</li>
+            <li>Delete the root category will delete the space too.</li>
+            <li>Any category can have unlimited child category, and can add child of the child as much as you can.</li>
+            <li>View the detail of a category, edit its name or content by click the save button after the name or
+                content changed.
+            </li>
+            <li>Delete a category will delete all its descendants too.</li>
+            <li>The 'Link to' button will link the category and all its descendants to selected space, when you edit the
+                name or content of those categories in any linked spaces, every linked space will get updated, but
+                delete those categories in any linked space will not effect other linked spaces.
+            </li>
+            <li>The 'Move to' button will move the category and all its descendants to selected space, the category will
+                no longer exists in current space.
+            </li>
+            <li>Press left click on a category for more than 1 second to drag this category, drag it to another category
+                when the color of the targeted category change, release the mouse button and the dragged category will
+                become a sub category of the targeted category.
+            </li>
+            <li>(TODO) Search category by its name and tags.</li>
+            <li>(TODO) Click the 'Share' button when edit the space information to share this space to one of your
+                friend. All the friends you're sharing with can edit this space and its categories.
+            </li>
+            <li>(TODO) The public / private switch in the space editing form can change the space property, public means
+                everybody can view this space, private means only you and shared friends can view this space.
+            </li>
+            <li>Click your avatar enter the profile page, edit your profile and search a new friend.</li>
+            <li>(TODO) Click the avatar of any other users to view their profile and public spaces, or make a new
+                friend.
+            </li>
         </ul>
     </div>
-    <div name="author" id="author">
-        <p>我只是又一个Web程序员，为了不断学习而建立了这个网站，初衷是为了方便的记录和分享。可以有层次结构的记录所有知识，经过很多次改版，从最开始用原生js和CSS3 的3D
-           Transform到现在的Angular2+Three.js实现层次分类。后台使用了laravel 5.4和Mysql在腾讯云服务器Ubuntu 16.04上运行。希望我的工作可以帮助到别人。</p>
+    <div>
+        <h3 name="author" id="author">About author</h3>
+        <p>I'm Han Long zhen from China. I'm a web programmer, fluent in PHP, Javascript, Typescript, HTML, CSS. I built
+           this from scratch for keep learning and improving my skill.
+            <br><br>
+           When I start coding after I quit my life as a seaman working on board ship, I know this is what I shall do,
+           it is good for me. But all the knowledge that needs to learn is just overwhelming, and there is always
+           something new coming everyday. After couple of years adding bookmarks to Chrome, I decide to build this
+           website.
+            <br><br>
+           I wish to put all my notes and code fragment to a infinite space and edit them, move them freely. At first I
+           use vanilla js and CSS3 3D transform for the space scene, but now it's built on Angular2@4.0 and
+           three.js@0.81.0. I also use laravel@5.4 and MySql on a Ubuntu 16.04 server.
+            <br><br>
+           The website is online at May 3 2017, and the work is still in progress, still a lot to do. Because I'm only
+           able to build this site after my
+           day job, it might be slow for me to add new features. I wish my work can help more people.</p>
     </div>
-    <div name="bug" id="bug">
-        <p>发现了bug，或者有任何改进建议和需求建议都可以通过我的邮箱联系我 badapplesweetie@gmail.com</p>
+    <div>
+        <h3 name="bug" id="bug">Bugs and new feature</h3>
+        <p>Feel free to contact me <a href="mailto:badapplesweetie@gmail.com">badapplesweetie@gmail.com</a>, if you
+           found a bug, or you found this site is useful and you need a new feature, or you are a programmer and you
+           want to have a small talk or you have some advice for me, or whatever reasons.</p>
     </div>
 </section>
