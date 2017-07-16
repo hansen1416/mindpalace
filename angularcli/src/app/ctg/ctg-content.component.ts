@@ -42,7 +42,7 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     //
     private subscriptionCtgContent: Subscription;
     //
-    private ctgContent: String;
+    public ctgContent: String;
 
     @Output() private ctgChange: EventEmitter<any> = new EventEmitter();
 
