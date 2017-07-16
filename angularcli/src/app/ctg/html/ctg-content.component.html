@@ -8,10 +8,11 @@
     <div id="maximize" #sizeButton
          (click)="maximizeContent(sizeButton, editorBox)"
     ></div>
-    <ckeditor (change)="contentChange()"
+    <textarea (change)="contentChange()"
+              title=""
               (contentInitial)="contentInitial()"
-              #ckeditor
-    ></ckeditor>
+              #content
+    ></textarea>
 
     <div class="ctg-content-data-list"
          *ngIf="showSearchSpace"
@@ -59,7 +60,7 @@
             <!--<span>{{'action.copy_to' | translate}}</span>-->
         <!--</div>-->
         <div class="save-button"
-             (click)="saveContent(title.value, ckeditor.content)"
+             (click)="saveContent(title.value, content.value)"
              *ngIf="showSaveBtn"
         >
             <span>{{'action.save' | translate}}</span>

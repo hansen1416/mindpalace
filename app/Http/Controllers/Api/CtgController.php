@@ -14,6 +14,7 @@ use App\Services\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 class CtgController extends Controller
 {
