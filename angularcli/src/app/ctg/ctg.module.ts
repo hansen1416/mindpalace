@@ -7,7 +7,6 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../share/share.module';
 import {CtgRoutingModule} from './ctg-routing.module';
 import {ThreeModule} from '../three/three.module';
-import {CKEditorModule} from '../ckeditor/ckeditor.module';
 
 import {CtgService} from './ctg.service';
 import {CtgListComponent} from './ctg-list.component';
@@ -22,7 +21,6 @@ import {SearchSpacePipe} from './search-space.pipe';
                   SharedModule,
                   CtgRoutingModule,
                   ThreeModule,
-                  CKEditorModule,
               ],
               declarations: [
                   CtgListComponent,

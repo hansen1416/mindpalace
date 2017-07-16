@@ -12,7 +12,6 @@ import {CtgService} from './ctg.service';
 import {ApiRoutesService} from '../share/api-routes.service';
 import {ApiHttpService} from '../share/api-http.service';
 import {MessageService} from '../message/message.service';
-import {CKEditorService} from '../ckeditor/ckeditor.service';
 import {Ctg} from "./ctg";
 import {Position} from '../share/coordinates';
 
@@ -79,7 +78,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
         protected apiRoutesService: ApiRoutesService,
         protected apiHttpService: ApiHttpService,
         protected messageService: MessageService,
-        protected ckeditorService: CKEditorService,
     ) {
         super();
     }
@@ -322,9 +320,6 @@ export class CtgListComponent extends AbstractThreeComponent implements OnInit, 
      */
     private onClick = (event: MouseEvent): void => {
         event.preventDefault();
-
-        //close the ckeditor
-        this.ckeditorService.editorOff();
 
         this.updatePosition(event);
 

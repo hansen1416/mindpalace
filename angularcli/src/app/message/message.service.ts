@@ -28,33 +28,35 @@ export class MessageService {
     }
 
     setWebSocket(): void {
-        //if there is already a web socket, return
-        if (this.webSocket instanceof WebSocketService) {
-            return;
-        }
-        //if there is no user_id, return
-        let user_id = this.userService.getUserProperty('user_id');
+        return;
 
-        if (!user_id) {
-            return;
-        }
-
-        this.webSocket = new WebSocketService();
-        this.webSocket.setUrl(environment.ws + '?user_id=' + user_id);
-
-        // set received message stream
-        this.webSocket.getDataStream().subscribe(
-            (msg) => {
-                this.showFlashMessage(msg.data);
-                console.log(msg.data);
-            },
-            (msg) => {
-                console.log("error", msg);
-            },
-            () => {
-                console.log("complete");
-            }
-        );
+        // //if there is already a web socket, return
+        // if (this.webSocket instanceof WebSocketService) {
+        //     return;
+        // }
+        // //if there is no user_id, return
+        // let user_id = this.userService.getUserProperty('user_id');
+        //
+        // if (!user_id) {
+        //     return;
+        // }
+        //
+        // this.webSocket = new WebSocketService();
+        // this.webSocket.setUrl(environment.ws + '?user_id=' + user_id);
+        //
+        // // set received message stream
+        // this.webSocket.getDataStream().subscribe(
+        //     (msg) => {
+        //         this.showFlashMessage(msg.data);
+        //         console.log(msg.data);
+        //     },
+        //     (msg) => {
+        //         console.log("error", msg);
+        //     },
+        //     () => {
+        //         console.log("complete");
+        //     }
+        // );
     }
 
     /**
