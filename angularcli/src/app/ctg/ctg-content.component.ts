@@ -39,6 +39,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
     public user                     = this.userService.getUserModel();
     //
     private clickedButton: string;
+    //
+    private subscriptionCtgContent: Subscription;
+    //
+    private ctgContent: String;
 
     @Output() private ctgChange: EventEmitter<any> = new EventEmitter();
 
@@ -62,6 +66,10 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         this.subscriptionCtg = this.ctgService.ctg$.subscribe(
             ctg => this.ctg = ctg
         );
+
+        this.subscriptionCtgContent = this.ctgService.ctgContent$.subscribe(
+            (ctgContent: string) => this.ctgContent = ctgContent
+        );
     }
 
 
@@ -81,6 +89,7 @@ export class CtgContentComponent implements OnInit, OnDestroy, AfterViewInit {
         this.spaceList = null;
         this.subscriptionCtg.unsubscribe();
         this.subscriptionSpaceList.unsubscribe();
+        this.subscriptionCtgContent.unsubscribe();
     }
 
     /**
